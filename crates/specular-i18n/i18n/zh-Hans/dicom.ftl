@@ -1,0 +1,83 @@
+# DICOM series and the tag browser. machine-drafted, needs native review
+
+palette-dicom-tags = 显示 DICOM 标签
+palette-next-series = 下一个序列
+palette-prev-series = 上一个序列
+disabled-not-dicom = 该图像不是 DICOM 文件
+disabled-no-other-series = 此文件夹中没有其他序列
+dicom-tags-title = DICOM 标签
+dicom-tags-title-file = DICOM 标签: { $file }
+dicom-tags-filter = 筛选标签
+dicom-tags-show-patient = 显示患者数据
+dicom-tags-col-tag = 标签
+dicom-tags-col-keyword = 关键字
+dicom-tags-col-vr = VR
+dicom-tags-col-length = 长度
+dicom-tags-col-value = 值
+dicom-tags-hidden = 已隐藏
+dicom-tags-hidden-count = 已隐藏 { $count } 个患者值
+dicom-tags-no-match = 没有匹配的标签
+dicom-tags-reading = 正在读取标签…
+dicom-tags-error = 无法读取标签: { $reason }
+dicom-tags-items = { $count } 项
+dicom-tags-fragments = { $count } 个片段
+dicom-tags-item = 项 { $index }
+dicom-tags-bytes = { $count } 字节
+dicom-tags-empty = （空）
+dicom-tags-omitted = 另有 { $count } 个元素未列出
+dicom-series-group = 序列
+dicom-series-slice = 层面
+dicom-series-slice-value = { $index } / { $count }
+dicom-series-frames = { $frames } 帧
+dicom-series-location = 层面位置
+dicom-series-mm = { $mm } mm
+dicom-series-spacing = 层间距
+dicom-series-which = 序列
+dicom-series-which-value = { $index } / { $count }
+dicom-series-order = 顺序
+dicom-series-order-position = 按位置
+dicom-series-order-instance = 按实例编号
+dicom-series-order-time = 按采集时间
+dicom-series-order-name = 按文件名
+dicom-series-gaps = 缺失层面
+dicom-series-gaps-value = 缺失 { $count } 个层面
+dicom-series-gaps-where = 在第 { $slices } 层之后
+dicom-series-irregular = 间距不规则
+dicom-series-tilt = 机架倾斜
+dicom-series-tilt-value = { $degrees }°
+dicom-series-duplicates = 已跳过重复项
+dicom-series-toast = { $series ->
+    [1] 序列 – { $count } 个层面
+   *[other] 序列 { $index } / { $series } – { $count } 个层面
+}
+dicom-series-capped = 仅读取了文件夹中的前 { $count } 个文件
+
+studies-title = 检查
+studies-title-medium = 检查：{ $medium }
+studies-show-patient = 显示患者数据
+studies-patient-hidden = 已隐藏
+studies-patient-hidden-note = 患者姓名和出生日期已隐藏
+studies-none = 未找到检查
+studies-reading = 正在读取光盘…
+studies-reading-count = 正在读取光盘：{ $done } / { $total } 个文件
+studies-opening = 正在打开序列…
+studies-error = 无法读取光盘：{ $reason }
+studies-missing = 光盘上列出的 { $count } 个文件缺失
+studies-capped = 仅读取了前 { $count } 个文件
+# machine-drafted, needs native review
+studies-stopped = 读取在 { $done } / { $total } 个文件后停止：列表不完整
+studies-stopped-early = 读取已停止：列表不完整
+studies-cancel-description = 停止读取光盘。已读取的内容仍保留在列表中。
+studies-patient-n = 患者 { $index }
+studies-patient-unknown = 未知患者
+studies-born = 出生日期 { $date }
+studies-no-description = 无描述
+studies-series = 序列 { $number }：{ $description }
+studies-series-number = 序列 { $number }
+studies-images = { $count } 张图像
+studies-images-missing = 缺失 { $count } 张
+studies-others = { $count } 个其他对象
+studies-no-images = 此序列在光盘上没有图像
+studies-medium-inserted = 已插入含有医学检查的光盘
+studies-medium-show = 显示检查
+palette-studies = 显示此光盘上的检查

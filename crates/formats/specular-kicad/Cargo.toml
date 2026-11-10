@@ -1,0 +1,17 @@
+[package]
+name = "specular-kicad"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own readers for KiCad 6-9 boards (.kicad_pcb: tracks, arcs, vias, pads, zones, footprint graphics and text) and schematics (.kicad_sch: wires, buses, symbols from the embedded library, labels, text, hierarchical sheets as pages) with an own S-expression parser; into specular-vector scenes in KiCad's default colours"
+
+[dependencies]
+specular-vector = { path = "../../specular-vector" }
+thiserror = "2"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+serde_json = "1"  # the oracle's JSON lines

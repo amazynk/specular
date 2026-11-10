@@ -1,0 +1,23 @@
+[package]
+name = "specular-platform-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+# Only libfuzzer: the URL parser is standard-library-only and compiled in by path, so the
+# fuzzer does not build the platform crate's windowing and D-Bus dependencies.
+[dependencies]
+libfuzzer-sys = "0.4"
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "url_scheme"
+path = "fuzz_targets/url_scheme.rs"
+test = false
+doc = false
+bench = false

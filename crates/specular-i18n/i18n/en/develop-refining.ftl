@@ -1,0 +1,3 @@
+# Develop: the picture shown is a quick draft; the full one follows.
+
+develop-refining = Refining…

@@ -1,0 +1,20 @@
+format HP-GL/2 units 4 pcl false pens [1] paper None name None lwdisplay true
+layer "Pen 1" fg lw 35 items 16
+counts AD=1 CP=2 CS=1 DI=2 DR=1 DT=2 IN=1 LB=13 LO=3 PA=9 SA=1 SD=1 SI=2 SL=2 SM=2 SP=1 SR=1 SS=2
+sheet "Page 1" extents -14.402 -2.963 104.278 105.927
+  L0 fg text "Hello" h2.84 wf0.953 obl0 Left Baseline at 0,0 x 1,0 it0 b0
+  L0 fg text "Big" h8 wf0.899 obl0 Left Baseline at 0,12.5 x 1,0 it0 b0
+  L0 fg text "Relative" h4.2 wf1.017 obl0 Left Baseline at 0,25 x 1,0 it0 b0
+  L0 fg text "Up" h2.84 wf0.953 obl0 Left Baseline at 50,0 x 0,1 it0 b0
+  L0 fg text "Diag" h2.84 wf0.953 obl0 Left Baseline at 62.5,0 x 0.817,0.577 it0 b0
+  L0 fg text "Centre" h2.84 wf0.953 obl0 Center Middle at 0,50 x 1,0 it0 b0
+  L0 fg text "TopRight" h2.84 wf0.953 obl0 Right Top at -1.411,48.58 x 1,0 it0 b0
+  L0 fg text "line1" h2.84 wf0.953 obl0 Left Baseline at 0,75 x 1,0 it0 b0
+  L0 fg text "line2" h2.84 wf0.953 obl0 Left Baseline at 0,69.32 x 1,0 it0 b0
+  L0 fg text "after" h2.84 wf0.953 obl0 Left Baseline at 19.756,69.32 x 1,0 it0 b0
+  L0 fg text "term" h2.84 wf0.953 obl0 Left Baseline at 0,63.641 x 1,0 it0 b0
+  L0 fg text "slant" h2.84 wf0.953 obl26.565 Left Baseline at 11.289,63.641 x 1,0 it0 b0
+  L0 fg text "font" h5.927 wf1 obl0 Left Baseline at 0,100 x 1,0 it1 b1
+  L0 fg text "alt" h4.445 wf0.609 obl0 Left Baseline at 24.72,100 x 1,0 it0 b0
+  L0 fg text "*" h5.927 wf1 obl0 Center Middle at 100,0 x 1,0 it1 b1
+  L0 fg text "*" h5.927 wf1 obl0 Center Middle at 102.5,2.5 x 1,0 it1 b1

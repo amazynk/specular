@@ -1,0 +1,31 @@
+[System]
+Scanner=SkyScan1272
+Instrument S/N=161002
+Software Version=1.1.19
+[Acquisition]
+Number of Files=  900
+Source Voltage (kV)=  70
+Source Current (uA)=142
+Image Pixel Size (um)=   12.500000
+Object to Source (mm)=93.100
+Camera to Source (mm)=279.11
+Filter=Al 0.5mm
+Exposure (ms)=  1200
+Rotation Step (deg)=0.400
+Study Date and Time=11 Mar 2024  14h:07m:28s
+[Reconstruction]
+Reconstruction Program=NRecon
+Program Version=Version: 1.7.4.6
+Dataset Prefix=sample
+Result File Type=PNG
+Filename Prefix=sample_rec
+First Section=10
+Last Section=14
+Section to Section Step=1
+Pixel Size (um)=12.50000
+Minimum for CS to Image Conversion=0.0
+Maximum for CS to Image Conversion=0.06
+Ring Artifact Correction=8
+Beam Hardening Correction (%)=30
+Smoothing=1
+Time and Date=Mar 11, 2024  15:01:47

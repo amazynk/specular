@@ -1,0 +1,169 @@
+<VTKFile type="PolyData" version="0.1" byte_order="LittleEndian" header_type="UInt32">
+  <PolyData>
+    <Piece NumberOfPoints="26"                   NumberOfVerts="9"                    NumberOfLines="1"                    NumberOfStrips="0"                    NumberOfPolys="48"                  >
+      <PointData Scalars="elevation" Normals="Normals">
+        <DataArray type="Float32" Name="Normals" NumberOfComponents="3" format="appended" RangeMin="1"                    RangeMax="1.0000000251"         offset="0"                   >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              1
+            </Value>
+            <Value index="1">
+              1.0000000251
+            </Value>
+          </InformationKey>
+        </DataArray>
+        <DataArray type="Float32" Name="elevation" format="appended" RangeMin="0"                    RangeMax="12.5"                 offset="316"                 >
+        </DataArray>
+      </PointData>
+      <CellData>
+        <DataArray type="Int32" Name="cid" format="appended" RangeMin="0"                    RangeMax="57"                   offset="424"                 >
+        </DataArray>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0.5"                  RangeMax="0.50000001255"        offset="660"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0.5
+            </Value>
+            <Value index="1">
+              0.50000001255
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </Points>
+      <Verts>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="976"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="1052"                />
+      </Verts>
+      <Lines>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="1128"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="1156"                />
+      </Lines>
+      <Strips>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="1168"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="1172"                />
+      </Strips>
+      <Polys>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="1176"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="2332"                />
+      </Polys>
+    </Piece>
+    <Piece NumberOfPoints="26"                   NumberOfVerts="9"                    NumberOfLines="1"                    NumberOfStrips="0"                    NumberOfPolys="48"                  >
+      <PointData Scalars="elevation" Normals="Normals">
+        <DataArray type="Float32" Name="Normals" NumberOfComponents="3" format="appended" RangeMin="1"                    RangeMax="1.0000000251"         offset="2720"                >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              1
+            </Value>
+            <Value index="1">
+              1.0000000251
+            </Value>
+          </InformationKey>
+        </DataArray>
+        <DataArray type="Float32" Name="elevation" format="appended" RangeMin="0"                    RangeMax="12.5"                 offset="3036"                >
+        </DataArray>
+      </PointData>
+      <CellData>
+        <DataArray type="Int32" Name="cid" format="appended" RangeMin="0"                    RangeMax="57"                   offset="3144"                >
+        </DataArray>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0.5"                  RangeMax="0.50000001255"        offset="3380"                >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0.5
+            </Value>
+            <Value index="1">
+              0.50000001255
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </Points>
+      <Verts>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="3696"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="3772"                />
+      </Verts>
+      <Lines>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="3848"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="3876"                />
+      </Lines>
+      <Strips>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="3888"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="3892"                />
+      </Strips>
+      <Polys>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="3896"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="5052"                />
+      </Polys>
+    </Piece>
+    <Piece NumberOfPoints="26"                   NumberOfVerts="9"                    NumberOfLines="1"                    NumberOfStrips="0"                    NumberOfPolys="48"                  >
+      <PointData Scalars="elevation" Normals="Normals">
+        <DataArray type="Float32" Name="Normals" NumberOfComponents="3" format="appended" RangeMin="1"                    RangeMax="1.0000000251"         offset="5440"                >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              1
+            </Value>
+            <Value index="1">
+              1.0000000251
+            </Value>
+          </InformationKey>
+        </DataArray>
+        <DataArray type="Float32" Name="elevation" format="appended" RangeMin="0"                    RangeMax="12.5"                 offset="5756"                >
+        </DataArray>
+      </PointData>
+      <CellData>
+        <DataArray type="Int32" Name="cid" format="appended" RangeMin="0"                    RangeMax="57"                   offset="5864"                >
+        </DataArray>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0.5"                  RangeMax="0.50000001255"        offset="6100"                >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0.5
+            </Value>
+            <Value index="1">
+              0.50000001255
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </Points>
+      <Verts>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="6416"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="6492"                />
+      </Verts>
+      <Lines>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="6568"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="6596"                />
+      </Lines>
+      <Strips>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="6608"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="6612"                />
+      </Strips>
+      <Polys>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="6616"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="7772"                />
+      </Polys>
+    </Piece>
+  </PolyData>
+  <AppendedData encoding="raw">
+   _8            €?          €¿y?    ½O?qxs?    z7ž>qxs?    z7ž¾y?    ½O¿y–>?P?½O?qxó>ÚR?z7ž>qxó>ÚR?z7ž¾y–>?P?½O¿y–¾?P?½O?qxó¾ÚR?z7ž>qxó¾ÚR?z7ž¾y–¾?P?½O¿y¿9û¥$½O?qxs¿H%z7ž>qxs¿H%z7ž¾y¿9û¥$½O¿y–¾?P¿½O?qxó¾ÚR¿z7ž>qxó¾ÚR¿z7ž¾y–¾?P¿½O¿y–>?P¿½O?qxó>ÚR¿z7ž>qxó>ÚR¿z7ž¾y–>?P¿½O¿h          ?  €?  À?   @   @  @@  `@  €@  @   @  °@  À@  Ð@  à@  ð@   A  A  A  A   A  (A  0A  8A  @A  HAè                               	   
+                                                                      !   "   #   $   %   &   '   (   )   *   +   ,   -   .   /   0   1   2   3   4   5   6   7   8   9   8             ?           ¿y–>    ½Ï>qxó>    z7>qxó>    z7¾y–>    ½Ï¾y>?P‚>½Ï>qxs>ÚÒ>z7>qxs>ÚÒ>z7¾y>?P‚>½Ï¾y¾?P‚>½Ï>qxs¾ÚÒ>z7>qxs¾ÚÒ>z7¾y¾?P‚>½Ï¾y–¾9û%$½Ï>qxó¾H†$z7>qxó¾H†$z7¾y–¾9û%$½Ï¾y¾?P‚¾½Ï>qxs¾ÚÒ¾z7>qxs¾ÚÒ¾z7¾y¾?P‚¾½Ï¾y>?P‚¾½Ï>qxs>ÚÒ¾z7>qxs>ÚÒ¾z7¾y>?P‚¾½Ï¾H                         	                                          H                                                           	                                                  €                               
+               
+                                                                                                      	       	                                                                                                                                                                                                           	              	                                                 
+                                                        	                                   
+                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   €                	                                                        !       $       '       *       -       0       3       6       9       <       ?       B       E       H       K       N       Q       T       W       Z       ]       `       c       f       i       l       o       r       u       x       {       ~              „       ‡       Š                     8            €?          €¿y?    ½O?qxs?    z7ž>qxs?    z7ž¾y?    ½O¿y–>?P?½O?qxó>ÚR?z7ž>qxó>ÚR?z7ž¾y–>?P?½O¿y–¾?P?½O?qxó¾ÚR?z7ž>qxó¾ÚR?z7ž¾y–¾?P?½O¿y¿9û¥$½O?qxs¿H%z7ž>qxs¿H%z7ž¾y¿9û¥$½O¿y–¾?P¿½O?qxó¾ÚR¿z7ž>qxó¾ÚR¿z7ž¾y–¾?P¿½O¿y–>?P¿½O?qxó>ÚR¿z7ž>qxó>ÚR¿z7ž¾y–>?P¿½O¿h          ?  €?  À?   @   @  @@  `@  €@  @   @  °@  À@  Ð@  à@  ð@   A  A  A  A   A  (A  0A  8A  @A  HAè                               	   
+                                                                      !   "   #   $   %   &   '   (   )   *   +   ,   -   .   /   0   1   2   3   4   5   6   7   8   9   8             ?           ¿y–>    ½Ï>qxó>    z7>qxó>    z7¾y–>    ½Ï¾y>?P‚>½Ï>qxs>ÚÒ>z7>qxs>ÚÒ>z7¾y>?P‚>½Ï¾y¾?P‚>½Ï>qxs¾ÚÒ>z7>qxs¾ÚÒ>z7¾y¾?P‚>½Ï¾y–¾9û%$½Ï>qxó¾H†$z7>qxó¾H†$z7¾y–¾9û%$½Ï¾y¾?P‚¾½Ï>qxs¾ÚÒ¾z7>qxs¾ÚÒ¾z7¾y¾?P‚¾½Ï¾y>?P‚¾½Ï>qxs>ÚÒ¾z7>qxs>ÚÒ¾z7¾y>?P‚¾½Ï¾H                         	                                          H                                                           	                                                  €                               
+               
+                                                                                                      	       	                                                                                                                                                                                                           	              	                                                 
+                                                        	                                   
+                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   €                	                                                        !       $       '       *       -       0       3       6       9       <       ?       B       E       H       K       N       Q       T       W       Z       ]       `       c       f       i       l       o       r       u       x       {       ~              „       ‡       Š                     8            €?          €¿y?    ½O?qxs?    z7ž>qxs?    z7ž¾y?    ½O¿y–>?P?½O?qxó>ÚR?z7ž>qxó>ÚR?z7ž¾y–>?P?½O¿y–¾?P?½O?qxó¾ÚR?z7ž>qxó¾ÚR?z7ž¾y–¾?P?½O¿y¿9û¥$½O?qxs¿H%z7ž>qxs¿H%z7ž¾y¿9û¥$½O¿y–¾?P¿½O?qxó¾ÚR¿z7ž>qxó¾ÚR¿z7ž¾y–¾?P¿½O¿y–>?P¿½O?qxó>ÚR¿z7ž>qxó>ÚR¿z7ž¾y–>?P¿½O¿h          ?  €?  À?   @   @  @@  `@  €@  @   @  °@  À@  Ð@  à@  ð@   A  A  A  A   A  (A  0A  8A  @A  HAè                               	   
+                                                                      !   "   #   $   %   &   '   (   )   *   +   ,   -   .   /   0   1   2   3   4   5   6   7   8   9   8             ?           ¿y–>    ½Ï>qxó>    z7>qxó>    z7¾y–>    ½Ï¾y>?P‚>½Ï>qxs>ÚÒ>z7>qxs>ÚÒ>z7¾y>?P‚>½Ï¾y¾?P‚>½Ï>qxs¾ÚÒ>z7>qxs¾ÚÒ>z7¾y¾?P‚>½Ï¾y–¾9û%$½Ï>qxó¾H†$z7>qxó¾H†$z7¾y–¾9û%$½Ï¾y¾?P‚¾½Ï>qxs¾ÚÒ¾z7>qxs¾ÚÒ¾z7¾y¾?P‚¾½Ï¾y>?P‚¾½Ï>qxs>ÚÒ¾z7>qxs>ÚÒ¾z7¾y>?P‚¾½Ï¾H                         	                                          H                                                           	                                                  €                               
+               
+                                                                                                      	       	                                                                                                                                                                                                           	              	                                                 
+                                                        	                                   
+                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   €                	                                                        !       $       '       *       -       0       3       6       9       <       ?       B       E       H       K       N       Q       T       W       Z       ]       `       c       f       i       l       o       r       u       x       {       ~              „       ‡       Š                     
+  </AppendedData>
+</VTKFile>

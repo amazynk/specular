@@ -1,0 +1,16 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "testdouble",
+   "offset": 0,
+   "shape": [
+    1,
+    9
+   ]
+  }
+ ],
+ "kind": "mat73",
+ "refused": [],
+ "texts": {}
+}

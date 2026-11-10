@@ -1,0 +1,5 @@
+size 12 10 2
+x 2.5125e-06 2.5e-08 m
+y 1.5125000000000001e-06 2.5e-08 m
+plane 0 m	Height
+plane 1 V	Vertical Deflection (retrace)

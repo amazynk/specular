@@ -1,0 +1,25 @@
+[package]
+name = "specular-jpeg"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Fast JPEG decoder for Specular: DCT-scaled, planar YCbCr output, restart/row-index parallel and region decode"
+
+[dependencies]
+specular-thread = { path = "../../specular-thread", features = ["rayon"] }
+rayon = "1.11"
+thiserror = "2"
+tracing = { version = "0.1", default-features = false }
+
+[dev-dependencies]
+# Test oracle for Huffman lossless (SOF3) frames, which are decoded natively.
+jpeg-decoder = { version = "0.3", default-features = false }
+zune-jpeg = "0.5"
+zune-core = "0.5"
+jpeg-encoder = "0.7"
+# Tests install a minimal collector (`tests/tracing.rs`); the library never does.
+tracing = { version = "0.1", default-features = false, features = ["std"] }
+
+[lints]
+workspace = true

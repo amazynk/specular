@@ -1,0 +1,5 @@
+# name width height channels fnv1a64(native samples, little-endian) - make_cmyk16.py
+cmyk16-lossless 67 45 4 eb80dd7defb78a9c
+cmyk16-q 67 45 4 2cf7e4b13c443b12
+cmyka16-lossless 67 45 5 69fcd3aab8d52f24
+cmyka16-q 67 45 5 ba953e383c71ba3b

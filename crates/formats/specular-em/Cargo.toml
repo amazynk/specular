@@ -1,0 +1,18 @@
+[package]
+name = "specular-em"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Electron-microscopy decoders for Specular: Gatan DigitalMicrograph DM3 / DM4 (tag tree, image list, calibrations, packed complex, RGB) and MRC / MRCS (MRC2014 and older IMOD / CCP4 files, crystallographic maps in any axis order, FEI extended headers), Gaussian cube files (every orbital); planes as f32"
+
+[dependencies]
+rayon = "1.11"
+specular-png = { path = "../specular-png" }
+thiserror = "2"
+
+[dev-dependencies]
+serde_json = "1"
+
+[lints]
+workspace = true

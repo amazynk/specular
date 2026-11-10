@@ -1,0 +1,94 @@
+[package]
+name = "specular-video"
+description = "Motion Photos and Live Photos: detection, an in-tree ISO-BMFF (MP4/MOV) demuxer, and hardware-decoded playback through specular-hwdec"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-hwdec = { path = "../specular-hwdec" }
+specular-log = { path = "../specular-log" }
+# YCbCr → RGBA of decoded pictures: the HEIC converter (H.273 matrix and range, rows in parallel).
+specular-heic = { path = "../formats/specular-heic" }
+# Software H.264 when the hardware decoder is absent or refuses the stream.
+specular-h264 = { path = "../formats/specular-h264" }
+# AV1 movies: the rav1d fork behind AVIF.
+specular-avif = { path = "../formats/specular-avif" }
+# Movie sound: the in-tree AAC decoder.
+specular-aac = { path = "../formats/specular-aac" }
+# WebM / Matroska: the in-tree VP8, VP9 and Opus decoders.
+specular-vp8 = { path = "../formats/specular-vp8" }
+specular-vp9 = { path = "../formats/specular-vp9" }
+specular-opus = { path = "../formats/specular-opus" }
+# Ogg and Matroska: the in-tree Theora, Vorbis and FLAC decoders; DVD, camcorder and
+# broadcast sound: AC-3 and E-AC-3.
+specular-theora = { path = "../formats/specular-theora" }
+specular-vorbis = { path = "../formats/specular-vorbis" }
+specular-flac = { path = "../formats/specular-flac" }
+specular-ac3 = { path = "../formats/specular-ac3" }
+specular-dts = { path = "../formats/specular-dts" }
+specular-amr = { path = "../formats/specular-amr" }
+# QCELP-13 and EVRC speech: .qcp files, 3GPP2 and QuickTime movie sound.
+specular-qcelp = { path = "../formats/specular-qcelp" }
+specular-evrc = { path = "../formats/specular-evrc" }
+specular-speex = { path = "../formats/specular-speex" }
+specular-mpc = { path = "../formats/specular-mpc" }
+# TTA, Shorten and tracker modules (MOD, S3M, XM, IT): in-tree decoders.
+specular-tta = { path = "../formats/specular-tta" }
+specular-shorten = { path = "../formats/specular-shorten" }
+specular-tracker = { path = "../formats/specular-tracker" }
+specular-gsm = { path = "../formats/specular-gsm" }
+specular-synth = { path = "../formats/specular-synth" }
+# MP4 `jxsm` tracks: the in-tree JPEG XS decoder.
+specular-jpegxs = { path = "../formats/specular-jpegxs" }
+# Motion JPEG and JPEG 2000 video (MJ2, MXF): the in-tree still decoders.
+specular-jpeg = { path = "../formats/specular-jpeg" }
+specular-jp2 = { path = "../formats/specular-jp2" }
+# DV camcorder video and its sound.
+specular-dv = { path = "../formats/specular-dv" }
+# VC-1 / Windows Media Video 9.
+specular-vc1 = { path = "../formats/specular-vc1" }
+# MPEG-1/2 video (DVD, broadcast, camcorders) and MPEG audio Layer I/II.
+specular-mpeg2 = { path = "../formats/specular-mpeg2" }
+specular-mpa = { path = "../formats/specular-mpa" }
+# Apple Lossless.
+specular-alac = { path = "../formats/specular-alac" }
+specular-wavpack = { path = "../formats/specular-wavpack" }
+specular-ape = { path = "../formats/specular-ape" }
+# MPEG-4 Part 2 (DivX, Xvid) and H.263.
+specular-mpeg4 = { path = "../formats/specular-mpeg4" }
+# Apple ProRes.
+specular-prores = { path = "../formats/specular-prores" }
+specular-apv = { path = "../formats/specular-apv" }  # APV (own decoder)
+# FFV1 (RFC 9043) and old codecs: QuickTime Animation, Cinepak, Microsoft Video 1 and RLE,
+# Apple SMC and RPZA.
+specular-ffv1 = { path = "../formats/specular-ffv1" }
+specular-oldvideo = { path = "../formats/specular-oldvideo" }
+# GoPro CineForm, SMPTE VC-2 / Dirac and Vidvox HAP.
+specular-cineform = { path = "../formats/specular-cineform" }
+specular-vc2 = { path = "../formats/specular-vc2" }
+specular-hap = { path = "../formats/specular-hap" }
+specular-thread = { path = "../specular-thread" }
+# Matroska tracks stored with zlib or bzip2 compression (mkv/coding.rs): the in-tree
+# inflater and bzip2.
+specular-png = { path = "../formats/specular-png" }
+specular-xcf = { path = "../formats/specular-xcf" }
+# Sound files: their spectrograms.
+specular-fft = { path = "../specular-fft" }
+parking_lot = "0.12"
+# The slideshow export's software encoder, beside the GPU's hardware encoder (`encode`).
+specular-h264enc = { path = "../formats/specular-h264enc" }
+
+[dev-dependencies]
+# The A/V sync test plays a movie in the animation player against the sound's clock.
+specular-anim = { path = "../specular-anim" }
+# SHA-256 of the JPEG XS reference decoder's samples in the corpus manifests.
+sha2 = "0.10"
+# zlib-compressed Matroska frames for the tests (the oracle's compressor).
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+
+[lints]
+workspace = true

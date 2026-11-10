@@ -1,0 +1,36 @@
+# Written by gen/make_mdoc.py (mdocfile); do not edit.
+file	tilt.mrc.mdoc	5	1
+global	tilt.mrc.mdoc	PixelSpacing	2.17
+global	tilt.mrc.mdoc	ImageFile	tilt.mrc
+global	tilt.mrc.mdoc	ImageSize	8 6
+global	tilt.mrc.mdoc	DataMode	1
+section	tilt.mrc.mdoc	0	ZValue	0
+field	tilt.mrc.mdoc	0	TiltAngle	0.00012
+field	tilt.mrc.mdoc	0	Defocus	-2.5
+field	tilt.mrc.mdoc	0	ExposureDose	3.0
+field	tilt.mrc.mdoc	0	Magnification	42000.0
+field	tilt.mrc.mdoc	0	DateTime	02-Nov-26  10:00:00
+section	tilt.mrc.mdoc	1	ZValue	1
+field	tilt.mrc.mdoc	1	TiltAngle	3.00012
+field	tilt.mrc.mdoc	1	Defocus	-2.6
+field	tilt.mrc.mdoc	1	ExposureDose	6.0
+field	tilt.mrc.mdoc	1	Magnification	42000.0
+field	tilt.mrc.mdoc	1	DateTime	02-Nov-26  10:01:00
+section	tilt.mrc.mdoc	2	ZValue	2
+field	tilt.mrc.mdoc	2	TiltAngle	-2.99988
+field	tilt.mrc.mdoc	2	Defocus	-2.7
+field	tilt.mrc.mdoc	2	ExposureDose	9.0
+field	tilt.mrc.mdoc	2	Magnification	42000.0
+field	tilt.mrc.mdoc	2	DateTime	02-Nov-26  10:02:00
+section	tilt.mrc.mdoc	3	ZValue	3
+field	tilt.mrc.mdoc	3	TiltAngle	-5.99988
+field	tilt.mrc.mdoc	3	Defocus	-2.8
+field	tilt.mrc.mdoc	3	ExposureDose	12.0
+field	tilt.mrc.mdoc	3	Magnification	42000.0
+field	tilt.mrc.mdoc	3	DateTime	02-Nov-26  10:03:00
+section	tilt.mrc.mdoc	4	ZValue	4
+field	tilt.mrc.mdoc	4	TiltAngle	6.00012
+field	tilt.mrc.mdoc	4	Defocus	-2.9
+field	tilt.mrc.mdoc	4	ExposureDose	15.0
+field	tilt.mrc.mdoc	4	Magnification	42000.0
+field	tilt.mrc.mdoc	4	DateTime	02-Nov-26  10:04:00

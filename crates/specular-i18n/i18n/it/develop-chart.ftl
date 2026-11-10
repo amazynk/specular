@@ -1,0 +1,71 @@
+# Specular — Sviluppo: profilo della fotocamera e profili ricavati da una tabella colori.
+
+develop-input-profile = Profilo fotocamera
+develop-input-profile-auto = Standard della fotocamera
+develop-input-profile-matrix = Solo matrice
+develop-input-profile-file = File di profilo…
+develop-input-profile-named = File: { $name }
+develop-input-profile-in-use = In uso: { $name }.
+develop-input-profile-changed = In uso: { $name }. Il file è cambiato da quando è stato scelto.
+develop-input-profile-missing = Il file di profilo manca. Si usa la matrice della fotocamera.
+develop-input-profile-unusable = Il file di profilo non è utilizzabile: { $reason }. Si usa la matrice della fotocamera.
+develop-input-profile-dialog = Scegli un profilo fotocamera
+develop-input-profile-kind = Profili fotocamera DNG
+
+develop-chart-start = Crea profilo da tabella colori…
+develop-chart-title = Profilo da tabella colori
+develop-chart-kind = Tabella
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Riferimento
+develop-chart-ref-load = Carica file…
+develop-chart-hint-xrite = Carica il file di riferimento della tabella (testo CGATS). È fornito con la tabella, o sul sito di X-Rite per l’edizione della tua tabella.
+develop-chart-hint-it8 = Carica il file di riferimento del tuo target. Ogni lotto ha il suo, fornito dal produttore.
+develop-chart-spyder = SpyderCHECKR non è supportato: i suoi valori di colore sono di Datacolor.
+develop-chart-step-reference = Scegli la tabella e carica il suo file di riferimento.
+develop-chart-step-corner = Fai clic al centro di { $name } ({ $number } di 4).
+develop-chart-measuring = Misurazione della tabella…
+develop-chart-step-save = Salva il profilo o segna di nuovo gli angoli.
+develop-chart-corner-dark-skin = pelle scura (in alto a sinistra)
+develop-chart-corner-bluish-green = verde bluastro (in alto a destra)
+develop-chart-corner-black = nero (in basso a destra)
+develop-chart-corner-white = bianco (in basso a sinistra)
+
+develop-chart-ref-too-large = Il file è troppo grande per un file di riferimento.
+develop-chart-ref-not-cgats = Non è un file di riferimento CGATS.
+develop-chart-ref-no-ids = Il file non ha nomi dei campioni.
+develop-chart-ref-no-colour = Il file non ha valori L*a*b* o XYZ.
+develop-chart-ref-bad-row = La riga { $row } del file è danneggiata.
+develop-chart-ref-count = Il file dichiara { $declared } campioni ma ne contiene { $found }.
+develop-chart-ref-duplicate = Il campione { $id } compare due volte nel file.
+develop-chart-ref-illuminant = I valori sono per la luce { $name }. Serve D50 o D65.
+develop-chart-ref-wrong-chart = Il file ha { $found } campioni. Questa tabella ne ha { $expected }.
+develop-chart-ref-names = I nomi dei campioni non corrispondono a questa tabella.
+develop-chart-ref-corner = Nel file manca il campione d’angolo { $id }.
+develop-chart-ref-unreadable = Impossibile leggere il file: { $reason }
+develop-chart-ref-dialog = Scegli il file di riferimento della tabella
+develop-chart-ref-kind = File di riferimento delle tabelle
+
+develop-chart-not-found = Lì non è stata trovata la tabella. Segna di nuovo gli angoli.
+develop-chart-too-few = Solo { $count } campioni sono utilizzabili. Illumina la tabella in modo uniforme ed evita i riflessi.
+develop-chart-no-greys = Nessun campione grigio è utilizzabile. Esponi senza bruciare i grigi.
+develop-chart-degenerate = I campioni sono troppo simili per creare un profilo.
+
+develop-chart-report-after = ΔE2000 con il profilo: media { $mean }, mediana { $median }, max { $max }
+develop-chart-report-before = Prima: media { $mean }, mediana { $median }, max { $max }
+develop-chart-report-cv = Verificato su campioni esclusi dall’adattamento: media { $mean }
+develop-chart-left-out = Escluso: { $id } ({ $why })
+develop-chart-left-clipped = saturato
+develop-chart-left-uneven = riflesso o polvere
+develop-chart-left-outside = fuori dalla foto
+develop-chart-uneven-light = I grigi variano del { PERCENT($percent) }: la luce potrebbe essere irregolare.
+develop-chart-use-camera = Usa per le foto di { $camera }
+develop-chart-again = Segna di nuovo
+develop-chart-save = Salva…
+develop-chart-close = Chiudi
+develop-chart-save-title = Salva profilo fotocamera
+develop-chart-default-name = Profilo tabella { $camera }
+develop-chart-saved = { $name } salvato come { $file }.
+develop-chart-save-failed = Impossibile salvare il profilo: { $reason }

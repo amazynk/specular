@@ -1,0 +1,29 @@
+[package]
+name = "specular-h264-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-h264 = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "decode"
+path = "fuzz_targets/decode.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "field_scan"
+path = "fuzz_targets/field_scan.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,19 @@
+[package]
+name = "specular-log"
+description = "Debug logging by component for Specular: SPECULAR_LOG / --log grammar, tracing setup, stall watchdog"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+tracing = { version = "0.1", default-features = false, features = ["std"] }
+tracing-core = "0.1"
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "std", "registry", "tracing-log"] }
+tracing-log = { version = "0.2", default-features = false, features = ["log-tracer", "std"] }
+log = "0.4"
+parking_lot = "0.12"
+
+[lints]
+workspace = true

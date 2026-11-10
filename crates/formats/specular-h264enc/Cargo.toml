@@ -1,0 +1,14 @@
+[package]
+name = "specular-h264enc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "An in-tree H.264 encoder for Specular's slideshow video export: Constrained Baseline (CAVLC) or Main/High (CABAC, weighted P and B pictures for fades, 8×8 transform), quarter-pel motion search, in-loop deblocking and slice-parallel encoding"
+
+[dependencies]
+# Slices of a picture are encoded in parallel; half-pel planes too.
+rayon = "1.11"
+
+[lints]
+workspace = true

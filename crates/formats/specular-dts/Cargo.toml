@@ -1,0 +1,10 @@
+[package]
+name = "specular-dts"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own DTS Coherent Acoustics core decoder (ETSI TS 102 114) for the sound of Specular's DVD, Blu-ray, Matroska and MP4 movies"
+
+[lints]
+workspace = true

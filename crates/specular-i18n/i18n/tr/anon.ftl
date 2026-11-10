@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = Anonimleştirilmiş kopyayı dışa aktar…
+palette-export-patient-disc = Hasta diski klasörünü dışa aktar…
+palette-mask-burned-in-text = Gömülü metni maskele
+anon-title = Anonimleştirilmiş kopyayı dışa aktar
+anon-disc-title = Hasta diski klasörünü dışa aktar
+anon-images = Görüntüler
+anon-images-current = Bu görüntü
+anon-images-series = Bu seri ({ $count } dosya)
+anon-images-study = Bu tetkik ({ $count } dosya)
+anon-images-reading = Klasör okunuyor…
+anon-anonymise = Anonimleştir
+anon-dates = Tarihler ve saatler
+anon-dates-remove = Kaldır
+anon-dates-keep = Koru
+anon-dates-shift = Kaydır
+anon-patient = Hasta özellikleri
+anon-device = Cihaz kimliği
+anon-institution = Kurum kimliği
+anon-descriptions = Açıklamalar
+anon-descriptions-remove = Kaldır
+anon-descriptions-clean = Temizle
+anon-structured = Rapor içeriği
+anon-uids = UID’ler
+anon-uids-replace = Değiştir
+anon-uids-keep = Koru
+anon-overlays = Kaplamalar ve eğriler
+anon-keep = Koru
+anon-remove = Kaldır
+anon-on = Açık
+anon-off = Kapalı
+anon-burned-in = Gömülü metin
+anon-masks = { $count } alan maskelendi
+anon-masks-none = Maske yok
+anon-folder = Klasör
+anon-folder-choose = Seç…
+anon-export = Dışa aktar
+anon-risk-present = Bu görüntüler hasta metni içerdiğini belirtiyor: dışa aktarmadan önce maskeleyin.
+anon-risk-possible = Bu tür görüntülerde sıklıkla hasta metni bulunur: dışa aktarmadan önce kontrol edin.
+anon-progress = { $done }/{ $total } dışa aktarılıyor…
+anon-stopping = Durduruluyor…
+anon-mask-title = Gömülü metni maskele
+anon-mask-hint = Maskelemek için metnin üzerine sürükleyin. Maskelenen alanlar her karede siyah olur.
+anon-mask-suggest = Öner
+anon-mask-remove = Kaldır
+anon-mask-clear = Temizle
+anon-mask-done = Bitti
+anon-mask-area = Alan { $n }, { $width } × { $height } piksel
+anon-mask-suggested = { $count ->
+    [0] Kenarların yakınında metin bulunamadı
+   *[other] { $count } metin alanı önerildi
+}
+anon-done = { $count } anonimleştirilmiş dosya { $folder } klasörüne yazıldı
+anon-disc-done = { $count } görüntülü hasta diski klasörü { $folder } konumuna yazıldı
+anon-skipped-burned-in = Gömülü metin içeren ve maskesi olmayan { $count } dosya atlandı
+anon-skipped-failed = { $count } dosya dışa aktarılamadı
+anon-stopped = Dışa aktarma durduruldu
+anon-failed = Dışa aktarılamadı: { $reason }
+anon-not-empty = Klasörde zaten bir hasta diski var

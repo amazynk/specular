@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Specular.app/Contents/Info.plist. UNTESTED as a bundle (the app itself runs from source on Apple Silicon, 2026-10-06).
+     @VERSION@ is replaced by packaging/macos/build-dmg.sh. -->
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>Specular</string>
+    <key>CFBundleName</key>
+    <string>Specular</string>
+    <key>CFBundleExecutable</key>
+    <string>specular</string>
+    <key>CFBundleIdentifier</key>
+    <string>app.specular.Specular</string>
+    <key>CFBundleIconFile</key>
+    <string>Specular</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>@VERSION@</string>
+    <key>CFBundleVersion</key>
+    <string>@VERSION@</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.photography</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    <key>NSHumanReadableCopyright</key>
+    <string>© 2026 The Specular authors. MIT or Apache-2.0.</string>
+    <!-- Languages with a catalogue (crates/specular-i18n/i18n), so macOS shows the app in them. -->
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>de</string>
+        <string>es</string>
+        <string>fr</string>
+        <string>ja</string>
+        <string>zh-Hans</string>
+        <string>ar</string>
+        <string>he</string>
+        <string>it</string>
+        <string>nl</string>
+        <string>pl</string>
+        <string>pt-BR</string>
+        <string>pt-PT</string>
+        <string>sv</string>
+        <string>da</string>
+        <string>fi</string>
+        <string>cs</string>
+        <string>uk</string>
+        <string>tr</string>
+    </array>
+    <!-- File associations: Specular is a viewer ("Viewer" role); "Default" rank means it offers
+         itself as a normal handler without claiming ownership of the types. -->
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>JPEG image</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Default</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.jpeg</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>PNG image</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Default</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.png</string>
+            </array>
+        </dict>
+        <dict>
+            <!-- Dropping a folder on the Dock icon opens it for browsing. -->
+            <key>CFBundleTypeName</key>
+            <string>Folder</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.folder</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>

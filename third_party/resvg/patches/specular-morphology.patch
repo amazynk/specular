@@ -1,0 +1,264 @@
+Specular patch to resvg 0.48.1 (src/filter/morphology.rs): feMorphology in linear time.
+
+What it changes
+  Upstream visits every cell of the (2rx x 2ry) kernel for every pixel. The rectangular
+  minimum/maximum is separable, so the filter now runs as a row pass and a column pass, each
+  with the van Herk/Gil-Werman running block minimum/maximum: three comparisons per pixel and
+  channel whatever the radius. Pixels outside the image are the operator's identity, which is
+  what upstream's skipping amounts to; the result is identical (unit test against the direct
+  form over random images, radii and both operators).
+
+Why
+  Found by the real-world shakedown: resvg's own feMorphology tests (radius 10 in a 200-unit
+  viewBox) rendered at the viewer's 2048-pixel size took longer than the 60 s budget, one
+  render thread busy the whole time.
+
+--- a/src/filter/morphology.rs
++++ b/src/filter/morphology.rs
+@@ -12,62 +12,202 @@
+ /// # Allocations
+ ///
+ /// This method will allocate a copy of the `src` image as a back buffer.
++// Specular: the rectangular minimum/maximum is separable and is computed as a row pass and a
++// column pass, each with the van Herk/Gil-Werman running block minimum, so the cost no longer
++// grows with the radius (upstream visits every kernel cell for every pixel: a radius of 100
++// device pixels over a 2048-pixel viewport ran for minutes). The result is identical.
+ pub fn apply(operator: MorphologyOperator, rx: f32, ry: f32, src: ImageRefMut) {
+     // No point in making matrix larger than image.
+-    let columns = std::cmp::min(rx.ceil() as u32 * 2, src.width);
+-    let rows = std::cmp::min(ry.ceil() as u32 * 2, src.height);
+-    let target_x = (columns as f32 / 2.0).floor() as u32;
+-    let target_y = (rows as f32 / 2.0).floor() as u32;
+-
+-    let width_max = src.width as i32 - 1;
+-    let height_max = src.height as i32 - 1;
+-
+-    let mut buf = vec![RGBA8::default(); src.data.len()];
+-    let mut buf = ImageRefMut::new(src.width, src.height, &mut buf);
+-    let mut x = 0;
+-    let mut y = 0;
+-    for _ in src.data.iter() {
+-        let mut new_p = RGBA8::default();
+-        if operator == MorphologyOperator::Erode {
+-            new_p.r = 255;
+-            new_p.g = 255;
+-            new_p.b = 255;
+-            new_p.a = 255;
++    let columns = std::cmp::min(rx.ceil() as u32 * 2, src.width) as usize;
++    let rows = std::cmp::min(ry.ceil() as u32 * 2, src.height) as usize;
++    let target_x = (columns as f32 / 2.0).floor() as usize;
++    let target_y = (rows as f32 / 2.0).floor() as usize;
++    let (width, height) = (src.width as usize, src.height as usize);
++    if width == 0 || height == 0 || columns == 0 || rows == 0 {
++        return;
++    }
++
++    let erode = operator == MorphologyOperator::Erode;
++    // Pixels outside the image are skipped, which is the same as the operator's identity.
++    let identity = if erode {
++        RGBA8::new(255, 255, 255, 255)
++    } else {
++        RGBA8::default()
++    };
++    let combine = if erode { min_rgba } else { max_rgba };
++
++    let mut rows_done = vec![identity; src.data.len()];
++    let mut scratch = Scratch::default();
++    let mut line = Vec::with_capacity(width.max(height));
++    let mut out = Vec::with_capacity(width.max(height));
++    for y in 0..height {
++        line.clear();
++        line.extend_from_slice(&src.data[y * width..(y + 1) * width]);
++        window(
++            &line,
++            columns,
++            target_x,
++            identity,
++            combine,
++            &mut scratch,
++            &mut out,
++        );
++        rows_done[y * width..(y + 1) * width].copy_from_slice(&out);
++    }
++    for x in 0..width {
++        line.clear();
++        line.extend((0..height).map(|y| rows_done[y * width + x]));
++        window(
++            &line,
++            rows,
++            target_y,
++            identity,
++            combine,
++            &mut scratch,
++            &mut out,
++        );
++        for (y, p) in out.iter().enumerate() {
++            src.data[y * width + x] = *p;
+         }
++    }
++}
+ 
+-        for oy in 0..rows {
+-            for ox in 0..columns {
+-                let tx = x as i32 - target_x as i32 + ox as i32;
+-                let ty = y as i32 - target_y as i32 + oy as i32;
++#[derive(Default)]
++struct Scratch {
++    padded: Vec<RGBA8>,
++    prefix: Vec<RGBA8>,
++    suffix: Vec<RGBA8>,
++}
+ 
+-                if tx < 0 || tx > width_max || ty < 0 || ty > height_max {
+-                    continue;
+-                }
++/// `out[i]` = `combine` over `line[i - before .. i - before + n]`, positions outside the line
++/// being `identity`.
++fn window(
++    line: &[RGBA8],
++    n: usize,
++    before: usize,
++    identity: RGBA8,
++    combine: fn(RGBA8, RGBA8) -> RGBA8,
++    s: &mut Scratch,
++    out: &mut Vec<RGBA8>,
++) {
++    let len = line.len();
++    // The padded line starts `before` cells early and is a whole number of `n`-blocks long.
++    let total = (len + n - 1).div_ceil(n) * n;
++    s.padded.clear();
++    s.padded.resize(before, identity);
++    s.padded.extend_from_slice(line);
++    s.padded.resize(total, identity);
++    s.prefix.clear();
++    s.prefix.extend_from_slice(&s.padded);
++    s.suffix.clear();
++    s.suffix.extend_from_slice(&s.padded);
++    for block in (0..total).step_by(n) {
++        for j in block + 1..block + n {
++            s.prefix[j] = combine(s.prefix[j - 1], s.padded[j]);
++        }
++        for j in (block..block + n - 1).rev() {
++            s.suffix[j] = combine(s.suffix[j + 1], s.padded[j]);
++        }
++    }
++    out.clear();
++    out.extend((0..len).map(|i| combine(s.suffix[i], s.prefix[i + n - 1])));
++}
++
++fn min_rgba(a: RGBA8, b: RGBA8) -> RGBA8 {
++    RGBA8::new(a.r.min(b.r), a.g.min(b.g), a.b.min(b.b), a.a.min(b.a))
++}
++
++fn max_rgba(a: RGBA8, b: RGBA8) -> RGBA8 {
++    RGBA8::new(a.r.max(b.r), a.g.max(b.g), a.b.max(b.b), a.a.max(b.a))
++}
+ 
+-                let p = src.pixel_at(tx as u32, ty as u32);
+-                if operator == MorphologyOperator::Erode {
+-                    new_p.r = std::cmp::min(p.r, new_p.r);
+-                    new_p.g = std::cmp::min(p.g, new_p.g);
+-                    new_p.b = std::cmp::min(p.b, new_p.b);
+-                    new_p.a = std::cmp::min(p.a, new_p.a);
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    /// Upstream's direct form: every kernel cell for every pixel.
++    fn reference(
++        operator: MorphologyOperator,
++        rx: f32,
++        ry: f32,
++        src: &[RGBA8],
++        w: u32,
++        h: u32,
++    ) -> Vec<RGBA8> {
++        let columns = std::cmp::min(rx.ceil() as u32 * 2, w);
++        let rows = std::cmp::min(ry.ceil() as u32 * 2, h);
++        let target_x = (columns as f32 / 2.0).floor() as i32;
++        let target_y = (rows as f32 / 2.0).floor() as i32;
++        let erode = operator == MorphologyOperator::Erode;
++        let mut out = Vec::new();
++        for y in 0..h as i32 {
++            for x in 0..w as i32 {
++                let mut p = if erode {
++                    RGBA8::new(255, 255, 255, 255)
+                 } else {
+-                    new_p.r = std::cmp::max(p.r, new_p.r);
+-                    new_p.g = std::cmp::max(p.g, new_p.g);
+-                    new_p.b = std::cmp::max(p.b, new_p.b);
+-                    new_p.a = std::cmp::max(p.a, new_p.a);
++                    RGBA8::default()
++                };
++                for oy in 0..rows as i32 {
++                    for ox in 0..columns as i32 {
++                        let (tx, ty) = (x - target_x + ox, y - target_y + oy);
++                        if tx < 0 || ty < 0 || tx >= w as i32 || ty >= h as i32 {
++                            continue;
++                        }
++                        let q = src[(ty as u32 * w + tx as u32) as usize];
++                        p = if erode {
++                            min_rgba(p, q)
++                        } else {
++                            max_rgba(p, q)
++                        };
++                    }
+                 }
++                out.push(p);
+             }
+         }
++        out
++    }
+ 
+-        *buf.pixel_at_mut(x, y) = new_p;
+-
+-        x += 1;
+-        if x == src.width {
+-            x = 0;
+-            y += 1;
++    #[test]
++    fn matches_the_direct_form() {
++        let mut seed = 0x9e37_79b9_u32;
++        let mut next = || {
++            seed ^= seed << 13;
++            seed ^= seed >> 17;
++            seed ^= seed << 5;
++            seed
++        };
++        for (w, h) in [(1, 1), (1, 7), (9, 1), (13, 11), (32, 5)] {
++            let img: Vec<RGBA8> = (0..w * h)
++                .map(|_| {
++                    let v = next().to_le_bytes();
++                    RGBA8::new(v[0], v[1], v[2], v[3])
++                })
++                .collect();
++            for (rx, ry) in [(0.5, 0.5), (1.0, 2.0), (2.5, 1.0), (3.0, 3.0), (40.0, 0.2)] {
++                for op in [MorphologyOperator::Erode, MorphologyOperator::Dilate] {
++                    let want = reference(op, rx, ry, &img, w, h);
++                    let mut got = img.clone();
++                    apply(op, rx, ry, ImageRefMut::new(w, h, &mut got));
++                    assert_eq!(got, want, "{w}x{h} r=({rx},{ry}) {op:?}");
++                }
++            }
+         }
+     }
+ 
+-    // Do not use `mem::swap` because `data` referenced via FFI.
+-    src.data.copy_from_slice(buf.data);
++    /// A radius as large as the image over a large image is fast (it took minutes).
++    #[test]
++    fn large_radii_are_fast() {
++        let (w, h) = (1024u32, 1024u32);
++        let mut img = vec![RGBA8::new(10, 20, 30, 255); (w * h) as usize];
++        img[4 * 1024 + 100] = RGBA8::new(200, 0, 0, 255);
++        let t = std::time::Instant::now();
++        apply(
++            MorphologyOperator::Dilate,
++            400.0,
++            400.0,
++            ImageRefMut::new(w, h, &mut img),
++        );
++        assert!(t.elapsed().as_secs() < 10, "{:?}", t.elapsed());
++        assert_eq!(img[0], RGBA8::new(200, 20, 30, 255));
++    }
+ }

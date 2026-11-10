@@ -1,0 +1,92 @@
+# machine-drafted, needs native review
+# Specular — 重复与相似照片（图库类别）。简体中文。
+
+similar-duplicates = 重复项
+similar-similar = 相似照片
+similar-menu-entry = { $name } — { $groups } 组，可释放 { $size }
+similar-menu-scanning = { $name } — 正在查找（{ PERCENT($percent) }）
+similar-menu-none = { $name } — 未找到
+similar-summary = 待检查 { $groups } 组，待丢弃 { $files } 个文件，可释放 { $size }
+similar-progress = 已完成 { $resolved } / { $total }
+similar-skipped = 已跳过 { $count } 组
+similar-scanning = 正在查找重复项和相似照片… { $done } / { $total }
+# machine-drafted, needs native review
+similar-checking-sharpness = 正在检查清晰度… { $done } / { $total }
+# machine-drafted, needs native review
+# 首次扫描进行时的列表（进度显示在上方的标题中）。
+similar-waiting = 扫描完成后，分组将显示在此处。
+# machine-drafted, needs native review
+similar-stopped = 扫描已停止：未分组任何内容
+similar-stopped-sharpness = 清晰度检查已停止：最佳选择基于缩略图
+similar-stopped-empty = 扫描已停止。已测量的结果会保留：“再次扫描”会从那里接着进行。
+similar-scan-again = 再次扫描
+similar-empty-duplicates = 此文件夹中没有重复项。
+similar-empty-similar = 此文件夹中没有相似照片。
+similar-all-done = 所有组均已检查。
+similar-sensitivity = 灵敏度
+similar-sensitivity-strict = 严格
+similar-sensitivity-loose = 宽松
+similar-accept-all = 接受全部建议
+similar-show-skipped = 显示已跳过的组
+similar-discard-with = 丢弃方式：{ $action }
+similar-action-trash = 移到回收站
+similar-action-move = 移到文件夹…
+similar-action-move-to = 移到“{ $folder }”
+similar-action-reject = 仅标记为拒绝
+similar-choose-folder = 选择存放丢弃文件的文件夹…
+similar-confirm = 接受 { $groups } 组的建议？{ $files } 个文件（{ $size }）：{ $action }。
+similar-confirm-yes = 接受并丢弃 { $files } 个文件
+similar-cancel = 取消
+similar-group-title = 第 { $index } 组，共 { $total } 组
+similar-group-photos = { $count } 张照片
+similar-to-free = 可释放 { $size }
+similar-keep = 保留
+similar-discard = 丢弃
+similar-undecided = 未决定
+similar-accept-next = 接受并下一组
+similar-not-similar = 不相似
+similar-skip = 跳过
+similar-compare = 比较
+similar-zoom = { PERCENT(100) }
+similar-back = 返回
+similar-done = 完成
+similar-suggested-keep = 建议：保留
+similar-suggested-discard = 建议：丢弃
+similar-toast-accepted = 已接受 { $count } 组
+similar-toast-rejected = 已将 { $count } 个文件标记为拒绝
+similar-toast-protected = 有评分、旗标、颜色标签、关键词或编辑的照片始终保留。
+# machine-drafted, needs native review
+similar-zoom-already = 此照片已按 { PERCENT(100) } 或更大比例显示
+similar-a11y-member = { $name }：{ $state }，{ $reason }
+similar-hint-list = ↑↓ 选择 · Enter 检查 · A 全部接受 · Tab 切换 · Esc 关闭
+similar-reason-rated = 已评分
+similar-reason-flagged = 已标为选中
+similar-reason-labelled = 有颜色标签
+similar-reason-tagged = 有关键词
+similar-reason-edited = 有编辑
+similar-reason-original = 原件
+similar-reason-raw-original = RAW 原件
+similar-reason-highest-resolution = 分辨率最高
+similar-reason-deeper-colour = 色深更高
+similar-reason-least-compressed = 压缩最少
+similar-reason-has-metadata = 保留元数据
+similar-reason-oldest = 最早的副本
+similar-reason-sharpest = 最清晰
+similar-reason-steadiest = 抖动最少
+similar-reason-best-exposure = 曝光最佳
+similar-reason-least-noise = 噪点最少
+similar-reason-also-good = 同样不错
+similar-reason-same-file = 相同文件
+similar-reason-derivative = 派生副本
+similar-reason-rendering-of-raw = RAW 的渲染
+similar-reason-smaller-copy = 较小的副本
+similar-reason-shallower-colour = 色深较低
+similar-reason-more-compressed = 压缩更多
+similar-reason-no-metadata = 元数据已删除
+similar-reason-newer-copy = 较新的副本
+similar-reason-blurrier = 较模糊
+similar-reason-motion-blur = 动态模糊
+similar-reason-overexposed = 过曝
+similar-reason-underexposed = 欠曝
+similar-reason-noisier = 噪点较多
+similar-reason-lower-resolution = 分辨率较低

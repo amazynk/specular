@@ -1,0 +1,16 @@
+[package]
+name = "specular-fmt-thermal"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Radiometric thermal stills for Specular: FLIR FFF (in R-JPEG APP1 segments or standalone .fff/.img) with raw, PNG and TIFF raw data, Planck calibration, palette, embedded visible photo and PiP; InfiRay .irg; InfraTec .irb; Testo .bmt; Fluke .is2; raw counts to degrees Celsius with emissivity, reflected temperature and atmospheric transmission; float32 TIFF and CSV export"
+
+[dependencies]
+specular-jpegls = { path = "../specular-jpegls" }
+specular-ora = { path = "../specular-ora" }  # the ZIP reader, for Fluke .is2
+specular-png = { path = "../specular-png" }
+thiserror = "2"
+
+[lints]
+workspace = true

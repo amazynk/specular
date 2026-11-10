@@ -1,0 +1,14 @@
+[package]
+name = "specular-samp"
+description = "SAMP 1.3 (Standard Profile) client for Specular: hub discovery, own XML-RPC over loopback-only HTTP, image/table/position messages, and a small hub for tests"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+quick-xml = "0.41"
+specular-thread = { path = "../specular-thread" }
+
+[lints]
+workspace = true

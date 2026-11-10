@@ -1,0 +1,26 @@
+[package]
+name = "specular-webgallery"
+description = "Static HTML client galleries written to a folder: resized photos and thumbnails through Develop's export, a page with a lightbox and client picks kept in the browser, and reading the picks file back"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# The photos: Develop's export queue (edits, watermark), then the batch encoders.
+specular-develop = { path = "../specular-develop" }
+specular-convert = { path = "../specular-convert" }
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+# Titles, captions and the EXIF summary.
+specular-metadata = { path = "../specular-metadata" }
+wgpu = "30"
+# The client's picks.json.
+serde_json = "1"
+
+[dev-dependencies]
+# Well-formedness of the written page (it is polyglot XHTML).
+roxmltree = "0.21"
+
+[lints]
+workspace = true

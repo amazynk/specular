@@ -1,0 +1,29 @@
+LAZ test fixtures for the specular-points LAS/LAZ reader
+=========================================================
+
+  p1.las  p1.laz    LAS 1.2, point format 1  (GPS time)
+  p3.las  p3.laz    LAS 1.2, point format 3  (GPS time, RGB)
+  p6.las  p6.laz    LAS 1.4, point format 6  (extended returns, scanner channel, GPS time)
+  p7.las  p7.laz    LAS 1.4, point format 7  (format 6 plus RGB)
+  p8.las  p8.laz    LAS 1.4, point format 8  (format 7 plus NIR)
+
+Each pair holds the same 2500 points. The .laz is LASzip-compressed (point-wise for formats
+1 and 3, layered for 6, 7 and 8), and the .las is its uncompressed twin. The tests in
+src/tests.rs check two things:
+
+  laz_matches_its_las   the LAZ decoder gives exactly the points the LAS reader gives
+  robust_laz            damaged copies of the .laz files fail without panicking
+
+The data is synthetic. It is a made-up strip scan: 7 scan lines over rolling terrain at
+UTM-like coordinates. Intensity, returns, classes, scan angle, user data, point source
+IDs, GPS time jumps, scanner channels, RGB and NIR all vary, so every LASzip item is
+exercised. The points do not come from any survey, so there is no licence to track.
+
+The files were written by laspy 2.7.0 with the lazrs backend. To regenerate them, run
+from this directory:
+
+  PYTHON -I ../../gen/make_laz_fixtures.py        (needs laspy[lazrs] and numpy)
+
+The script uses a fixed seed. It writes the same formats, fields and value ranges as the
+committed files, but it was rewritten after them, so its random values differ from theirs.
+That does not matter: the tests only compare each .laz with its own .las.

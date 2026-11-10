@@ -1,0 +1,104 @@
+# Specular — Settings → Keys, the key binding editor (DESIGN.md §11). machine-drafted, needs native review
+# Key names inside messages ($keys) are never translated.
+
+settings-keys-sequence-timeout = Чекати наступну клавішу
+settings-keys-sequence-timeout-help = Як довго послідовність клавіш, як-от G G, чекає на наступну клавішу. Клавіша, що також починає довшу послідовність, спрацьовує після цієї паузи.
+settings-keys-bindings = Сполучення клавіш
+settings-keys-bindings-help = Виберіть дію та натисніть клавіші, які хочете призначити. Кожен режим має власні клавіші; режим відбору та медичні зображення інакше використовують клавіші переглядача. Щоб призначити Esc, торкніться його; утримання скасовує. Сполучення зберігаються в keymap.toml.
+palette-customise-keys = Налаштувати клавіші…
+keys-mode-viewer = Переглядач
+keys-mode-cull = Режим відбору
+keys-mode-medical = Медичні зображення
+keys-modes = Режим
+keys-presets = Набір
+keys-preset-default = Типовий
+keys-preset-vim = Vim
+keys-preset-culling = Відбір у стилі Lightroom
+keys-preset-photo-mechanic = У стилі Photo Mechanic
+action-pan-left = Зсунути ліворуч
+action-pan-right = Зсунути праворуч
+action-pan-up = Зсунути вгору
+action-pan-down = Зсунути вниз
+action-pan-page-left = Зсунути на екран ліворуч
+action-pan-page-right = Зсунути на екран праворуч
+action-pan-page-up = Зсунути на екран вгору
+action-pan-page-down = Зсунути на екран вниз
+action-reload = Перезавантажити зображення
+keys-action-cull-pick = Вибрати
+keys-action-cull-reject = Відхилити
+keys-action-cull-unflag = Зняти позначку
+keys-action-cull-rate = { $stars ->
+    [0] Зняти оцінку
+   *[other] Оцінка (зірки): { $stars }
+}
+keys-action-cull-label = Кольорова мітка: { $label }
+keys-action-cull-copy-to = Копіювати до теки { $slot }
+keys-action-cull-move-to = Перемістити до теки { $slot }
+keys-import = Імпортувати…
+keys-export = Експортувати…
+keys-export-mode = Експортувати: { $mode }…
+keys-reset-mode = Скинути: { $mode }
+keys-reset-all = Скинути всі клавіші
+keys-add = Додати клавішу для: { $action }
+keys-change = Змінити { $keys }
+keys-remove = Вилучити { $keys }
+keys-reset-action = Скинути: { $action }
+keys-none = Немає клавіш
+keys-changed = Змінено
+keys-press = Натисніть клавіші…
+keys-recording-hint = Утримуйте Esc, щоб скасувати
+keys-cancel-recording = Скасувати
+keys-no-match = Жодна дія чи клавіша не відповідає «{ $query }».
+keys-list = Дії та їхні клавіші
+keys-confirm-preset = Використати набір { $preset }? Він замінить усі ваші сполучення.
+keys-confirm-reset-mode = Скинути всі клавіші режиму { $mode } до набору?
+keys-confirm-reset-all = Скинути всі клавіші всіх режимів до набору?
+keys-confirm-ok = Замінити
+keys-confirm-reset = Скинути
+keys-confirm-cancel = Скасувати
+keys-conflict-same = { $keys } уже виконує «{ $other }».
+keys-conflict-prefix = { $keys } і { $sequence } («{ $other }») починаються однаково: коротша спрацьовує лише після паузи.
+keys-conflict-shadow = { $keys } виконує «{ $other }» у режимі { $mode }.
+keys-conflict-reserved = { $keys } може ніколи не дійти до Specular: { $reason }
+keys-choice-replace = Замінити
+keys-choice-swap = Поміняти
+keys-choice-keep = Залишити обидві
+keys-choice-anyway = Усе одно призначити
+keys-choice-cancel = Скасувати
+keys-reserved-switch = вона перемикає вікна.
+keys-reserved-close = вона закриває вікно.
+keys-reserved-secure = її перехоплює система.
+keys-reserved-desktop = сполучення з Super належать стільниці.
+keys-reserved-workspaces = вона перемикає термінали або робочі простори.
+keys-reserved-input = вона перемикає метод введення або розкладку.
+keys-reserved-macos = її перехоплює macOS.
+keys-announce-recording = Запис клавіш для: { $action }. Натисніть клавіші або утримуйте Esc, щоб скасувати.
+keys-announce-key = { $keys }
+keys-announce-bound = { $keys } тепер виконує: { $action }.
+keys-announce-already = { $keys } уже виконує: { $action }.
+keys-announce-cancelled = Запис скасовано.
+keys-announce-removed = { $keys } вилучено з: { $action }.
+keys-announce-reset-action = { $action }: знову клавіші набору.
+keys-announce-reset-mode = Клавіші режиму { $mode } скинуто.
+keys-announce-reset-all = Усі клавіші скинуто.
+keys-announce-preset = Тепер використовується набір { $preset }.
+keys-toast-imported = Сполучення імпортовано
+keys-toast-exported = Сполучення експортовано
+keys-toast-reloaded = keymap.toml змінено: сполучення перезавантажено
+keys-toast-error = Не вдалося прочитати сполучення: { $error }
+keys-toast-write-error = Не вдалося зберегти keymap.toml: { $error }
+keys-pending = { $keys } …  { $next }
+keys-problem-syntax = Не вдалося прочитати keymap.toml: { $error }
+keys-problem-key = Невідому клавішу «{ $key }» пропущено.
+keys-problem-action = «{ $key }» вказує невідому дію «{ $action }»; пропущено.
+keys-problem-mode = Таблиця [{ $mode }] не є режимом; пропущено.
+keys-problem-duplicate = { $keys } задано двічі в режимі { $mode }; діє друге.
+keys-problem-prefix = { $keys } починає { $longer } у режимі { $mode }, тож спрацьовує лише після паузи.
+keys-problem-preset = Невідомий набір «{ $preset }»; діють типові клавіші.
+
+## keymap.toml editor (machine-drafted, needs native review)
+
+keys-edit-file = Редагувати keymap.toml
+keys-problem-action-suggestion = «{ $key }» вказує невідому дію «{ $action }»; пропущено. Можливо, ви мали на увазі «{ $suggestion }»?
+keys-problem-mode-suggestion = Таблиця [{ $mode }] не є режимом; пропущено. Можливо, ви мали на увазі [{ $suggestion }]?
+keys-problem-preset-suggestion = Невідомий набір «{ $preset }»; діють типові клавіші. Можливо, ви мали на увазі «{ $suggestion }»?

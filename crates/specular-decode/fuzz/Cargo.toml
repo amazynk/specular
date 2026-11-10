@@ -1,0 +1,22 @@
+[package]
+name = "specular-decode-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-decode = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "locate"
+path = "fuzz_targets/locate.rs"
+test = false
+doc = false
+bench = false

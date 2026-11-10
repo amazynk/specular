@@ -1,0 +1,11 @@
+	
+ics_version	1.0
+filename	complex64
+layout	parameters	3
+layout	order	bits	x	y
+layout	sizes	64	9	8
+representation	format	complex
+representation	sign	signed
+representation	compression	uncompressed
+representation	byte_order	1	2	3	4
+end

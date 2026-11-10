@@ -1,0 +1,12 @@
+[package]
+name = "specular-dvi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "TeX DVI pages (rules and character positions) and TFM font metrics"
+
+[dependencies]
+
+[lints]
+workspace = true

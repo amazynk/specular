@@ -1,0 +1,20 @@
+(kicad_sch (version 20211123) (generator eeschema)
+  (uuid 00000000-0000-0000-0000-0000000000d0)
+  (paper "A5")
+  (lib_symbols
+    (symbol "Device:R" (pin_numbers hide) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "R" (id 0) (at 2.032 0 90) (effects (font (size 1.27 1.27))))
+      (property "Value" "R" (id 1) (at 0 0 90) (effects (font (size 1.27 1.27))))
+      (symbol "R_0_1"
+        (rectangle (start -1.016 -2.54) (end 1.016 2.54) (stroke (width 0.254) (type default) (color 0 0 0 0)) (fill (type none))))
+      (symbol "R_1_1"
+        (pin passive line (at 0 3.81 270) (length 1.27) (name "~" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+        (pin passive line (at 0 -3.81 90) (length 1.27) (name "~" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))))
+  )
+  (hierarchical_label "VIN" (shape input) (at 20 20 180) (effects (font (size 1.27 1.27)) (justify right)) (uuid 00000000-0000-0000-0000-0000000000d2))
+  (wire (pts (xy 20 20) (xy 30 20)) (stroke (width 0) (type default) (color 0 0 0 0)) (uuid 00000000-0000-0000-0000-0000000000d3))
+  (symbol (lib_id "Device:R") (at 30 30 90) (unit 1) (in_bom yes) (on_board yes)
+    (uuid 00000000-0000-0000-0000-0000000000d1)
+    (property "Reference" "R?" (id 0) (at 30 25 90) (effects (font (size 1.27 1.27))))
+    (property "Value" "1k" (id 1) (at 30 35 90) (effects (font (size 1.27 1.27)))))
+)

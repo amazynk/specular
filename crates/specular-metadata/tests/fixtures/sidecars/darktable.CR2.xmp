@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:lr="http://ns.adobe.com/lightroom/1.0/"
+    xmlns:darktable="http://darktable.sf.net/"
+   xmp:Rating="3"
+   darktable:xmp_version="5"
+   darktable:history_end="0">
+   <darktable:colorlabels>
+    <rdf:Seq>
+     <rdf:li>4</rdf:li>
+     <rdf:li>2</rdf:li>
+    </rdf:Seq>
+   </darktable:colorlabels>
+   <dc:title>
+    <rdf:Alt>
+     <rdf:li xml:lang="x-default">Quay at dusk</rdf:li>
+    </rdf:Alt>
+   </dc:title>
+   <dc:description>
+    <rdf:Alt>
+     <rdf:li xml:lang="x-default">Boats coming in</rdf:li>
+    </rdf:Alt>
+   </dc:description>
+   <dc:subject>
+    <rdf:Bag>
+     <rdf:li>Paris</rdf:li>
+     <rdf:li>boats</rdf:li>
+    </rdf:Bag>
+   </dc:subject>
+   <lr:hierarchicalSubject>
+    <rdf:Bag>
+     <rdf:li>Places|France|Paris</rdf:li>
+     <rdf:li>boats</rdf:li>
+     <rdf:li>darktable|format|cr2</rdf:li>
+     <rdf:li>darktable|changed</rdf:li>
+    </rdf:Bag>
+   </lr:hierarchicalSubject>
+   <darktable:history>
+    <rdf:Seq/>
+   </darktable:history>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>

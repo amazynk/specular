@@ -1,0 +1,7 @@
+size 12 10 4
+x -5.913728e-09 5e-10 m
+y -1.248018e-07 5e-10 m
+plane 0 m	Z forward
+plane 1 m	Z backward
+plane 2 A	Current forward
+plane 3 A	Current backward

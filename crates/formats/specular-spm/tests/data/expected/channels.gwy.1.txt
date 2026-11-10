@@ -1,0 +1,6 @@
+size	9	6	1
+planes	0
+axis	0	5e-07	0.0	m
+axis	1	5e-07	0.0	m
+unit	V
+title	Amplitude

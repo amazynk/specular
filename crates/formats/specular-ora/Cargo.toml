@@ -1,0 +1,21 @@
+[package]
+name = "specular-ora"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "OpenRaster (.ora) and Krita (.kra) documents for Specular: bounded ZIP reader, merged image / preview location, header-only canvas size, layer compositing with every OpenRaster blend mode and operator for ORA files without a merged image, Krita paint layers (tiled LZF or PNG layer data) and layer trees"
+
+[dependencies]
+specular-png = { path = "../specular-png" }
+specular-blend = { path = "../specular-blend" }
+quick-xml = "0.41"
+rayon = "1.11"
+
+[dev-dependencies]
+flate2 = "1"  # deflated ZIP members in test fixtures
+# Vector layers in the merged-image oracle test, drawn as the viewer draws SVG.
+resvg = { version = "0.48", default-features = false, features = ["svgz", "text", "system-fonts", "memmap-fonts"] }
+
+[lints]
+workspace = true

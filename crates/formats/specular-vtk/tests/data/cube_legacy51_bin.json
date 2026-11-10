@@ -1,0 +1,24 @@
+{
+"point_data": [
+{
+"name": "Normals",
+"components": 3,
+"tuples": 24,
+"offset": 0
+},
+{
+"name": "TCoords",
+"components": 2,
+"tuples": 24,
+"offset": 72
+}
+],
+"cell_data": [],
+"field_data": [],
+"kind": "mesh",
+"points": 24,
+"cells": 6,
+"triangles": 12,
+"area": 6.0,
+"tri_offset": 120
+}

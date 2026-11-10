@@ -1,0 +1,320 @@
+Specular patch to UnRAR 7.1.0 (vendor/unrar in unrar_sys 0.5.8): handle I/O.
+
+What it changes
+  file.hpp, file.cpp, and two early returns in volume.cpp. Adds
+  SpecularUnrarSetOpenHook(). When a hook is set, File::Open no longer opens anything by path: it hands the UTF-8 name
+  to the hook, which returns an already-open, readable handle (a POSIX file
+  descriptor, or a Windows HANDLE) or -1 for "no such file". Such a
+  "borrowed" handle is read with positioned reads (pread, or ReadFile with
+  an OVERLAPPED offset) from a position kept in the File object, seeks only
+  move that 64-bit position (overflow-checked; seeking past the end is
+  allowed and reads 0 bytes there), Tell returns it, and Close never closes
+  it, because the caller owns it. File::Create always fails while a hook is
+  set, and write/update opens are refused. Without a hook UnRAR behaves
+  exactly as upstream. With a hook set, the DLL volume callbacks
+  (UCM_CHANGEVOLUME[W], ChangeVolProc) are not called: the hook is how the
+  embedding program learns of and supplies each volume, so a volume the hook
+  cannot open is final (ERAR_EOPEN). Decompression code is not touched.
+
+Why
+  Specular runs UnRAR in a sandboxed decode host that cannot open user
+  files (on Windows an AppContainer without file-system access; on Linux
+  and macOS a seccomp/Landlock or Seatbelt profile without open()). The
+  unsandboxed app opens each archive volume read-only and passes the handle
+  in (DuplicateHandle on Windows, SCM_RIGHTS on Unix). Multi-volume names
+  that UnRAR asks for go through the same hook, which asks the app.
+
+How it is applied
+  build.rs copies vendor/unrar to OUT_DIR and applies this file there with
+  an exact-context unified-diff applier that fails the build if any hunk
+  does not match. The vendored sources themselves stay pristine. Everything
+  above the first "--- " line is ignored by the applier.
+
+Licence
+  UnRAR licence (vendor/unrar/license.txt) permits modification. This
+  patch is not used to develop a RAR-compatible archiver or to re-create
+  the RAR compression algorithm. As the licence requires, its paragraph 2
+  is reproduced here and in the patched source comments:
+
+  UnRAR source code may be used in any software to handle
+  RAR archives without limitations free of charge, but cannot be
+  used to develop RAR (WinRAR) compatible archiver and to
+  re-create RAR compression algorithm, which is proprietary.
+  Distribution of modified UnRAR source code in separate form
+  or as a part of other software is permitted, provided that
+  full text of this paragraph, starting from "UnRAR source code"
+  words, is included in license, or in documentation if license
+  is not available, and in source code comments of resulting package.
+
+--- a/vendor/unrar/file.hpp
++++ b/vendor/unrar/file.hpp
+@@ -3,6 +3,27 @@
+ 
+ #define FILE_USE_OPEN
+ 
++// Specular modification (third_party/unrar_sys/patches/specular-handle-io.patch):
++// read archives through handles the embedding program opened, never by path.
++// When an open hook is set (SpecularUnrarSetOpenHook), File::Open asks it for
++// an open, readable handle (a POSIX descriptor or a Windows HANDLE) for the
++// UTF-8 name and returns -1 if there is none; such a handle is read with
++// positioned reads and never closed by UnRAR. File::Create then always fails.
++// This changes how files are opened only; extraction is unchanged.
++//
++// UnRAR source code may be used in any software to handle
++// RAR archives without limitations free of charge, but cannot be
++// used to develop RAR (WinRAR) compatible archiver and to
++// re-create RAR compression algorithm, which is proprietary.
++// Distribution of modified UnRAR source code in separate form
++// or as a part of other software is permitted, provided that
++// full text of this paragraph, starting from "UnRAR source code"
++// words, is included in license, or in documentation if license
++// is not available, and in source code comments of resulting package.
++typedef intptr_t (*SpecularOpenHook)(const char *NameUtf8,size_t NameLength);
++extern "C" void SpecularUnrarSetOpenHook(SpecularOpenHook Hook);
++bool SpecularUnrarHookSet();
++
+ #ifdef _WIN_ALL
+   typedef HANDLE FileHandle;
+   #define FILE_BAD_HANDLE INVALID_HANDLE_VALUE
+@@ -80,6 +101,14 @@
+     bool TruncatedAfterReadError;
+ 
+     int64 CurFilePos; // Used for forward seeks in stdin files.
++
++    // Specular: the handle came from the open hook (not ours to close) and
++    // its position, kept here because reads are positioned (pread/OVERLAPPED).
++    bool Borrowed;
++    int64 BorrowedPos;
++    bool BorrowedOpen(const std::wstring &Name,uint Mode);
++    int BorrowedRead(void *Data,size_t Size);
++    int64 BorrowedLength();
+   protected:
+     bool OpenShared; // Set by 'Archive' class.
+   public:
+--- a/vendor/unrar/file.cpp
++++ b/vendor/unrar/file.cpp
+@@ -1,5 +1,28 @@
+ #include "rar.hpp"
+ 
++// Specular modification: see file.hpp.
++//
++// UnRAR source code may be used in any software to handle
++// RAR archives without limitations free of charge, but cannot be
++// used to develop RAR (WinRAR) compatible archiver and to
++// re-create RAR compression algorithm, which is proprietary.
++// Distribution of modified UnRAR source code in separate form
++// or as a part of other software is permitted, provided that
++// full text of this paragraph, starting from "UnRAR source code"
++// words, is included in license, or in documentation if license
++// is not available, and in source code comments of resulting package.
++static SpecularOpenHook SpecularHook=NULL;
++
++extern "C" void SpecularUnrarSetOpenHook(SpecularOpenHook Hook)
++{
++  SpecularHook=Hook;
++}
++
++bool SpecularUnrarHookSet()
++{
++  return SpecularHook!=NULL;
++}
++
+ File::File()
+ {
+   hFile=FILE_BAD_HANDLE;
+@@ -19,6 +42,8 @@
+   ReadErrorMode=FREM_ASK;
+   TruncatedAfterReadError=false;
+   CurFilePos=0;
++  Borrowed=false;
++  BorrowedPos=0;
+ }
+ 
+ 
+@@ -40,6 +65,8 @@
+   HandleType=SrcFile.HandleType;
+   TruncatedAfterReadError=SrcFile.TruncatedAfterReadError;
+   FileName=SrcFile.FileName;
++  Borrowed=SrcFile.Borrowed;
++  BorrowedPos=SrcFile.BorrowedPos;
+   SrcFile.SkipClose=true;
+ }
+ 
+@@ -47,6 +74,8 @@
+ bool File::Open(const std::wstring &Name,uint Mode)
+ {
+   ErrorType=FILE_SUCCESS;
++  if (SpecularHook!=NULL)
++    return BorrowedOpen(Name,Mode);
+   FileHandle hNewFile;
+   bool OpenShared=File::OpenShared || (Mode & FMF_OPENSHARED)!=0;
+   bool UpdateMode=(Mode & FMF_UPDATE)!=0;
+@@ -154,6 +183,31 @@
+ }
+ 
+ 
++// Specular: a handle from the open hook, read only.
++bool File::BorrowedOpen(const std::wstring &Name,uint Mode)
++{
++  if ((Mode & (FMF_UPDATE|FMF_WRITE))!=0)
++    return false;
++  std::string NameU;
++  WideToUtf(Name,NameU);
++  intptr_t Handle=SpecularHook(NameU.c_str(),NameU.size());
++  if (Handle==-1)
++  {
++    ErrorType=FILE_NOTFOUND;
++    return false;
++  }
++  hFile=(FileHandle)Handle;
++  Borrowed=true;
++  BorrowedPos=0;
++  NewFile=false;
++  HandleType=FILE_HANDLENORMAL;
++  SkipClose=false;
++  FileName=Name;
++  TruncatedAfterReadError=false;
++  return true;
++}
++
++
+ #if !defined(SFX_MODULE)
+ void File::TOpen(const std::wstring &Name)
+ {
+@@ -178,6 +232,8 @@
+   // was created in read+write mode and some data was written and not flushed
+   // before SetFileTime call. So we should use the write only mode if we plan
+   // SetFileTime call and do not need to read from file.
++  if (SpecularHook!=NULL) // Specular: nothing is ever created.
++    return false;
+   bool WriteMode=(Mode & FMF_WRITE)!=0;
+   bool ShareRead=(Mode & FMF_SHAREREAD)!=0 || File::OpenShared;
+ #ifdef _WIN_ALL
+@@ -243,7 +299,7 @@
+ 
+   if (hFile!=FILE_BAD_HANDLE)
+   {
+-    if (!SkipClose)
++    if (!SkipClose && !Borrowed) // Specular: borrowed handles stay open.
+     {
+ #ifdef _WIN_ALL
+       // We use the standard system handle for stdout in Windows
+@@ -260,6 +316,7 @@
+     }
+     hFile=FILE_BAD_HANDLE;
+   }
++  Borrowed=false;
+   HandleType=FILE_HANDLENORMAL;
+   if (!Success && AllowExceptions)
+     ErrHandler.CloseError(FileName);
+@@ -464,6 +521,8 @@
+ #endif
+ #endif
+   }
++  if (Borrowed)
++    return BorrowedRead(Data,Size);
+ #ifdef _WIN_ALL
+   // For pipes like 'type file.txt | rar -si arcname' ReadFile may return
+   // data in small ~4KB blocks. It may slightly reduce the compression ratio.
+@@ -510,6 +569,49 @@
+ }
+ 
+ 
++// Specular: a positioned read at BorrowedPos; -1 on error, 0 at the end.
++int File::BorrowedRead(void *Data,size_t Size)
++{
++  if (Size>0x7fffffff)
++    Size=0x7fffffff;
++#ifdef _WIN_ALL
++  OVERLAPPED Ov;
++  memset(&Ov,0,sizeof(Ov));
++  Ov.Offset=(DWORD)(uint64)BorrowedPos;
++  Ov.OffsetHigh=(DWORD)((uint64)BorrowedPos>>32);
++  DWORD Read=0;
++  if (!ReadFile(hFile,Data,(DWORD)Size,&Read,&Ov))
++    return GetLastError()==ERROR_HANDLE_EOF ? 0:-1;
++#else
++  ssize_t Read;
++  do
++    Read=pread(hFile,Data,Size,(off_t)BorrowedPos);
++  while (Read<0 && errno==EINTR);
++  if (Read<0)
++    return -1;
++#endif
++  BorrowedPos+=(int64)Read;
++  return (int)Read;
++}
++
++
++// Specular: the size of a borrowed file, -1 on error.
++int64 File::BorrowedLength()
++{
++#ifdef _WIN_ALL
++  LARGE_INTEGER Size;
++  if (!GetFileSizeEx(hFile,&Size))
++    return -1;
++  return (int64)Size.QuadPart;
++#else
++  struct stat st;
++  if (fstat(hFile,&st)!=0)
++    return -1;
++  return (int64)st.st_size;
++#endif
++}
++
++
+ void File::Seek(int64 Offset,int Method)
+ {
+   if (!RawSeek(Offset,Method) && AllowExceptions)
+@@ -556,6 +658,15 @@
+     Offset=(Method==SEEK_CUR ? Tell():FileLength())+Offset;
+     Method=SEEK_SET;
+   }
++  if (Borrowed) // Specular: only the remembered position moves.
++  {
++    int64 Base=Method==SEEK_SET ? 0:(Method==SEEK_CUR ? BorrowedPos:BorrowedLength());
++    const int64 MaxPos=INT64NDF;
++    if (Base<0 || Offset<0 || Offset>MaxPos-Base)
++      return false;
++    BorrowedPos=Base+Offset;
++    return true;
++  }
+ #ifdef _WIN_ALL
+   LONG HighDist=(LONG)(Offset>>32);
+   if (SetFilePointer(hFile,(LONG)Offset,&HighDist,Method)==0xffffffff &&
+@@ -587,6 +698,8 @@
+       return -1;
+   if (!IsSeekable())
+     return CurFilePos;
++  if (Borrowed)
++    return BorrowedPos;
+ #ifdef _WIN_ALL
+   LONG HighDist=0;
+   uint LowDist=SetFilePointer(hFile,0,&HighDist,FILE_CURRENT);
+--- a/vendor/unrar/volume.cpp
++++ b/vendor/unrar/volume.cpp
+@@ -190,6 +190,13 @@
+ #ifdef RARDLL
+ bool DllVolChange(CommandData *Cmd,std::wstring &NextName)
+ {
++  // Specular: with an open hook the hook already asked the embedding program
++  // for this volume and it has none; do not ask the callbacks again.
++  if (SpecularUnrarHookSet())
++  {
++    Cmd->DllError=ERAR_EOPEN;
++    return false;
++  }
+   bool DllVolChanged=false,DllVolAborted=false;
+ 
+   if (Cmd->Callback!=NULL)
+@@ -266,6 +273,10 @@
+ #ifdef RARDLL
+ static bool DllVolNotify(CommandData *Cmd,const std::wstring &NextName)
+ {
++  // Specular: volumes come through the open hook, which already told the
++  // embedding program; skip the callbacks.
++  if (SpecularUnrarHookSet())
++    return true;
+   std::string NextNameA;
+   WideToChar(NextName,NextNameA);
+ 

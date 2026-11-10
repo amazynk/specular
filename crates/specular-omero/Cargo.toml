@@ -1,0 +1,21 @@
+[package]
+name = "specular-omero"
+description = "Read-only OMERO.web client for Specular: sign-in, Project/Dataset and Screen/Plate/Well browsing, image metadata and rendered pyramid tiles (IDR)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+specular-remote = { path = "../specular-remote" }
+specular-decode = { path = "../specular-decode" }
+specular-jpeg = { path = "../formats/specular-jpeg" }
+specular-png = { path = "../formats/specular-png" }
+serde_json = "1"
+parking_lot = "0.12"
+
+[lints]
+workspace = true

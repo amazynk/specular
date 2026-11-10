@@ -1,0 +1,25 @@
+[package]
+name = "specular-hdf4"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Read-only HDF4 decoder for Specular: the DD table, Vgroups and Vdatas, scientific datasets (SD) with their attributes, dimensions and unlimited records, raster images (GR, RIG/RI8/RI24 with palettes), special elements (linked blocks, external files, compressed, chunked) and the deflate, RLE, NBIT, skipping-Huffman, SZIP and JPEG codings; HDF-EOS2 structure metadata (an own ODL parser) for grids and swaths"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+thiserror = "2"
+# Attribute values and plane requests are shared with the HDF5 reader.
+specular-hdf5 = { path = "../specular-hdf5" }
+# Own inflate (deflate coding).
+specular-png = { path = "../specular-png" }
+# SZIP coding (AEC).
+specular-aec = { path = "../specular-aec" }
+# JPEG-compressed raster images.
+specular-jpeg = { path = "../specular-jpeg" }
+
+[[example]]
+name = "hdf4dump"
+
+[lints]
+workspace = true

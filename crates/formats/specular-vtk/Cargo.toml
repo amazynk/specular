@@ -1,0 +1,21 @@
+[package]
+name = "specular-vtk"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "VTK readers for Specular: legacy .vtk (ASCII and binary, versions 1.0 to 5.1) and XML .vti/.vtr/.vts/.vtu/.vtp (ascii, inline base64, appended raw or base64, zlib and LZ4 blocks); grids as values on their points and cells, polygonal and unstructured data as boundary triangles"
+
+[dependencies]
+thiserror = "2"
+quick-xml = "0.41"
+# zlib blocks (vtkZLibDataCompressor).
+specular-png = { path = "../specular-png" }
+# LZ4 blocks (vtkLZ4DataCompressor).
+specular-hdf5 = { path = "../specular-hdf5" }
+
+[dev-dependencies]
+serde_json = "1"
+
+[lints]
+workspace = true

@@ -1,0 +1,20 @@
+[package]
+name = "specular-planetary"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Planetary science images for Specular: own VICAR, PDS3 (ODL labels, attached and detached, IMAGE and QUBE objects) and PDS4 (XML labels, Array_2D/Array_3D) readers, with byte-order, VAX and IEEE samples, line prefixes, scaling, special constants and the map-projection and observation facts"
+
+[dependencies]
+specular-limits = { path = "../../specular-limits" }
+rayon = "1.11"
+# PDS4 labels are XML.
+roxmltree = "0.21"
+thiserror = "2"
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }
+
+[lints]
+workspace = true

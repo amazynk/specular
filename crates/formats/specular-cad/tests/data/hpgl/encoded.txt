@@ -1,0 +1,6 @@
+format HP-GL/2 units 4 pcl false pens [1] paper None name None lwdisplay true
+layer "Pen 1" fg lw 35 items 2
+counts IN=1 PA=1 PE=2
+sheet "Page 1" extents 0 0 2.5 1.25
+  L0 fg stroke w35 M0,0 L2.5,1.25
+  L0 fg stroke w35 M0.175,0.225 L0.425,0.225

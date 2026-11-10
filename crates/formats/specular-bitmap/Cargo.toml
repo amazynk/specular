@@ -1,0 +1,20 @@
+[package]
+name = "specular-bitmap"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Fast decoders for Specular's simple raster formats: GIF (own LZW, frames), BMP, ICO/CUR, TGA, QOI, PNM/PAM. Decode at 1/2/4/8 scale and by region, in parallel where the format allows"
+
+[dependencies]
+rayon = "1.11"
+
+[dev-dependencies]
+# Test/benchmark oracles and fixture encoders only; never linked into Specular. (`image` is
+# banned by deny.toml, so expected pixels are computed by the tests instead.)
+gif = "0.14"
+qoi = "0.4"
+png = "0.18"
+
+[lints]
+workspace = true

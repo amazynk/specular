@@ -1,0 +1,22 @@
+[package]
+name = "specular-grib"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Read-only GRIB editions 1 and 2 decoder for Specular: simple, complex and spatially differenced, JPEG 2000, PNG, CCSDS (AEC) and IEEE packing with bitmaps; regular, rotated and Gaussian (also reduced) latitude/longitude, polar stereographic and Lambert conformal grids, normalised north-up with their map georeference; WMO and ECMWF parameter, level and time tables for the common fields"
+
+[dependencies]
+thiserror = "2"
+# Unpacked fields reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+specular-aec = { path = "../specular-aec" }
+# Template 5.40: JPEG 2000 codestreams.
+specular-jp2 = { path = "../specular-jp2" }
+# Template 5.41: PNG (own inflate).
+specular-png = { path = "../specular-png" }
+# Projections and CRS of the grids.
+specular-gis = { path = "../specular-gis" }
+
+[lints]
+workspace = true

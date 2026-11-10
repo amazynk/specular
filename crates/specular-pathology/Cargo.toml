@@ -1,0 +1,22 @@
+[package]
+name = "specular-pathology"
+description = "Digital pathology tools for Specular: Ruifrok-Johnston colour deconvolution, Macenko stain estimation and normalisation, and slide annotation exchange (COCO, QuPath GeoJSON, label masks and OME-TIFF label pyramids), independent of the UI"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# Reading COCO and GeoJSON; the writers are our own.
+serde_json = "1.0.149"
+# Label mask tiles as PNG (our own encoder).
+specular-png = { path = "../formats/specular-png" }
+# Deflate for TIFF tiles, the build specular-png and specular-convert use.
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+# Our own TIFF reader checks the label pyramids' structure.
+specular-tiff = { path = "../formats/specular-tiff" }

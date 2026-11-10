@@ -1,0 +1,28 @@
+name: Format request
+description: A file format Specular should open, or opens badly
+labels: [format]
+body:
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: Before you open this
+      options:
+        - label: I searched the existing issues and this isn't one of them.
+          required: true
+  - type: input
+    id: format
+    attributes:
+      label: Format
+      placeholder: e.g. Hasselblad 3FR from an X2D, Leica DNG with JPEG XL compression
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What you use it for
+      description: Which program or device writes it, and what you'd do with it in Specular.
+  - type: textarea
+    id: samples
+    attributes:
+      label: Sample files
+      description: Links to sample files you're allowed to share, or a public spec. Real samples help most.

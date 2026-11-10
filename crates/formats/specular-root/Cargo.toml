@@ -1,0 +1,19 @@
+[package]
+name = "specular-root"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "CERN ROOT files for Specular: the file header (small and large), keys and nested directories, ZL/L4/ZS/XZ/CS compression blocks, the streamer info list, and the objects worth looking at (TH1, TH2 and TH3 in every storage type, TProfile and TProfile2D, TAxis with variable bins and labels, TGraph and TGraph2D points, TTree entry counts)"
+
+[dependencies]
+thiserror = "2"
+# Own decoders for the block compressions: zlib and raw DEFLATE (ZL, CS), LZ4 blocks (L4),
+# Zstandard frames (ZS).
+specular-png = { path = "../specular-png" }
+specular-hdf5 = { path = "../specular-hdf5" }
+# XZ: the xz container is parsed here, LZMA2 by lzma-rust2 (already in the tree for TIFF).
+lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,19 @@
+[package]
+name = "specular-arrays"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Scientific array files for Specular: NumPy .npy / .npz, MATLAB .mat v4 and v5 (v7.3 is HDF5, read through specular-hdf5) and plain Zarr v2 / v3 stores (folders and zips); planes as f32"
+
+[dependencies]
+parking_lot = "0.12"
+rayon = "1.11"  # planes gathered and chunks decoded in parallel
+serde_json = "1"
+specular-core = { path = "../../specular-core" }  # memory budget for decoded chunks
+specular-hdf5 = { path = "../specular-hdf5" }  # Blosc, Zstandard and LZ4 codecs, half floats
+specular-png = { path = "../specular-png" }  # DEFLATE (zlib, gzip, raw)
+thiserror = "2"
+
+[lints]
+workspace = true

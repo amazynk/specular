@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	画廊	the thumbnail grid of one folder	画廊, so it is not confused with the Library (图库, as in Lightroom).
+Library	Library	图库	the catalogue of indexed folders	
+Folder	Folder	文件夹	a file-system folder	
+Remove	Remove	移除	take an item out of a list; files stay	
+Delete	Delete	删除	destroy data or files	
+Forget	Forget	清除	drop a remembered choice or record	清除 everywhere, not 移除 (that is Remove).
+Move to trash	Move to trash	移到回收站	send files to the system trash	
+Export	Export	导出	write a copy in another form	
+Import	Import	导入	copy photos in from a card or device	
+Settings	Settings	设置	the Settings window, also in paths: Settings › Section	
+Undo	Undo	撤销	reverse the last action (never the word for Cancel)	
+Redo	Redo	重做		
+Zoom	Zoom	缩放	image magnification	
+Page	Page	页面	a page of a document or multi-page file	
+Layer	Layers	图层	drawing and map layers (circuit boards: their own word)	图层; circuit-board layers are 层.
+Channel	Channels	通道	colour or audio channels	
+Series	Series	序列	a DICOM series	
+Study	Study	检查	a DICOM study	
+Slice	Slice	层面	one cross-sectional image of a volume	层面 (层 in compounds: 层厚, 层间距). 切片 is a pathology slide only.
+Frame	Frames	帧	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	音轨	a numbered piece of an album	
+Subtitle	Subtitles	字幕	text over a video	
+Loudness	Loudness	响度	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	模型	a local AI model	
+Download	Download	下载	fetch from the network	
+Cull mode	Cull mode	筛选模式	the mode for picking and rejecting photos	
+Pick	Pick	选用	a cull mark	
+Reject	Reject	排除	a cull mark	
+Rating	Rating	评分	stars	
+Local AI	Local AI	本地 AI	the Settings section and the feature set	
+Metadata	Metadata	元数据		
+Thumbnail	Thumbnail	缩略图		
+Slideshow	Slideshow	幻灯片放映		
+Compare	Compare	比较		
+Print	Print	打印		
+Search	Search	搜索		
+Filter	Filter	筛选	narrow what is shown (not an optical filter)	
+Rename	Rename	重命名		

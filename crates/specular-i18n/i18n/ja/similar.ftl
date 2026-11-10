@@ -1,0 +1,92 @@
+# machine-drafted, needs native review
+# Specular — 重複と類似ショット（ギャラリーのカテゴリ）。日本語。
+
+similar-duplicates = 重複
+similar-similar = 類似ショット
+similar-menu-entry = { $name } — { $groups } グループ、{ $size } 解放可能
+similar-menu-scanning = { $name } — 検索中（{ PERCENT($percent) }）
+similar-menu-none = { $name } — 見つかりません
+similar-summary = 確認するグループ { $groups } 件、破棄するファイル { $files } 件、{ $size } 解放可能
+similar-progress = { $total } 件中 { $resolved } 件完了
+similar-skipped = { $count } 件スキップ
+similar-scanning = 重複と類似ショットを検索中… { $total } 件中 { $done } 件
+# machine-drafted, needs native review
+similar-checking-sharpness = シャープネスを確認中… { $total } 件中 { $done } 件
+# machine-drafted, needs native review
+# 最初のスキャン中の一覧（進行状況は上のヘッダーにあります）。
+similar-waiting = スキャンが終わると、ここにグループが表示されます。
+# machine-drafted, needs native review
+similar-stopped = スキャンを停止しました: グループはありません
+similar-stopped-sharpness = シャープネスの確認を停止しました: ベストショットはサムネイルから判定
+similar-stopped-empty = スキャンが停止されました。測定済みの結果は保持されます。「再スキャン」でそこから続行します。
+similar-scan-again = 再スキャン
+similar-empty-duplicates = このフォルダーに重複はありません。
+similar-empty-similar = このフォルダーに類似ショットはありません。
+similar-all-done = すべてのグループを確認しました。
+similar-sensitivity = 感度
+similar-sensitivity-strict = 厳しく
+similar-sensitivity-loose = ゆるく
+similar-accept-all = すべての提案を適用
+similar-show-skipped = スキップしたグループを表示
+similar-discard-with = 破棄方法：{ $action }
+similar-action-trash = ゴミ箱に移動
+similar-action-move = フォルダーに移動…
+similar-action-move-to = 「{ $folder }」に移動
+similar-action-reject = 不採用フラグのみ
+similar-choose-folder = 破棄したファイルの移動先を選択…
+similar-confirm = { $groups } グループの提案を適用しますか？ ファイル { $files } 件（{ $size }）：{ $action }。
+similar-confirm-yes = 適用してファイル { $files } 件を破棄
+similar-cancel = キャンセル
+similar-group-title = グループ { $index } / { $total }
+similar-group-photos = 写真 { $count } 枚
+similar-to-free = { $size } 解放可能
+similar-keep = 残す
+similar-discard = 破棄
+similar-undecided = 未決定
+similar-accept-next = 適用して次へ
+similar-not-similar = 似ていない
+similar-skip = スキップ
+similar-compare = 比較
+similar-zoom = { PERCENT(100) }
+similar-back = 戻る
+similar-done = 完了
+similar-suggested-keep = 提案：残す
+similar-suggested-discard = 提案：破棄
+similar-toast-accepted = { $count } グループを適用しました
+similar-toast-rejected = { $count } 件のファイルに不採用フラグを付けました
+similar-toast-protected = 評価・フラグ・ラベル・キーワード・編集のある写真は常に残されます。
+# machine-drafted, needs native review
+similar-zoom-already = この写真はすでに { PERCENT(100) } 以上で表示されています
+similar-a11y-member = { $name }：{ $state }、{ $reason }
+similar-hint-list = ↑↓ 選択 · Enter 確認 · A すべて適用 · Tab 切替 · Esc 閉じる
+similar-reason-rated = 評価済み
+similar-reason-flagged = 採用フラグ付き
+similar-reason-labelled = カラーラベル付き
+similar-reason-tagged = キーワード付き
+similar-reason-edited = 編集済み
+similar-reason-original = オリジナル
+similar-reason-raw-original = RAW オリジナル
+similar-reason-highest-resolution = 最高解像度
+similar-reason-deeper-colour = 色深度が高い
+similar-reason-least-compressed = 圧縮が最も少ない
+similar-reason-has-metadata = メタデータあり
+similar-reason-oldest = 最も古いコピー
+similar-reason-sharpest = 最もシャープ
+similar-reason-steadiest = ブレが最も少ない
+similar-reason-best-exposure = 露出が最適
+similar-reason-least-noise = ノイズが最も少ない
+similar-reason-also-good = これも良い
+similar-reason-same-file = 同一ファイル
+similar-reason-derivative = 派生コピー
+similar-reason-rendering-of-raw = RAW の現像
+similar-reason-smaller-copy = 小さいコピー
+similar-reason-shallower-colour = 色深度が低い
+similar-reason-more-compressed = 圧縮が強い
+similar-reason-no-metadata = メタデータなし
+similar-reason-newer-copy = 新しいコピー
+similar-reason-blurrier = ピンぼけ
+similar-reason-motion-blur = 手ブレ
+similar-reason-overexposed = 露出オーバー
+similar-reason-underexposed = 露出アンダー
+similar-reason-noisier = ノイズが多い
+similar-reason-lower-resolution = 解像度が低い

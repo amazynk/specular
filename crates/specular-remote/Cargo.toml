@@ -1,0 +1,24 @@
+[package]
+name = "specular-remote"
+description = "Remote sources for Specular: HTTPS client with ranges, retries and cancellation, a bounded disk cache, an in-memory LRU and remote files that read like local ones"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+# Sync HTTP/1.1 client with a keep-alive pool, rustls (ring) and no async runtime; the system
+# trust store through rustls-platform-verifier so hospital CAs work. No OpenSSL.
+ureq = { version = "3.4", default-features = false, features = ["rustls", "platform-verifier", "gzip"] }
+blake3 = "1"
+parking_lot = "0.12"
+fastrand = "2"
+# SigV4 request signing for S3 (RustCrypto).
+hmac = "0.13"
+sha2 = "0.11"
+
+[lints]
+workspace = true

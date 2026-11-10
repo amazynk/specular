@@ -1,0 +1,14 @@
+[package]
+name = "specular-spm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Scanning-probe decoders for Specular: Gwyddion .gwy (GWYP and the older GWYO containers, data-field channels with their units) and Igor Pro binary waves .ibw (versions 1, 2, 3 and 5, up to four dimensions, scaling, units and wave notes), Bruker Nanoscope (.spm and numbered files), Nanonis .sxm, JPK .jpk images and NT-MDT .mdt; planes as f32"
+
+[dependencies]
+specular-em = { path = "../specular-em" }
+thiserror = "2"
+
+[lints]
+workspace = true

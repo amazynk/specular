@@ -1,0 +1,18 @@
+[package]
+name = "specular-brotli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Brotli (RFC 7932) decompression for Specular: whole-buffer, size-capped, for JPEG XL `brob` boxes"
+
+[dependencies]
+thiserror = "2"
+
+[dev-dependencies]
+# Upstream encoder and decoder, used only as test and benchmark oracles.
+brotli = "8"
+brotli-decompressor = "5"
+
+[lints]
+workspace = true

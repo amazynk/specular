@@ -1,0 +1,32 @@
+[package]
+name = "specular-medvol"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Medical research volumes for Specular: NIfTI-1 and NIfTI-2 (.nii, .nii.gz, .hdr/.img pairs), Analyze 7.5, NRRD (.nrrd, detached .nhdr; raw, gzip, bzip2, ascii, hex), MetaImage (.mha, .mhd; zlib), FreeSurfer MGH/MGZ, MINC1/MINC2 (.mnc) and industrial CT (Zeiss Xradia TXM/TXRM, Amira .am, Bruker SkyScan, Nikon X-Tek, Volume Graphics .vgi, headerless .raw/.vol), Zeiss Cirrus OCT raw .img exports, and CCP4/MRC maps and Gaussian cube files through specular-em, read into one volume type with patient (LPS) geometry"
+
+[dependencies]
+thiserror = "2"
+specular-core = { path = "../../specular-core" }
+# Own inflate (gzip / zlib voxel data).
+specular-png = { path = "../specular-png" }
+# Own bzip2 (NRRD `encoding: bzip2`).
+specular-xcf = { path = "../specular-xcf" }
+# CCP4 / MRC maps and Gaussian cube files, as volumes.
+specular-em = { path = "../specular-em" }
+# MINC2 (HDF5) and MINC1 (NetCDF classic) containers.
+specular-hdf5 = { path = "../specular-hdf5" }
+specular-netcdf = { path = "../specular-netcdf" }
+# Zeiss Xradia compound files.
+specular-cfb = { path = "../specular-cfb" }
+# SkyScan reconstruction slices (BMP, PNG, TIFF), decoded in parallel.
+specular-bitmap = { path = "../specular-bitmap" }
+specular-tiff = { path = "../specular-tiff" }
+rayon = "1.11"
+
+[dev-dependencies]
+specular-hdf5 = { path = "../specular-hdf5", features = ["writer"] }
+
+[lints]
+workspace = true

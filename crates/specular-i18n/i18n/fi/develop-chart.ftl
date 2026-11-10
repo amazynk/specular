@@ -1,0 +1,71 @@
+# Specular — Kehitys: kameraprofiili ja värikartasta tehdyt kameraprofiilit.
+
+develop-input-profile = Kameraprofiili
+develop-input-profile-auto = Kameran vakio
+develop-input-profile-matrix = Vain matriisi
+develop-input-profile-file = Profiilitiedosto…
+develop-input-profile-named = Tiedosto: { $name }
+develop-input-profile-in-use = Käytössä { $name }.
+develop-input-profile-changed = Käytössä { $name }. Tiedosto on muuttunut valinnan jälkeen.
+develop-input-profile-missing = Profiilitiedosto puuttuu. Käytetään kameran matriisia.
+develop-input-profile-unusable = Profiilitiedostoa ei voi käyttää: { $reason }. Käytetään kameran matriisia.
+develop-input-profile-dialog = Valitse kameraprofiili
+develop-input-profile-kind = DNG-kameraprofiilit
+
+develop-chart-start = Tee profiili värikartasta…
+develop-chart-title = Profiili värikartasta
+develop-chart-kind = Kartta
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Viite
+develop-chart-ref-load = Lataa tiedosto…
+develop-chart-hint-xrite = Lataa kartan viitetiedosto (CGATS-teksti). Se tulee kartan mukana tai löytyy X-Riten sivuilta kartan painokselle.
+develop-chart-hint-it8 = Lataa testikarttasi viitetiedosto. Jokaisella erällä on omansa valmistajalta.
+develop-chart-spyder = SpyderCHECKR ei ole tuettu: sen väriarvot ovat Datacolorin.
+develop-chart-step-reference = Valitse kartta ja lataa sen viitetiedosto.
+develop-chart-step-corner = Napsauta kohteen { $name } keskeltä ({ $number }/4).
+develop-chart-measuring = Karttaa mitataan…
+develop-chart-step-save = Tallenna profiili tai merkitse kulmat uudelleen.
+develop-chart-corner-dark-skin = tumma iho (ylhäällä vasemmalla)
+develop-chart-corner-bluish-green = sinivihreä (ylhäällä oikealla)
+develop-chart-corner-black = musta (alhaalla oikealla)
+develop-chart-corner-white = valkoinen (alhaalla vasemmalla)
+
+develop-chart-ref-too-large = Tiedosto on liian suuri viitetiedostoksi.
+develop-chart-ref-not-cgats = Ei CGATS-viitetiedosto.
+develop-chart-ref-no-ids = Tiedostossa ei ole ruutujen nimiä.
+develop-chart-ref-no-colour = Tiedostossa ei ole L*a*b*- tai XYZ-arvoja.
+develop-chart-ref-bad-row = Tiedoston rivi { $row } on vioittunut.
+develop-chart-ref-count = Tiedosto ilmoittaa { $declared } ruutua, mutta niitä on { $found }.
+develop-chart-ref-duplicate = Ruutu { $id } on tiedostossa kahdesti.
+develop-chart-ref-illuminant = Arvot ovat valolle { $name }. Tarvitaan D50 tai D65.
+develop-chart-ref-wrong-chart = Tiedostossa on { $found } ruutua. Tässä kartassa on { $expected }.
+develop-chart-ref-names = Ruutujen nimet eivät sovi tähän karttaan.
+develop-chart-ref-corner = Kulmaruutu { $id } puuttuu tiedostosta.
+develop-chart-ref-unreadable = Tiedostoa ei voi lukea: { $reason }
+develop-chart-ref-dialog = Valitse kartan viitetiedosto
+develop-chart-ref-kind = Värikarttojen viitetiedostot
+
+develop-chart-not-found = Karttaa ei löytynyt siitä. Merkitse kulmat uudelleen.
+develop-chart-too-few = Vain { $count } ruutua kelpaa. Valaise kartta tasaisesti ja vältä heijastuksia.
+develop-chart-no-greys = Yksikään harmaa ruutu ei kelpaa. Valota niin, etteivät harmaat pala puhki.
+develop-chart-degenerate = Ruudut ovat liian samanlaisia profiilin tekemiseen.
+
+develop-chart-report-after = ΔE2000 profiililla: keskiarvo { $mean }, mediaani { $median }, suurin { $max }
+develop-chart-report-before = Ennen: keskiarvo { $mean }, mediaani { $median }, suurin { $max }
+develop-chart-report-cv = Tarkistettu sovituksen ulkopuolisilla ruuduilla: keskiarvo { $mean }
+develop-chart-left-out = Jätetty pois: { $id } ({ $why })
+develop-chart-left-clipped = puhki palanut
+develop-chart-left-uneven = heijastus tai pöly
+develop-chart-left-outside = kuvan ulkopuolella
+develop-chart-uneven-light = Harmaat vaihtelevat { PERCENT($percent) }: valo voi olla epätasainen.
+develop-chart-use-camera = Käytä kameran { $camera } kuviin
+develop-chart-again = Merkitse uudelleen
+develop-chart-save = Tallenna…
+develop-chart-close = Sulje
+develop-chart-save-title = Tallenna kameraprofiili
+develop-chart-default-name = Karttaprofiili { $camera }
+develop-chart-saved = { $name } tallennettiin nimellä { $file }.
+develop-chart-save-failed = Profiilia ei voi tallentaa: { $reason }

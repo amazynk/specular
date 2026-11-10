@@ -1,0 +1,6 @@
+points 732
+stride 1
+kept 732
+phase -1 - not_indexed
+phase 1 622 Ti
+phase 2 432 Ir

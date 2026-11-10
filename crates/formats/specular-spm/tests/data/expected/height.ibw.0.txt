@@ -1,0 +1,9 @@
+size	8	5	3
+planes	0	1	2
+axis	0	2e-08	0.0	m
+axis	1	2e-08	1e-07	m
+axis	2	1.0	0.0	
+label	0	HeightRetrace
+label	1	AmplitudeRetrace
+label	2	PhaseRetrace
+unit	m

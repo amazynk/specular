@@ -1,0 +1,26 @@
+{volume1}
+[representation]
+size = 6 4 3
+datatype = unsigned integer
+datarange = 0 65535
+bitsperelement = 16
+[file1]
+SkipHeader = 16
+FileFormat = raw
+Size = 6 4 3
+Name = C:\exports\vgi_u16.raw
+Datatype = unsigned integer
+datarange = 0 65535
+BitsPerElement = 16
+Endian = big
+{volumeprimitive12}
+[geometry]
+status = visible
+relativeposition = 0 0 0
+position = 0 0 0
+resolution = 0.02 0.02 0.03
+scale = 1 1 1
+center = 0 0 0
+unit = mm
+[description]
+text = test part

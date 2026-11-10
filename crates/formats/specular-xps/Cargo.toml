@@ -1,0 +1,30 @@
+[package]
+name = "specular-xps"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "XPS and OpenXPS (ECMA-388) fixed documents for Specular: own OPC/ZIP reader, FixedPage markup rendered with vello_cpu"
+
+[dependencies]
+# The nesting pre-scan in front of roxmltree, which recurses per element.
+specular-limits = { path = "../../specular-limits" }
+# The CPU rasteriser hayro (PDF) already uses, with the same features: paths, gradients, image
+# paints, clip and mask layers. kurbo, peniko and color come re-exported from it.
+vello_cpu = { version = "0.3", default-features = false, features = ["std", "png", "u8_pipeline"] }
+# Glyph outlines and metrics (the text stack's font reader, as specular-vector uses).
+skrifa = "0.44"
+roxmltree = "0.21"
+# Own DEFLATE for ZIP members.
+specular-png = { path = "../specular-png" }
+# The bundled UI font: the face for text whose font is missing.
+specular-theme = { path = "../../specular-theme" }
+thiserror = "2"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }  # small-stack hostile tests
+# The xps-render example decodes JPEG images for the oracle run (the app uses its registry).
+specular-jpeg = { path = "../specular-jpeg" }

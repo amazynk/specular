@@ -1,0 +1,14 @@
+[package]
+name = "specular-cineform"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own decoder for GoPro CineForm (CFHD) video: YUV 4:2:2, RGB, RGBA and Bayer wavelet frames"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+
+[lints]
+workspace = true

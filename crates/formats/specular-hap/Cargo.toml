@@ -1,0 +1,15 @@
+[package]
+name = "specular-hap"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own decoder for Vidvox HAP video (HAP, HAP Alpha, HAP Q, HAP Q Alpha, HAP R): Snappy-chunked BCn texture frames to RGBA"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-texture = { path = "../specular-texture" }
+rayon = "1.11"
+
+[lints]
+workspace = true

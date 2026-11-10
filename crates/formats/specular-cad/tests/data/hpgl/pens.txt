@@ -1,0 +1,20 @@
+format HP-GL/2 units 4 pcl false pens [1, 2, 3, 4, 9] paper None name None lwdisplay true
+layer "Pen 1" fg lw 364 items 5
+layer "Pen 2" #0000ff lw 70 items 1
+layer "Pen 3" #8000ff lw 18 items 1
+layer "Pen 4" #ffff00 lw 364 items 1
+layer "Pen 9" #8000ff lw 35 items 1
+linetype "LT 2" [0.5 -0.5]
+linetype "LT 4" [0.8 -0.1 0 -0.1]
+linetype "LT 5" [0.1 -0.2 0.4 -0.3]
+counts CR=1 IN=1 LA=1 LT=5 NP=1 PC=2 PD=9 PU=9 PW=3 SP=5 TR=1 UL=1 WU=2
+sheet "Page 1" extents 0 0 25 40
+  L1 #0000ff stroke w70 M0,0 L25,0
+  L2 #8000ff stroke w18 M0,5 L25,5
+  L4 #8000ff stroke w35 M0,10 L25,10
+  L3 #ffff00 stroke w364 M0,15 L25,15
+  L0 fg stroke w364 dash0x14.55 M0,20 L25,20
+  L0 fg stroke w364 dash1x2 M0,25 L25,25
+  L0 fg stroke w364 dash2x14.55 M0,30 L25,30
+  L0 fg stroke w364 M0,35 L25,35
+  L0 fg stroke w364 dash2x14.55 M0,40 L25,40

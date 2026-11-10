@@ -1,0 +1,1589 @@
+# Models the Local AI pack offers (DESIGN.md "Local AI pack").
+#
+# Nothing here downloads by default. Per feature the user
+# picks which model to download and use in the model manager (Settings › Local AI); each
+# offer shows its size, licence, training data (and whether its terms are stated) and the
+# host it comes from. A feature's models fill up to three slots (tiers: small, standard,
+# large; the files of one slot install together, a file several slots share lists them
+# all), or are add-ons beside it (OCR script packs). Every URL is pinned to a commit; sha256
+# and size are of that file, checked on download.
+#
+# The format (specular_ai::manifest), one [[model]] table per file to download:
+#
+#   schema = 3
+#
+#   [[model]]
+#   feature     = "search"          # search | text | culling | people | speech | masks |
+#                                   # denoise | remove | depth
+#   tier        = "standard"        # small | standard | large, or an array of them
+#   id          = "example-embed"   # [a-z0-9._-], unique in the manifest
+#   version     = "1"
+#   role        = "image-encoder"   # what the feature uses it for
+#   urls        = ["https://…"]     # mirrors, tried in order (https:// only; file:// for tests)
+#   sha256      = "<64 hex digits>"
+#   size        = 123456789         # bytes
+#   licence     = "Apache-2.0"      # SPDX expression
+#   licence_url = "https://…"
+#   placeholder = false             # true: a format example, never offered to users
+#
+#   [model.runtime]
+#   format           = "safetensors" # file format downloaded (spm: a SentencePiece model;
+#                                    # txt: BPE merges; pt: a PyTorch checkpoint, converted)
+#   arch             = "siglip"      # network family the runtime builds: siglip | pecore
+#   min_memory_mb    = 512           # memory the loaded model needs
+#   gpu              = "optional"    # required | optional | none
+#   input            = 256           # thumbnail side the model takes (pixels)
+#   dims             = 768           # embedding size, for models that give one
+#   norm             = "inception"   # input normalisation: openai | inception
+#   mmacs            = 23409         # millions of multiply-adds per photo
+#   convert          = "f16"         # converted after the hash check, original deleted
+#   converted_sha256 = "<64 hex>"    # the converted file's hash, when pinned
+#
+# and one [[choice]] per model the user can pick (what the model manager shows):
+#
+#   [[choice]]
+#   feature    = "search"
+#   tier       = "large"            # its slot; or addon = "<id>" for an add-on
+#   name       = "SigLIP 2 B/16"    # the model's own name, shown as it is
+#   default    = true               # the feature's default (one per feature)
+#   languages  = "multilingual"     # multilingual | english | a script id (OCR)
+#   hint       = "faster"           # optional: faster | closed-eyes | small-faces
+#   data       = "WebLI"            # training data as the publisher names it ("" unnamed)
+#   data_terms = "unstated"         # unstated | stated | research (research-only datasets)
+#   coming     = true               # shown, not installable yet (a later lane runs it)
+#   size, licence, licence_url, host  # a coming choice only (an available one's come from
+#                                     # its models); size is approximate until pinned
+#
+# Search: SigLIP 2 image-text encoders (google/siglip2-base-*, Apache-2.0; WebLI, terms not
+# stated), run by specular-infer (specular_infer::siglip), with the Gemma SentencePiece
+# tokenizer shipped in the same Apache-2.0 repo (treated as
+# Apache-2.0). The f32 download (1.5 GB) is converted to f16 on this computer (about
+# 755 MB) and the original deleted. Meta's PE Core S16 (facebook/PE-Core-S16-384,
+# Apache-2.0; training data not named), English only, run by specular_infer::pecore: its
+# PyTorch checkpoint is read without running code (specular_infer::pt) and converted to an
+# f16 safetensors file (176 MB); CLIP's BPE merges come from timm's Apache-2.0 copy of the
+# model (the same merges Meta's code ships).
+#
+#   small     SigLIP 2 B/32 at 256 px      1,507 MB download    5.7 GMACs / photo
+#   standard  PE Core S16 at 384 px          349 MB download   15.7 GMACs / photo, English
+#   large     SigLIP 2 B/16 at 256 px      1,501 MB download   23.4 GMACs / photo (default)
+
+schema = 3
+
+[[model]]
+feature = "search"
+tier = ["small", "large"]
+id = "gemma-sentencepiece"
+version = "1"
+role = "tokenizer"
+urls = ["https://huggingface.co/google/siglip2-base-patch16-256/resolve/3f9f96cb90da5dbc758b01813f2f6f1aee24c1ab/tokenizer.model"]
+sha256 = "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2"
+size = 4241003
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/google/siglip2-base-patch16-256/blob/3f9f96cb90da5dbc758b01813f2f6f1aee24c1ab/README.md"
+
+[model.runtime]
+format = "spm"
+min_memory_mb = 64
+gpu = "none"
+
+[[model]]
+feature = "search"
+tier = "small"
+id = "siglip2-b32-256"
+version = "1"
+role = "image-text-encoder"
+urls = ["https://huggingface.co/google/siglip2-base-patch32-256/resolve/94dffa8cb1179de3e03f091dbc3917e5d5a9ae84/model.safetensors"]
+sha256 = "7d241bb3becad218f211f480487f491df4f8c0a472ecf7afdec5615815a301f1"
+size = 1507473288
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/google/siglip2-base-patch32-256/blob/94dffa8cb1179de3e03f091dbc3917e5d5a9ae84/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "siglip"
+min_memory_mb = 900
+gpu = "optional"
+input = 256
+dims = 768
+norm = "inception"
+mmacs = 5743
+convert = "f16"
+converted_sha256 = "aa1bd9a768ef5e7bf715664dfdfaaab00fb94cb336cec413f657522d37512e84"
+
+[[model]]
+feature = "search"
+tier = "large"
+id = "siglip2-b16-256"
+version = "1"
+role = "image-text-encoder"
+urls = ["https://huggingface.co/google/siglip2-base-patch16-256/resolve/3f9f96cb90da5dbc758b01813f2f6f1aee24c1ab/model.safetensors"]
+sha256 = "6125cacc01fa93bdc98a0c5101cefcd69b2ed1f8ab4f38d86f4ad5984f5dc863"
+size = 1500985224
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/google/siglip2-base-patch16-256/blob/3f9f96cb90da5dbc758b01813f2f6f1aee24c1ab/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "siglip"
+min_memory_mb = 1000
+gpu = "optional"
+input = 256
+dims = 768
+norm = "inception"
+mmacs = 23409
+convert = "f16"
+converted_sha256 = "d9ea4a499c4a1814be273514e23a3219c8030ad9b60261d471f95c7358d744ae"
+
+[[model]]
+feature = "search"
+tier = "standard"
+id = "clip-bpe-merges"
+version = "1"
+role = "tokenizer"
+urls = ["https://huggingface.co/timm/PE-Core-S-16-384/resolve/3249a38eb1c432ec19231c6fe1774acb6a4e4efe/merges.txt"]
+sha256 = "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+size = 524619
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/timm/PE-Core-S-16-384/blob/3249a38eb1c432ec19231c6fe1774acb6a4e4efe/README.md"
+
+[model.runtime]
+format = "txt"
+min_memory_mb = 16
+gpu = "none"
+
+[[model]]
+feature = "search"
+tier = "standard"
+id = "pe-core-s16-384"
+version = "1"
+role = "image-text-encoder"
+urls = ["https://huggingface.co/facebook/PE-Core-S16-384/resolve/aabf3b990573d8114ae6e501b4697106beac8f19/PE-Core-S16-384.pt"]
+sha256 = "ccc8340a14ea3ebf557a288ba4ed4a5bc026ab98bb4da42fc745d44b4c5c5ffb"
+size = 348852712
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/facebook/PE-Core-S16-384/blob/aabf3b990573d8114ae6e501b4697106beac8f19/README.md"
+
+[model.runtime]
+format = "pt"
+arch = "pecore"
+# Measured: 226 MB resident at peak (loaded on the CPU, 8 photos, 8 queries;
+# specular-ai tests/pecore.rs real_pecore_peak_memory), plus a quarter.
+min_memory_mb = 280
+gpu = "optional"
+input = 384
+dims = 512
+norm = "inception"
+mmacs = 15662
+convert = "f16"
+converted_sha256 = "9fa562d574fe368e9efe8c9eacd71e376efbb562fe85d94a33985d6f49627d0f"
+
+[[choice]]
+feature = "search"
+tier = "large"
+name = "SigLIP 2 B/16"
+default = true
+languages = "multilingual"
+data = "WebLI"
+
+[[choice]]
+feature = "search"
+tier = "small"
+name = "SigLIP 2 B/32"
+languages = "multilingual"
+hint = "faster"
+data = "WebLI"
+
+[[choice]]
+feature = "search"
+tier = "standard"
+name = "PE Core S16"
+languages = "english"
+data = ""
+
+# Text in images (OCR): PaddleOCR's text detector and line recognisers (Apache-2.0; training
+# data not named, terms not stated) run by specular-infer (specular_infer::ocr), and
+# Tesseract's LSTM (tessdata_best, Apache-2.0; synthetic lines rendered by Google, terms not
+# stated) for Hebrew, which no PaddleOCR model reads. Each Paddle model is three files from
+# its Hugging Face safetensors export: the weights (converted to f16 here), config.json (the
+# architecture) and preprocessor_config.json (the character list). The detector is shared by
+# both sizes; the script recognisers are add-ons installed beside a size.
+#
+#   small     PP-OCRv6 tiny   detector 9.9 MB + recogniser 4.5 MB (Chinese and Latin script)
+#   standard  PP-OCRv6 small  detector 9.9 MB + recogniser 21 MB (Chinese, Japanese, Latin)
+#   both      PP-OCRv5 mobile detector 14 MB (used where v6 can't run on the GPU: on the CPU
+#             it is about a quarter faster) and PP-LCNet x1.0 text-line orientation 6.8 MB
+#             (upside-down lines turned before reading)
+#   add-ons   PP-OCRv5 mobile recognisers (22-28 MB each), Tesseract Hebrew (3.7 MB)
+
+[[model]]
+feature = "text"
+tier = ["small", "standard"]
+id = "ppocrv6-small-det"
+version = "1"
+role = "detector"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_safetensors/resolve/eae2ee920a39fb3087637d3dbb58df1896ec1f24/model.safetensors"]
+sha256 = "89a96a8adc4e9cd0c994098edc76022e496d35844392562b4694c8fbc583f2da"
+size = 9938124
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_safetensors/blob/eae2ee920a39fb3087637d3dbb58df1896ec1f24/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 400
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "210492f7df8c1d879cc1e02ba78a356ceba28380c214ebd47faeed549c348255"
+
+[[model]]
+feature = "text"
+tier = ["small", "standard"]
+id = "ppocrv6-small-det-config"
+version = "1"
+role = "detector-config"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_safetensors/resolve/eae2ee920a39fb3087637d3dbb58df1896ec1f24/config.json"]
+sha256 = "b42d76ab6325d5234e1afc9987b73dc592b0ec8437c8a29d46ba6209b79252eb"
+size = 1096
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_safetensors/blob/eae2ee920a39fb3087637d3dbb58df1896ec1f24/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+tier = ["small", "standard"]
+id = "ppocrv5-mobile-det"
+version = "1"
+role = "detector-fallback"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv5_mobile_det_safetensors/resolve/c5041d225cf951ff06900ab81a3c7d543c45e2ad/model.safetensors"]
+sha256 = "c49eea87d579f931c79bf29ac1ffb1b3166f86f6811b8e46b982bb66e3f0f287"
+size = 14330820
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv5_mobile_det_safetensors/blob/c5041d225cf951ff06900ab81a3c7d543c45e2ad/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 300
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "1b10a633262af9aaefb030b1f50741a2ee38e1295e2171f2b1b5b44454064528"
+
+[[model]]
+feature = "text"
+tier = ["small", "standard"]
+id = "ppocrv5-mobile-det-config"
+version = "1"
+role = "detector-fallback-config"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv5_mobile_det_safetensors/resolve/c5041d225cf951ff06900ab81a3c7d543c45e2ad/config.json"]
+sha256 = "f4f66922bfb21ce8be118fee59f8f7b0fddbfed950041d45dd234f92c8862acd"
+size = 423
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv5_mobile_det_safetensors/blob/c5041d225cf951ff06900ab81a3c7d543c45e2ad/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+tier = ["small", "standard"]
+id = "pplcnet-textline-ori"
+version = "1"
+role = "orientation"
+urls = ["https://huggingface.co/PaddlePaddle/PP-LCNet_x1_0_textline_ori_safetensors/resolve/9f1b0e272ba4e5d89aef7cf52998c6646862c5a7/model.safetensors"]
+sha256 = "e7d580a52aeeff4ee4f03f2ccfe897194e2fc9c8b18ff65ab0d4e46f868a5373"
+size = 6759480
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-LCNet_x1_0_textline_ori_safetensors/blob/9f1b0e272ba4e5d89aef7cf52998c6646862c5a7/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 40
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "5e6213abb598c061f5b650380c3fdf81ef6d1199f8e15f83d1276ca60a54731a"
+
+[[model]]
+feature = "text"
+tier = ["small", "standard"]
+id = "pplcnet-textline-ori-config"
+version = "1"
+role = "orientation-config"
+urls = ["https://huggingface.co/PaddlePaddle/PP-LCNet_x1_0_textline_ori_safetensors/resolve/9f1b0e272ba4e5d89aef7cf52998c6646862c5a7/config.json"]
+sha256 = "44546b91cf53dcf9da80c5b46825632d5da5a9a5730ff567d52d4adc4999b702"
+size = 652
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-LCNet_x1_0_textline_ori_safetensors/blob/9f1b0e272ba4e5d89aef7cf52998c6646862c5a7/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+tier = "standard"
+id = "ppocrv6-small-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors/resolve/fe049fb103f57443fe8840c54ed06b702f3c1de5/model.safetensors"]
+sha256 = "f65a332afe5aa663f0b9d5706f4ae8457b5b4058a842d5c1eb22df505c27d642"
+size = 21204736
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors/blob/fe049fb103f57443fe8840c54ed06b702f3c1de5/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "4f047835eebe4c4adae7c9bfd694796e014836e92f662473fd7ef35873b12a1f"
+
+[[model]]
+feature = "text"
+tier = "standard"
+id = "ppocrv6-small-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors/resolve/fe049fb103f57443fe8840c54ed06b702f3c1de5/config.json"]
+sha256 = "8693fd8485e8543e13d0f6dde3891a3f4af9a47fc4e3a391fbed71f8015c899e"
+size = 1083
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors/blob/fe049fb103f57443fe8840c54ed06b702f3c1de5/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+tier = "standard"
+id = "ppocrv6-small-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors/resolve/fe049fb103f57443fe8840c54ed06b702f3c1de5/preprocessor_config.json"]
+sha256 = "2b24fa36f548893f26a931cf44f1a1a6b2b14ed7e2f8f8e28e6848801a8278db"
+size = 206177
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors/blob/fe049fb103f57443fe8840c54ed06b702f3c1de5/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+tier = "small"
+id = "ppocrv6-tiny-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors/resolve/6f2d2d51b4b4226d7a2329a02f416f4994106f3a/model.safetensors"]
+sha256 = "cc3892aba0fbd89afbf6a76d8b7817bb58802668be7a1384ca761ce65612f3f7"
+size = 4474264
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors/blob/6f2d2d51b4b4226d7a2329a02f416f4994106f3a/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 60
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "3e8f3fff793eb6a53d862206905814e32ef120c9f6f42fb3693a3ae5de07089e"
+
+[[model]]
+feature = "text"
+tier = "small"
+id = "ppocrv6-tiny-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors/resolve/6f2d2d51b4b4226d7a2329a02f416f4994106f3a/config.json"]
+sha256 = "d8a130cc18e1833aa5f352e057b5cd0e254c46efc5709823f73d53a8b5a42969"
+size = 788
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors/blob/6f2d2d51b4b4226d7a2329a02f416f4994106f3a/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+tier = "small"
+id = "ppocrv6-tiny-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors/resolve/6f2d2d51b4b4226d7a2329a02f416f4994106f3a/preprocessor_config.json"]
+sha256 = "196f42619e2e9e0e93a6dc1a622fa1c664628e1c63ce116b376275b3e192125f"
+size = 75758
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors/blob/6f2d2d51b4b4226d7a2329a02f416f4994106f3a/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "arabic"
+id = "ppocrv5-arabic-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/arabic_PP-OCRv5_mobile_rec_safetensors/resolve/4941f944a2d298f4cefa46c894e7ef129ba84c39/model.safetensors"]
+sha256 = "eb7ed1ed54b54955a03f7d85f6dbc625cc9fddd9c42ff3571d722ffc0ae5f059"
+size = 22615572
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/arabic_PP-OCRv5_mobile_rec_safetensors/blob/4941f944a2d298f4cefa46c894e7ef129ba84c39/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "9af2c5eff165d7363060b492aba95644c20454582355eeb37477204cf2dba7f9"
+
+[[model]]
+feature = "text"
+addon = "arabic"
+id = "ppocrv5-arabic-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/arabic_PP-OCRv5_mobile_rec_safetensors/resolve/4941f944a2d298f4cefa46c894e7ef129ba84c39/config.json"]
+sha256 = "a16ce65d6c7f308446e8190e0709a97190b0978b4f44c9dcac7da6721d94fa79"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/arabic_PP-OCRv5_mobile_rec_safetensors/blob/4941f944a2d298f4cefa46c894e7ef129ba84c39/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "arabic"
+id = "ppocrv5-arabic-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/arabic_PP-OCRv5_mobile_rec_safetensors/resolve/4941f944a2d298f4cefa46c894e7ef129ba84c39/preprocessor_config.json"]
+sha256 = "20a387443ab993ff6eec0b178da49834ab8b88e85395764e5bffb8beb11e4151"
+size = 7935
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/arabic_PP-OCRv5_mobile_rec_safetensors/blob/4941f944a2d298f4cefa46c894e7ef129ba84c39/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "korean"
+id = "ppocrv5-korean-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_safetensors/resolve/6ef525a357645ce46495c7ed1fef622c4e009e7a/model.safetensors"]
+sha256 = "d636a01a66c6efd9f344865fd43111f8d12098131e4d416c6c7488e1022fb162"
+size = 28035900
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_safetensors/blob/6ef525a357645ce46495c7ed1fef622c4e009e7a/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "0bcc969c6e5df321e71ca9d7ad45b7ce15e430ee16f3c499daa29d4a689801d2"
+
+[[model]]
+feature = "text"
+addon = "korean"
+id = "ppocrv5-korean-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_safetensors/resolve/6ef525a357645ce46495c7ed1fef622c4e009e7a/config.json"]
+sha256 = "96481635294a6f65675f454e45367e43e375a559949f7dfddbe5d72cbd343404"
+size = 2088
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_safetensors/blob/6ef525a357645ce46495c7ed1fef622c4e009e7a/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "korean"
+id = "ppocrv5-korean-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_safetensors/resolve/6ef525a357645ce46495c7ed1fef622c4e009e7a/preprocessor_config.json"]
+sha256 = "b2ec2b91bcdbe548bee7aae5952921a36377caececf74705280df82dbb637d3d"
+size = 131403
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_safetensors/blob/6ef525a357645ce46495c7ed1fef622c4e009e7a/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "cyrillic"
+id = "ppocrv5-cyrillic-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/cyrillic_PP-OCRv5_mobile_rec_safetensors/resolve/365e51a40970de46b7f2cba9cfc2fe529d2575cc/model.safetensors"]
+sha256 = "228aa1232b9ed1d8a0d08afacc7496f3f364282b486fc326f5719b2fa047c305"
+size = 22665424
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/cyrillic_PP-OCRv5_mobile_rec_safetensors/blob/365e51a40970de46b7f2cba9cfc2fe529d2575cc/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "496571c8c3180f78e64643b56eadd31764b0fe9bda918f2a5bfd72da50b4aa2c"
+
+[[model]]
+feature = "text"
+addon = "cyrillic"
+id = "ppocrv5-cyrillic-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/cyrillic_PP-OCRv5_mobile_rec_safetensors/resolve/365e51a40970de46b7f2cba9cfc2fe529d2575cc/config.json"]
+sha256 = "6d4be67342d159800fa7f3c8d68f251e6e579d6fa2fcc61fc1cefba8c4b5c6bf"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/cyrillic_PP-OCRv5_mobile_rec_safetensors/blob/365e51a40970de46b7f2cba9cfc2fe529d2575cc/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "cyrillic"
+id = "ppocrv5-cyrillic-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/cyrillic_PP-OCRv5_mobile_rec_safetensors/resolve/365e51a40970de46b7f2cba9cfc2fe529d2575cc/preprocessor_config.json"]
+sha256 = "b22843f37ade911056a16ae926e062ba53eb53a6e2f395003c4231d2a4dc48a8"
+size = 9068
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/cyrillic_PP-OCRv5_mobile_rec_safetensors/blob/365e51a40970de46b7f2cba9cfc2fe529d2575cc/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "eslav"
+id = "ppocrv5-eslav-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/eslav_PP-OCRv5_mobile_rec_safetensors/resolve/feb3757f69257ed5320044604217032a7b90b789/model.safetensors"]
+sha256 = "10736dfff02329facb09dbbd3477c85d722b8485961c2736ba3f196ac96e70bf"
+size = 22504228
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/eslav_PP-OCRv5_mobile_rec_safetensors/blob/feb3757f69257ed5320044604217032a7b90b789/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "3c135d7f68a371ee29a69c9ae7e609fc4f92e70befe6867783ad4b79a4ada033"
+
+[[model]]
+feature = "text"
+addon = "eslav"
+id = "ppocrv5-eslav-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/eslav_PP-OCRv5_mobile_rec_safetensors/resolve/feb3757f69257ed5320044604217032a7b90b789/config.json"]
+sha256 = "ac924b9044d133ce249ab884386acdf0eed0a1d13f14f481d65384a9fae40dc8"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/eslav_PP-OCRv5_mobile_rec_safetensors/blob/feb3757f69257ed5320044604217032a7b90b789/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "eslav"
+id = "ppocrv5-eslav-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/eslav_PP-OCRv5_mobile_rec_safetensors/resolve/feb3757f69257ed5320044604217032a7b90b789/preprocessor_config.json"]
+sha256 = "967a5b30e5ef946835c1ba984d871702ee5d9f513e4120047bfa588c1ec13a7c"
+size = 5619
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/eslav_PP-OCRv5_mobile_rec_safetensors/blob/feb3757f69257ed5320044604217032a7b90b789/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "latin"
+id = "ppocrv5-latin-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_safetensors/resolve/47901138f5f32dad06282fa88d2c672fa816d450/model.safetensors"]
+sha256 = "bd390b3cdb176e856ac7feab5f26d8dcaed2d7714a1501eb1fce773eccdc126d"
+size = 22658648
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_safetensors/blob/47901138f5f32dad06282fa88d2c672fa816d450/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "d5b86d765b0c433706de75125d8978eb804cc6c11c5df0f34046adf3e641ec9f"
+
+[[model]]
+feature = "text"
+addon = "latin"
+id = "ppocrv5-latin-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_safetensors/resolve/47901138f5f32dad06282fa88d2c672fa816d450/config.json"]
+sha256 = "5134f6532a92c6d36f8e077deda9d0ea9593a9eb2267f76d34b6bc944d63ac98"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_safetensors/blob/47901138f5f32dad06282fa88d2c672fa816d450/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "latin"
+id = "ppocrv5-latin-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_safetensors/resolve/47901138f5f32dad06282fa88d2c672fa816d450/preprocessor_config.json"]
+sha256 = "048983b9bcb8877f8bb2b6f0fa3ac538fd75e3b801f98594b996a0366d280c93"
+size = 8805
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_safetensors/blob/47901138f5f32dad06282fa88d2c672fa816d450/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "greek"
+id = "ppocrv5-greek-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/el_PP-OCRv5_mobile_rec_safetensors/resolve/0d7a6ed5020d57efffb993b7979328481bb04c3b/model.safetensors"]
+sha256 = "4b2d76d32d7b4e7acdd1c9c08bac156a9c2afb4ce9e7c6000c424cca7f116807"
+size = 22425312
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/el_PP-OCRv5_mobile_rec_safetensors/blob/0d7a6ed5020d57efffb993b7979328481bb04c3b/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "f51933b30cda6d0b39baed75e51374dfdef3adaa7ba84b6e80c1dadba539434c"
+
+[[model]]
+feature = "text"
+addon = "greek"
+id = "ppocrv5-greek-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/el_PP-OCRv5_mobile_rec_safetensors/resolve/0d7a6ed5020d57efffb993b7979328481bb04c3b/config.json"]
+sha256 = "b3bc991f5f3df59b7ade54ee6e4bfb9790095b953c099d00335e026f413516ce"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/el_PP-OCRv5_mobile_rec_safetensors/blob/0d7a6ed5020d57efffb993b7979328481bb04c3b/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "greek"
+id = "ppocrv5-greek-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/el_PP-OCRv5_mobile_rec_safetensors/resolve/0d7a6ed5020d57efffb993b7979328481bb04c3b/preprocessor_config.json"]
+sha256 = "ec36342d540e5130d8b02e07fb420ed7d72059ad0d6657669215df7bce7016b3"
+size = 3917
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/el_PP-OCRv5_mobile_rec_safetensors/blob/0d7a6ed5020d57efffb993b7979328481bb04c3b/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "thai"
+id = "ppocrv5-thai-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/th_PP-OCRv5_mobile_rec_safetensors/resolve/4cc4c996b8690bd623683e8d2be06eaf5919584b/model.safetensors"]
+sha256 = "aead64f31f8772532573ee2452d59050cc6b4902b5d18ba99a2679f3afbf8a23"
+size = 22507616
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/th_PP-OCRv5_mobile_rec_safetensors/blob/4cc4c996b8690bd623683e8d2be06eaf5919584b/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "7ea3233e1e7937bdb2195d9b2659b71481f4a198b382566b4da2d1d7242a2452"
+
+[[model]]
+feature = "text"
+addon = "thai"
+id = "ppocrv5-thai-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/th_PP-OCRv5_mobile_rec_safetensors/resolve/4cc4c996b8690bd623683e8d2be06eaf5919584b/config.json"]
+sha256 = "09f418d0a4578706aeeec88e26af006f7caf3ec4c336f98ce68deaee24bea41f"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/th_PP-OCRv5_mobile_rec_safetensors/blob/4cc4c996b8690bd623683e8d2be06eaf5919584b/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "thai"
+id = "ppocrv5-thai-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/th_PP-OCRv5_mobile_rec_safetensors/resolve/4cc4c996b8690bd623683e8d2be06eaf5919584b/preprocessor_config.json"]
+sha256 = "661f968f5d6e1128af11040a8d1d8799cac95ec3bb3c03b5779517fbea1c0231"
+size = 5772
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/th_PP-OCRv5_mobile_rec_safetensors/blob/4cc4c996b8690bd623683e8d2be06eaf5919584b/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "devanagari"
+id = "ppocrv5-devanagari-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/devanagari_PP-OCRv5_mobile_rec_safetensors/resolve/4b1f19893a36d00408b1151460aa1e45afec8903/model.safetensors"]
+sha256 = "7c27e77aa17d5027d7b2705fda120a63573e01f46139eaa94d04abb0158468f7"
+size = 22528912
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/devanagari_PP-OCRv5_mobile_rec_safetensors/blob/4b1f19893a36d00408b1151460aa1e45afec8903/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "6029b9b276da43e07717c7c54f4962a2fe212a89e333e97a4209b9f6485c9bb3"
+
+[[model]]
+feature = "text"
+addon = "devanagari"
+id = "ppocrv5-devanagari-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/devanagari_PP-OCRv5_mobile_rec_safetensors/resolve/4b1f19893a36d00408b1151460aa1e45afec8903/config.json"]
+sha256 = "c512021fa79373c2b37df36691644fb8e635b41ae1fe1aab0c1beb9bce146983"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/devanagari_PP-OCRv5_mobile_rec_safetensors/blob/4b1f19893a36d00408b1151460aa1e45afec8903/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "devanagari"
+id = "ppocrv5-devanagari-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/devanagari_PP-OCRv5_mobile_rec_safetensors/resolve/4b1f19893a36d00408b1151460aa1e45afec8903/preprocessor_config.json"]
+sha256 = "21afdbbf7babfc1033b985b139cfcb43625392d9fe569a1a5ed8b6118c20bf8b"
+size = 6256
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/devanagari_PP-OCRv5_mobile_rec_safetensors/blob/4b1f19893a36d00408b1151460aa1e45afec8903/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "tamil"
+id = "ppocrv5-tamil-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/ta_PP-OCRv5_mobile_rec_safetensors/resolve/d1a8d42f3938fc52e2c88b7ca1b8cb62856820d1/model.safetensors"]
+sha256 = "f4bf5157774957d9cb62686fa56164993d817bcfe2309c2e5587ff79aea6dfb4"
+size = 22502292
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/ta_PP-OCRv5_mobile_rec_safetensors/blob/d1a8d42f3938fc52e2c88b7ca1b8cb62856820d1/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "d9c0d62b090c0e0846d07e241814db46ac050d746da828ad0fc60abf5e4530c5"
+
+[[model]]
+feature = "text"
+addon = "tamil"
+id = "ppocrv5-tamil-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/ta_PP-OCRv5_mobile_rec_safetensors/resolve/d1a8d42f3938fc52e2c88b7ca1b8cb62856820d1/config.json"]
+sha256 = "9529c4aa7f67172ffda2328cba42d5c713e10a1af62b11ee975d8a6cd8a2a900"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/ta_PP-OCRv5_mobile_rec_safetensors/blob/d1a8d42f3938fc52e2c88b7ca1b8cb62856820d1/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "tamil"
+id = "ppocrv5-tamil-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/ta_PP-OCRv5_mobile_rec_safetensors/resolve/d1a8d42f3938fc52e2c88b7ca1b8cb62856820d1/preprocessor_config.json"]
+sha256 = "042baad2fa6d537d0e2261be1dce9d1b5141d9c00977cdecbf4a7a706698a1cd"
+size = 5651
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/ta_PP-OCRv5_mobile_rec_safetensors/blob/d1a8d42f3938fc52e2c88b7ca1b8cb62856820d1/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "telugu"
+id = "ppocrv5-telugu-rec"
+version = "1"
+role = "recognizer"
+urls = ["https://huggingface.co/PaddlePaddle/te_PP-OCRv5_mobile_rec_safetensors/resolve/1949a6f874f1d73559900d0f531847eb7a7b947a/model.safetensors"]
+sha256 = "8981a7984ba6f62f83c19e244cf4123318d777c3d13256d1c20f5b9618f7aa6f"
+size = 22515360
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/te_PP-OCRv5_mobile_rec_safetensors/blob/1949a6f874f1d73559900d0f531847eb7a7b947a/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "paddle-ocr"
+min_memory_mb = 120
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "6ce887c075bd935f4a3c85ff22e0a0aa4a56f1686cf169af32dd01e55ca23542"
+
+[[model]]
+feature = "text"
+addon = "telugu"
+id = "ppocrv5-telugu-rec-config"
+version = "1"
+role = "recognizer-config"
+urls = ["https://huggingface.co/PaddlePaddle/te_PP-OCRv5_mobile_rec_safetensors/resolve/1949a6f874f1d73559900d0f531847eb7a7b947a/config.json"]
+sha256 = "d3972cc67ae894e280d39e771239d179bb971c4e9861852387821bd2cf2c4f06"
+size = 2086
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/te_PP-OCRv5_mobile_rec_safetensors/blob/1949a6f874f1d73559900d0f531847eb7a7b947a/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 1
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "telugu"
+id = "ppocrv5-telugu-rec-chars"
+version = "1"
+role = "recognizer-chars"
+urls = ["https://huggingface.co/PaddlePaddle/te_PP-OCRv5_mobile_rec_safetensors/resolve/1949a6f874f1d73559900d0f531847eb7a7b947a/preprocessor_config.json"]
+sha256 = "57c7332a47e36f499013b5d4e6b8a66bfda769f5a6d5c1863789b8a387601303"
+size = 5948
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/PaddlePaddle/te_PP-OCRv5_mobile_rec_safetensors/blob/1949a6f874f1d73559900d0f531847eb7a7b947a/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 4
+gpu = "none"
+
+[[model]]
+feature = "text"
+addon = "hebrew"
+id = "tesseract-heb"
+version = "1"
+role = "recognizer"
+urls = ["https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/e2aad9b983032bb1beff9133104a67cdbb87ca4d/heb.traineddata"]
+sha256 = "dbaa827aea6bc21215638447f17783a1004987c2d0bf5573d111fee397abdae5"
+size = 3704077
+licence = "Apache-2.0"
+licence_url = "https://github.com/tesseract-ocr/tessdata_best/blob/e2aad9b983032bb1beff9133104a67cdbb87ca4d/LICENSE"
+
+[model.runtime]
+format = "traineddata"
+arch = "tesseract-lstm"
+min_memory_mb = 40
+gpu = "none"
+
+[[choice]]
+feature = "text"
+tier = "standard"
+name = "PP-OCRv6 small"
+default = true
+languages = "cjk-latin"
+
+[[choice]]
+feature = "text"
+tier = "small"
+name = "PP-OCRv6 tiny"
+languages = "zh-latin"
+hint = "faster"
+
+[[choice]]
+feature = "text"
+addon = "arabic"
+name = "PP-OCRv5 Arabic"
+languages = "arabic"
+
+[[choice]]
+feature = "text"
+addon = "korean"
+name = "PP-OCRv5 Korean"
+languages = "korean"
+
+[[choice]]
+feature = "text"
+addon = "cyrillic"
+name = "PP-OCRv5 Cyrillic"
+languages = "cyrillic"
+
+[[choice]]
+feature = "text"
+addon = "eslav"
+name = "PP-OCRv5 East Slavic"
+languages = "eslav"
+
+[[choice]]
+feature = "text"
+addon = "latin"
+name = "PP-OCRv5 Latin"
+languages = "latin"
+
+[[choice]]
+feature = "text"
+addon = "greek"
+name = "PP-OCRv5 Greek"
+languages = "greek"
+
+[[choice]]
+feature = "text"
+addon = "thai"
+name = "PP-OCRv5 Thai"
+languages = "thai"
+
+[[choice]]
+feature = "text"
+addon = "devanagari"
+name = "PP-OCRv5 Devanagari"
+languages = "devanagari"
+
+[[choice]]
+feature = "text"
+addon = "tamil"
+name = "PP-OCRv5 Tamil"
+languages = "tamil"
+
+[[choice]]
+feature = "text"
+addon = "telugu"
+name = "PP-OCRv5 Telugu"
+languages = "telugu"
+
+[[choice]]
+feature = "text"
+addon = "hebrew"
+name = "Tesseract Hebrew"
+languages = "hebrew"
+data = "Synthetic text lines rendered by Google"
+
+# --- Faces -------------------------------------------------------------------
+#
+# Culling: closed eyes from MediaPipe Face Landmarker (a stored zip of BlazeFace short range,
+# FaceMesh V2 and Blendshape V2; each card: Apache-2.0; Google in-house data, "consented
+# images"), run by specular_infer::face::landmarker; blur and exposure need no model.
+# Google re-uploads objects under the same path, so the files are pinned by sha256 (checked
+# 2026-10-31; the report's md5s match).
+#
+# People: BlazeFace full range (Apache-2.0; Google, consented images) finds faces; a
+# recogniser embeds them for grouping, which is off until turned on per library:
+# SFace (OpenCV Zoo, Apache-2.0; upstream trains on research-only face datasets) or AuraFace
+# v1 (Apache-2.0; an unnamed dataset the publisher calls commercial). Only `glintr100.onnx`
+# is taken from the AuraFace repo (its other files are InsightFace's non-commercial models).
+# The detector file serves both sizes.
+#
+#   standard  BlazeFace + SFace      39.8 MB   about 0.9 GMACs per face
+#   large     BlazeFace + AuraFace  261.8 MB   about 24 GMACs per face
+
+[[model]]
+feature = "culling"
+tier = "standard"
+id = "face-landmarker"
+version = "1"
+role = "face-landmarker"
+urls = ["https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"]
+sha256 = "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+size = 3758596
+licence = "Apache-2.0"
+licence_url = "https://storage.googleapis.com/mediapipe-assets/Model%20Card%20Blendshape%20V2.pdf"
+
+[model.runtime]
+format = "task"
+arch = "face-landmarker"
+min_memory_mb = 64
+gpu = "optional"
+input = 2048
+mmacs = 300
+
+[[choice]]
+feature = "culling"
+tier = "standard"
+name = "MediaPipe Face Landmarker"
+default = true
+hint = "closed-eyes"
+data = "Google, consented images"
+data_terms = "stated"
+
+[[model]]
+feature = "people"
+tier = ["standard", "large"]
+id = "blazeface-full-range"
+version = "1"
+role = "face-detector"
+urls = ["https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_full_range/float16/1/blaze_face_full_range.tflite"]
+sha256 = "3698b18f063835bc609069ef052228fbe86d9c9a6dc8dcb7c7c2d69aed2b181b"
+size = 1083786
+licence = "Apache-2.0"
+licence_url = "https://storage.googleapis.com/mediapipe-assets/MediaPipe%20BlazeFace%20Model%20Card%20(Full%20Range).pdf"
+
+[model.runtime]
+format = "tflite"
+arch = "blazeface-full"
+min_memory_mb = 64
+gpu = "optional"
+input = 2048
+mmacs = 250
+
+[[model]]
+feature = "people"
+tier = "standard"
+id = "sface-2021dec"
+version = "1"
+role = "face-recogniser"
+urls = ["https://huggingface.co/opencv/face_recognition_sface/resolve/3d7082438a6e4551e840c9b2bb60b71e8da4b524/face_recognition_sface_2021dec.onnx"]
+sha256 = "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79"
+size = 38696353
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/opencv/face_recognition_sface/blob/3d7082438a6e4551e840c9b2bb60b71e8da4b524/LICENSE"
+
+[model.runtime]
+format = "onnx"
+arch = "sface"
+min_memory_mb = 160
+gpu = "optional"
+input = 112
+dims = 128
+mmacs = 900
+
+[[model]]
+feature = "people"
+tier = "large"
+id = "auraface-v1"
+version = "1"
+role = "face-recogniser"
+urls = ["https://huggingface.co/fal/AuraFace-v1/resolve/af6d057c9b0ec4071d4c49c80e3539258798b609/glintr100.onnx"]
+sha256 = "a7933ea5330113b01c9b60351d8f4c33003f145d8470ac5f0e52ee2effe25c60"
+size = 260694151
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/fal/AuraFace-v1/blob/af6d057c9b0ec4071d4c49c80e3539258798b609/README.md"
+
+[model.runtime]
+format = "onnx"
+arch = "auraface"
+min_memory_mb = 700
+gpu = "optional"
+input = 112
+dims = 512
+mmacs = 24000
+
+[[choice]]
+feature = "people"
+tier = "standard"
+name = "BlazeFace + SFace"
+default = true
+data = "CASIA-WebFace, VGGFace2, MS1MV2"
+data_terms = "research"
+
+[[choice]]
+feature = "people"
+tier = "large"
+name = "BlazeFace + AuraFace"
+
+# Speech to text (generated subtitles): OpenAI's Whisper (weights released under MIT; the
+# Hugging Face copies are tagged Apache-2.0 for base and small, MIT for large-v3 turbo;
+# 680,000 hours of web audio, terms not stated), run by specular-infer
+# (specular_infer::whisper): the encoder on the GPU, the decoder token by token on the CPU.
+# Each size is the Hugging Face safetensors checkpoint and its byte-level BPE vocabulary
+# (vocab.json, read for decoding only). base and small are f32 downloads converted to f16
+# here; large-v3 turbo is f16 already. All read 99 languages (turbo 100) and translate to
+# English (turbo was not trained to translate: it transcribes instead).
+#
+#   small     Whisper base            290 MB download (145 MB kept)    ~48 GMACs / 30 s
+#   standard  Whisper small           967 MB download (484 MB kept)   ~193 GMACs / 30 s
+#   large     Whisper large-v3 turbo  1,618 MB download              ~1,157 GMACs / 30 s
+
+[[model]]
+feature = "speech"
+tier = ["small", "standard"]
+id = "whisper-vocab"
+version = "1"
+role = "vocabulary"
+urls = ["https://huggingface.co/openai/whisper-base/resolve/e37978b90ca9030d5170a5c07aadb050351a65bb/vocab.json"]
+sha256 = "8f680bba319e01a653d2e8a5dbc17a9157179e0576e6ce74ce0c06356c6e24f9"
+size = 835550
+licence = "MIT"
+licence_url = "https://github.com/openai/whisper/blob/6e3be77e1a105e59086e3e21ff5f609fd6fa89a5/LICENSE"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 16
+gpu = "none"
+
+[[model]]
+feature = "speech"
+tier = "small"
+id = "whisper-base"
+version = "1"
+role = "speech-model"
+urls = ["https://huggingface.co/openai/whisper-base/resolve/e37978b90ca9030d5170a5c07aadb050351a65bb/model.safetensors"]
+sha256 = "07cadb9f25677c8d50df603e66a98fbd842cce45047139baeb16e6219a1e807b"
+size = 290403936
+licence = "MIT"
+licence_url = "https://github.com/openai/whisper/blob/6e3be77e1a105e59086e3e21ff5f609fd6fa89a5/LICENSE"
+
+[model.runtime]
+format = "safetensors"
+arch = "whisper"
+min_memory_mb = 400
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "ff54aaca467190504b2383e0722df1d6fa357db6630101b57282228f2c8165f4"
+
+[[model]]
+feature = "speech"
+tier = "standard"
+id = "whisper-small"
+version = "1"
+role = "speech-model"
+urls = ["https://huggingface.co/openai/whisper-small/resolve/973afd24965f72e36ca33b3055d56a652f456b4d/model.safetensors"]
+sha256 = "1d7734884874f1a1513ed9aa760a4f8e97aaa02fd6d93a3a85d27b2ae9ca596b"
+size = 966995080
+licence = "MIT"
+licence_url = "https://github.com/openai/whisper/blob/6e3be77e1a105e59086e3e21ff5f609fd6fa89a5/LICENSE"
+
+[model.runtime]
+format = "safetensors"
+arch = "whisper"
+min_memory_mb = 1000
+gpu = "optional"
+convert = "f16"
+converted_sha256 = "d4d08bc1c212a78bb9f0b1c45cb5387cf314cb82f26c078ae97ab8bd3bc112e0"
+
+[[model]]
+feature = "speech"
+tier = "large"
+id = "whisper-v3-vocab"
+version = "1"
+role = "vocabulary"
+urls = ["https://huggingface.co/openai/whisper-large-v3-turbo/resolve/41f01f3fe87f28c78e2fbf8b568835947dd65ed9/vocab.json"]
+sha256 = "e2aa043ef015641d363d8288e7c241c85e36a5c761fb303598e0710233344387"
+size = 1036558
+licence = "MIT"
+licence_url = "https://huggingface.co/openai/whisper-large-v3-turbo/blob/41f01f3fe87f28c78e2fbf8b568835947dd65ed9/README.md"
+
+[model.runtime]
+format = "json"
+min_memory_mb = 16
+gpu = "none"
+
+[[model]]
+feature = "speech"
+tier = "large"
+id = "whisper-large-v3-turbo"
+version = "1"
+role = "speech-model"
+urls = ["https://huggingface.co/openai/whisper-large-v3-turbo/resolve/41f01f3fe87f28c78e2fbf8b568835947dd65ed9/model.safetensors"]
+sha256 = "542566a422ae4f3fd23f1ba11add198fca01bbf82e66e6a2857b3f608b1eb9d1"
+size = 1617824864
+licence = "MIT"
+licence_url = "https://huggingface.co/openai/whisper-large-v3-turbo/blob/41f01f3fe87f28c78e2fbf8b568835947dd65ed9/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "whisper"
+min_memory_mb = 2400
+gpu = "optional"
+
+[[choice]]
+feature = "speech"
+tier = "small"
+name = "Whisper base"
+default = true
+languages = "multilingual"
+hint = "faster"
+data = "680,000 hours of web audio"
+
+[[choice]]
+feature = "speech"
+tier = "standard"
+name = "Whisper small"
+languages = "multilingual"
+data = "680,000 hours of web audio"
+
+[[choice]]
+feature = "speech"
+tier = "large"
+name = "Whisper large-v3 turbo"
+languages = "multilingual"
+hint = "no-translate"
+data = "5 million hours of web audio"
+
+# --- Masks -------------------------------------------------------------------
+#
+# Develop's AI masks, run by specular-infer on the photo when a mask row asks (never on
+# thumbnails, nothing kept in the library: masks are cached per photo in the cache folder).
+#
+# Object at a click: EfficientSAM (yformer/EfficientSAM, code and weights Apache-2.0; SA-1B,
+# whose images Meta licenses for research, plus ImageNet-1k), specular_infer::sam. Its
+# PyTorch checkpoint is read without running code and converted to f16 on this computer
+# (the position table, prompt encoder and decoder tokens stay f32).
+#
+#   small     EfficientSAM ViT-Ti    41.0 MB download   ~65 GMACs per photo, ~2 per click
+#   standard  EfficientSAM ViT-S    105.7 MB download  ~200 GMACs per photo
+#
+# Add-ons, each downloaded on its own:
+# - subject: IS-Net general use (xuebinqin/DIS, Apache-2.0; training data not named for
+#   this model), specular_infer::isnet, from the ONNX conversion in rembg's GitHub release
+#   (MIT project; the authors host the weights on Google Drive only).
+# - sky: UperNet + ConvNeXt-T trained on ADE20K (openmmlab/upernet-convnext-tiny, MIT; ADE20K
+#   images are licensed for research), specular_infer::upernet; converted to f16.
+
+[[model]]
+feature = "masks"
+tier = "small"
+id = "efficientsam-ti"
+version = "1"
+role = "click-segmenter"
+urls = ["https://huggingface.co/yunyangx/EfficientSAM/resolve/1cf49585c39567bfc49e991ab8eb31f491ad4877/efficient_sam_vitt.pt"]
+sha256 = "dff858b19600a46461cbb7de98f796b23a7a888d9f5e34c0b033f7d6eb9e4e6a"
+size = 40982470
+licence = "Apache-2.0"
+licence_url = "https://github.com/yformer/EfficientSAM/blob/d525f622e6f640acf5a0fc37c7ca1f243da5bde0/LICENSE"
+
+[model.runtime]
+format = "pt"
+arch = "efficientsam"
+min_memory_mb = 600
+gpu = "optional"
+input = 1024
+mmacs = 65000
+convert = "f16"
+converted_sha256 = "928d871f7f954f6188771e1ebe0738d98c2796b1ba9e27ee16742f3d5d50f6d6"
+
+[[model]]
+feature = "masks"
+tier = "standard"
+id = "efficientsam-s"
+version = "1"
+role = "click-segmenter"
+urls = ["https://huggingface.co/yunyangx/EfficientSAM/resolve/1cf49585c39567bfc49e991ab8eb31f491ad4877/efficient_sam_vits.pt"]
+sha256 = "339376940b92351ae26dd1162e2305a1cc6f5cde735105e91286251abd9a6b65"
+size = 105742022
+licence = "Apache-2.0"
+licence_url = "https://github.com/yformer/EfficientSAM/blob/d525f622e6f640acf5a0fc37c7ca1f243da5bde0/LICENSE"
+
+[model.runtime]
+format = "pt"
+arch = "efficientsam"
+min_memory_mb = 1000
+gpu = "optional"
+input = 1024
+mmacs = 200000
+convert = "f16"
+converted_sha256 = "d74a954f6bb996ee353c80a9e35eebd9deb91d47416952f99e6da964115b1815"
+
+[[model]]
+feature = "masks"
+addon = "subject"
+id = "isnet-general-use"
+version = "1"
+role = "subject-segmenter"
+urls = ["https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-general-use.onnx"]
+sha256 = "60920e99c45464f2ba57bee2ad08c919a52bbf852739e96947fbb4358c0d964a"
+size = 178648008
+licence = "Apache-2.0"
+licence_url = "https://github.com/xuebinqin/DIS/blob/b6764e20381f6f42a70f83fa3324181529ed1403/LICENSE.md"
+
+[model.runtime]
+format = "onnx"
+arch = "isnet"
+min_memory_mb = 1200
+gpu = "optional"
+input = 1024
+mmacs = 160000
+
+[[model]]
+feature = "masks"
+addon = "sky"
+id = "upernet-convnext-tiny-ade20k"
+version = "1"
+role = "semantic-segmenter"
+urls = ["https://huggingface.co/openmmlab/upernet-convnext-tiny/resolve/876ffc56b819a829448f7e81e9f8606deef6fb65/model.safetensors"]
+sha256 = "cd55b1d36c6602d34f8cd300d7f788ea0fa5c3ed928e9ac98f353ecb31c7fa1d"
+size = 241053050
+licence = "MIT"
+licence_url = "https://huggingface.co/openmmlab/upernet-convnext-tiny/blob/876ffc56b819a829448f7e81e9f8606deef6fb65/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "upernet"
+min_memory_mb = 900
+gpu = "optional"
+input = 384
+mmacs = 110000
+convert = "f16"
+converted_sha256 = "10dfbe3dc89746482b84c73b7ca41b83c8d82c05544559560a2575a2641ca42c"
+
+[[choice]]
+feature = "masks"
+tier = "small"
+name = "EfficientSAM Ti"
+default = true
+hint = "faster"
+data = "SA-1B and ImageNet"
+data_terms = "research"
+
+[[choice]]
+feature = "masks"
+tier = "standard"
+name = "EfficientSAM S"
+data = "SA-1B and ImageNet"
+data_terms = "research"
+
+[[choice]]
+feature = "masks"
+addon = "subject"
+name = "IS-Net"
+data = ""
+
+[[choice]]
+feature = "masks"
+addon = "sky"
+name = "UperNet ConvNeXt-T"
+data = "ADE20K"
+data_terms = "research"
+
+# --- Denoise -----------------------------------------------------------------
+#
+# Develop's AI denoise, run by specular-infer (specular_infer::ffdnet, tiled by
+# specular_infer::tiles) on the photo Develop shows at 100 % or exports, never on
+# thumbnails; results are cached per photo in the cache folder.
+#
+# FFDNet colour (Zhang, Zuo and Zhang 2018; KAIR's weights, MIT), from deepinv's MIT copy
+# on Hugging Face (the same weights in a current PyTorch layout). It is told the noise
+# level: Develop feeds it the picture through the Anscombe transform of its own noise
+# model. Trained by the authors on BSD400, 400 ImageNet validation images and the
+# Waterloo Exploration Database (research use). The PyTorch checkpoint is read without
+# running code and converted to f16 on this computer. mmacs is per megapixel.
+#
+#   small     FFDNet colour   3.4 MB download   ~213 GMACs per megapixel
+#
+# NAFNet-SIDD (MIT, specular_infer::nafnet) runs too but is not offered: on the test set
+# it smoothed fine texture below the classic denoise (in our denoise checks).
+
+[[model]]
+feature = "denoise"
+tier = "small"
+id = "ffdnet-color"
+version = "1"
+role = "denoiser"
+urls = ["https://huggingface.co/deepinv/FFDNet/resolve/bdea5b3a7f232f80a9292fda4009693edf30e27a/ffdnet_color.pth"]
+sha256 = "c831d4ca905638a2e3fd3a829a8df636def340052bdd542cb503c76d5df37a16"
+size = 3427101
+licence = "MIT"
+licence_url = "https://huggingface.co/deepinv/FFDNet/blob/bdea5b3a7f232f80a9292fda4009693edf30e27a/LICENSE.txt"
+
+[model.runtime]
+format = "pt"
+arch = "ffdnet"
+min_memory_mb = 400
+gpu = "optional"
+input = 512
+mmacs = 213000
+convert = "f16"
+converted_sha256 = "ddd928029e5b245cf694a54922e0054bda523d0e193016f605864659a1c4c56e"
+
+[[choice]]
+feature = "denoise"
+tier = "small"
+name = "FFDNet"
+default = true
+data = "BSD400, ImageNet and Waterloo Exploration"
+
+# --- Remove and Depth ---------------------------------------------------------
+#
+# Develop's "Remove (AI)" spots and depth tools, run by specular-infer on the photo when
+# asked (never on thumbnails, nothing kept in the library: results are cached per photo in
+# the cache folder, the sidecar keeps only the strokes and settings).
+#
+# Remove: Big-LaMa (advimman/lama, code and weights Apache-2.0; Places2, whose images MIT
+# CSAIL licenses for research and education), specular_infer::lama, run on a crop around the
+# brushed area. The authors publish a pickled training checkpoint on Yandex Disk only; this
+# is a generator-only safetensors conversion of it on Hugging Face (michaelgold/big-lama,
+# tagged MIT by its uploader), converted to f16 on this computer.
+#
+#   standard  Big-LaMa   204.3 MB download   ~215 GMACs at 512², less on small areas
+#
+# Depth: Depth Anything V2 Small (depth-anything/Depth-Anything-V2-Small-hf, Apache-2.0;
+# the larger sizes are CC BY-NC 4.0 and not offered), specular_infer::depth. Trained on
+# synthetic sets and 62 M pseudo-labelled photos from collections licensed for research
+# (SA-1B, ImageNet-21K, Places365 and others). Converted to f16.
+#
+#   small     Depth Anything V2 Small   99.2 MB download   ~60 GMACs per photo (518 px)
+
+[[model]]
+feature = "remove"
+tier = "standard"
+id = "big-lama"
+version = "1"
+role = "inpainter"
+urls = ["https://huggingface.co/michaelgold/big-lama/resolve/98ab7cface89a594b381f32fc7a9f2cae3f91ccc/big-lama.safetensors"]
+sha256 = "326ae1889b92d07c8819c35eaf561f8b290d057536eeb12524b72997f31005ec"
+size = 204342884
+licence = "Apache-2.0"
+licence_url = "https://github.com/advimman/lama/blob/786f5936b27fb3dacd2b1ad799e4de968ea697e7/LICENSE"
+
+[model.runtime]
+format = "safetensors"
+arch = "lama"
+min_memory_mb = 1200
+gpu = "optional"
+input = 512
+mmacs = 215000
+convert = "f16"
+converted_sha256 = "7ad8c42ac2935cafca4bfad893387743c75d2e81f7a19d22351eff08edeaff14"
+
+[[model]]
+feature = "depth"
+tier = "small"
+id = "depth-anything-v2-small"
+version = "1"
+role = "depth-estimator"
+urls = ["https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf/resolve/5426e4f0f36572d16453bbda7a8389317b1bef99/model.safetensors"]
+sha256 = "3152477ce0d8d6978d76b995120de97cb5b928701fd0f817769f59e249a16b70"
+size = 99173660
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf/blob/5426e4f0f36572d16453bbda7a8389317b1bef99/README.md"
+
+[model.runtime]
+format = "safetensors"
+arch = "depth-anything"
+min_memory_mb = 600
+gpu = "optional"
+input = 518
+mmacs = 60000
+convert = "f16"
+converted_sha256 = "793e376f87f5349d5b93e847ce1a8708ac82a1b67d245abc5ce64ed79d06f65d"
+
+[[choice]]
+feature = "remove"
+tier = "standard"
+name = "Big-LaMa"
+default = true
+data = "Places2"
+data_terms = "research"
+
+[[choice]]
+feature = "depth"
+tier = "small"
+name = "Depth Anything V2 Small"
+default = true
+data = "Synthetic scenes and 62 million photos (SA-1B, ImageNet-21K, Places365 and others)"
+data_terms = "research"

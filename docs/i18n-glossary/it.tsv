@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galleria	the thumbnail grid of one folder	
+Library	Library	Libreria	the catalogue of indexed folders	
+Folder	Folder	Cartella	a file-system folder	
+Remove	Remove	Rimuovi	take an item out of a list; files stay	
+Delete	Delete	Elimina	destroy data or files	
+Forget	Forget	Dimentica	drop a remembered choice or record	
+Move to trash	Move to trash	Sposta nel cestino	send files to the system trash	
+Export	Export	Esporta	write a copy in another form	
+Import	Import	Importazione	copy photos in from a card or device	
+Settings	Settings	Impostazioni	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Annulla	reverse the last action (never the word for Cancel)	
+Redo	Redo	Ripeti		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Pagina	a page of a document or multi-page file	
+Layer	Layers	Layer	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Canali	colour or audio channels	
+Series	Series	Serie	a DICOM series	
+Study	Study	Studio	a DICOM study	
+Slice	Slice	Sezione	one cross-sectional image of a volume	
+Frame	Frames	Fotogrammi	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Traccia	a numbered piece of an album	
+Subtitle	Subtitles	Sottotitoli	text over a video	
+Loudness	Loudness	Loudness	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Modello	a local AI model	
+Download	Download	Scarica	fetch from the network	
+Cull mode	Cull mode	Modalità selezione	the mode for picking and rejecting photos	
+Pick	Pick	Scegli	a cull mark	
+Reject	Reject	Scarta	a cull mark	
+Rating	Rating	Valutazione	stars	
+Local AI	Local AI	IA locale	the Settings section and the feature set	
+Metadata	Metadata	Metadati		
+Thumbnail	Thumbnail	Miniatura		
+Slideshow	Slideshow	Presentazione		
+Compare	Compare	Confronta		
+Print	Print	Stampa		
+Search	Search	Cerca		
+Filter	Filter	Filtro	narrow what is shown (not an optical filter)	
+Rename	Rename	Rinomina		

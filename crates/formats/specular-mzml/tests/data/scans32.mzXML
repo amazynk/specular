@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mzXML xmlns="http://sashimi.sourceforge.net/schema_revision/mzXML_3.2">
+<msRun scanCount="3" startTime="PT60S" endTime="PT2M">
+<parentFile fileName="file:///data/sample02.RAW" fileType="RAWData" fileSha1="0"/>
+<msInstrument msInstrumentID="1"><msManufacturer category="msManufacturer" value="Thermo Scientific"/><msModel category="msModel" value="LTQ Orbitrap"/><msIonisation category="msIonisation" value="ESI"/><msMassAnalyzer category="msMassAnalyzer" value="FTMS"/><msDetector category="msDetector" value="unknown"/><software type="acquisition" name="Xcalibur" version="2.0"/></msInstrument>
+<dataProcessing centroided="0"><software type="conversion" name="gen_fixtures" version="1.0"/></dataProcessing>
+<scan num="1" scanType="Full" centroided="0" msLevel="1" peaksCount="40" polarity="+" retentionTime="PT60.5S" lowMz="400" highMz="420" basePeakMz="402.05128205128204" basePeakIntensity="4973.7" totIonCurrent="94931.5">
+<peaks precision="32" byteOrder="network" pairOrder="m/z-int" compressionType="none" compressedLen="0">Q8gAAESsdmZDyEGkQQGZmkPIg0hEgYAAQ8jE7EVZGABDyQaQRZttmkPJSDVFf75mQ8mJ2UTRqZpDyct9QlszM0PKDSFERLMzQ8pOxUVGBmZDypBpRZlTM0PK0g1FhzpmQ8sTsUT4lmZDy1VVQw5mZkPLlvlEDZMzQ8vYnkUyQZpDzBpCRZX3M0PMW+ZFjaDNQ8ydikUQSZpDzN8uQ4azM0PNINJDvQzNQ81idkUeIABDzaQaRZFoAEPN5b5FkvczQ84nYkUkezNDzmkHQ9jMzUPOqqtDYUzNQ87sT0UJ9M1Dzy3zRYu4zUPPb5dFlygAQ8+xO0U4iZpDz/LfRB4ZmkPQNINC3QAAQ9B2J0TsMABD0LfLRYUCZkPQ+XBFmiAAQ9E7FEVMHmZD0Xy4RFeTM0PRvlxCDszNQ9IAAETFvM0=</peaks>
+<scan num="2" scanType="Full" centroided="1" msLevel="2" peaksCount="3" polarity="+" retentionTime="PT61S" totIonCurrent="60">
+<precursorMz precursorIntensity="100" precursorCharge="2" activationMethod="CID">410.5</precursorMz>
+<peaks precision="32" byteOrder="network" pairOrder="m/z-int" compressionType="none" compressedLen="0">QxYZmkEgAABDejMzQfAAAEOvJmZBoAAA</peaks>
+</scan>
+</scan>
+<scan num="3" centroided="0" msLevel="1" peaksCount="40" polarity="-" retentionTime="PT1M5S">
+<peaks precision="32" byteOrder="network" pairOrder="m/z-int" compressionType="none" compressedLen="0">Q8gAAETFvM1DyEGkQg7MzUPIg0hEV5MzQ8jE7EVMHmZDyQaQRZogAEPJSDVFhQJmQ8mJ2UTsMABDyct9Qt0AAEPKDSFEHhmaQ8pOxUU4iZpDypBpRZcoAEPK0g1Fi7jNQ8sTsUUJ9M1Dy1VVQ2FMzUPLlvlD2MzNQ8vYnkUkezNDzBpCRZL3M0PMW+ZFkWgAQ8ydikUeIABDzN8uQ70MzUPNINJDhrMzQ81idkUQSZpDzaQaRY2gzUPN5b5FlfczQ84nYkUyQZpDzmkHRA2TM0POqqtDDmZmQ87sT0T4lmZDzy3zRYc6ZkPPb5dFmVMzQ8+xO0VGBmZDz/LfRESzM0PQNINCWzMzQ9B2J0TRqZpD0LfLRX++ZkPQ+XBFm22aQ9E7FEVZGABD0Xy4RIGAAEPRvlxBAZmaQ9IAAESsdmY=</peaks>
+</scan>
+</msRun>
+<index name="scan">
+<offset id="1">753</offset>
+<offset id="2">1512</offset>
+<offset id="3">1900</offset>
+</index>
+<indexOffset>2551</indexOffset>
+<sha1>0</sha1>
+</mzXML>

@@ -1,0 +1,12 @@
+[package]
+name = "specular-iff"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Amiga IFF pictures for Specular: ILBM (1-8 planes, EHB, HAM6/HAM8, 24/32-bit deep), PBM, ACBM, RGB8, RGBN, DEEP and ANIM; ByteRun1, ByteRun2 (VDAT), TVDC or uncompressed, mask plane and transparent colour"
+
+[dependencies]
+
+[lints]
+workspace = true

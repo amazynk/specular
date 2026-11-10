@@ -1,0 +1,1 @@
+specular://open?path=%2Fa.jpg&uri=file%3A%2F%2F%2Fb%2520c.jpg&url=https%3A%2F%2Fpacs.example%2Fwado

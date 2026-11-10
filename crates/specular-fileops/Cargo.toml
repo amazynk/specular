@@ -1,0 +1,19 @@
+[package]
+name = "specular-fileops"
+description = "File operations for Specular: rename (with sidecars), copy and move with conflicts, an undo/redo journal, and permanent rotation (lossless JPEG, orientation tags, XMP sidecars)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-jpeg = { path = "../formats/specular-jpeg" }
+specular-jxl = { path = "../formats/specular-jxl" }
+tracing = { version = "0.1", default-features = false }
+
+[dev-dependencies]
+specular-avif = { path = "../formats/specular-avif" }
+specular-heic = { path = "../formats/specular-heic" }
+
+[lints]
+workspace = true

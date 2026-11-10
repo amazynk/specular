@@ -1,0 +1,28 @@
+[package]
+name = "specular-infer"
+description = "Specular's own small inference runtime for the Local AI pack: f16/f32 tensors, a graph of vision-encoder ops run with WGSL compute shaders, a pure-Rust CPU reference of every op, and a bounded safetensors reader"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+wgpu = "30"
+bytemuck = "1"
+pollster = "0.4"
+half = "2"
+regex = "1"
+
+[dev-dependencies]
+specular-gfx = { path = "../specular-gfx" }
+proptest = "1"
+
+[[bench]]
+name = "infer"
+harness = false
+
+[lints]
+workspace = true

@@ -1,0 +1,14 @@
+[package]
+name = "specular-segy"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Seismic data for Specular: SEG-Y rev 0, 1 and 2 (EBCDIC or ASCII textual headers, extended textual headers, binary and trace headers; IBM and IEEE floats, 8 to 64-bit integers signed and unsigned, 24-bit, float64; big- and little-endian) and Seismic Unix .su traces, with 3-D post-stack geometry found from the inline / crossline header bytes"
+
+[dependencies]
+thiserror = "2"
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

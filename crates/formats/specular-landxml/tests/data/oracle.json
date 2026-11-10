@@ -1,0 +1,22 @@
+{
+ "site.xml": {
+  "surfaces": [
+   {
+    "name": "Existing ground",
+    "points": 49,
+    "triangles": 72,
+    "area_2d": 3600.0,
+    "area_3d": 3647.0381254368262,
+    "volume": 8252.608800000004,
+    "z_min": 100.298722,
+    "z_max": 106.0
+   }
+  ],
+  "alignments": [
+   {
+    "name": "Main road",
+    "length": 334.71975472739194
+   }
+  ]
+ }
+}

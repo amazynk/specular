@@ -1,0 +1,33 @@
+[package]
+name = "specular-metadata"
+description = "Plain-language image metadata (EXIF, XMP, ICC, C2PA presence) with offline reverse geocoding"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+kamadak-exif = "0.6"
+reverse_geocoder = "4.1.1"
+quick-xml = "0.41"
+thiserror = "2"
+md-5 = { version = "0.10", default-features = false }
+fluent-bundle = "0.16"
+unic-langid = { version = "0.9", features = ["unic-langid-macros"] }
+# ICU4X components (Unicode-3.0): locale-correct dates, numbers and country names.
+icu_calendar = "2.3"
+icu_datetime = "2.3"
+icu_decimal = "2.3"
+icu_locale_core = "2.3"
+icu_experimental = "0.6"
+icu_provider = { version = "2.3", features = ["sync"] }
+fixed_decimal = "0.7"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+
+[dev-dependencies]
+fluent-syntax = "0.12"
+specular-decode = { path = "../specular-decode" }  # tests/other_formats.rs: Exif of PNG, WebP, HEIF, JXL
+
+[lints]
+workspace = true

@@ -1,0 +1,18 @@
+[package]
+name = "specular-subs"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own subtitle decoders: SRT, WebVTT, ASS/SSA, PGS, VobSub and MP4 timed text, with character set detection"
+
+[dependencies]
+encoding_rs = "0.8"
+roxmltree = "0.21"
+
+[dev-dependencies]
+# The FATE test reads subtitle streams out of movies (tests/fate.rs).
+specular-video = { path = "../specular-video" }
+
+[lints]
+workspace = true

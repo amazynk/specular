@@ -1,0 +1,14 @@
+[package]
+name = "specular-spectra"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Lab spectra: the model the spectra readers (JCAMP-DX, SPC, mzML, Bruker NMR) produce, and plots as specular-vector chart sheets (traces, sticks, contours of 2-D spectra)"
+
+[dependencies]
+specular-vector = { path = "../../specular-vector" }
+thiserror = "2"
+
+[lints]
+workspace = true

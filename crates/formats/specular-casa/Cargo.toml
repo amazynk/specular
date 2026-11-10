@@ -1,0 +1,18 @@
+[package]
+name = "specular-casa"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "CASA images for Specular: a casacore table reader of our own (AipsIO framing, table.dat descriptions and keywords, the TiledCellStMan and TiledShapeStMan storage managers in either byte order) with Float, Double and Complex pixels, Bool masks, and the image keywords (coordinates, beams, units) as FITS WCS cards"
+
+[dependencies]
+thiserror = "2"
+specular-core = { path = "../../specular-core" }
+
+[dev-dependencies]
+# The WCS the cards feed, checked against python-casacore's world coordinates.
+specular-fits = { path = "../specular-fits" }
+
+[lints]
+workspace = true

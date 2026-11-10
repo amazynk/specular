@@ -1,0 +1,43 @@
+{
+ "kind": "nd2",
+ "version": [
+  2,
+  1
+ ],
+ "width": 12,
+ "height": 9,
+ "components": 3,
+ "bits": 8,
+ "frames": 3,
+ "loops": [
+  {
+   "kind": "time",
+   "count": 3
+  }
+ ],
+ "channels": [
+  {
+   "name": "Brightfield",
+   "colour": [
+    255,
+    255,
+    255
+   ],
+   "components": 3,
+   "emission": 420.0
+  }
+ ],
+ "calibration": 1.29,
+ "text": {},
+ "planes": {
+  "0:0": "7f5a058a1edaff2d",
+  "0:1": "5d71abfac421158b",
+  "0:2": "c2834ca2aed4bd21",
+  "1:0": "1bd6048b8d3862e1",
+  "1:1": "5bfdaba71d9f4b19",
+  "1:2": "afead068c5ac1a53",
+  "2:0": "c32dd1db9d9e645f",
+  "2:1": "49c8b67d0b88666d",
+  "2:2": "b6d33b5cf3061467"
+ }
+}

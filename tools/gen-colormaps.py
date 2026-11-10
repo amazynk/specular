@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""Generate crates/specular-inspect/src/colormap/tables.rs: the false-colour maps' 256-entry
+sRGB tables (DESIGN.md §6.2).
+
+Sources (all read as text; nothing is imported or executed from them):
+
+* viridis and cividis: matplotlib's `_cm_listed.py` (`_viridis_data`, `_cividis_data`).
+  viridis is by Stéfan van der Walt and Nathaniel Smith (CC0 1.0); cividis is by Jamie R.
+  Nuñez, Christopher R. Anderton and Ryan S. Renslow, "Optimizing colormaps with
+  consideration for color vision deficiency" (PLoS ONE 13(7), 2018), released with
+  matplotlib (matplotlib licence, BSD-style).
+* batlow, roma, vik, oslo, lajolla: Fabio Crameri's Scientific colour maps 8.0
+  (doi:10.5281/zenodo.8035877, MIT), as the 256-line `cmcrameri/cmaps/<name>.txt` tables
+  shipped in the cmcrameri 1.10 wheel.
+* thermal, haline, solar, ice, deep, dense, algae, rain, speed, balance, curl, phase: Kristen
+  M. Thyng et al., cmocean (doi:10.5670/oceanog.2016.66, MIT), as the 256-line
+  `cmocean/rgb/<name>-rgb.txt` tables shipped in the cmocean 4.0.3 wheel, resampled to 256
+  entries as cmocean does (only curl has more) and rounded to six decimals like the others.
+* jet: the piecewise-linear definition (matplotlib `_cm.py` `_jet_data`, after MATLAB's
+  jet), sampled at 256 points. Kept for users who need it; never the default.
+
+Usage (run Python isolated; the inputs are downloads):
+
+    pip download --no-deps cmcrameri==1.10 cmocean==4.0.3 -d DIR
+    unzip DIR/cmcrameri-1.10-*.whl -d DIR/x && unzip DIR/cmocean-4.0.3-*.whl -d DIR/x
+    python3 -I tools/gen-colormaps.py \
+        /usr/lib/python3/dist-packages/matplotlib/_cm_listed.py DIR/x/cmcrameri/cmaps \
+        DIR/x/cmocean/rgb > crates/specular-inspect/src/colormap/tables.rs
+"""
+
+import os
+import re
+import sys
+
+CRAMERI = ["batlow", "roma", "vik", "oslo", "lajolla"]
+
+CMOCEAN = [
+    "thermal", "haline", "solar", "ice", "deep", "dense",
+    "algae", "rain", "speed", "balance", "curl", "phase",
+]
+
+JET = {
+    "red": [(0.00, 0.0), (0.35, 0.0), (0.66, 1.0), (0.89, 1.0), (1.00, 0.5)],
+    "green": [(0.000, 0.0), (0.125, 0.0), (0.375, 1.0), (0.640, 1.0), (0.910, 0.0), (1.000, 0.0)],
+    "blue": [(0.00, 0.5), (0.11, 1.0), (0.34, 1.0), (0.65, 0.0), (1.00, 0.0)],
+}
+
+
+def listed(text, name):
+    m = re.search(r"^_%s_data = \[(.*?)\]\]" % name, text, re.S | re.M)
+    if not m:
+        sys.exit("no _%s_data" % name)
+    rows = re.findall(r"\[\s*([-0-9.e]+),\s*([-0-9.e]+),\s*([-0-9.e]+)\s*\]?", m.group(1) + "]")
+    out = [tuple(r) for r in rows]
+    if len(out) != 256:
+        sys.exit("%s: %d rows" % (name, len(out)))
+    return out
+
+
+def crameri(directory, name):
+    out = []
+    with open(os.path.join(directory, name + ".txt")) as f:
+        for line in f:
+            parts = line.split()
+            if not parts:
+                continue
+            if len(parts) != 3:
+                sys.exit("%s: bad line %r" % (name, line))
+            for p in parts:
+                float(p)
+            out.append(tuple(parts))
+    if len(out) != 256:
+        sys.exit("%s: %d rows" % (name, len(out)))
+    return out
+
+
+def cmocean(directory, name):
+    out = []
+    with open(os.path.join(directory, name + "-rgb.txt")) as f:
+        for line in f:
+            parts = line.split()
+            if not parts:
+                continue
+            if len(parts) != 3:
+                sys.exit("%s: bad line %r" % (name, line))
+            out.append([float(p) for p in parts])
+    if len(out) < 2:
+        sys.exit("%s: %d rows" % (name, len(out)))
+    # curl comes as 512 rows; cmocean resamples every map to 256 entries linearly
+    # (matplotlib's LinearSegmentedColormap with N=256), and so does this.
+    rows = []
+    for i in range(256):
+        x = i / 255.0 * (len(out) - 1)
+        k = min(int(x), len(out) - 2)
+        t = x - k
+        c = [a + (b - a) * t for a, b in zip(out[k], out[k + 1])]
+        rows.append(tuple("%.6f" % min(max(v, 0.0), 1.0) for v in c))
+    return rows
+
+
+def piecewise(stops, x):
+    for (x0, y0), (x1, y1) in zip(stops, stops[1:]):
+        if x <= x1:
+            t = 0.0 if x1 == x0 else (x - x0) / (x1 - x0)
+            return y0 + (y1 - y0) * t
+    return stops[-1][1]
+
+
+def jet():
+    out = []
+    for i in range(256):
+        x = i / 255.0
+        out.append(tuple("%.6f" % piecewise(JET[c], x) for c in ("red", "green", "blue")))
+    return out
+
+
+def literal(v):
+    # Keep the source's decimal text; Rust parses it to the nearest f32.
+    v = v.strip()
+    if "." not in v and "e" not in v:
+        v += ".0"
+    return v
+
+
+def emit(name, rows):
+    print("pub(super) const %s: [[f32; 3]; 256] = [" % name)
+    for r in rows:
+        print("    [%s, %s, %s]," % tuple(literal(x) for x in r))
+    print("];")
+    print()
+
+
+def main():
+    if len(sys.argv) != 4:
+        sys.exit("usage: gen-colormaps.py MATPLOTLIB/_cm_listed.py CMCRAMERI/cmaps CMOCEAN/rgb")
+    with open(sys.argv[1]) as f:
+        text = f.read()
+    print("// @generated by tools/gen-colormaps.py; do not edit.")
+    print("// Sources and licences: see that script and packaging/THIRD-PARTY.md.")
+    print()
+    emit("VIRIDIS", listed(text, "viridis"))
+    emit("CIVIDIS", listed(text, "cividis"))
+    for name in CRAMERI:
+        emit(name.upper(), crameri(sys.argv[2], name))
+    for name in CMOCEAN:
+        emit(name.upper(), cmocean(sys.argv[3], name))
+    emit("JET", jet())
+
+
+main()

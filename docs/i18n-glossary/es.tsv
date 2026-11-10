@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galería	the thumbnail grid of one folder	
+Library	Library	Biblioteca	the catalogue of indexed folders	
+Folder	Folder	Carpeta	a file-system folder	
+Remove	Remove	Quitar	take an item out of a list; files stay	Quitar from a list; Eliminar for data removed from files (anonymise).
+Delete	Delete	Eliminar	destroy data or files	
+Forget	Forget	Olvidar	drop a remembered choice or record	
+Move to trash	Move to trash	Mover a la papelera	send files to the system trash	
+Export	Export	Exportar	write a copy in another form	
+Import	Import	Importar	copy photos in from a card or device	
+Settings	Settings	Configuración	the Settings window, also in paths: Settings › Section	Configuración, also in paths (Configuración › Sección). Ajustes only for settings of one thing.
+Undo	Undo	Deshacer	reverse the last action (never the word for Cancel)	
+Redo	Redo	Rehacer		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Página	a page of a document or multi-page file	
+Layer	Layers	Capas	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Canales	colour or audio channels	
+Series	Series	Serie	a DICOM series	
+Study	Study	Estudio	a DICOM study	
+Slice	Slice	Corte	one cross-sectional image of a volume	
+Frame	Frames	Fotogramas	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Pista	a numbered piece of an album	
+Subtitle	Subtitles	Subtítulos	text over a video	
+Loudness	Loudness	Sonoridad	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Modelo	a local AI model	
+Download	Download	Descargar	fetch from the network	
+Cull mode	Cull mode	Modo de criba	the mode for picking and rejecting photos	Modo de criba; the action is cribar / la criba, never selección.
+Pick	Pick	Seleccionar	a cull mark	
+Reject	Reject	Rechazar	a cull mark	
+Rating	Rating	Valoración	stars	
+Local AI	Local AI	IA local	the Settings section and the feature set	
+Metadata	Metadata	Metadatos		
+Thumbnail	Thumbnail	Miniatura		
+Slideshow	Slideshow	Presentación		
+Compare	Compare	Comparar		
+Print	Print	Imprimir		
+Search	Search	Buscar		
+Filter	Filter	Filtro	narrow what is shown (not an optical filter)	
+Rename	Rename	Cambiar nombre		Cambiar nombre, not Renombrar.

@@ -1,0 +1,15 @@
+[package]
+name = "specular-input"
+description = "Actions, key combinations and the default keymap for Specular; keymap.toml loading"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+toml_edit = "0.25"
+# Action names (`names.rs`): the one way an action is named.
+specular-i18n = { path = "../specular-i18n" }
+
+[lints]
+workspace = true

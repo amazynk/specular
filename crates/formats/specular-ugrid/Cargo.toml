@@ -1,0 +1,15 @@
+[package]
+name = "specular-ugrid"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Unstructured meshes in NetCDF for Specular: UGRID 2-D mesh topologies (FVCOM, ADCIRC, SCHISM, Delft3D-FM, MPAS-style) and ICON grids, with mixed triangles, quads and polygons, start_index and fill values; antimeridian-split fan triangulation, a uniform-grid face locator and a CPU rasteriser"
+
+[dependencies]
+thiserror = "2"
+rayon = "1.11"
+specular-netcdf = { path = "../specular-netcdf" }
+
+[lints]
+workspace = true

@@ -1,0 +1,71 @@
+# Specular — פיתוח: פרופיל מצלמה, ופרופילי מצלמה מלוח צבעים.
+
+develop-input-profile = פרופיל מצלמה
+develop-input-profile-auto = תקן המצלמה
+develop-input-profile-matrix = מטריצה בלבד
+develop-input-profile-file = קובץ פרופיל…
+develop-input-profile-named = קובץ: { $name }
+develop-input-profile-in-use = בשימוש: { $name }.
+develop-input-profile-changed = בשימוש: { $name }. הקובץ השתנה מאז שנבחר.
+develop-input-profile-missing = קובץ הפרופיל חסר. נעשה שימוש במטריצת המצלמה.
+develop-input-profile-unusable = אי אפשר להשתמש בקובץ הפרופיל: { $reason }. נעשה שימוש במטריצת המצלמה.
+develop-input-profile-dialog = בחירת פרופיל מצלמה
+develop-input-profile-kind = פרופילי מצלמה DNG
+
+develop-chart-start = יצירת פרופיל מלוח צבעים…
+develop-chart-title = פרופיל מלוח צבעים
+develop-chart-kind = לוח
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = ערכי ייחוס
+develop-chart-ref-load = טעינת קובץ…
+develop-chart-hint-xrite = יש לטעון את קובץ הייחוס של הלוח (טקסט CGATS). הוא מגיע עם הלוח, או מאתר X-Rite לפי מהדורת הלוח.
+develop-chart-hint-it8 = יש לטעון את קובץ הייחוס של המטרה שלכם. לכל אצווה קובץ משלה מהיצרן.
+develop-chart-spyder = אין תמיכה ב־SpyderCHECKR: ערכי הצבע שלו שייכים ל־Datacolor.
+develop-chart-step-reference = יש לבחור את הלוח ולטעון את קובץ הייחוס שלו.
+develop-chart-step-corner = יש ללחוץ על מרכז { $name } ({ $number } מתוך 4).
+develop-chart-measuring = הלוח נמדד…
+develop-chart-step-save = אפשר לשמור את הפרופיל, או לסמן שוב את הפינות.
+develop-chart-corner-dark-skin = עור כהה (למעלה משמאל)
+develop-chart-corner-bluish-green = ירוק־כחלחל (למעלה מימין)
+develop-chart-corner-black = שחור (למטה מימין)
+develop-chart-corner-white = לבן (למטה משמאל)
+
+develop-chart-ref-too-large = הקובץ גדול מדי לקובץ ייחוס.
+develop-chart-ref-not-cgats = זה אינו קובץ ייחוס CGATS.
+develop-chart-ref-no-ids = אין בקובץ שמות משבצות.
+develop-chart-ref-no-colour = אין בקובץ ערכי L*a*b* או XYZ.
+develop-chart-ref-bad-row = שורה { $row } בקובץ פגומה.
+develop-chart-ref-count = הקובץ מציין { $declared } משבצות אבל יש בו { $found }.
+develop-chart-ref-duplicate = המשבצת { $id } מופיעה בקובץ פעמיים.
+develop-chart-ref-illuminant = הערכים מתאימים לאור { $name }. נדרש D50 או D65.
+develop-chart-ref-wrong-chart = בקובץ { $found } משבצות. בלוח הזה { $expected }.
+develop-chart-ref-names = שמות המשבצות אינם מתאימים ללוח הזה.
+develop-chart-ref-corner = משבצת הפינה { $id } חסרה בקובץ.
+develop-chart-ref-unreadable = אי אפשר לקרוא את הקובץ: { $reason }
+develop-chart-ref-dialog = בחירת קובץ הייחוס של הלוח
+develop-chart-ref-kind = קובצי ייחוס של לוחות צבעים
+
+develop-chart-not-found = לא נמצא שם לוח. יש לסמן שוב את הפינות.
+develop-chart-too-few = אפשר להשתמש רק ב־{ $count } משבצות. יש להאיר את הלוח באופן אחיד ולהימנע מהשתקפויות.
+develop-chart-no-greys = אין משבצת אפורה שאפשר להשתמש בה. יש לחשוף כך שהאפורים לא יישרפו.
+develop-chart-degenerate = המשבצות דומות מדי כדי ליצור פרופיל.
+
+develop-chart-report-after = ΔE2000 עם הפרופיל: ממוצע { $mean }, חציון { $median }, מרבי { $max }
+develop-chart-report-before = לפני: ממוצע { $mean }, חציון { $median }, מרבי { $max }
+develop-chart-report-cv = נבדק על משבצות שמחוץ להתאמה: ממוצע { $mean }
+develop-chart-left-out = הושמטה: { $id } ({ $why })
+develop-chart-left-clipped = שרופה
+develop-chart-left-uneven = השתקפות או אבק
+develop-chart-left-outside = מחוץ לתמונה
+develop-chart-uneven-light = האפורים משתנים ב־{ PERCENT($percent) }: ייתכן שהתאורה אינה אחידה.
+develop-chart-use-camera = שימוש לתמונות מ־{ $camera }
+develop-chart-again = סימון מחדש
+develop-chart-save = שמירה…
+develop-chart-close = סגירה
+develop-chart-save-title = שמירת פרופיל מצלמה
+develop-chart-default-name = פרופיל לוח { $camera }
+develop-chart-saved = { $name } נשמר בשם { $file }.
+develop-chart-save-failed = אי אפשר לשמור את הפרופיל: { $reason }

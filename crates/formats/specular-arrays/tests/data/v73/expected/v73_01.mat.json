@@ -1,0 +1,133 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "a",
+   "offset": 0,
+   "shape": [
+    5,
+    7
+   ]
+  },
+  {
+   "complex": false,
+   "name": "c{1}",
+   "offset": 35,
+   "shape": [
+    2,
+    2
+   ]
+  },
+  {
+   "complex": false,
+   "name": "c{3}",
+   "offset": 39,
+   "shape": [
+    3,
+    4
+   ]
+  },
+  {
+   "complex": false,
+   "name": "flag",
+   "offset": 51,
+   "shape": [
+    4,
+    4
+   ]
+  },
+  {
+   "complex": false,
+   "name": "i16",
+   "offset": 67,
+   "shape": [
+    3,
+    8
+   ]
+  },
+  {
+   "complex": false,
+   "name": "rgb",
+   "offset": 91,
+   "shape": [
+    6,
+    8,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "s.f",
+   "offset": 235,
+   "shape": [
+    2,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "s.g.deep",
+   "offset": 241,
+   "shape": [
+    3,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "u64",
+   "offset": 250,
+   "shape": [
+    2,
+    9
+   ]
+  },
+  {
+   "complex": false,
+   "name": "vec",
+   "offset": 268,
+   "shape": [
+    1,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "vol",
+   "offset": 279,
+   "shape": [
+    4,
+    6,
+    4
+   ]
+  },
+  {
+   "complex": true,
+   "name": "z",
+   "offset": 375,
+   "re_offset": 390,
+   "shape": [
+    3,
+    5
+   ]
+  },
+  {
+   "complex": true,
+   "name": "zs",
+   "offset": 405,
+   "re_offset": 421,
+   "shape": [
+    2,
+    4,
+    2
+   ]
+  }
+ ],
+ "kind": "mat73",
+ "refused": [],
+ "texts": {
+  "c{2}": "cell text",
+  "name": "label text",
+  "s.t": "inner"
+ }
+}

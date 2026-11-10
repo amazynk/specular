@@ -1,0 +1,29 @@
+[package]
+name = "specular-dicom"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "DICOM Part 10 reader for Specular: data sets, native / RLE / JPEG / JPEG-LS / JPEG 2000 / MPEG-2 / H.264 / HEVC pixel data, encapsulated documents, modality and VOI display mapping"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-jpeg = { path = "../specular-jpeg" }
+specular-jp2 = { path = "../specular-jp2" }
+specular-jpegls = { path = "../specular-jpegls" }
+specular-jxl = { path = "../specular-jxl" }  # JPEG XL transfer syntaxes (Supplement 232)
+specular-measure = { path = "../../specular-measure" }  # measurement geometry, calibration and ROI statistics
+specular-png = { path = "../specular-png" }  # raw inflate for Deflated Explicit VR Little Endian
+specular-h264 = { path = "../specular-h264" }
+hevc = { package = "specular-hevc", path = "../specular-heic/hevc" }
+specular-mpeg2 = { path = "../specular-mpeg2" }  # MPEG-2 transfer syntaxes (endoscopy video)
+specular-thread = { path = "../../specular-thread" }
+roxmltree = "0.21"  # CDA documents
+specular-limits = { path = "../../specular-limits" }
+thiserror = "2"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+specular-h264enc = { path = "../specular-h264enc" }

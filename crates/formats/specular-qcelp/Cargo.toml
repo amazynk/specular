@@ -1,0 +1,10 @@
+[package]
+name = "specular-qcelp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own QCELP-13 (PureVoice, TIA IS-733 / 3GPP2 C.S0020) speech decoder for Specular's .qcp files and 3GPP2/QuickTime movie sound"
+
+[lints]
+workspace = true

@@ -1,0 +1,1 @@
+dscf -is:reject label:red,blue mp:20..30 size<8MiB f:f/2.8 exposure:1/250 modified>=2024-01-01 dupes:keep lens="XF 23mm" orientation:portrait

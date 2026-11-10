@@ -1,0 +1,38 @@
+[package]
+name = "specular-wsi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Whole-slide images and microscopy pyramids for Specular: Aperio SVS, Hamamatsu NDPI (64-bit offsets, restart-marker tiles), Leica SCN, generic tiled pyramidal (Big)TIFF, OME-TIFF (OME-XML, SubIFD pyramids, multi-file sets), OME-Zarr v2/v3 (folders and .zip), and stitched scans (3DHISTECH MIRAX, Roche/Ventana BIF, Olympus VSI with its .ets frames), read as levels, regions and associated images"
+
+[dependencies]
+rayon = "1.11"
+serde_json = "1"
+thiserror = "2"
+parking_lot = "0.12"
+# Own TIFF and JPEG decoders; own inflate (zip entries, gzip and zlib chunks); the HDF5 crate's
+# Blosc, Zstandard and LZ4 codecs (Zarr chunks).
+specular-tiff = { path = "../specular-tiff" }
+specular-jpeg = { path = "../specular-jpeg" }
+specular-png = { path = "../specular-png" }
+# Own BMP and JPEG 2000 (MIRAX and VSI tiles).
+specular-bitmap = { path = "../specular-bitmap" }
+specular-jp2 = { path = "../specular-jp2" }
+# The memory budget's refusal (NeedsMemory), passed on as itself.
+specular-core = { path = "../../specular-core" }
+specular-hdf5 = { path = "../specular-hdf5" }
+# DICOM WSI instances: data sets, frames and every transfer syntax it decodes.
+specular-dicom = { path = "../specular-dicom" }
+
+# Synthetic NDPI / SVS fixtures (tests here, and in dependent crates through `fixtures`).
+jpeg-encoder = { version = "0.7", optional = true }
+
+[features]
+fixtures = ["dep:jpeg-encoder"]
+
+[dev-dependencies]
+jpeg-encoder = "0.7"
+
+[lints]
+workspace = true

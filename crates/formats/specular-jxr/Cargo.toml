@@ -1,0 +1,16 @@
+[package]
+name = "specular-jxr"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "JPEG XR (ITU-T T.832 / ISO 29199-2) decoder for Specular: JXR/WDP/HDP containers, spatial and frequency codestreams, all overlap modes, tiling, planar and interleaved alpha, 8/16-bit, fixed-point, half and float, RGBE and CMYK"
+
+[dependencies]
+# Planes and output samples reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+thiserror = "2"
+
+[lints]
+workspace = true

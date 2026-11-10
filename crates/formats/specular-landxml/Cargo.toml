@@ -1,0 +1,20 @@
+[package]
+name = "specular-landxml"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own LandXML 1.0–1.2 reader: TIN surfaces (points, faces, breaklines, boundaries) with elevation colouring and contours, alignments (lines, arcs, clothoid spirals) with stationing, profiles as charts, the coordinate system; into specular-vector scenes"
+
+[dependencies]
+specular-vector = { path = "../../specular-vector" }
+specular-spectra = { path = "../specular-spectra" }  # profile charts
+roxmltree = "0.21"
+thiserror = "2"
+
+[dev-dependencies]
+serde_json = "1"  # the oracle's numbers (tests/corpus.rs)
+specular-png = { path = "../specular-png" }  # renders for looking at (tests/corpus.rs)
+
+[lints]
+workspace = true

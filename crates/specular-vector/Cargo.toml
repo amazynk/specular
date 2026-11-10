@@ -1,0 +1,26 @@
+[package]
+name = "specular-vector"
+description = "Vector scenes for 2D drawings (DXF, later DWG/HPGL/CGM): the model (layers, linetypes, sheets, paths, text), preparation for drawing (linetype dashes, text laid out with TrueType fonts) and a CPU rasteriser for thumbnails and fallback tiles"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+kurbo = "0.13"
+specular-theme = { path = "../specular-theme" }
+# Glyph outlines and metrics (the text stack's font reader).
+skrifa = "0.44"
+# System font discovery (the text stack's).
+fontique = "0.11"
+# The CPU rasteriser resvg already brings in.
+# Big Font text back to the drawing's code page (SHX).
+encoding_rs = "0.8"
+tiny-skia = { version = "0.12", default-features = false, features = ["std", "simd"] }
+
+[dev-dependencies]
+# The SHX oracle's JSON (tests/data/shx/oracle.json).
+serde_json = "1"
+
+[lints]
+workspace = true

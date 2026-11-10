@@ -1,0 +1,29 @@
+[package]
+name = "specular-raw"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Camera RAW reader for Specular: embedded-preview fast path for DNG/CR2/CR3/NEF/ARW/RAF/ORF/RW2/PEF, own sensor decoders (LJ92, Nikon, Sony ARW2, Panasonic, Pentax), parallel demosaic to linear 16-bit RGB"
+
+[dependencies]
+rayon = "1.11"
+thiserror = "2"
+# Our own JPEG decoder: embedded preview header parsing and the optional preview decode helper.
+specular-jpeg = { path = "../specular-jpeg" }
+# Own inflate (DNG deflate tiles) and JPEG XL decoder (DNG 1.7 JPEG XL tiles).
+specular-png = { path = "../specular-png" }
+specular-jxl = { path = "../specular-jxl" }
+# Apple ProRes RAW frames (raw video clips).
+specular-prores = { path = "../specular-prores" }
+# Nikon High Efficiency raw: intoPIX TicoRAW codestreams, JPEG XS with changes of its own.
+specular-jpegxs = { path = "../specular-jpegxs" }
+# The VC-5 codebook of GoPro GPR raws is CineForm's codebook 17.
+specular-cineform = { path = "../specular-cineform" }
+
+[dev-dependencies]
+# CIEDE2000 and the BT.709 → Lab maths of the raw_cameras oracle test.
+specular-color = { path = "../../specular-color" }
+
+[lints]
+workspace = true

@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = Vie anonymisoitu kopio…
+palette-export-patient-disc = Vie potilaslevyn kansio…
+palette-mask-burned-in-text = Peitä kuvaan poltettu teksti
+anon-title = Vie anonymisoitu kopio
+anon-disc-title = Vie potilaslevyn kansio
+anon-images = Kuvat
+anon-images-current = Tämä kuva
+anon-images-series = Tämä sarja (tiedostoja: { $count })
+anon-images-study = Tämä tutkimus (tiedostoja: { $count })
+anon-images-reading = Luetaan kansiota…
+anon-anonymise = Anonymisoi
+anon-dates = Päivämäärät ja ajat
+anon-dates-remove = Poista
+anon-dates-keep = Säilytä
+anon-dates-shift = Siirrä
+anon-patient = Potilaan ominaisuudet
+anon-device = Laitteen tunnisteet
+anon-institution = Laitoksen tunnisteet
+anon-descriptions = Kuvaukset
+anon-descriptions-remove = Poista
+anon-descriptions-clean = Siivoa
+anon-structured = Lausuntojen sisältö
+anon-uids = UID:t
+anon-uids-replace = Korvaa
+anon-uids-keep = Säilytä
+anon-overlays = Peitekuvat ja käyrät
+anon-keep = Säilytä
+anon-remove = Poista
+anon-on = Päällä
+anon-off = Pois
+anon-burned-in = Kuvaan poltettu teksti
+anon-masks = Peitettyjä alueita: { $count }
+anon-masks-none = Ei peittoja
+anon-folder = Kansio
+anon-folder-choose = Valitse…
+anon-export = Vie
+anon-risk-present = Kuvien mukaan niissä näkyy potilastekstiä: peitä se ennen vientiä.
+anon-risk-possible = Tällaisissa kuvissa näkyy usein potilastekstiä: tarkista ennen vientiä.
+anon-progress = Viedään { $done }/{ $total }…
+anon-stopping = Pysäytetään…
+anon-mask-title = Peitä kuvaan poltettu teksti
+anon-mask-hint = Peitä teksti vetämällä sen yli. Peitetyt alueet muuttuvat mustiksi jokaisessa kehyksessä.
+anon-mask-suggest = Ehdota
+anon-mask-remove = Poista
+anon-mask-clear = Tyhjennä
+anon-mask-done = Valmis
+anon-mask-area = Alue { $n }, { $width } × { $height } pikseliä
+anon-mask-suggested = { $count ->
+    [0] Reunojen läheltä ei löytynyt tekstiä
+   *[other] Ehdotettuja tekstialueita: { $count }
+}
+anon-done = Anonymisoituja tiedostoja kirjoitettu kansioon { $folder }: { $count }
+anon-disc-done = Potilaslevyn kansio kirjoitettu kohteeseen { $folder }, kuvia: { $count }
+anon-skipped-burned-in = Ohitettiin tiedostoja, joissa on poltettua tekstiä ilman peittoja: { $count }
+anon-skipped-failed = Tiedostoja, joita ei voitu viedä: { $count }
+anon-stopped = Vienti pysäytetty
+anon-failed = Vienti epäonnistui: { $reason }
+anon-not-empty = Kansiossa on jo potilaslevy

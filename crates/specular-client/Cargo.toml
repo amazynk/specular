@@ -1,0 +1,13 @@
+[package]
+name = "specular-client"
+description = "A minimal client for Specular's local remote-control socket (IPC protocol v3, docs/ipc.md)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+serde_json = "1"
+
+[lints]
+workspace = true

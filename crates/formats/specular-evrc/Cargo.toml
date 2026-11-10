@@ -1,0 +1,10 @@
+[package]
+name = "specular-evrc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own EVRC speech decoder (3GPP2 C.S0014-A, Service Option 3) for Specular's QCP files and 3GPP2 movie sound"
+
+[lints]
+workspace = true

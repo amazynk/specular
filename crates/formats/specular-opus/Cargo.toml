@@ -1,0 +1,12 @@
+[package]
+name = "specular-opus"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own Opus audio decoder (RFC 6716 with the RFC 8251 updates): SILK, CELT, hybrid, Ogg Opus multistream"
+
+[dependencies]
+
+[lints]
+workspace = true

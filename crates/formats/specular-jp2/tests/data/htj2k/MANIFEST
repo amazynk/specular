@@ -1,0 +1,30 @@
+# file bytes ojph_compress options (regenerate with tests/gen_htj2k.sh)
+gray8_rev.jph 5746 gray.pgm -reversible true
+gray8_97.j2c 4073 gray.pgm -qstep 0.01
+gray12_rev.jhc 4054 gray12.pgm -reversible true
+gray12_97.jph 2787 gray12.pgm -qstep 0.002
+gray16_rev.jph 8496 gray16.pgm -reversible true
+gray16_97.j2c 5492 gray16.pgm -qstep 0.0005
+rgb_rev.jph 11232 rgb.ppm -reversible true
+rgb_rev_nomct.j2c 11332 rgb.ppm -reversible true -colour_trans false
+rgb_97.jph 6719 rgb.ppm -qstep 0.008
+rgb_97_nomct.jhc 5352 rgb.ppm -qstep 0.02 -colour_trans false
+rgb16_rev.jph 8872 rgb16.ppm -reversible true
+rgb16_97.j2c 4646 rgb16.ppm -qstep 0.001
+rgb_cb16.j2c 11556 rgb.ppm -reversible true -block_size {16,16}
+rgb_cb_wide.j2c 6259 rgb.ppm -qstep 0.01 -block_size {8,128}
+rgb_cb_tall.j2c 11778 rgb.ppm -reversible true -block_size {128,4}
+rgb_prec.j2c 11624 rgb.ppm -reversible true -precincts {8,8},{16,16},{32,32} -block_size {16,16}
+rgb_nl0.j2c 15505 rgb.ppm -reversible true -num_decomps 0
+rgb_nl1.jph 7299 rgb.ppm -qstep 0.01 -num_decomps 1
+small_nl6.j2c 3615 small.pgm -reversible true -num_decomps 6
+rgb_LRCP.j2c 12852 rgb.ppm -reversible true -prog_order LRCP -precincts {16,16} -block_size {16,16}
+rgb_RLCP.j2c 12852 rgb.ppm -reversible true -prog_order RLCP -precincts {16,16} -block_size {16,16}
+rgb_PCRL.j2c 12852 rgb.ppm -reversible true -prog_order PCRL -precincts {16,16} -block_size {16,16}
+rgb_CPRL.j2c 12852 rgb.ppm -reversible true -prog_order CPRL -precincts {16,16} -block_size {16,16}
+rgb_tiles.j2c 13575 rgb.ppm -reversible true -tile_size {32,24}
+rgb_tiles_97.jph 7234 rgb.ppm -qstep 0.01 -tile_size {48,40} -tileparts RC -tlm_marker true
+rgb_offsets.j2c 13514 rgb.ppm -reversible true -image_offset {9,13} -tile_offset {7,11} -tile_size {30,30}
+gray_tileparts.j2c 3665 gray.pgm -qstep 0.02 -tile_size {48,40} -tileparts R -prog_order RLCP
+yuv420_rev.j2c 7372 yuv420.yuv -reversible true -dims {97,75} -num_comps 3 -signed false,false,false -bit_depth 8,8,8 -downsamp {1,1},{2,2},{2,2}
+yuv422_97.j2c 7109 yuv422.yuv -qstep 0.005 -dims {96,64} -num_comps 3 -signed false,false,false -bit_depth 10,10,10 -downsamp {1,1},{2,1},{2,1}

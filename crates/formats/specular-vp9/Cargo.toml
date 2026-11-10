@@ -1,0 +1,15 @@
+[package]
+name = "specular-vp9"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own software VP9 decoder for Specular's WebM playback: profiles 0-3 at 8, 10 and 12 bits, tile- and loop-filter-threaded"
+
+[dependencies]
+specular-thread = { path = "../../specular-thread", features = ["rayon"] }
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+
+[lints]
+workspace = true

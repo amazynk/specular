@@ -1,0 +1,51 @@
+# Flatpak manifest for local testing: packages an already-built binary (from
+# tools/release/pgo.sh or `cargo build --release`) instead of compiling inside the SDK.
+#
+#   packaging/linux/build-flatpak.sh --local [--bin PATH]
+#
+# The script copies the binaries to target/flatpak/{specular,specular-decode-host} before calling
+# flatpak-builder.
+# Not for Flathub (which needs from-source builds); see app.specular.Specular.yml.
+#
+# PNG icons only: appstreamcli 1.1 built without SVG support (as on this build machine) fails
+# `appstreamcli compose` with file-read-error on the scalable SVG.
+app-id: app.specular.Specular
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+command: specular
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --filesystem=host
+  # The remote-control socket (specular ipc, docs/ipc.md): shared with the desktop, so programs
+  # outside the sandbox can reach it. Still private to the user (0700 folder, 0600 socket).
+  - --filesystem=xdg-run/specular:create
+modules:
+  - name: specular
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 specular /app/bin/specular
+      - install -Dm755 specular-decode-host /app/bin/specular-decode-host
+      - install -Dm644 app.specular.Specular.desktop /app/share/applications/app.specular.Specular.desktop
+      - install -Dm644 app.specular.Specular.metainfo.xml /app/share/metainfo/app.specular.Specular.metainfo.xml
+      - for s in 16 32 48 64 128 256 512; do install -Dm644 specular-$s.png /app/share/icons/hicolor/${s}x${s}/apps/app.specular.Specular.png; done
+      - install -Dm644 THIRD-PARTY.md /app/share/doc/specular/THIRD-PARTY.md
+      - install -Dm644 specular.thumbnailer /app/share/thumbnailers/specular.thumbnailer
+    sources:
+      - type: file
+        path: ../../target/flatpak/specular
+      - type: file
+        path: ../../target/flatpak/specular-decode-host
+      - type: file
+        path: specular.thumbnailer
+      - type: file
+        path: app.specular.Specular.desktop
+      - type: file
+        path: app.specular.Specular.metainfo.xml
+      - type: dir
+        path: ../icons
+      - type: file
+        path: ../THIRD-PARTY.md

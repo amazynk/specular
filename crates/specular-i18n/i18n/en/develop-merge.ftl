@@ -1,0 +1,37 @@
+# Specular — Develop: Merge to HDR (bracket merge into one raw).
+
+gallery-merge-hdr = Merge to HDR…
+develop-merge-title = Merge to HDR
+develop-merge-ok = Merge
+develop-merge-note = Saved as { $name } next to the photos.
+develop-merge-list = Photos
+develop-merge-ev = { $ev } EV
+develop-merge-align = Align photos
+develop-merge-ghosts = Reduce ghosts
+develop-merge-mosaic = Keep the raw mosaic
+develop-merge-open = Open in Develop
+develop-merge-on = On
+develop-merge-off = Off
+develop-merge-depth = Float depth
+develop-merge-depth-16 = 16-bit
+develop-merge-depth-24 = 24-bit
+develop-merge-depth-32 = 32-bit
+develop-merge-not-raw = Merge to HDR needs raw photos.
+develop-merge-too-few = Choose at least two photos to merge.
+develop-merge-too-many = A merge takes at most { $count } photos.
+develop-merge-no-bracket = No bracket found around { $name }. Select the photos to merge.
+develop-merge-started = Merging into { $name }…
+develop-merge-row = Merging { $name }
+develop-merge-row-detail = { $percent }
+develop-merge-merging = Merging
+develop-merge-done = Merged into { $name }.
+develop-merge-done-ghosts = Merged into { $name }. Moving parts taken from one photo ({ $percent } of the picture).
+develop-merge-show-ghosts = Show ghosts
+develop-merge-stopped = Merge into { $name } stopped.
+develop-merge-cancelled = Stopped.
+develop-merge-failed = Could not merge: { $reason }
+develop-merge-not-one-camera = the photos are not from one camera.
+develop-merge-not-raw-file = { $file } is not a raw photo.
+develop-merge-unreadable = { $file } could not be read ({ $reason }).
+develop-merge-no-exposures = the exposures are unknown and could not be measured.
+develop-merge-not-aligned = photo { $number } could not be aligned. Try again with Align photos off.

@@ -1,0 +1,4 @@
+size	5	3	3
+planes	0	1	2
+axis	0	0.5	-1.0	nm
+axis	1	0.5	-0.0	nm

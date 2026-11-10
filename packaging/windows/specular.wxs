@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Specular MSI, WiX Toolset v4 (built with 4.0.6 on 2026-10-13). sandbox\run.ps1 installs, runs and
+  uninstalls it in Windows Sandbox and checks each step.
+
+  Built by build.sh (Windows release with packages), or packaging/windows/build-msi.ps1 (which also
+  signs it if a certificate is configured). By hand, with the UI extension pinned to wix's own
+  version (an unpinned one is the newest, which WiX v4 cannot load). Install wix 4.x as a dotnet
+  tool with the version option set to "4.*" (as build.sh and release.yml do), then:
+
+    wix extension add -g WixToolset.UI.wixext/4.0.6
+    wix build packaging\windows\specular.wxs -arch x64 -ext WixToolset.UI.wixext/4.0.6 ^
+        -d Version=0.1.0 -d BinDir=target\release -d PackagingDir=packaging ^
+        -o target\dist\Specular-0.1.0-x64.msi
+
+  Per-machine install into Program Files\Specular. Registers Specular through a ProgID: in "Open
+  with" for every file type it reads, and in Settings > Default apps (the "Default Programs"
+  Capabilities) for the image types, both generated from the decoder registry (associations.wxi).
+  Windows 10/11 no longer let an installer take over the default silently; the user picks
+  Specular once, which is the supported behaviour.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <?ifndef Version?><?define Version = "0.1.0"?><?endif?>
+  <?ifndef BinDir?><?define BinDir = "target\release"?><?endif?>
+  <?ifndef PackagingDir?><?define PackagingDir = "packaging"?><?endif?>
+
+  <!-- Never change the UpgradeCode: it ties all versions together for major upgrades. -->
+  <Package Name="Specular"
+           Manufacturer="The Specular authors"
+           Version="$(var.Version)"
+           UpgradeCode="6F3C2A51-7D0E-4B8B-9A43-2E5C1F7B9D10"
+           Scope="perMachine"
+           Compressed="yes"
+           Language="1033">
+
+    <SummaryInformation Description="Specular image viewer" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Specular is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <Icon Id="SpecularIcon" SourceFile="$(var.PackagingDir)\windows\specular.ico" />
+    <Property Id="ARPPRODUCTICON" Value="SpecularIcon" />
+    <Property Id="ARPURLINFOABOUT" Value="https://amazynk.com/specular" />
+    <!-- ARPNOMODIFY=1 comes with WixUI_Minimal below; defining it here too is a duplicate. -->
+
+    <!-- The binary targets x86-64-v3 (AVX2/FMA/BMI2). An MSI condition can't test CPU features,
+         so that check belongs in the app (or a tiny launcher) before any AVX2 code runs. Here we
+         only require 64-bit Windows; Windows Installer reports VersionNT 603 on Windows 8.1 and
+         on unmanifested queries from Windows 10/11. -->
+    <Launch Condition="VersionNT64 AND (VersionNT &gt;= 603)"
+            Message="Specular needs 64-bit Windows 10 or later." />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Specular">
+        <Component Id="MainExecutable" Guid="*">
+          <File Id="SpecularExe" Source="$(var.BinDir)\specular.exe" KeyPath="yes" />
+
+          <!-- ProgID used by the associations below, as plain registry values. Not with
+               <ProgId><Extension>: that writes HKCR\.jpg's default value (making Specular the
+               default for every user) and its Content Type, and uninstalling then deletes both,
+               leaving the type with no handler and no MIME type. -->
+          <RegistryKey Root="HKLM" Key="SOFTWARE\Classes\Specular.Image">
+            <RegistryValue Value="Image (Specular)" Type="string" />
+            <RegistryValue Key="DefaultIcon" Value="&quot;[#SpecularExe]&quot;,0" Type="string" />
+            <RegistryValue Key="shell\open" Value="Open with Specular" Type="string" />
+            <RegistryValue Key="shell\open\command" Value="&quot;[#SpecularExe]&quot; &quot;%1&quot;" Type="string" />
+            <!-- The viewer's taskbar id (it sets the same one): files of these types show in
+                 its jump list. -->
+            <RegistryValue Name="AppUserModelID" Value="app.specular.Specular" Type="string" />
+          </RegistryKey>
+
+          <!-- "Default Programs" registration (Settings > Apps > Default apps > Specular). -->
+          <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="Specular"
+                         Value="SOFTWARE\Specular\Capabilities" Type="string" />
+          <RegistryKey Root="HKLM" Key="SOFTWARE\Specular\Capabilities">
+            <RegistryValue Name="ApplicationName" Value="Specular" Type="string" />
+            <RegistryValue Name="ApplicationDescription" Value="Open and flip through large photos instantly." Type="string" />
+            <RegistryValue Name="ApplicationIcon" Value="[INSTALLFOLDER]specular.exe,0" Type="string" />
+          </RegistryKey>
+          <!-- File types, generated from the decoder registry: "Open with" for every type
+               Specular reads, Default apps for the image types (associations.wxi). -->
+          <?include associations.wxi ?>
+          <!-- `specular` on the command line via App Paths (Win+R, Start). -->
+          <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\specular.exe">
+            <RegistryValue Value="[INSTALLFOLDER]specular.exe" Type="string" />
+          </RegistryKey>
+          <RegistryKey Root="HKLM" Key="SOFTWARE\Classes\Applications\specular.exe">
+            <RegistryValue Name="FriendlyAppName" Value="Specular" Type="string" />
+          </RegistryKey>
+        </Component>
+
+        <!-- The sandboxed decode host (HEIC): started by the viewer from its own folder inside an
+             AppContainer, which can read Program Files (ALL APPLICATION PACKAGES has RX there). -->
+        <Component Id="DecodeHost" Guid="*">
+          <File Id="DecodeHostExe" Source="$(var.BinDir)\specular-decode-host.exe" KeyPath="yes" />
+        </Component>
+
+        <Component Id="Notices" Guid="*">
+          <File Id="ThirdParty" Source="$(var.PackagingDir)\THIRD-PARTY.md" Name="THIRD-PARTY.md" KeyPath="yes" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="StartMenuShortcut" Guid="*">
+        <Shortcut Id="SpecularShortcut" Name="Specular" Description="Image viewer"
+                  Target="[INSTALLFOLDER]specular.exe" WorkingDirectory="INSTALLFOLDER" Icon="SpecularIcon">
+          <!-- AppUserModelID so taskbar pinning and toast notifications group correctly. -->
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="app.specular.Specular" />
+        </Shortcut>
+        <!-- The key path of a component with a non-advertised shortcut in the Start menu must be
+             under HKCU (ICE38, ICE43, ICE57), also in a per-machine package. -->
+        <RegistryValue Root="HKCU" Key="SOFTWARE\Specular" Name="StartMenuShortcut" Value="1" Type="integer" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+
+    <Feature Id="Main" Title="Specular" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="DecodeHost" />
+      <ComponentRef Id="Notices" />
+      <ComponentRef Id="StartMenuShortcut" />
+    </Feature>
+
+    <ui:WixUI Id="WixUI_Minimal" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.PackagingDir)\windows\license.rtf" />
+  </Package>
+</Wix>

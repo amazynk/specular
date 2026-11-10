@@ -1,0 +1,4 @@
+JOB_NAME=job
+ODB_VERSION_MAJOR=8
+ODB_VERSION_MINOR=1
+ODB_SOURCE=Specular test fixture

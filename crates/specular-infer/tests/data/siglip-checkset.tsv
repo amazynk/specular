@@ -1,0 +1,156 @@
+# Multilingual check set for search by description (SigLIP 2), over the 24 Kodak test photos
+# (tools/corpus/fetch-siglip2.sh kodak; kodimNN.png). Columns: language, the photos that
+# answer the query (comma-separated numbers), the query. Written for Specular; queries are
+# short, as typed into a search box. Lines starting with # are comments.
+en	1	a stone house with red shutters
+de	1	ein Steinhaus mit roten Fensterläden
+fr	1	une maison en pierre aux volets rouges
+he	1	בית אבן עם תריסים אדומים
+ar	1	منزل حجري بنوافذ حمراء
+ja	1	赤い雨戸のある石造りの家
+zh	1	有红色百叶窗的石头房子
+ko	1	빨간 덧문이 있는 돌집
+en	2	a red door
+de	2	eine rote Tür
+fr	2	une porte rouge
+he	2	דלת אדומה
+ar	2	باب أحمر
+ja	2	赤いドア
+zh	2	一扇红色的门
+ko	2	빨간 문
+en	3	colorful caps on a wall
+de	3	bunte Kappen auf einer Mauer
+fr	3	des casquettes colorées sur un mur
+he	3	כובעים צבעוניים על קיר
+ar	3	قبعات ملونة على جدار
+ja	3	壁の上のカラフルな帽子
+zh	3	墙上的彩色帽子
+ko	3	벽 위의 알록달록한 모자
+en	4	a woman in a red hat
+de	4	eine Frau mit rotem Hut
+fr	4	une femme avec un chapeau rouge
+he	4	אישה עם כובע אדום
+ar	4	امرأة ترتدي قبعة حمراء
+ja	4	赤い帽子をかぶった女性
+zh	4	戴红帽子的女人
+ko	4	빨간 모자를 쓴 여자
+en	5	a motorcycle race
+de	5	ein Motorradrennen
+fr	5	une course de motos
+he	5	מרוץ אופנועים
+ar	5	سباق دراجات نارية
+ja	5	バイクレース
+zh	5	摩托车比赛
+ko	5	오토바이 경주
+en	7	red flowers by a window
+de	7	rote Blumen an einem Fenster
+fr	7	des fleurs rouges près d'une fenêtre
+he	7	פרחים אדומים ליד חלון
+ar	7	زهور حمراء بجانب نافذة
+ja	7	窓のそばの赤い花
+zh	7	窗边的红花
+ko	7	창문 옆의 빨간 꽃
+en	8	old half-timbered houses
+de	8	alte Fachwerkhäuser
+fr	8	de vieilles maisons à colombages
+he	8	בתים ישנים ברחוב של עיר עתיקה
+ar	8	منازل قديمة في بلدة أوروبية
+ja	8	古い木組みの家
+zh	8	古老的半木结构房屋
+ko	8	오래된 목조 골조 주택
+en	9,10	sailboats racing
+de	9,10	Segelboote bei einer Regatta
+fr	9,10	des voiliers en régate
+he	9,10	סירות מפרש בתחרות
+ar	9,10	قوارب شراعية في سباق
+ja	9,10	レース中のヨット
+zh	9,10	帆船比赛
+ko	9,10	요트 경주
+en	12	a couple walking on the beach
+de	12	ein Paar, das am Strand spazieren geht
+fr	12	un couple qui marche sur la plage
+he	12	זוג הולך על החוף
+ar	12	زوجان يمشيان على الشاطئ
+ja	12	浜辺を歩くカップル
+zh	12	在海滩上散步的情侣
+ko	12	해변을 걷는 커플
+en	13	a stream in the mountains
+de	13	ein Bach in den Bergen
+fr	13	un torrent dans les montagnes
+he	13	נחל בהרים
+ar	13	جدول ماء في الجبال
+ja	13	山の中の小川
+zh	13	山间的小溪
+ko	13	산속의 개울
+en	14	white water rafting
+de	14	Wildwasser-Rafting
+fr	14	du rafting en eaux vives
+he	14	רפטינג במים סוערים
+ar	14	قارب مطاطي في نهر سريع
+ja	14	急流でのラフティング
+zh	14	激流漂流
+ko	14	급류 래프팅
+en	15	a child with face paint
+de	15	ein Kind mit bemaltem Gesicht
+fr	15	un enfant au visage peint
+he	15	ילדה עם ציור על הפנים
+ar	15	طفلة بوجه مرسوم
+ja	15	顔にペイントをした子ども
+zh	15	脸上画着彩绘的孩子
+ko	15	얼굴에 페인팅을 한 아이
+en	16	palm trees on a small island
+de	16	Palmen auf einer kleinen Insel
+fr	16	des palmiers sur une petite île
+he	16	עצי דקל על אי קטן
+ar	16	أشجار نخيل على جزيرة صغيرة
+ja	16	小さな島のヤシの木
+zh	16	小岛上的棕榈树
+ko	16	작은 섬의 야자수
+en	17	a statue holding a golden ball
+de	17	eine Statue mit einer goldenen Kugel
+fr	17	une statue tenant une boule dorée
+he	17	פסל המחזיק כדור זהב
+ar	17	تمثال يحمل كرة ذهبية
+ja	17	金色の球を持つ像
+zh	17	拿着金球的雕像
+ko	17	금색 공을 든 조각상
+en	19,21	a lighthouse
+de	19,21	ein Leuchtturm
+fr	19,21	un phare
+he	19,21	מגדלור
+ar	19,21	منارة
+ja	19,21	灯台
+zh	19,21	灯塔
+ko	19,21	등대
+en	20	an old propeller plane
+de	20	ein altes Propellerflugzeug
+fr	20	un vieil avion à hélice
+he	20	מטוס ישן עם מדחף
+ar	20	طائرة قديمة بمروحة
+ja	20	古いプロペラ機
+zh	20	老式螺旋桨飞机
+ko	20	오래된 프로펠러 비행기
+en	22	a red barn by a pond
+de	22	eine rote Scheune an einem Teich
+fr	22	une grange rouge au bord d'un étang
+he	22	אסם אדום ליד בריכה
+ar	22	حظيرة حمراء بجانب بركة
+ja	22	池のそばの赤い納屋
+zh	22	池塘边的红色谷仓
+ko	22	연못 옆의 빨간 헛간
+en	23	two parrots
+de	23	zwei Papageien
+fr	23	deux perroquets
+he	23	שני תוכים
+ar	23	ببغاوان
+ja	23	2羽のオウム
+zh	23	两只鹦鹉
+ko	23	앵무새 두 마리
+en	24	a house with painted walls
+de	24	ein Haus mit bemalter Fassade
+fr	24	une maison à la façade peinte
+he	24	בית עם קירות מצוירים
+ar	24	منزل بجدران مرسومة
+ja	24	壁に絵が描かれた家
+zh	24	墙上有彩绘的房子
+ko	24	벽에 그림이 그려진 집

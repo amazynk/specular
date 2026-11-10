@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Hardened-runtime entitlements for notarisation. Specular needs none of the exceptions
+     (no JIT, no unsigned libraries, no DYLD variables), so the dictionary is empty on purpose.
+     It is not sandboxed (no App Store build), because folder browsing needs access beyond the
+     file the user opened. -->
+<plist version="1.0">
+<dict>
+</dict>
+</plist>

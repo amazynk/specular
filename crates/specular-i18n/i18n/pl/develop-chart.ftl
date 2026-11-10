@@ -1,0 +1,71 @@
+# Specular — Wywoływanie: profil aparatu i profile aparatu z tablicy barw.
+
+develop-input-profile = Profil aparatu
+develop-input-profile-auto = Standard aparatu
+develop-input-profile-matrix = Tylko macierz
+develop-input-profile-file = Plik profilu…
+develop-input-profile-named = Plik: { $name }
+develop-input-profile-in-use = Używany jest { $name }.
+develop-input-profile-changed = Używany jest { $name }. Plik zmienił się od wybrania.
+develop-input-profile-missing = Brak pliku profilu. Używana jest macierz aparatu.
+develop-input-profile-unusable = Nie można użyć pliku profilu: { $reason }. Używana jest macierz aparatu.
+develop-input-profile-dialog = Wybierz profil aparatu
+develop-input-profile-kind = Profile aparatu DNG
+
+develop-chart-start = Utwórz profil z tablicy barw…
+develop-chart-title = Profil z tablicy barw
+develop-chart-kind = Tablica
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Odniesienie
+develop-chart-ref-load = Wczytaj plik…
+develop-chart-hint-xrite = Wczytaj plik odniesienia tablicy (tekst CGATS). Jest dołączony do tablicy lub dostępny na stronie X-Rite dla wydania tablicy.
+develop-chart-hint-it8 = Wczytaj plik odniesienia swojej tablicy. Każda partia ma własny, od producenta.
+develop-chart-spyder = SpyderCHECKR nie jest obsługiwany: jego wartości barw należą do Datacolor.
+develop-chart-step-reference = Wybierz tablicę i wczytaj jej plik odniesienia.
+develop-chart-step-corner = Kliknij środek pola { $name } ({ $number } z 4).
+develop-chart-measuring = Pomiar tablicy…
+develop-chart-step-save = Zapisz profil albo zaznacz rogi ponownie.
+develop-chart-corner-dark-skin = ciemna skóra (lewy górny róg)
+develop-chart-corner-bluish-green = niebieskozielony (prawy górny róg)
+develop-chart-corner-black = czarny (prawy dolny róg)
+develop-chart-corner-white = biały (lewy dolny róg)
+
+develop-chart-ref-too-large = Plik jest za duży jak na plik odniesienia.
+develop-chart-ref-not-cgats = To nie jest plik odniesienia CGATS.
+develop-chart-ref-no-ids = Plik nie ma nazw pól.
+develop-chart-ref-no-colour = Plik nie ma wartości L*a*b* ani XYZ.
+develop-chart-ref-bad-row = Wiersz { $row } pliku jest uszkodzony.
+develop-chart-ref-count = Plik podaje { $declared } pól, a zawiera { $found }.
+develop-chart-ref-duplicate = Pole { $id } występuje w pliku dwa razy.
+develop-chart-ref-illuminant = Wartości są dla światła { $name }. Potrzebne jest D50 lub D65.
+develop-chart-ref-wrong-chart = Plik ma { $found } pól. Ta tablica ma { $expected }.
+develop-chart-ref-names = Nazwy pól nie pasują do tej tablicy.
+develop-chart-ref-corner = W pliku brak pola narożnego { $id }.
+develop-chart-ref-unreadable = Nie można odczytać pliku: { $reason }
+develop-chart-ref-dialog = Wybierz plik odniesienia tablicy
+develop-chart-ref-kind = Pliki odniesienia tablic barw
+
+develop-chart-not-found = Nie znaleziono tam tablicy. Zaznacz rogi ponownie.
+develop-chart-too-few = Można użyć tylko { $count } pól. Oświetl tablicę równomiernie i unikaj odblasków.
+develop-chart-no-greys = Nie można użyć żadnego szarego pola. Naświetl tak, by szarości nie były przepalone.
+develop-chart-degenerate = Pola są zbyt podobne, by utworzyć profil.
+
+develop-chart-report-after = ΔE2000 z profilem: średnia { $mean }, mediana { $median }, maks. { $max }
+develop-chart-report-before = Przedtem: średnia { $mean }, mediana { $median }, maks. { $max }
+develop-chart-report-cv = Sprawdzone na polach spoza dopasowania: średnia { $mean }
+develop-chart-left-out = Pominięte: { $id } ({ $why })
+develop-chart-left-clipped = przepalone
+develop-chart-left-uneven = odblask lub kurz
+develop-chart-left-outside = poza zdjęciem
+develop-chart-uneven-light = Szarości różnią się o { PERCENT($percent) }: światło może być nierówne.
+develop-chart-use-camera = Używaj do zdjęć z { $camera }
+develop-chart-again = Zaznacz ponownie
+develop-chart-save = Zapisz…
+develop-chart-close = Zamknij
+develop-chart-save-title = Zapisz profil aparatu
+develop-chart-default-name = Profil z tablicy { $camera }
+develop-chart-saved = Zapisano { $name } jako { $file }.
+develop-chart-save-failed = Nie można zapisać profilu: { $reason }

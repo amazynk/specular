@@ -1,0 +1,25 @@
+[package]
+name = "specular-stream"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Network streams for the player: HTTP files by ranges, HLS and DASH playlists, internet radio (ICY), fetched into cache files the existing demuxers read"
+
+[dependencies]
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+specular-playlist = { path = "../specular-playlist" }
+specular-remote = { path = "../specular-remote" }
+specular-thread = { path = "../specular-thread" }
+parking_lot = "0.12"
+# AES-128 for HLS segments (RustCrypto; CBC itself is the few lines in `aes128`).
+aes = "0.9"
+roxmltree = "0.21"
+
+[dev-dependencies]
+# The oracle: what we assemble must parse to the same samples as the progressive original.
+specular-video = { path = "../specular-video" }
+
+[lints]
+workspace = true

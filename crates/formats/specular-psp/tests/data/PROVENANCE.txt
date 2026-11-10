@@ -1,0 +1,4 @@
+All files here are from Mike Lischke's GraphicEx test suite
+(https://github.com/mike-lischke/GraphicEx, commit 9c1c367a82f8f6a0af8afe9699ae39b7861ddb49,
+"TestSuite original"), Mozilla Public License 1.1, renamed and unmodified.
+tools/corpus/fetch-editors-psp.sh fetches the full set.

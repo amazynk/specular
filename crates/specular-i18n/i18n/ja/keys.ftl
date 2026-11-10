@@ -1,0 +1,104 @@
+# Specular — Settings → Keys, the key binding editor (DESIGN.md §11). machine-drafted, needs native review
+# Key names inside messages ($keys) are never translated.
+
+settings-keys-sequence-timeout = 次のキーを待つ時間
+settings-keys-sequence-timeout-help = G G のようなキーシーケンスが次のキーを待つ時間です。より長いシーケンスの先頭でもあるキーは、この待ち時間の後に実行されます。
+settings-keys-bindings = キー割り当て
+settings-keys-bindings-help = 操作を選び、割り当てるキーを押します。モードごとに独自のキーがあり、選別モードと医用画像では未割り当てのキーにビューアーのキーが使われます。Esc を割り当てるには軽く押します。長押しで取り消します。割り当ては keymap.toml に保存されます。
+palette-customise-keys = キーをカスタマイズ…
+keys-mode-viewer = ビューアー
+keys-mode-cull = 選別モード
+keys-mode-medical = 医用画像
+keys-modes = モード
+keys-presets = プリセット
+keys-preset-default = 既定
+keys-preset-vim = Vim
+keys-preset-culling = Lightroom 風の選別
+keys-preset-photo-mechanic = Photo Mechanic 風
+action-pan-left = 左へ移動
+action-pan-right = 右へ移動
+action-pan-up = 上へ移動
+action-pan-down = 下へ移動
+action-pan-page-left = 1 画面左へ移動
+action-pan-page-right = 1 画面右へ移動
+action-pan-page-up = 1 画面上へ移動
+action-pan-page-down = 1 画面下へ移動
+action-reload = 画像を再読み込み
+keys-action-cull-pick = 採用
+keys-action-cull-reject = 不採用
+keys-action-cull-unflag = フラグを解除
+keys-action-cull-rate = { $stars ->
+    [0] レーティングを解除
+   *[other] 星 { $stars } つを付ける
+}
+keys-action-cull-label = カラーラベル: { $label }
+keys-action-cull-copy-to = フォルダー { $slot } にコピー
+keys-action-cull-move-to = フォルダー { $slot } に移動
+keys-import = インポート…
+keys-export = エクスポート…
+keys-export-mode = { $mode }をエクスポート…
+keys-reset-mode = { $mode }をリセット
+keys-reset-all = すべてのキーをリセット
+keys-add = { $action } にキーを追加
+keys-change = { $keys } を変更
+keys-remove = { $keys } を削除
+keys-reset-action = { $action } をリセット
+keys-none = キーなし
+keys-changed = 変更済み
+keys-press = キーを押してください…
+keys-recording-hint = Esc の長押しで取り消し
+keys-cancel-recording = キャンセル
+keys-no-match = 「{ $query }」に一致する操作やキーはありません。
+keys-list = 操作とそのキー
+keys-confirm-preset = プリセット { $preset } を使用しますか? すべてのキー割り当てが置き換えられます。
+keys-confirm-reset-mode = { $mode }のすべてのキーをプリセットに戻しますか?
+keys-confirm-reset-all = すべてのモードのすべてのキーをプリセットに戻しますか?
+keys-confirm-ok = 置き換える
+keys-confirm-reset = リセット
+keys-confirm-cancel = キャンセル
+keys-conflict-same = { $keys } はすでに「{ $other }」を実行します。
+keys-conflict-prefix = { $keys } と { $sequence }(「{ $other }」)は先頭が同じです。短い方は待ち時間の後にのみ実行されます。
+keys-conflict-shadow = { $keys } は{ $mode }で「{ $other }」を実行します。
+keys-conflict-reserved = { $keys } は Specular に届かない可能性があります: { $reason }
+keys-choice-replace = 置き換える
+keys-choice-swap = 入れ替える
+keys-choice-keep = 両方残す
+keys-choice-anyway = それでも割り当てる
+keys-choice-cancel = キャンセル
+keys-reserved-switch = ウィンドウを切り替えます。
+keys-reserved-close = ウィンドウを閉じます。
+keys-reserved-secure = システムが使用します。
+keys-reserved-desktop = Super キーのショートカットはデスクトップ用です。
+keys-reserved-workspaces = 端末またはワークスペースを切り替えます。
+keys-reserved-input = 入力方式またはキーボード配列を切り替えます。
+keys-reserved-macos = macOS が使用します。
+keys-announce-recording = { $action } のキーを記録中です。キーを押すか、Esc を長押しして取り消します。
+keys-announce-key = { $keys }
+keys-announce-bound = { $keys } で { $action } を実行するようになりました。
+keys-announce-already = { $keys } はすでに { $action } を実行します。
+keys-announce-cancelled = 記録を取り消しました。
+keys-announce-removed = { $keys } を { $action } から削除しました。
+keys-announce-reset-action = { $action } をプリセットのキーに戻しました。
+keys-announce-reset-mode = { $mode }のキーをリセットしました。
+keys-announce-reset-all = すべてのキーをリセットしました。
+keys-announce-preset = プリセット { $preset } を使用中です。
+keys-toast-imported = キー割り当てをインポートしました
+keys-toast-exported = キー割り当てをエクスポートしました
+keys-toast-reloaded = keymap.toml が変更されたため、キー割り当てを再読み込みしました
+keys-toast-error = キー割り当てを読み込めませんでした: { $error }
+keys-toast-write-error = keymap.toml を保存できませんでした: { $error }
+keys-pending = { $keys } …  { $next }
+keys-problem-syntax = keymap.toml を読み込めませんでした: { $error }
+keys-problem-key = 不明なキー「{ $key }」を無視しました。
+keys-problem-action = 「{ $key }」は不明な操作「{ $action }」を指定しているため無視しました。
+keys-problem-mode = テーブル [{ $mode }] はモードではないため無視しました。
+keys-problem-duplicate = { $keys } が{ $mode }で 2 回指定されています。後の方が使われます。
+keys-problem-prefix = { $keys } は{ $mode }で { $longer } の先頭なので、待ち時間の後にのみ実行されます。
+keys-problem-preset = 不明なプリセット「{ $preset }」です。既定のキーが使われます。
+
+## keymap.toml editor (machine-drafted, needs native review)
+
+keys-edit-file = keymap.toml を編集
+keys-problem-action-suggestion = 「{ $key }」は不明な操作「{ $action }」を指定しているため無視しました。「{ $suggestion }」のことですか？
+keys-problem-mode-suggestion = テーブル [{ $mode }] はモードではないため無視しました。[{ $suggestion }] のことですか？
+keys-problem-preset-suggestion = 不明なプリセット「{ $preset }」です。既定のキーが使われます。「{ $suggestion }」のことですか？

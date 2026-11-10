@@ -1,0 +1,19 @@
+{
+"point_data": [
+{
+"name": "pressure",
+"components": 1,
+"tuples": 18,
+"offset": 0
+}
+],
+"cell_data": [],
+"field_data": [],
+"kind": "grid",
+"dims": [
+3,
+3,
+2
+],
+"points": 18
+}

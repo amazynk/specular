@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = Eksportuj zanonimizowaną kopię…
+palette-export-patient-disc = Eksportuj folder płyty pacjenta…
+palette-mask-burned-in-text = Zamaskuj wypalony tekst
+anon-title = Eksportuj zanonimizowaną kopię
+anon-disc-title = Eksportuj folder płyty pacjenta
+anon-images = Obrazy
+anon-images-current = Ten obraz
+anon-images-series = Ta seria (pliki: { $count })
+anon-images-study = To badanie (pliki: { $count })
+anon-images-reading = Odczytywanie folderu…
+anon-anonymise = Anonimizuj
+anon-dates = Daty i godziny
+anon-dates-remove = Usuń
+anon-dates-keep = Zachowaj
+anon-dates-shift = Przesuń
+anon-patient = Cechy pacjenta
+anon-device = Tożsamość urządzenia
+anon-institution = Tożsamość placówki
+anon-descriptions = Opisy
+anon-descriptions-remove = Usuń
+anon-descriptions-clean = Oczyść
+anon-structured = Treść raportów
+anon-uids = UID
+anon-uids-replace = Zastąp
+anon-uids-keep = Zachowaj
+anon-overlays = Nakładki i krzywe
+anon-keep = Zachowaj
+anon-remove = Usuń
+anon-on = Wł.
+anon-off = Wył.
+anon-burned-in = Wypalony tekst
+anon-masks = Zamaskowane obszary: { $count }
+anon-masks-none = Brak masek
+anon-folder = Folder
+anon-folder-choose = Wybierz…
+anon-export = Eksportuj
+anon-risk-present = Te obrazy deklarują, że zawierają tekst pacjenta: zamaskuj go przed eksportem.
+anon-risk-possible = Obrazy tego rodzaju często zawierają tekst pacjenta: sprawdź przed eksportem.
+anon-progress = Eksportowanie { $done } z { $total }…
+anon-stopping = Zatrzymywanie…
+anon-mask-title = Zamaskuj wypalony tekst
+anon-mask-hint = Przeciągnij po tekście, aby go zamaskować. Zamaskowane obszary stają się czarne w każdej klatce.
+anon-mask-suggest = Zaproponuj
+anon-mask-remove = Usuń
+anon-mask-clear = Wyczyść
+anon-mask-done = Gotowe
+anon-mask-area = Obszar { $n }, { $width } × { $height } pikseli
+anon-mask-suggested = { $count ->
+    [0] Nie znaleziono tekstu przy krawędziach
+   *[other] Zaproponowane obszary tekstu: { $count }
+}
+anon-done = Zanonimizowane pliki zapisane w { $folder }: { $count }
+anon-disc-done = Folder płyty pacjenta zapisany w { $folder }, obrazy: { $count }
+anon-skipped-burned-in = Pominięte pliki z wypalonym tekstem bez masek: { $count }
+anon-skipped-failed = Pliki, których nie udało się wyeksportować: { $count }
+anon-stopped = Eksport zatrzymany
+anon-failed = Nie można wyeksportować: { $reason }
+anon-not-empty = Folder zawiera już płytę pacjenta

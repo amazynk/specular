@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galleria	the thumbnail grid of one folder	
+Library	Library	Kirjasto	the catalogue of indexed folders	
+Folder	Folder	Kansio	a file-system folder	
+Remove	Remove	Poista	take an item out of a list; files stay	
+Delete	Delete	Poista	destroy data or files	
+Forget	Forget	Unohda	drop a remembered choice or record	
+Move to trash	Move to trash	Siirrä roskakoriin	send files to the system trash	
+Export	Export	Vie	write a copy in another form	
+Import	Import	Tuonti	copy photos in from a card or device	
+Settings	Settings	Asetukset	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Kumoa	reverse the last action (never the word for Cancel)	
+Redo	Redo	Tee uudelleen		
+Zoom	Zoom	Zoomaus	image magnification	
+Page	Page	Sivu	a page of a document or multi-page file	
+Layer	Layers	Tasot	drawing and map layers (circuit boards: their own word)	Taso; circuit-board layers are Kerrokset.
+Channel	Channels	Kanavat	colour or audio channels	
+Series	Series	Sarja	a DICOM series	
+Study	Study	Tutkimus	a DICOM study	
+Slice	Slice	Leike	one cross-sectional image of a volume	
+Frame	Frames	Kehykset	one image of a video, animation or sequence (not a picture frame)	Kehys (viitekehys for frame of reference).
+Track	Track	Raita	a numbered piece of an album	
+Subtitle	Subtitles	Tekstitykset	text over a video	
+Loudness	Loudness	Äänekkyys	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Malli	a local AI model	
+Download	Download	Lataa	fetch from the network	
+Cull mode	Cull mode	Karsintatila	the mode for picking and rejecting photos	
+Pick	Pick	Valitse	a cull mark	
+Reject	Reject	Hylkää	a cull mark	
+Rating	Rating	Arvio	stars	
+Local AI	Local AI	Paikallinen tekoäly	the Settings section and the feature set	
+Metadata	Metadata	Metatiedot		
+Thumbnail	Thumbnail	Pikkukuva		
+Slideshow	Slideshow	Diaesitys		
+Compare	Compare	Vertailu		
+Print	Print	Tulosta		
+Search	Search	Hae		
+Filter	Filter	Suodatin	narrow what is shown (not an optical filter)	
+Rename	Rename	Nimeä uudelleen		

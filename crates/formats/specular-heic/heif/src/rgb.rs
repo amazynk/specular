@@ -1,0 +1,426 @@
+//! YCbCr → RGB conversion of a composed [`HeifFrame`] (H.273 §8.3
+//! matrix coefficients, full / limited range), the last step a renderer
+//! needs after composing a decoded item.
+//!
+//! The conversion is exact per sample (no dithering, round-to-nearest);
+//! sub-sampled chroma is replicated to its co-sited luma samples
+//! (chroma sample position 0 / "left-sited" in H.273 Figure 1 terms
+//! puts the chroma sample at the left luma column of each pair, so
+//! nearest replication is exact there for even columns). Monochrome
+//! becomes grey; an alpha plane is carried through untouched.
+
+use crate::error::{HeifError, Result};
+use crate::image::{Chroma, HeifFrame, HeifPixelFormat, Plane};
+use crate::props::Colr;
+
+/// An interleaved RGB / RGBA picture, one `u16` per sample holding
+/// `bit_depth` significant bits.
+#[derive(Clone, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub struct RgbImage16 {
+    /// Width in pixels.
+    pub width: u32,
+    /// Height in pixels.
+    pub height: u32,
+    /// 3 (RGB) or 4 (RGBA).
+    pub channels: usize,
+    /// Bits per sample (8..=16), the source frame's depth.
+    pub bit_depth: u8,
+    /// `width × height × channels` samples, row-major.
+    pub data: Vec<u16>,
+}
+impl RgbImage16 {
+    /// Every field as a positional argument, in declaration order
+    /// (the struct is `#[non_exhaustive]`: build it here or from
+    /// `Default` where one exists, then read / assign its public fields).
+    pub fn new(width: u32, height: u32, channels: usize, bit_depth: u8, data: Vec<u16>) -> Self {
+        Self {
+            width,
+            height,
+            channels,
+            bit_depth,
+            data,
+        }
+    }
+}
+
+impl RgbImage16 {
+    /// One sample.
+    #[inline]
+    pub fn sample(&self, x: u32, y: u32, c: usize) -> u16 {
+        self.data[(y as usize * self.width as usize + x as usize) * self.channels + c]
+    }
+
+    /// The samples as bytes: one byte per sample at 8 bits, big-endian
+    /// words above (PNG / TIFF order).
+    pub fn to_be_bytes(&self) -> Vec<u8> {
+        if self.bit_depth <= 8 {
+            self.data.iter().map(|v| *v as u8).collect()
+        } else {
+            self.data.iter().flat_map(|v| v.to_be_bytes()).collect()
+        }
+    }
+}
+
+/// `(Kr, Kb)` of a `matrix_coefficients` code point (H.273 Table 4);
+/// `None` for the identity matrix (0) and for the constant-luminance /
+/// chromaticity-derived / ICtCp variants this crate does not convert.
+pub fn matrix_kr_kb(matrix: u16) -> Option<(f64, f64)> {
+    Some(match matrix {
+        1 => (0.2126, 0.0722),
+        4 => (0.30, 0.11),
+        // 2 = unspecified: readers assume BT.601 (the MIAF default).
+        2 | 5 | 6 => (0.299, 0.114),
+        7 => (0.212, 0.087),
+        9 => (0.2627, 0.0593),
+        _ => return None,
+    })
+}
+
+/// Convert `frame` to RGB(A) using the matrix / range of `colr`
+/// (`nclx`; an ICC or absent `colr` falls back to the MIAF default:
+/// BT.601 matrix, full range). Samples keep the frame's bit depth.
+pub fn to_rgb(frame: &HeifFrame, colr: Option<&Colr>) -> Result<RgbImage16> {
+    frame.validate()?;
+    let depth = frame.format.bit_depth;
+    let max = ((1u32 << depth) - 1) as f64;
+    let has_alpha = frame.format.has_alpha;
+    let channels = 3 + has_alpha as usize;
+    let mut data = Vec::with_capacity(frame.width as usize * frame.height as usize * channels);
+    let quant = |v: f64| (v * max).round().clamp(0.0, max) as u16;
+    for_each_pixel(
+        frame.width,
+        frame.height,
+        frame.format,
+        &frame.planes,
+        colr,
+        |rgb, alpha| {
+            data.extend_from_slice(&[quant(rgb[0]), quant(rgb[1]), quant(rgb[2])]);
+            if has_alpha {
+                data.push(alpha);
+            }
+        },
+    )?;
+    Ok(RgbImage16 {
+        width: frame.width,
+        height: frame.height,
+        channels,
+        bit_depth: depth,
+        data,
+    })
+}
+
+/// Convert planes of `layout` to tightly packed 8-bit RGB (`alpha`
+/// false) or RGBA (`alpha` true): the same kernel as [`to_rgb`], the
+/// normalised result quantised to 8 bits (round to nearest), the alpha
+/// plane scaled to 8 bits and opaque (255) when the layout has none.
+pub fn planes_to_rgb8(
+    width: u32,
+    height: u32,
+    layout: HeifPixelFormat,
+    planes: &[Plane],
+    colr: Option<&Colr>,
+    alpha: bool,
+) -> Result<Vec<u8>> {
+    let out_bpp = 3 + alpha as usize;
+    let mut data = Vec::with_capacity(width as usize * height as usize * out_bpp);
+    let src_max = layout.max_value() as f64;
+    let quant = |v: f64| (v * 255.0).round().clamp(0.0, 255.0) as u8;
+    for_each_pixel(width, height, layout, planes, colr, |rgb, a| {
+        data.extend_from_slice(&[quant(rgb[0]), quant(rgb[1]), quant(rgb[2])]);
+        if alpha {
+            data.push(if layout.has_alpha {
+                (a as f64 / src_max * 255.0).round().clamp(0.0, 255.0) as u8
+            } else {
+                255
+            });
+        }
+    })?;
+    Ok(data)
+}
+
+/// The YCbCr → RGB kernel shared by [`to_rgb`] and [`planes_to_rgb8`]:
+/// calls `f(rgb, alpha)` per pixel in row-major order with the
+/// normalised (0.0 ..= 1.0, unclamped) RGB and the raw alpha sample (0
+/// when the layout has no alpha plane). H.273 §8.3 equations with the
+/// matrix / range of `colr` (MIAF default for ICC / absent); identity
+/// matrix 0 reads the planes as G, B, R; monochrome becomes grey;
+/// sub-sampled chroma is replicated to its co-sited luma samples.
+pub fn for_each_pixel(
+    width: u32,
+    height: u32,
+    layout: HeifPixelFormat,
+    planes: &[Plane],
+    colr: Option<&Colr>,
+    mut f: impl FnMut([f64; 3], u16),
+) -> Result<()> {
+    // Geometry check without cloning the planes.
+    if planes.len() != layout.plane_count() {
+        return Err(HeifError::invalid(format!(
+            "{} planes, layout needs {}",
+            planes.len(),
+            layout.plane_count()
+        )));
+    }
+    let bps = layout.bytes_per_sample();
+    for (i, p) in planes.iter().enumerate() {
+        let (w, h) = layout.plane_dims(i, width, height);
+        if p.stride < w as usize * bps
+            || p.stride == 0
+            || h == 0
+            || p.data.len() < p.stride * (h as usize - 1) + w as usize * bps
+        {
+            return Err(HeifError::invalid(format!(
+                "plane {i} too small for its layout"
+            )));
+        }
+    }
+    let sample = |plane: usize, x: u32, y: u32| -> u16 {
+        let p = &planes[plane];
+        let i = y as usize * p.stride + x as usize * bps;
+        if bps == 1 {
+            p.data[i] as u16
+        } else {
+            u16::from_le_bytes([p.data[i], p.data[i + 1]])
+        }
+    };
+    let (matrix, full_range) = match colr {
+        Some(Colr::Nclx {
+            matrix, full_range, ..
+        }) => (*matrix, *full_range),
+        _ => (6, true),
+    };
+    let depth = layout.bit_depth as u32;
+    let max = ((1u32 << depth) - 1) as f64;
+    let alpha = layout.alpha_plane();
+    // Limited-range scale factors (H.273 equations 20–22 inverted).
+    let sh = (1u32 << (depth - 8)) as f64;
+    let (y_off, y_scale, c_scale) = if full_range {
+        (0.0, max, max)
+    } else {
+        (16.0 * sh, 219.0 * sh, 224.0 * sh)
+    };
+    let mid = (1u32 << (depth - 1)) as f64;
+    let (w, h) = (width, height);
+    if layout.chroma == Chroma::Mono {
+        for y in 0..h {
+            for x in 0..w {
+                let g = (sample(0, x, y) as f64 - y_off) / y_scale;
+                f([g, g, g], alpha.map(|a| sample(a, x, y)).unwrap_or(0));
+            }
+        }
+        return Ok(());
+    }
+    let (sx, sy) = layout.chroma.shift();
+    let kr_kb = if matrix == 0 {
+        None
+    } else {
+        Some(matrix_kr_kb(matrix).ok_or_else(|| {
+            HeifError::unsupported(format!("matrix_coefficients {matrix} conversion"))
+        })?)
+    };
+    for y in 0..h {
+        for x in 0..w {
+            let yv = sample(0, x, y) as f64;
+            let cb = sample(1, x >> sx, y >> sy) as f64;
+            let cr = sample(2, x >> sx, y >> sy) as f64;
+            let rgb = match kr_kb {
+                None => {
+                    // Identity: Y = G, Cb = B, Cr = R (equations 41–43).
+                    [
+                        (cr - y_off) / y_scale,
+                        (yv - y_off) / y_scale,
+                        (cb - y_off) / y_scale,
+                    ]
+                }
+                Some((kr, kb)) => {
+                    let ey = (yv - y_off) / y_scale;
+                    let pb = (cb - mid) / c_scale;
+                    let pr = (cr - mid) / c_scale;
+                    let r = ey + 2.0 * (1.0 - kr) * pr;
+                    let b = ey + 2.0 * (1.0 - kb) * pb;
+                    let g = (ey - kr * r - kb * b) / (1.0 - kr - kb);
+                    [r, g, b]
+                }
+            };
+            f(rgb, alpha.map(|a| sample(a, x, y)).unwrap_or(0));
+        }
+    }
+    Ok(())
+}
+
+/// Convert an interleaved RGB / RGBA picture to a planar 4:4:4 YCbCr
+/// (or monochrome, when `chroma` is [`Chroma::Mono`]: the R = G = B
+/// grey level) frame at the picture's bit depth, using the matrix /
+/// range of `colr` exactly as [`to_rgb`] does in the other direction
+/// (H.273 equations 20–22 / 38–40; identity matrix 0 = GBR). An alpha
+/// channel becomes the alpha plane.
+pub fn from_rgb(rgb: &RgbImage16, colr: Option<&Colr>, chroma: Chroma) -> Result<HeifFrame> {
+    if !matches!(chroma, Chroma::Yuv444 | Chroma::Mono) {
+        return Err(HeifError::unsupported(
+            "from_rgb writes 4:4:4 or monochrome frames only",
+        ));
+    }
+    if !(3..=4).contains(&rgb.channels) || !(8..=16).contains(&rgb.bit_depth) {
+        return Err(HeifError::invalid(format!(
+            "from_rgb: {} channels at {} bits",
+            rgb.channels, rgb.bit_depth
+        )));
+    }
+    let (matrix, full_range) = match colr {
+        Some(Colr::Nclx {
+            matrix, full_range, ..
+        }) => (*matrix, *full_range),
+        _ => (6, true),
+    };
+    let depth = rgb.bit_depth as u32;
+    let max = ((1u32 << depth) - 1) as f64;
+    let sh = (1u32 << (depth - 8)) as f64;
+    let (y_off, y_scale, c_scale) = if full_range {
+        (0.0, max, max)
+    } else {
+        (16.0 * sh, 219.0 * sh, 224.0 * sh)
+    };
+    let mid = (1u32 << (depth - 1)) as f64;
+    let has_alpha = rgb.channels == 4;
+    let fmt = HeifPixelFormat::new(chroma, rgb.bit_depth, has_alpha)?;
+    let mut out = HeifFrame::zeroed(rgb.width, rgb.height, fmt)?;
+    let quant = |v: f64| v.round().clamp(0.0, max) as u16;
+    let kr_kb = if chroma == Chroma::Mono || matrix == 0 {
+        None
+    } else {
+        Some(matrix_kr_kb(matrix).ok_or_else(|| {
+            HeifError::unsupported(format!("matrix_coefficients {matrix} conversion"))
+        })?)
+    };
+    for y in 0..rgb.height {
+        for x in 0..rgb.width {
+            let r = rgb.sample(x, y, 0) as f64 / max;
+            let g = rgb.sample(x, y, 1) as f64 / max;
+            let b = rgb.sample(x, y, 2) as f64 / max;
+            match (chroma, kr_kb) {
+                (Chroma::Mono, _) => {
+                    out.set_sample(0, x, y, quant(g * y_scale + y_off));
+                }
+                (_, None) => {
+                    // Identity: Y = G, Cb = B, Cr = R.
+                    out.set_sample(0, x, y, quant(g * y_scale + y_off));
+                    out.set_sample(1, x, y, quant(b * y_scale + y_off));
+                    out.set_sample(2, x, y, quant(r * y_scale + y_off));
+                }
+                (_, Some((kr, kb))) => {
+                    let ey = kr * r + (1.0 - kr - kb) * g + kb * b;
+                    let pb = (b - ey) / (2.0 * (1.0 - kb));
+                    let pr = (r - ey) / (2.0 * (1.0 - kr));
+                    out.set_sample(0, x, y, quant(ey * y_scale + y_off));
+                    out.set_sample(1, x, y, quant(pb * c_scale + mid));
+                    out.set_sample(2, x, y, quant(pr * c_scale + mid));
+                }
+            }
+            if let Some(a) = out.format.alpha_plane() {
+                out.set_sample(a, x, y, rgb.sample(x, y, 3));
+            }
+        }
+    }
+    Ok(out)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::compose::fill_to_ycbcr;
+    use crate::image::HeifPixelFormat;
+
+    fn frame_of(chroma: Chroma, depth: u8, ycc: [u16; 3]) -> HeifFrame {
+        let mut f =
+            HeifFrame::zeroed(2, 2, HeifPixelFormat::new(chroma, depth, false).unwrap()).unwrap();
+        for (p, v) in ycc.iter().enumerate() {
+            let (pw, ph) = f.plane_dims(p);
+            for y in 0..ph {
+                for x in 0..pw {
+                    f.set_sample(p, x, y, *v);
+                }
+            }
+        }
+        f
+    }
+
+    #[test]
+    fn round_trips_the_overlay_fill_conversion() {
+        for (matrix, full) in [(6u16, true), (1, false), (9, false), (0, true), (5, true)] {
+            let colr = Colr::Nclx {
+                primaries: 1,
+                transfer: 13,
+                matrix,
+                full_range: full,
+            };
+            for depth in [8u8, 10] {
+                let max = (1u32 << depth) - 1;
+                for rgb in [
+                    [0u16, 0, 0],
+                    [65535, 65535, 65535],
+                    [65535, 0, 0],
+                    [12000, 40000, 30000],
+                ] {
+                    let ycc = fill_to_ycbcr(rgb, depth, Some(&colr));
+                    let f = frame_of(Chroma::Yuv444, depth, ycc);
+                    let out = to_rgb(&f, Some(&colr)).unwrap();
+                    assert_eq!(out.channels, 3);
+                    for c in 0..3 {
+                        let want = (rgb[c] as f64 / 65535.0 * max as f64).round() as i32;
+                        let got = out.sample(1, 1, c) as i32;
+                        assert!(
+                            (got - want).abs() <= 1 + (depth as i32 - 8),
+                            "matrix {matrix} full {full} depth {depth} rgb {rgb:?}: ch {c} got {got} want {want}"
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn mono_and_alpha_and_subsampling() {
+        let mut f = HeifFrame::filled(
+            2,
+            2,
+            HeifPixelFormat::new(Chroma::Mono, 8, true).unwrap(),
+            200,
+        )
+        .unwrap();
+        f.set_sample(1, 1, 1, 17);
+        let limited = Colr::Nclx {
+            primaries: 1,
+            transfer: 1,
+            matrix: 1,
+            full_range: false,
+        };
+        let out = to_rgb(&f, Some(&limited)).unwrap();
+        assert_eq!(out.channels, 4);
+        assert_eq!(out.sample(1, 1, 3), 17);
+        assert_eq!(
+            out.sample(0, 0, 0),
+            ((200.0 - 16.0) / 219.0 * 255.0f64).round() as u16
+        );
+        assert_eq!(out.to_be_bytes().len(), 16);
+        // 4:2:0 replicates the single chroma sample over the 2x2 block.
+        let g = frame_of(Chroma::Yuv420, 8, [128, 64, 192]);
+        let out = to_rgb(&g, None).unwrap();
+        for y in 0..2 {
+            for x in 0..2 {
+                assert_eq!(out.sample(x, y, 0), out.sample(0, 0, 0));
+            }
+        }
+        assert!(out.sample(0, 0, 0) > out.sample(0, 0, 1), "Cr high → red");
+        assert!(to_rgb(
+            &frame_of(Chroma::Yuv444, 8, [1, 2, 3]),
+            Some(&Colr::Nclx {
+                primaries: 1,
+                transfer: 1,
+                matrix: 14,
+                full_range: true
+            })
+        )
+        .is_err());
+    }
+}

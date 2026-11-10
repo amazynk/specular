@@ -1,0 +1,83 @@
+# DICOM series and the tag browser. machine-drafted, needs native review
+
+palette-dicom-tags = DICOM タグを表示
+palette-next-series = 次のシリーズ
+palette-prev-series = 前のシリーズ
+disabled-not-dicom = 画像は DICOM ファイルではありません
+disabled-no-other-series = このフォルダーに他のシリーズはありません
+dicom-tags-title = DICOM タグ
+dicom-tags-title-file = DICOM タグ: { $file }
+dicom-tags-filter = タグを絞り込む
+dicom-tags-show-patient = 患者データを表示
+dicom-tags-col-tag = タグ
+dicom-tags-col-keyword = キーワード
+dicom-tags-col-vr = VR
+dicom-tags-col-length = 長さ
+dicom-tags-col-value = 値
+dicom-tags-hidden = 非表示
+dicom-tags-hidden-count = 患者の値 { $count } 件を非表示
+dicom-tags-no-match = 一致するタグはありません
+dicom-tags-reading = タグを読み込み中…
+dicom-tags-error = タグを読み込めませんでした: { $reason }
+dicom-tags-items = { $count } 項目
+dicom-tags-fragments = { $count } フラグメント
+dicom-tags-item = 項目 { $index }
+dicom-tags-bytes = { $count } バイト
+dicom-tags-empty = (空)
+dicom-tags-omitted = 表示されていない要素があと { $count } 件
+dicom-series-group = シリーズ
+dicom-series-slice = スライス
+dicom-series-slice-value = { $index } / { $count }
+dicom-series-frames = { $frames } フレーム
+dicom-series-location = スライス位置
+dicom-series-mm = { $mm } mm
+dicom-series-spacing = スライス間隔
+dicom-series-which = シリーズ
+dicom-series-which-value = { $index } / { $count }
+dicom-series-order = 順序
+dicom-series-order-position = 位置順
+dicom-series-order-instance = インスタンス番号順
+dicom-series-order-time = 収集時刻順
+dicom-series-order-name = ファイル名順
+dicom-series-gaps = 欠落スライス
+dicom-series-gaps-value = { $count } 枚のスライスが欠落
+dicom-series-gaps-where = スライス { $slices } の後
+dicom-series-irregular = 間隔が不規則です
+dicom-series-tilt = ガントリー傾斜
+dicom-series-tilt-value = { $degrees }°
+dicom-series-duplicates = 重複をスキップしました
+dicom-series-toast = { $series ->
+    [1] シリーズ – { $count } スライス
+   *[other] シリーズ { $index } / { $series } – { $count } スライス
+}
+dicom-series-capped = フォルダーの最初の { $count } ファイルのみ読み込みました
+
+studies-title = 検査
+studies-title-medium = 検査: { $medium }
+studies-show-patient = 患者データを表示
+studies-patient-hidden = 非表示
+studies-patient-hidden-note = 患者名と生年月日は非表示です
+studies-none = 検査が見つかりません
+studies-reading = ディスクを読み込み中…
+studies-reading-count = ディスクを読み込み中: { $done } / { $total } ファイル
+studies-opening = シリーズを開いています…
+studies-error = ディスクを読み込めませんでした: { $reason }
+studies-missing = ディスクに記載された { $count } 個のファイルがありません
+studies-capped = 最初の { $count } ファイルのみ読み込みました
+# machine-drafted, needs native review
+studies-stopped = { $total } ファイル中 { $done } ファイルで読み込みを停止しました: 一覧は不完全です
+studies-stopped-early = 読み込みを停止しました: 一覧は不完全です
+studies-cancel-description = ディスクの読み込みを停止します。読み込んだ分は一覧に残ります。
+studies-patient-n = 患者 { $index }
+studies-patient-unknown = 不明な患者
+studies-born = 生年月日 { $date }
+studies-no-description = 説明なし
+studies-series = シリーズ { $number }: { $description }
+studies-series-number = シリーズ { $number }
+studies-images = { $count } 画像
+studies-images-missing = { $count } 欠落
+studies-others = その他のオブジェクト { $count } 個
+studies-no-images = このシリーズにはディスク上の画像がありません
+studies-medium-inserted = 医用検査を含むディスクが挿入されました
+studies-medium-show = 検査を表示
+palette-studies = このディスクの検査を表示

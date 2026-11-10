@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galerie	the thumbnail grid of one folder	
+Library	Library	Bibliothek	the catalogue of indexed folders	
+Folder	Folder	Ordner	a file-system folder	
+Remove	Remove	Entfernen	take an item out of a list; files stay	
+Delete	Delete	Löschen	destroy data or files	
+Forget	Forget	Vergessen	drop a remembered choice or record	
+Move to trash	Move to trash	In den Papierkorb	send files to the system trash	
+Export	Export	Exportieren	write a copy in another form	
+Import	Import	Import	copy photos in from a card or device	
+Settings	Settings	Einstellungen	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Rückgängig	reverse the last action (never the word for Cancel)	
+Redo	Redo	Wiederholen		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Seite	a page of a document or multi-page file	
+Layer	Layers	Layer	drawing and map layers (circuit boards: their own word)	Layer for drawings and maps; circuit boards use Lagen.
+Channel	Channels	Kanäle	colour or audio channels	
+Series	Series	Serie	a DICOM series	
+Study	Study	Studie	a DICOM study	
+Slice	Slice	Schicht	one cross-sectional image of a volume	
+Frame	Frames	Einzelbilder	one image of a video, animation or sequence (not a picture frame)	Einzelbild for a sequence frame; Rahmen is a picture frame. Frame stays in the developer HUD.
+Track	Track	Titelnummer	a numbered piece of an album	
+Subtitle	Subtitles	Untertitel	text over a video	
+Loudness	Loudness	Lautheit	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Modell	a local AI model	
+Download	Download	Herunterladen	fetch from the network	
+Cull mode	Cull mode	Cull-Modus	the mode for picking and rejecting photos	Cull-Modus; the action is sichten (not aussortieren).
+Pick	Pick	Auswählen	a cull mark	Auswählen; picked photos are Ausgewählte.
+Reject	Reject	Ablehnen	a cull mark	
+Rating	Rating	Bewertung	stars	
+Local AI	Local AI	Lokale KI	the Settings section and the feature set	
+Metadata	Metadata	Metadaten		
+Thumbnail	Thumbnail	Miniatur		
+Slideshow	Slideshow	Diashow		
+Compare	Compare	Vergleichen		
+Print	Print	Drucken		
+Search	Search	Suchen		
+Filter	Filter	Filter	narrow what is shown (not an optical filter)	
+Rename	Rename	Umbenennen		

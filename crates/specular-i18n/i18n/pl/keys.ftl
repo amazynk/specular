@@ -1,0 +1,104 @@
+# Specular — Settings → Keys, the key binding editor (DESIGN.md §11). machine-drafted, needs native review
+# Key names inside messages ($keys) are never translated.
+
+settings-keys-sequence-timeout = Czekaj na następny klawisz
+settings-keys-sequence-timeout-help = Jak długo sekwencja klawiszy, np. G G, czeka na kolejny klawisz. Klawisz, który rozpoczyna też dłuższą sekwencję, działa po tej przerwie.
+settings-keys-bindings = Skróty klawiszowe
+settings-keys-bindings-help = Wybierz czynność i naciśnij klawisze do przypisania. Każdy tryb ma własne klawisze; tryb selekcji i obrazy medyczne korzystają w razie braku z klawiszy przeglądarki. Aby przypisać Esc, stuknij go; przytrzymanie anuluje. Skróty są zapisywane w keymap.toml.
+palette-customise-keys = Dostosuj klawisze…
+keys-mode-viewer = Przeglądarka
+keys-mode-cull = Tryb selekcji
+keys-mode-medical = Obrazy medyczne
+keys-modes = Tryb
+keys-presets = Ustawienie wstępne
+keys-preset-default = Domyślne
+keys-preset-vim = Vim
+keys-preset-culling = Selekcja w stylu Lightroom
+keys-preset-photo-mechanic = W stylu Photo Mechanic
+action-pan-left = Przesuń w lewo
+action-pan-right = Przesuń w prawo
+action-pan-up = Przesuń w górę
+action-pan-down = Przesuń w dół
+action-pan-page-left = Przesuń o ekran w lewo
+action-pan-page-right = Przesuń o ekran w prawo
+action-pan-page-up = Przesuń o ekran w górę
+action-pan-page-down = Przesuń o ekran w dół
+action-reload = Wczytaj obraz ponownie
+keys-action-cull-pick = Wybierz
+keys-action-cull-reject = Odrzuć
+keys-action-cull-unflag = Usuń flagę
+keys-action-cull-rate = { $stars ->
+    [0] Usuń ocenę
+   *[other] Ocena (gwiazdki): { $stars }
+}
+keys-action-cull-label = Etykieta koloru: { $label }
+keys-action-cull-copy-to = Kopiuj do folderu { $slot }
+keys-action-cull-move-to = Przenieś do folderu { $slot }
+keys-import = Importuj…
+keys-export = Eksportuj…
+keys-export-mode = Eksportuj: { $mode }…
+keys-reset-mode = Resetuj: { $mode }
+keys-reset-all = Resetuj wszystkie klawisze
+keys-add = Dodaj klawisz dla: { $action }
+keys-change = Zmień { $keys }
+keys-remove = Usuń { $keys }
+keys-reset-action = Resetuj: { $action }
+keys-none = Brak klawiszy
+keys-changed = Zmieniono
+keys-press = Naciśnij klawisze…
+keys-recording-hint = Przytrzymaj Esc, aby anulować
+keys-cancel-recording = Anuluj
+keys-no-match = Żadna czynność ani klawisz nie pasuje do „{ $query }”.
+keys-list = Czynności i ich klawisze
+keys-confirm-preset = Użyć ustawienia { $preset }? Zastąpi ono wszystkie twoje skróty.
+keys-confirm-reset-mode = Zresetować wszystkie klawisze trybu { $mode } do ustawienia wstępnego?
+keys-confirm-reset-all = Zresetować wszystkie klawisze wszystkich trybów do ustawienia wstępnego?
+keys-confirm-ok = Zastąp
+keys-confirm-reset = Resetuj
+keys-confirm-cancel = Anuluj
+keys-conflict-same = { $keys } już wykonuje „{ $other }”.
+keys-conflict-prefix = { $keys } i { $sequence } („{ $other }”) zaczynają się tak samo: krótszy działa dopiero po przerwie.
+keys-conflict-shadow = { $keys } wykonuje „{ $other }” w trybie { $mode }.
+keys-conflict-reserved = { $keys } może nigdy nie dotrzeć do Specular: { $reason }
+keys-choice-replace = Zastąp
+keys-choice-swap = Zamień
+keys-choice-keep = Zachowaj oba
+keys-choice-anyway = Przypisz mimo to
+keys-choice-cancel = Anuluj
+keys-reserved-switch = przełącza okna.
+keys-reserved-close = zamyka okno.
+keys-reserved-secure = przejmuje go system.
+keys-reserved-desktop = skróty z Super należą do pulpitu.
+keys-reserved-workspaces = przełącza terminale lub obszary robocze.
+keys-reserved-input = przełącza metodę wprowadzania lub układ klawiatury.
+keys-reserved-macos = przejmuje go macOS.
+keys-announce-recording = Nagrywanie klawiszy dla: { $action }. Naciśnij klawisze lub przytrzymaj Esc, aby anulować.
+keys-announce-key = { $keys }
+keys-announce-bound = { $keys } wykonuje teraz: { $action }.
+keys-announce-already = { $keys } już wykonuje: { $action }.
+keys-announce-cancelled = Nagrywanie anulowane.
+keys-announce-removed = Usunięto { $keys } z: { $action }.
+keys-announce-reset-action = { $action }: przywrócono klawisze ustawienia wstępnego.
+keys-announce-reset-mode = Klawisze trybu { $mode } zostały zresetowane.
+keys-announce-reset-all = Wszystkie klawisze zostały zresetowane.
+keys-announce-preset = Używane jest teraz ustawienie { $preset }.
+keys-toast-imported = Zaimportowano skróty
+keys-toast-exported = Wyeksportowano skróty
+keys-toast-reloaded = Zmieniono keymap.toml: skróty wczytane ponownie
+keys-toast-error = Nie można odczytać skrótów: { $error }
+keys-toast-write-error = Nie można zapisać keymap.toml: { $error }
+keys-pending = { $keys } …  { $next }
+keys-problem-syntax = Nie można odczytać keymap.toml: { $error }
+keys-problem-key = Pominięto nieznany klawisz „{ $key }”.
+keys-problem-action = „{ $key }” wskazuje nieznaną czynność „{ $action }”; pominięto.
+keys-problem-mode = Tabela [{ $mode }] nie jest trybem; pominięto.
+keys-problem-duplicate = { $keys } podano dwukrotnie w trybie { $mode }; obowiązuje drugi.
+keys-problem-prefix = { $keys } rozpoczyna { $longer } w trybie { $mode }, więc działa dopiero po przerwie.
+keys-problem-preset = Nieznane ustawienie „{ $preset }”; obowiązują klawisze domyślne.
+
+## keymap.toml editor (machine-drafted, needs native review)
+
+keys-edit-file = Edytuj keymap.toml
+keys-problem-action-suggestion = „{ $key }” wskazuje nieznaną czynność „{ $action }”; pominięto. Czy chodziło o „{ $suggestion }”?
+keys-problem-mode-suggestion = Tabela [{ $mode }] nie jest trybem; pominięto. Czy chodziło o [{ $suggestion }]?
+keys-problem-preset-suggestion = Nieznane ustawienie „{ $preset }”; obowiązują klawisze domyślne. Czy chodziło o „{ $suggestion }”?

@@ -1,0 +1,52 @@
+[package]
+name = "specular-develop"
+description = "Develop mode for Specular: the non-destructive edit model (modules, params, masks, history, styles), its storage, migrations and stable hashing, and the GPU graph engine that renders it"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# `pure`: no C or assembly, so every target builds without a C toolchain (Rust SIMD stays).
+blake3 = { version = "1.8", features = ["pure"] }
+wgpu = "30"
+bytemuck = { version = "1", features = ["extern_crate_alloc"] }
+pollster = "0.4"
+half = "2"
+# The float DNG of a bracket merge: deflated tiles.
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+# Reading the Develop sidecar (XMP).
+roxmltree = "0.21"
+# The raw front end develops its sensor data.
+specular-raw = { path = "../formats/specular-raw" }
+# Lens profiles for raws without corrections of their own (Lensfun data, own parser).
+specular-lensfun = { path = "../specular-lensfun" }
+# Export: the encoders, float writers, naming and safe writing of batch convert;
+# the registry for non-raw sources; ICC profiles of the export spaces.
+specular-convert = { path = "../specular-convert" }
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-color = { path = "../specular-color" }
+specular-thread = { path = "../specular-thread" }
+rayon = "1.11"
+# 3D LUT files: .cube, .3dl, .spi3d, CLF/CTF and their CPU reference.
+specular-ocio = { path = "../specular-ocio" }
+
+[dev-dependencies]
+# A CMYK JPEG for the non-raw source tests.
+jpeg-encoder = "0.7"
+# AI denoise's quality check runs the network (only with the oracle set).
+specular-infer = { path = "../specular-infer" }
+# The performance gate (benches/develop): results and baseline files, the overload rule.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+specular-log = { path = "../specular-log" }
+
+# Develop's performance gate; see benches/develop/main.rs.
+[[bench]]
+name = "develop"
+path = "benches/develop/main.rs"
+harness = false
+
+[lints]
+workspace = true

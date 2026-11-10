@@ -1,0 +1,13 @@
+[package]
+name = "specular-limits"
+description = "Hostile-input limits shared by Specular's parsers: XML nesting checked before a recursive parser sees the document"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+memchr = "2"
+
+[lints]
+workspace = true

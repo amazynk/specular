@@ -1,0 +1,5 @@
+[toolchain]
+# Nightly is allowed (DESIGN.md §1, principle 9): portable SIMD and other new language features.
+# Pinned for reproducible builds; bump deliberately.
+channel = "nightly-2026-06-11"
+components = ["rustfmt", "clippy", "rust-src"]

@@ -1,0 +1,16 @@
+[package]
+name = "specular-jbig2"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Specular's JBIG2 (ITU-T T.88) decoder for standalone .jb2/.jbig2 files"
+
+[dependencies]
+
+[dev-dependencies]
+# Differential-test oracle only; never linked into Specular.
+hayro-jbig2 = { version = "0.3", default-features = false }
+
+[lints]
+workspace = true

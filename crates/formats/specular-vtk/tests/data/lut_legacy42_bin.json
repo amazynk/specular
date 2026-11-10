@@ -1,0 +1,58 @@
+{
+"point_data": [
+{
+"name": "level",
+"components": 1,
+"tuples": 12,
+"offset": 0
+},
+{
+"name": "normals",
+"components": 3,
+"tuples": 12,
+"offset": 12
+},
+{
+"name": "uv",
+"components": 2,
+"tuples": 12,
+"offset": 48
+},
+{
+"name": "stress",
+"components": 9,
+"tuples": 12,
+"offset": 72
+},
+{
+"name": "gid",
+"components": 1,
+"tuples": 12,
+"offset": 180
+},
+{
+"name": "flags",
+"components": 1,
+"tuples": 12,
+"offset": 192
+}
+],
+"cell_data": [],
+"field_data": [],
+"kind": "grid",
+"dims": [
+3,
+2,
+2
+],
+"origin": [
+0.0,
+0.0,
+0.0
+],
+"spacing": [
+1.0,
+1.0,
+1.0
+]
+}

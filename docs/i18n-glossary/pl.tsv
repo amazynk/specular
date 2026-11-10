@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galeria	the thumbnail grid of one folder	
+Library	Library	Biblioteka	the catalogue of indexed folders	
+Folder	Folder	Folder	a file-system folder	
+Remove	Remove	Usuń	take an item out of a list; files stay	
+Delete	Delete	Usuń	destroy data or files	
+Forget	Forget	Zapomnij	drop a remembered choice or record	
+Move to trash	Move to trash	Przenieś do kosza	send files to the system trash	
+Export	Export	Eksportuj	write a copy in another form	
+Import	Import	Import	copy photos in from a card or device	
+Settings	Settings	Ustawienia	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Cofnij	reverse the last action (never the word for Cancel)	
+Redo	Redo	Ponów		
+Zoom	Zoom	Powiększenie	image magnification	
+Page	Page	Strona	a page of a document or multi-page file	
+Layer	Layers	Warstwy	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Kanały	colour or audio channels	
+Series	Series	Seria	a DICOM series	
+Study	Study	Badanie	a DICOM study	
+Slice	Slice	Przekrój	one cross-sectional image of a volume	Przekrój; Warstwa is a layer.
+Frame	Frames	Klatki	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Utwór	a numbered piece of an album	
+Subtitle	Subtitles	Napisy	text over a video	
+Loudness	Loudness	Głośność	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Model	a local AI model	
+Download	Download	Pobierz	fetch from the network	
+Cull mode	Cull mode	Tryb selekcji	the mode for picking and rejecting photos	
+Pick	Pick	Wybierz	a cull mark	
+Reject	Reject	Odrzuć	a cull mark	
+Rating	Rating	Ocena	stars	
+Local AI	Local AI	Lokalna AI	the Settings section and the feature set	Lokalna AI (AI, not SI).
+Metadata	Metadata	Metadane		
+Thumbnail	Thumbnail	Miniatura		
+Slideshow	Slideshow	Pokaz slajdów		
+Compare	Compare	Porównanie		
+Print	Print	Drukuj		
+Search	Search	Szukaj		
+Filter	Filter	Filtr	narrow what is shown (not an optical filter)	
+Rename	Rename	Zmień nazwy		

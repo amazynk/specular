@@ -1,0 +1,16 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "",
+   "offset": 0,
+   "shape": [
+    7,
+    9
+   ]
+  }
+ ],
+ "kind": "zarr",
+ "refused": [],
+ "texts": {}
+}

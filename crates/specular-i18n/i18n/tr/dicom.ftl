@@ -1,0 +1,83 @@
+# DICOM series and the tag browser. machine-drafted, needs native review
+
+palette-dicom-tags = DICOM etiketlerini göster
+palette-next-series = Sonraki seri
+palette-prev-series = Önceki seri
+disabled-not-dicom = Görüntü bir DICOM dosyası değil
+disabled-no-other-series = Bu klasörde başka seri yok
+dicom-tags-title = DICOM etiketleri
+dicom-tags-title-file = DICOM etiketleri: { $file }
+dicom-tags-filter = Etiketleri filtrele
+dicom-tags-show-patient = Hasta verilerini göster
+dicom-tags-col-tag = Etiket
+dicom-tags-col-keyword = Anahtar sözcük
+dicom-tags-col-vr = VR
+dicom-tags-col-length = Uzunluk
+dicom-tags-col-value = Değer
+dicom-tags-hidden = Gizli
+dicom-tags-hidden-count = { $count } hasta değeri gizlendi
+dicom-tags-no-match = Eşleşen etiket yok
+dicom-tags-reading = Etiketler okunuyor…
+dicom-tags-error = Etiketler okunamadı: { $reason }
+dicom-tags-items = { $count } öğe
+dicom-tags-fragments = { $count } parça
+dicom-tags-item = Öğe { $index }
+dicom-tags-bytes = { $count } bayt
+dicom-tags-empty = (boş)
+dicom-tags-omitted = Listelenmeyen { $count } öğe daha
+dicom-series-group = Seri
+dicom-series-slice = Kesit
+dicom-series-slice-value = { $index }/{ $count }
+dicom-series-frames = { $frames } kare
+dicom-series-location = Kesit konumu
+dicom-series-mm = { $mm } mm
+dicom-series-spacing = Kesit aralığı
+dicom-series-which = Seri
+dicom-series-which-value = { $index }/{ $count }
+dicom-series-order = Sıra
+dicom-series-order-position = Konuma göre
+dicom-series-order-instance = Örnek numarasına göre
+dicom-series-order-time = Edinim zamanına göre
+dicom-series-order-name = Dosya adına göre
+dicom-series-gaps = Eksik kesitler
+dicom-series-gaps-value = { $count } kesit eksik
+dicom-series-gaps-where = { $slices }. kesitten sonra
+dicom-series-irregular = Aralık düzensiz
+dicom-series-tilt = Gantry eğimi
+dicom-series-tilt-value = { $degrees }°
+dicom-series-duplicates = Yinelenenler atlandı
+dicom-series-toast = { $series ->
+    [one] Seri – { $count } kesit
+   *[other] Seri { $index }/{ $series } – { $count } kesit
+}
+dicom-series-capped = Klasörün yalnızca ilk { $count } dosyası okundu
+
+studies-title = Tetkikler
+studies-title-medium = Tetkikler: { $medium }
+studies-show-patient = Hasta verilerini göster
+studies-patient-hidden = Gizli
+studies-patient-hidden-note = Hasta adları ve doğum tarihleri gizli
+studies-none = Tetkik bulunamadı
+studies-reading = Disk okunuyor…
+studies-reading-count = Disk okunuyor: { $done }/{ $total } dosya
+studies-opening = Seri açılıyor…
+studies-error = Disk okunamadı: { $reason }
+studies-missing = Diskte listelenen { $count } dosya eksik
+studies-capped = Yalnızca ilk { $count } dosya okundu
+# machine-drafted, needs native review
+studies-stopped = Okuma { $done }/{ $total } dosyadan sonra durduruldu: liste eksik
+studies-stopped-early = Okuma durduruldu: liste eksik
+studies-cancel-description = Diski okumayı durdurur. O ana kadar okunanlar listede kalır.
+studies-patient-n = Hasta { $index }
+studies-patient-unknown = Bilinmeyen hasta
+studies-born = Doğum: { $date }
+studies-no-description = Açıklama yok
+studies-series = Seri { $number }: { $description }
+studies-series-number = Seri { $number }
+studies-images = { $count } görüntü
+studies-images-missing = { $count } eksik
+studies-others = { $count } diğer nesne
+studies-no-images = Bu serinin diskte görüntüsü yok
+studies-medium-inserted = Tıbbi tetkikler içeren bir disk takıldı
+studies-medium-show = Tetkikleri göster
+palette-studies = Bu diskteki tetkikleri göster

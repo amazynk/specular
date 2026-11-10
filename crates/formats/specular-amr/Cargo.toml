@@ -1,0 +1,10 @@
+[package]
+name = "specular-amr"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own AMR and AMR-WB speech decoders (3GPP TS 26.090/26.073, TS 26.190/26.173) for Specular's sound files and movie sound"
+
+[lints]
+workspace = true

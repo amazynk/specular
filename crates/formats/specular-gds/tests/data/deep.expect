@@ -1,0 +1,29 @@
+cells	13
+cell	L0
+cell	L1
+cell	L10
+cell	L11
+cell	L12
+cell	L2
+cell	L3
+cell	L4
+cell	L5
+cell	L6
+cell	L7
+cell	L8
+cell	L9
+top	L12
+count	L12	1	0	281474976710656
+count	L12	2	3	68719476736
+count	L12	2	6	16777216
+count	L12	2	9	4096
+count	L12	2	12	1
+count	L12	3	1	17592186044416
+count	L12	3	4	4294967296
+count	L12	3	7	1048576
+count	L12	3	10	256
+count	L12	4	2	1099511627776
+count	L12	4	5	268435456
+count	L12	4	8	65536
+count	L12	4	11	16
+bbox	L12	0.000	-41943040.000	167772160.000	167772158.000

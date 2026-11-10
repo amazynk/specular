@@ -1,0 +1,22 @@
+[package]
+name = "specular-fits"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "FITS decoder for Specular: primary and IMAGE extension HDUs, N-D cubes, BZERO/BSCALE/BLANK, tile-compressed images (Rice, GZIP_1/2, HCOMPRESS, PLIO), CONTINUE strings, and world coordinates (every FITS WCS Paper II projection plus HPX and XPH; SIP, TPV and the HST D2IM / CPDIS lookup tables; linear and logarithmic spectral axes)"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+thiserror = "2"
+# VOTable catalogues.
+quick-xml = "0.41"
+# Own inflate (GZIP_1 / GZIP_2 tiles).
+specular-png = { path = "../specular-png" }
+
+[dev-dependencies]
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

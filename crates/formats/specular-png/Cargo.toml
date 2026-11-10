@@ -1,0 +1,25 @@
+[package]
+name = "specular-png"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Fast PNG/APNG decoder for Specular: own inflate, fused inflate/unfilter/convert pipeline, SIMD unfiltering, scaled decode"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-thread = { path = "../../specular-thread" }
+rayon = "1.11"
+thiserror = "2"
+# zlib at a chosen level for `encode_with` (the built-in encoder is fixed-Huffman only).
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+
+[dev-dependencies]
+png = "0.18"
+zune-png = "0.5"
+zune-core = "0.5"
+miniz_oxide = "0.8"
+fdeflate = "0.3"
+
+[lints]
+workspace = true

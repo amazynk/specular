@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
+PackageIdentifier: Specular.Specular
+PackageVersion: {{VERSION}}
+PackageLocale: en-US
+Publisher: The Specular authors
+PublisherUrl: https://amazynk.com
+PackageName: Specular
+PackageUrl: https://amazynk.com/specular
+License: MIT OR Apache-2.0
+LicenseUrl: https://github.com/amazynk/specular/blob/main/LICENSE-MIT
+ShortDescription: Open and flip through large photos instantly.
+Description: |-
+  Specular is a GPU image viewer built for speed. Heavy JPEGs from medium-format cameras, pixel-shift
+  modes, panoramas and scans open in a fraction of a second, and flipping through a folder never waits.
+  Free and open source.
+Moniker: specular
+Tags:
+  - image-viewer
+  - photo
+  - jpeg
+  - png
+ManifestType: defaultLocale
+ManifestVersion: 1.9.0

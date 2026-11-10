@@ -1,0 +1,10 @@
+[package]
+name = "specular-tta"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own TTA (True Audio) decoder for Specular's sound files"
+
+[lints]
+workspace = true

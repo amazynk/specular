@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = ייצוא עותק אנונימי…
+palette-export-patient-disc = ייצוא תיקיית דיסק מטופל…
+palette-mask-burned-in-text = הסתרת טקסט צרוב
+anon-title = ייצוא עותק אנונימי
+anon-disc-title = ייצוא תיקיית דיסק מטופל
+anon-images = תמונות
+anon-images-current = תמונה זו
+anon-images-series = סדרה זו (קבצים: { $count })
+anon-images-study = בדיקה זו (קבצים: { $count })
+anon-images-reading = קורא את התיקייה…
+anon-anonymise = הפיכה לאנונימי
+anon-dates = תאריכים ושעות
+anon-dates-remove = הסרה
+anon-dates-keep = שמירה
+anon-dates-shift = הזזה
+anon-patient = מאפייני המטופל
+anon-device = זהות המכשיר
+anon-institution = זהות המוסד
+anon-descriptions = תיאורים
+anon-descriptions-remove = הסרה
+anon-descriptions-clean = ניקוי
+anon-structured = תוכן הדוחות
+anon-uids = מזהים ייחודיים
+anon-uids-replace = החלפה
+anon-uids-keep = שמירה
+anon-overlays = שכבות-על ועקומות
+anon-keep = שמירה
+anon-remove = הסרה
+anon-on = מופעל
+anon-off = כבוי
+anon-burned-in = טקסט צרוב
+anon-masks = אזורים מוסתרים: { $count }
+anon-masks-none = אין מסכות
+anon-folder = תיקייה
+anon-folder-choose = בחירה…
+anon-export = ייצוא
+anon-risk-present = לפי התמונות, הן מציגות טקסט של המטופל: יש להסתיר אותו לפני הייצוא.
+anon-risk-possible = תמונות מסוג זה מציגות לעיתים קרובות טקסט של המטופל: יש לבדוק לפני הייצוא.
+anon-progress = מייצא { $done } מתוך { $total }…
+anon-stopping = עוצר…
+anon-mask-title = הסתרת טקסט צרוב
+anon-mask-hint = גררו מעל טקסט כדי להסתיר אותו. אזורים מוסתרים הופכים לשחורים בכל פריים.
+anon-mask-suggest = הצעה
+anon-mask-remove = הסרה
+anon-mask-clear = ניקוי
+anon-mask-done = סיום
+anon-mask-area = אזור { $n }, { $width } × { $height } פיקסלים
+anon-mask-suggested = { $count ->
+    [0] לא נמצא טקסט ליד השוליים
+   *[other] אזורי טקסט מוצעים: { $count }
+}
+anon-done = קבצים אנונימיים שנכתבו אל { $folder }: { $count }
+anon-disc-done = תיקיית דיסק מטופל נכתבה אל { $folder }, תמונות: { $count }
+anon-skipped-burned-in = קבצים עם טקסט צרוב וללא מסכות שדולגו: { $count }
+anon-skipped-failed = קבצים שלא ניתן היה לייצא: { $count }
+anon-stopped = הייצוא נעצר
+anon-failed = לא ניתן לייצא: { $reason }
+anon-not-empty = התיקייה כבר מכילה דיסק מטופל

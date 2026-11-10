@@ -1,0 +1,16 @@
+[package]
+name = "specular-diagram"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "draw.io (mxGraph XML, plain or compressed) and Excalidraw (JSON) diagrams drawn as clean vector pages for Specular (own readers)"
+
+[dependencies]
+specular-drawpage = { path = "../specular-drawpage" }
+# draw.io's compressed diagrams: raw DEFLATE.
+specular-png = { path = "../specular-png" }
+serde_json = "1"
+
+[lints]
+workspace = true

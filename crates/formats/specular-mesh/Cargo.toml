@@ -1,0 +1,26 @@
+[package]
+name = "specular-mesh"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "3D meshes for Specular: own STL (ASCII and binary), OBJ with MTL, PLY (ASCII, binary little- and big-endian), glTF 2.0 / GLB and 3MF readers into one indexed triangle model with normals, colours, UVs, materials, units and bounds; size caps, no panics on malformed input, side files only from the model's own folder; a CPU preview renderer for thumbnails"
+
+[dependencies]
+# The memory budget large arrays and unpacked parts reserve from.
+specular-core = { path = "../../specular-core" }
+thiserror = "2"
+rayon = "1.11"
+# glTF's JSON.
+serde_json = "1"
+# 3MF: an OPC (ZIP) package of XML parts.
+quick-xml = "0.41"
+# FBX arrays are zlib: our own inflater.
+specular-png = { path = "../specular-png" }
+zip = { version = "8.6", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }

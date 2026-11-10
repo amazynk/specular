@@ -1,0 +1,9 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+icrs
+circle(150,2.2,10") # color=red text={M51 core}
+ellipse(150.01418937,2.2041155,12",6",25.00054)
+box(149.98698549,2.1984019,20",10",24.9995) # color=#0a141e
+polygon(150.03031076,2.20579813,150.02251768,2.20881658,150.024182,2.2025241)
+line(150.01629756,2.1724836,150.00731018,2.18280144)
+point(149.98882561,2.2220639) # point=cross text={star}

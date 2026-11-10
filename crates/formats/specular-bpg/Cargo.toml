@@ -1,0 +1,14 @@
+[package]
+name = "specular-bpg"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "BPG (Better Portable Graphics) decoder for Specular over the in-tree HEVC decoder: alpha, animation, YCbCr/RGB/YCgCo, extensions"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+hevc = { package = "specular-hevc", path = "../specular-heic/hevc" }
+
+[lints]
+workspace = true

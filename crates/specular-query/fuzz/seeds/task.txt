@@ -1,0 +1,1 @@
+rating>=3 camera:"X-T5" iso:<800 date:2024-05 ext:heic,avif w>4000 has:gps has:alpha -tag:x

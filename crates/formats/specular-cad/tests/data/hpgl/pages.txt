@@ -1,0 +1,8 @@
+format HP-GL/2 units 4 pcl false pens [1, 2] paper None name Some("Two pages") lwdisplay true
+layer "Pen 1" fg lw 35 items 1
+layer "Pen 2" #ff0000 lw 35 items 1
+counts BP=1 IN=1 PA=2 PD=2 PG=3 SP=2
+sheet "Page 1" extents 0 0 2.5 0
+  L0 fg stroke w35 M0,0 L2.5,0
+sheet "Page 2" extents 0 0 0 2.5
+  L1 #ff0000 stroke w35 M0,0 L0,2.5

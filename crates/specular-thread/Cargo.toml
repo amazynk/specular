@@ -1,0 +1,15 @@
+[package]
+name = "specular-thread"
+description = "Named threads for Specular: the thread-naming scheme, spawn helpers and rayon pool names"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# Warnings only (a name off the scheme); specular-log depends on this crate.
+log = "0.4"
+rayon = { version = "1.11", optional = true }
+
+[lints]
+workspace = true

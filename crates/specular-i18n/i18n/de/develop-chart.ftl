@@ -1,0 +1,71 @@
+# Specular — Entwickeln: Kameraprofil und Kameraprofile aus einer Farbtafel.
+
+develop-input-profile = Kameraprofil
+develop-input-profile-auto = Kamerastandard
+develop-input-profile-matrix = Nur Matrix
+develop-input-profile-file = Profildatei…
+develop-input-profile-named = Datei: { $name }
+develop-input-profile-in-use = { $name } wird verwendet.
+develop-input-profile-changed = { $name } wird verwendet. Die Datei hat sich seit der Auswahl geändert.
+develop-input-profile-missing = Die Profildatei fehlt. Die Kameramatrix wird verwendet.
+develop-input-profile-unusable = Die Profildatei ist nicht verwendbar: { $reason }. Die Kameramatrix wird verwendet.
+develop-input-profile-dialog = Kameraprofil wählen
+develop-input-profile-kind = DNG-Kameraprofile
+
+develop-chart-start = Profil aus Farbtafel erstellen…
+develop-chart-title = Profil aus Farbtafel
+develop-chart-kind = Tafel
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Referenz
+develop-chart-ref-load = Datei laden…
+develop-chart-hint-xrite = Laden Sie die Referenzdatei der Tafel (CGATS-Text). Sie liegt der Tafel bei oder steht auf der Website von X-Rite für Ihre Ausgabe der Tafel.
+develop-chart-hint-it8 = Laden Sie die Referenzdatei Ihres Targets. Jede Charge hat ihre eigene, vom Hersteller des Targets.
+develop-chart-spyder = SpyderCHECKR wird nicht unterstützt: Seine Farbwerte gehören Datacolor.
+develop-chart-step-reference = Wählen Sie die Tafel und laden Sie ihre Referenzdatei.
+develop-chart-step-corner = Klicken Sie in die Mitte von { $name } ({ $number } von 4).
+develop-chart-measuring = Tafel wird gemessen…
+develop-chart-step-save = Speichern Sie das Profil oder markieren Sie die Ecken neu.
+develop-chart-corner-dark-skin = dunkle Haut (oben links)
+develop-chart-corner-bluish-green = Blaugrün (oben rechts)
+develop-chart-corner-black = Schwarz (unten rechts)
+develop-chart-corner-white = Weiß (unten links)
+
+develop-chart-ref-too-large = Die Datei ist zu groß für eine Referenzdatei.
+develop-chart-ref-not-cgats = Keine CGATS-Referenzdatei.
+develop-chart-ref-no-ids = Die Datei hat keine Feldnamen.
+develop-chart-ref-no-colour = Die Datei hat keine L*a*b*- oder XYZ-Werte.
+develop-chart-ref-bad-row = Zeile { $row } der Datei ist beschädigt.
+develop-chart-ref-count = Die Datei nennt { $declared } Felder, enthält aber { $found }.
+develop-chart-ref-duplicate = Feld { $id } steht zweimal in der Datei.
+develop-chart-ref-illuminant = Die Werte gelten für Licht { $name }. Nötig ist D50 oder D65.
+develop-chart-ref-wrong-chart = Die Datei hat { $found } Felder. Diese Tafel hat { $expected }.
+develop-chart-ref-names = Die Feldnamen passen nicht zu dieser Tafel.
+develop-chart-ref-corner = Das Eckfeld { $id } fehlt in der Datei.
+develop-chart-ref-unreadable = Die Datei ist nicht lesbar: { $reason }
+develop-chart-ref-dialog = Referenzdatei der Tafel wählen
+develop-chart-ref-kind = Referenzdateien für Farbtafeln
+
+develop-chart-not-found = Dort wurde keine Tafel gefunden. Markieren Sie die Ecken neu.
+develop-chart-too-few = Nur { $count } Felder sind verwendbar. Beleuchten Sie die Tafel gleichmäßig und vermeiden Sie Spiegelungen.
+develop-chart-no-greys = Kein graues Feld ist verwendbar. Belichten Sie so, dass die Grautöne nicht ausfressen.
+develop-chart-degenerate = Die Felder sind sich zu ähnlich für ein Profil.
+
+develop-chart-report-after = ΔE2000 mit dem Profil: Mittel { $mean }, Median { $median }, Max. { $max }
+develop-chart-report-before = Vorher: Mittel { $mean }, Median { $median }, Max. { $max }
+develop-chart-report-cv = Geprüft an Feldern außerhalb der Anpassung: Mittel { $mean }
+develop-chart-left-out = Ausgelassen: { $id } ({ $why })
+develop-chart-left-clipped = übersteuert
+develop-chart-left-uneven = Spiegelung oder Staub
+develop-chart-left-outside = außerhalb des Fotos
+develop-chart-uneven-light = Die Grautöne schwanken um { PERCENT($percent) }: Das Licht ist vielleicht ungleichmäßig.
+develop-chart-use-camera = Für Fotos von { $camera } verwenden
+develop-chart-again = Neu markieren
+develop-chart-save = Speichern…
+develop-chart-close = Schließen
+develop-chart-save-title = Kameraprofil speichern
+develop-chart-default-name = Tafelprofil { $camera }
+develop-chart-saved = { $name } gespeichert als { $file }.
+develop-chart-save-failed = Das Profil kann nicht gespeichert werden: { $reason }

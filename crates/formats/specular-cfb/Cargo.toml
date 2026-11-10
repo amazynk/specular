@@ -1,0 +1,13 @@
+[package]
+name = "specular-cfb"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Read-only Compound File Binary (OLE2 structured storage) reader for Specular: version 3 and 4 files, the FAT, DIFAT and mini stream, and storages and streams by path, read in place where their sectors run on"
+
+[dependencies]
+thiserror = "2"
+
+[lints]
+workspace = true

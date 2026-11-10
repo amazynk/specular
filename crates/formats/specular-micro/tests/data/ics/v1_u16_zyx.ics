@@ -1,0 +1,17 @@
+	
+ics_version	1.0
+filename	v1_u16_zyx
+layout	parameters	4
+layout	order	bits	x	y	z
+layout	sizes	16	32	24	6
+layout	coordinates	video
+layout	significant_bits	16
+representation	format	integer
+representation	sign	unsigned
+representation	compression	gzip
+representation	byte_order	1	2
+parameter	origin	0.000000	0.000000	0.000000	0.000000
+parameter	scale	1.000000	0.250000	0.250000	0.500000
+parameter	units	relative	um	um	um
+parameter	labels	intensity	x-position	y-position	z-position
+history	software	DIPlib 3.6.1

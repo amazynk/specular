@@ -1,0 +1,24 @@
+[package]
+name = "specular-dimse"
+description = "DICOM upper layer and DIMSE for Specular (PS3.8, PS3.7): association, C-ECHO and C-STORE SCU, with a minimal C-STORE SCP for tests"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+specular-dicom = { path = "../formats/specular-dicom" }
+parking_lot = "0.12"
+# DICOM over TLS; the server verified with the system trust store, as the DICOMweb path does.
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12", "logging"] }
+rustls-platform-verifier = "0.7"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+# Reads what the pynetdicom oracle saw (tests/oracle.rs).
+serde_json = "1"

@@ -1,0 +1,273 @@
+[workspace]
+resolver = "3"
+members = ["app/*", "crates/specular-*", "crates/formats/*", "tools/specular-*"]
+# Vendored third-party crates are patched in below, not workspace members.
+exclude = ["third_party"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/amazynk/specular"
+homepage = "https://amazynk.com/specular"
+
+[workspace.lints.rust]
+# `unsafe` only where absolutely necessary (DESIGN.md §1, principle 9): every use needs an explicit
+# `#[allow(unsafe_code)]` on the smallest item, a `// SAFETY:` comment, and an entry in UNSAFE.md.
+unsafe_code = "deny"
+unsafe_op_in_unsafe_fn = "deny"
+
+[workspace.lints.clippy]
+undocumented_unsafe_blocks = "deny"
+multiple_unsafe_ops_per_block = "deny"
+
+[profile.dev]
+opt-level = 1            # Decoders are unusably slow at opt-level 0
+
+[profile.dev.package."*"]
+opt-level = 3
+
+# JPEG XR reconstruction is specified in wrapping 32-bit arithmetic (the reference decoder's);
+# corrupt coefficients must wrap the same way rather than trip overflow checks.
+[profile.dev.package.specular-jxr]
+opt-level = 3
+overflow-checks = false
+
+# Star metrics run on every subframe a gallery shows; the tests time them against a budget.
+[profile.dev.package.specular-astro]
+opt-level = 3
+
+# The in-tree rav1d fork is a workspace member (a path dependency inside the workspace), so it
+# missed the `"*"` override and ran at opt-level 1 with debug assertions, which turn on its
+# DisjointMut overlap checker: a mutex, a bounds list and a captured backtrace per pixel-buffer
+# borrow. That was ~80% of AVIF decode time in dev builds (a 5×4 720p grid took 32 s in the
+# shakedown) and is not in release builds; tests and sweeps now decode as release does.
+[profile.dev.package.specular-rav1d]
+opt-level = 3
+debug-assertions = false
+overflow-checks = false
+
+# PNG inflate, unfiltering and the scaled-decode box filter are `std::simd` and tight serial
+# loops that opt-level 1 leaves at half speed: a 1.5-gigapixel map took over 20 s to thumbnail
+# in test builds.
+[profile.dev.package.specular-png]
+opt-level = 3
+
+# The CPU vector search (exact, 100k+ embeddings) must vectorise in dev builds too.
+[profile.dev.package.specular-ai]
+opt-level = 3
+
+# The CPU reference of the inference ops is the GPU's oracle in tests: a 2-block ViT and a
+# small CNN run at opt-level 1 would dominate test time.
+[profile.dev.package.specular-infer]
+opt-level = 3
+
+# LASzip's arithmetic decoder and the octree build run tens of millions of points: at
+# opt-level 1 a 10M-point LAZ takes several times longer to open in dev builds and tests.
+[profile.dev.package.specular-points]
+opt-level = 3
+
+# Structure files run to millions of atoms (ribosomes, viral capsids): the CIF tokenizer,
+# distance bonding and the cartoon sweep are several times slower at opt-level 1.
+[profile.dev.package.specular-mol]
+opt-level = 3
+
+# Splat scenes run to millions of Gaussians: reading, the covariances and the CPU rasteriser
+# of thumbnails are several times slower at opt-level 1.
+[profile.dev.package.specular-splat]
+opt-level = 3
+
+# Unstructured meshes run to millions of faces: triangulation, the face locator and the
+# CPU raster must open a 1M-face mesh in well under the 1.5 s budget in dev builds too.
+[profile.dev.package.specular-ugrid]
+opt-level = 3
+
+# Audio decode runs continuously under playback: the AAC filterbank and the H.264 / HEVC
+# software decoders must keep up in real time in dev builds and tests (A/V sync test).
+[profile.dev.package.specular-aac]
+opt-level = 3
+
+[profile.dev.package.specular-h264]
+opt-level = 3
+
+[profile.dev.package.specular-heic]
+opt-level = 3
+
+# WebM / Matroska codecs (VP8, VP9, Opus) decode under playback too.
+[profile.dev.package.specular-vp8]
+opt-level = 3
+
+[profile.dev.package.specular-vp9]
+opt-level = 3
+
+[profile.dev.package.specular-jpegxs]
+opt-level = 3
+
+[profile.dev.package.specular-opus]
+opt-level = 3
+
+# MPEG-1/2 and MPEG-4 Part 2 video, MPEG audio (DVD, camcorder, DivX-era files).
+[profile.dev.package.specular-mpeg2]
+opt-level = 3
+
+[profile.dev.package.specular-mpeg4]
+opt-level = 3
+
+[profile.dev.package.specular-mpa]
+opt-level = 3
+
+# Movie sound and video of the Ogg/WebM/DVD era: AC-3/E-AC-3, Vorbis, FLAC, Theora.
+[profile.dev.package.specular-ac3]
+opt-level = 3
+
+[profile.dev.package.specular-dts]
+opt-level = 3
+
+[profile.dev.package.specular-amr]
+opt-level = 3
+
+# QCELP-13 and EVRC speech (.qcp files, 3GPP2 and QuickTime movies).
+[profile.dev.package.specular-qcelp]
+opt-level = 3
+
+[profile.dev.package.specular-evrc]
+opt-level = 3
+
+[profile.dev.package.specular-speex]
+opt-level = 3
+
+# Musepack (SV7, SV8) sound files.
+[profile.dev.package.specular-mpc]
+opt-level = 3
+
+# Shorten, TTA and tracker modules (MOD, S3M, XM, IT).
+[profile.dev.package.specular-shorten]
+opt-level = 3
+
+[profile.dev.package.specular-tta]
+opt-level = 3
+
+[profile.dev.package.specular-tracker]
+opt-level = 3
+
+# GSM 06.10 speech; MIDI, SoundFont, DLS, SFZ and XI instruments.
+[profile.dev.package.specular-gsm]
+opt-level = 3
+
+[profile.dev.package.specular-synth]
+opt-level = 3
+
+[profile.dev.package.specular-vorbis]
+opt-level = 3
+
+[profile.dev.package.specular-flac]
+opt-level = 3
+
+# Apple Lossless in phone and camera movies.
+[profile.dev.package.specular-alac]
+opt-level = 3
+
+# WavPack, Monkey's Audio and Musepack sound files.
+[profile.dev.package.specular-wavpack]
+opt-level = 3
+
+[profile.dev.package.specular-ape]
+opt-level = 3
+
+[profile.dev.package.specular-theora]
+opt-level = 3
+
+# Professional video (ProRes) plays 4K in real time only when optimised; its
+# transform is specified in wrapping 16/32-bit arithmetic, which damaged data must not trip.
+[profile.dev.package.specular-prores]
+opt-level = 3
+overflow-checks = false
+
+# APV (intra-only professional video) plays 4K only when optimised.
+[profile.dev.package.specular-apv]
+opt-level = 3
+
+# Lossless and old video codecs (FFV1, uncompressed, Cinepak, RLE...) decode every sample
+# through an adaptive coder or a per-pixel loop; 1080p plays in real time only when optimised.
+[profile.dev.package.specular-ffv1]
+opt-level = 3
+
+[profile.dev.package.specular-oldvideo]
+opt-level = 3
+
+# CineForm, VC-2 and HAP: wavelet run-length decoding, slice coefficients and Snappy/BCn per
+# sample; HD plays in real time only when optimised.
+[profile.dev.package.specular-cineform]
+opt-level = 3
+
+[profile.dev.package.specular-vc2]
+opt-level = 3
+
+[profile.dev.package.specular-hap]
+opt-level = 3
+
+# Editor and legacy formats: FLIF's MANIAC entropy decoder, the HEVC core under BPG (its own
+# workspace member through specular-heic's path dependency), and PDN/PSP compositing and
+# decompression run per pixel and are several times slower at opt-level 1.
+[profile.dev.package.specular-hevc]
+opt-level = 3
+
+[profile.dev.package.specular-flif]
+opt-level = 3
+
+# The VVC decoder runs per sample (prediction, transforms, loop filters).
+[profile.dev.package.specular-vvc]
+opt-level = 3
+
+[profile.dev.package.specular-bpg]
+opt-level = 3
+
+[profile.dev.package.specular-pdn]
+opt-level = 3
+
+[profile.dev.package.specular-psp]
+opt-level = 3
+
+# Blend modes of the layered formats (PSD, PSP, XCF, Krita, OpenRaster), run per pixel.
+[profile.dev.package.specular-blend]
+opt-level = 3
+
+[profile.release]
+# Fat LTO: a whole-program build; `release_profile_keeps_lto` (specular-help) guards it.
+lto = "fat"
+codegen-units = 1
+# Unwind, so a panic in a decoder or worker costs that job, not the process: every worker
+# boundary catches it (`specular_core::isolate`). A double panic, stack overflow or OOM still
+# ends the process; C/C++ decoders stay in the sandboxed decode host. Measured against abort
+# (2026-10-12, release without debug info, x86-64-v3): app binary +8.3% (98.7 → 106.9 MB;
+# stripped 90.9 → 96.9 MB, +6.6%: unwind tables and landing pads); decoding JPEG, PNG, TIFF and
+# NEF/ARW/CR2 +0.3% user cycles (geomean of paired runs, worst +2.0%), +0.2% instructions;
+# startup (exec → first present) within noise (+0.5 to +1.3 ms of ~60). Bar: < 3% / < 10%.
+panic = "unwind"
+debug = "line-tables-only"
+
+# Release build with profile-guided optimisation. The settings are
+# the same as `release`; tools/release/pgo.sh adds `-Cprofile-generate` / `-Cprofile-use` through
+# `--config target.<triple>.rustflags` (appended to .cargo/config.toml, so x86-64-v3 stays). A
+# separate profile keeps instrumented and PGO artefacts out of target/release.
+[profile.release-pgo]
+inherits = "release"
+
+# Fast local iteration with near-release speed
+[profile.profiling]
+inherits = "release"
+lto = "thin"
+codegen-units = 16
+debug = true
+
+# unrar_sys with Specular's handle-I/O patch to UnRAR (third_party/unrar_sys/patches): the
+# sandboxed decode host reads archives only through handles the app passes in.
+[patch.crates-io]
+unrar_sys = { path = "third_party/unrar_sys" }
+# resvg with Specular's raster-image hook (third_party/resvg/patches): `<image>` rasters in SVGs
+# are decoded by Specular's own decoders, not by the third-party ones resvg would link.
+resvg = { path = "third_party/resvg" }
+# jpegxl-src with Specular's Ninja patch (third_party/jpegxl-src/patches): with
+# CMAKE_GENERATOR=Ninja, libjxl builds with clang-cl directly on Windows instead of needing
+# Visual Studio's optional ClangCL MSBuild toolset.
+jpegxl-src = { path = "third_party/jpegxl-src" }

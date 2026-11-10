@@ -1,0 +1,43 @@
+[package]
+name = "specular-video-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-core = { path = "../../specular-core" }
+specular-video = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+# The main workspace's patches (they apply only to the workspace that declares them).
+[patch.crates-io]
+unrar_sys = { path = "../../../third_party/unrar_sys" }
+resvg = { path = "../../../third_party/resvg" }
+jpegxl-src = { path = "../../../third_party/jpegxl-src" }
+
+# ProRes and rav1d wrap by design (see the main workspace's profile.dev.package entries).
+[profile.release.package.specular-prores]
+overflow-checks = false
+
+[profile.release.package.specular-rav1d]
+overflow-checks = false
+
+[[bin]]
+name = "wtv"
+path = "fuzz_targets/wtv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "movie"
+path = "fuzz_targets/movie.rs"
+test = false
+doc = false
+bench = false

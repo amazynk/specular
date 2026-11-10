@@ -1,0 +1,20 @@
+##TITLE= Parameter file, TOPSPIN		Version 4.1.4
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= fixture
+$$ 2026-10-19 12:00:00.000 +0200  fixture@specular
+$$ /opt/data/fixture
+##$SI= 8192
+##$SF= 400.13
+##$SW_p= 5000.0
+##$OFFSET= 10.996426
+##$NC_proc= -3
+##$BYTORDP= 0
+##$DTYPP= 0
+##$WDW= 1
+##$LB= 0.5
+##$PHC0= 0
+##$PHC1= 0
+##$XDIM= 8192
+##END=

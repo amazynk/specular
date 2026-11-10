@@ -1,0 +1,26 @@
+[package]
+name = "specular-gfx"
+description = "Specular's own GPU toolkit: wgpu device and surface, instanced UI primitives (rounded rects, shadows, glass, stroke icons), parley/swash text with a glyph atlas, and the final dithered composite"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-theme = { path = "../specular-theme" }
+wgpu = "30"
+winit = "0.30"
+parley = "0.11"
+fontique = "0.11"
+swash = "0.2"
+bytemuck = { version = "1", features = ["derive"] }
+pollster = "0.4"
+specular-log = { path = "../specular-log" }
+specular-color = { path = "../specular-color" }
+
+[dev-dependencies]
+specular-texture = { path = "../formats/specular-texture" }
+
+[lints]
+workspace = true

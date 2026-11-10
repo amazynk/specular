@@ -1,0 +1,104 @@
+# Specular — Settings → Keys, the key binding editor (DESIGN.md §11). machine-drafted, needs native review
+# Key names inside messages ($keys) are never translated.
+
+settings-keys-sequence-timeout = Čekat na další klávesu
+settings-keys-sequence-timeout-help = Jak dlouho sekvence kláves, např. G G, čeká na další klávesu. Klávesa, která zároveň začíná delší sekvenci, se provede po této pauze.
+settings-keys-bindings = Klávesové zkratky
+settings-keys-bindings-help = Vyberte akci a stiskněte klávesy, které jí chcete přiřadit. Každý režim má vlastní klávesy; režim třídění a lékařské snímky jinak používají klávesy prohlížeče. Esc přiřadíte klepnutím; podržení ruší. Zkratky se ukládají do keymap.toml.
+palette-customise-keys = Přizpůsobit klávesy…
+keys-mode-viewer = Prohlížeč
+keys-mode-cull = Režim třídění
+keys-mode-medical = Lékařské snímky
+keys-modes = Režim
+keys-presets = Předvolba
+keys-preset-default = Výchozí
+keys-preset-vim = Vim
+keys-preset-culling = Třídění ve stylu Lightroom
+keys-preset-photo-mechanic = Ve stylu Photo Mechanic
+action-pan-left = Posunout doleva
+action-pan-right = Posunout doprava
+action-pan-up = Posunout nahoru
+action-pan-down = Posunout dolů
+action-pan-page-left = Posunout o obrazovku doleva
+action-pan-page-right = Posunout o obrazovku doprava
+action-pan-page-up = Posunout o obrazovku nahoru
+action-pan-page-down = Posunout o obrazovku dolů
+action-reload = Znovu načíst obrázek
+keys-action-cull-pick = Vybrat
+keys-action-cull-reject = Odmítnout
+keys-action-cull-unflag = Zrušit označení
+keys-action-cull-rate = { $stars ->
+    [0] Zrušit hodnocení
+   *[other] Hodnocení (hvězdičky): { $stars }
+}
+keys-action-cull-label = Barevný štítek: { $label }
+keys-action-cull-copy-to = Kopírovat do složky { $slot }
+keys-action-cull-move-to = Přesunout do složky { $slot }
+keys-import = Importovat…
+keys-export = Exportovat…
+keys-export-mode = Exportovat: { $mode }…
+keys-reset-mode = Obnovit: { $mode }
+keys-reset-all = Obnovit všechny klávesy
+keys-add = Přidat klávesu pro: { $action }
+keys-change = Změnit { $keys }
+keys-remove = Odebrat { $keys }
+keys-reset-action = Obnovit: { $action }
+keys-none = Žádné klávesy
+keys-changed = Změněno
+keys-press = Stiskněte klávesy…
+keys-recording-hint = Podržením Esc zrušíte
+keys-cancel-recording = Zrušit
+keys-no-match = Žádná akce ani klávesa neodpovídá „{ $query }“.
+keys-list = Akce a jejich klávesy
+keys-confirm-preset = Použít předvolbu { $preset }? Nahradí všechny vaše zkratky.
+keys-confirm-reset-mode = Obnovit všechny klávesy režimu { $mode } na předvolbu?
+keys-confirm-reset-all = Obnovit všechny klávesy všech režimů na předvolbu?
+keys-confirm-ok = Nahradit
+keys-confirm-reset = Obnovit
+keys-confirm-cancel = Zrušit
+keys-conflict-same = { $keys } už provádí „{ $other }“.
+keys-conflict-prefix = { $keys } a { $sequence } („{ $other }“) začínají stejně: kratší se provede až po pauze.
+keys-conflict-shadow = { $keys } provádí „{ $other }“ v režimu { $mode }.
+keys-conflict-reserved = { $keys } se možná nikdy nedostane do Specularu: { $reason }
+keys-choice-replace = Nahradit
+keys-choice-swap = Prohodit
+keys-choice-keep = Ponechat obě
+keys-choice-anyway = Přesto přiřadit
+keys-choice-cancel = Zrušit
+keys-reserved-switch = přepíná okna.
+keys-reserved-close = zavírá okno.
+keys-reserved-secure = používá ji systém.
+keys-reserved-desktop = zkratky se Super patří pracovnímu prostředí.
+keys-reserved-workspaces = přepíná terminály nebo pracovní plochy.
+keys-reserved-input = přepíná metodu zadávání nebo rozložení klávesnice.
+keys-reserved-macos = používá ji macOS.
+keys-announce-recording = Nahrávání kláves pro: { $action }. Stiskněte klávesy nebo podržením Esc zrušte.
+keys-announce-key = { $keys }
+keys-announce-bound = { $keys } nyní provádí: { $action }.
+keys-announce-already = { $keys } už provádí: { $action }.
+keys-announce-cancelled = Nahrávání zrušeno.
+keys-announce-removed = { $keys } odebrána z: { $action }.
+keys-announce-reset-action = { $action }: opět klávesy předvolby.
+keys-announce-reset-mode = Klávesy režimu { $mode } jsou obnoveny.
+keys-announce-reset-all = Všechny klávesy jsou obnoveny.
+keys-announce-preset = Nyní se používá předvolba { $preset }.
+keys-toast-imported = Zkratky importovány
+keys-toast-exported = Zkratky exportovány
+keys-toast-reloaded = keymap.toml se změnil: zkratky znovu načteny
+keys-toast-error = Zkratky nelze načíst: { $error }
+keys-toast-write-error = keymap.toml nelze uložit: { $error }
+keys-pending = { $keys } …  { $next }
+keys-problem-syntax = keymap.toml nelze načíst: { $error }
+keys-problem-key = Neznámá klávesa „{ $key }“ byla ignorována.
+keys-problem-action = „{ $key }“ uvádí neznámou akci „{ $action }“; ignorováno.
+keys-problem-mode = Tabulka [{ $mode }] není režim; ignorováno.
+keys-problem-duplicate = { $keys } je v režimu { $mode } uvedena dvakrát; platí druhá.
+keys-problem-prefix = { $keys } začíná { $longer } v režimu { $mode }, takže se provede až po pauze.
+keys-problem-preset = Neznámá předvolba „{ $preset }“; platí výchozí klávesy.
+
+## keymap.toml editor (machine-drafted, needs native review)
+
+keys-edit-file = Upravit keymap.toml
+keys-problem-action-suggestion = „{ $key }“ uvádí neznámou akci „{ $action }“; ignorováno. Měli jste na mysli „{ $suggestion }“?
+keys-problem-mode-suggestion = Tabulka [{ $mode }] není režim; ignorováno. Měli jste na mysli [{ $suggestion }]?
+keys-problem-preset-suggestion = Neznámá předvolba „{ $preset }“; platí výchozí klávesy. Měli jste na mysli „{ $suggestion }“?

@@ -1,0 +1,27 @@
+# part	URL	SHA-256	destination	licence
+# IPC-2581 Consortium RevC test cases (Cadence Allegro exports; published by the consortium
+# for implementers, no licence stated: local test use only, never committed).
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/03/Testcase1-RevC-March2021.zip	a815e8308293863baa1357741df391aae7a64af79419b9cc60ea44f41ce654f7	tc1/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/03/Testcase3_RevC-March2021.zip	f2d8390e39bb75c997a67588620542f23896ff46c44010c5c3a8afbbe0938722	tc3/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/08/CDNS_testcase5-revC-Data.zip	90030c433dbd9aaf9ad9964d70fc019a7b224fff444286c9d03d93850ec143cd	tc5/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/08/CDNS_testcase6-RevC_Data.zip	9e721ee3a0a404b901ccc6589233446ec1a46c4625e1b8a54b11911eea299fd2	tc6/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/08/CDNS_testcase9-RevC-data.zip	0edc9a4591c965d1ea7f92f322709adc798662315396644c189cbf52e181d926	tc9/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/08/CDNS_testcase10-Rev-C-data.zip	47c566f14b32ed79dcdd4f82cf013530abafeebea68d65b2dbc420aa47b92896	tc10/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/08/CDNS_testcase11-RevC.zip	3653ce53cc4b686e54bd9c29451710fb04b7792a1f30403da94b4ab4d2c32481	tc11/	IPC-2581 Consortium test case
+ipc2581	http://www.ipc2581.com/wp-content/uploads/2021/08/CDNS_testcase12-RevC.zip	41c41b59eb5def20d9385451f3d35cb4e57aa72f20a07be2f2581f40a004e61c	tc12/	IPC-2581 Consortium test case
+# ODB++ jobs from the examples of mcix/odbpp at a pinned commit (KiCad and Siemens sample
+# designs as exported there; no licence stated: local test use only, never committed).
+odb	https://raw.githubusercontent.com/mcix/odbpp/b7286517b339161c594722a4bbeec449a5595fb8/examples/flat_hierarchy-odb.tgz	1e29afc4c16f9e91c063d0201345ecc1c07ce92709a14270790f5dbf129d865d	flat_hierarchy-odb.tgz	mcix/odbpp example
+odb	https://raw.githubusercontent.com/mcix/odbpp/b7286517b339161c594722a4bbeec449a5595fb8/examples/sandbox-odb_pc4.tgz	fa4caf81c75fc31a90956353dc2471e2d138763cf6502561bf93a043e900e587	sandbox-odb_pc4.tgz	mcix/odbpp example
+odb	https://raw.githubusercontent.com/mcix/odbpp/b7286517b339161c594722a4bbeec449a5595fb8/examples/sandbox-odb_wifi.tgz	534e32d2f43cf455de0bfc6e9d02495c826fd4376de3f9baa389103017f1fb97	sandbox-odb_wifi.tgz	mcix/odbpp example
+odb	https://raw.githubusercontent.com/mcix/odbpp/b7286517b339161c594722a4bbeec449a5595fb8/examples/video-odb.tgz	6d6fe1fa866c809151faeea95b81a6a845b3af6467c7972b7c3f3f3997759ab8	video-odb.tgz	mcix/odbpp example
+odb	https://raw.githubusercontent.com/mcix/odbpp/b7286517b339161c594722a4bbeec449a5595fb8/examples/designodb_rigidflex.tgz	e67cbbdf95044b0a961fea956ef0e292121755b5de413e95a3265269eb24ee78	designodb_rigidflex.tgz	mcix/odbpp example
+# LandXML samples from public repositories at pinned commits (test data only, never committed).
+landxml	https://raw.githubusercontent.com/nathancrews/LandXML2glTF/69c1063f9e3c60519dfabc7c51bce8a3a1e7103f/LandXML2glTF/LandXML/Olympus/olympus-new.xml	ea0e3bd8b8831194d0ba9ebafe31d13452d6e73e53b93bd24a9cad4bcf215732	olympus-new.xml	LandXML2glTF sample (no licence stated)
+landxml	https://raw.githubusercontent.com/nathancrews/LandXML2glTF/69c1063f9e3c60519dfabc7c51bce8a3a1e7103f/LandXML2glTF/LandXML/Partridge/Partridge_Survey.xml	e2bb3bdfa23b656cb2d82894b77f9ed95b0499f7b2efa7b7a15d8843549e2f2f	Partridge_Survey.xml	LandXML2glTF sample (no licence stated)
+landxml	https://raw.githubusercontent.com/nathancrews/LandXML2glTF/69c1063f9e3c60519dfabc7c51bce8a3a1e7103f/LandXML2glTF/LandXML/subdivision/subdivision.xml	5c47b2a6f2c3ba2a26ad82abd066781a3f376ec57bd46d918d30fa0100596638	subdivision.xml	LandXML2glTF sample (no licence stated)
+landxml	https://raw.githubusercontent.com/lutraconsulting/qgis-landxml-mesh-plugin/3821822e51a4e9556bf1a4c1985a8b92e93d5b40/tests/data/3D_modell_underlag_skyfall_20230915.xml	f9810e075ecad7b13c5bf7a38908ca763220b5013fd2974ec463980a37d5e510	3D_modell_underlag_skyfall_20230915.xml	GPL-2.0 project's test data
+landxml	https://raw.githubusercontent.com/lutraconsulting/qgis-landxml-mesh-plugin/3821822e51a4e9556bf1a4c1985a8b92e93d5b40/tests/data/Example_Clean.xml	943f6a681c6d2c334b8176accf00b45b0c28be78529413a96094b41a8beda3b4	Example_Clean.xml	GPL-2.0 project's test data
+landxml	https://raw.githubusercontent.com/lutraconsulting/qgis-landxml-mesh-plugin/3821822e51a4e9556bf1a4c1985a8b92e93d5b40/tests/data/Total%20topp.xml	5ce4b69ff221e1d25ca8a5d0b6d80d20dfe7d36627f23ede4f47be78cbfa3fce	Total_topp.xml	GPL-2.0 project's test data
+landxml	https://raw.githubusercontent.com/lekks/tin2dem/77ad81524567cce95dac4e7f5ad01aa51f1162f3/black-box-test/input/cplx_test.xml	a81c280d182c941b675cdf412a2e0e4c88813d6403a171308690f6678119a9d4	cplx_test.xml	MIT
+landxml	https://raw.githubusercontent.com/mac999/landxml_parser/fe363394703bb4d752daba81998b4359675468c8/landxml_road_sample.xml	ef94784cec2b43dbfb01b9a17b18b036223791c2bebeef377d6d04feb80010f0	landxml_road_sample.xml	no licence stated

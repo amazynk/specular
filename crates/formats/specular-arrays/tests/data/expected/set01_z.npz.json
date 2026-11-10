@@ -1,0 +1,46 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "image",
+   "offset": 0,
+   "shape": [
+    24,
+    32
+   ]
+  },
+  {
+   "complex": false,
+   "name": "stack",
+   "offset": 768,
+   "shape": [
+    3,
+    8,
+    10
+   ]
+  },
+  {
+   "complex": false,
+   "name": "line",
+   "offset": 1008,
+   "shape": [
+    50
+   ]
+  },
+  {
+   "complex": true,
+   "name": "cplx",
+   "offset": 1058,
+   "re_offset": 1100,
+   "shape": [
+    6,
+    7
+   ]
+  }
+ ],
+ "kind": "npz",
+ "refused": [
+  "obj"
+ ],
+ "texts": {}
+}

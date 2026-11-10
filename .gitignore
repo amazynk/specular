@@ -1,0 +1,175 @@
+/target
+# Test scratch when CARGO_TARGET_DIR is relative.
+target/
+/tools/corpus/out
+*.swp
+# Real photos supplied locally for benchmarking; not redistributable unless licensed
+/tools/corpus/real/
+# Downloaded public test corpora (any licence; reproduce with tools/corpus/fetch-conformance.sh)
+/tools/corpus/conformance/*
+!/tools/corpus/conformance/MANIFEST.md
+/tools/corpus/large/
+# Public DICOM test corpus (reproduce with tools/corpus/fetch-dicom.sh)
+/tools/corpus/dicom/
+# IDC DICOM whole-slide series (reproduce with tools/corpus/fetch-dicomwsi.sh)
+/tools/corpus/dicomwsi/
+# Colour/quality conformance material (reproduce with tools/quality/fetch-icc.sh)
+/tools/corpus/quality/
+# Electron-microscopy and scanning-probe corpus (reproduce with tools/corpus/fetch-em.sh)
+/tools/corpus/em/
+# Real fonts for the specular-font corpus oracle (reproduce with tools/corpus/fetch-fonts.sh)
+/tools/corpus/fonts/
+/tools/corpus/epub/
+/tools/corpus/dxf/
+# 3D model test corpus (reproduce with tools/corpus/fetch-mesh.sh)
+/tools/corpus/mesh/
+# 3D and CAD corpus: splats, USD, COLLADA, 3DS, LWO, FBX, .blend, .skp (reproduce with tools/corpus/fetch-models.sh)
+/tools/corpus/models/
+# STEP and IGES corpus (reproduce with tools/corpus/fetch-occt.sh, then tools/corpus/occt-oracle.sh)
+/tools/corpus/occt/
+# IFC, X3D/VRML, Rhino, AMF and PTX corpus (reproduce with tools/corpus/fetch-models2.sh)
+/tools/corpus/models2/
+__pycache__/
+# HDF5 / NetCDF / EMD corpus (reproduce with tools/corpus/fetch-hdf5.sh)
+/tools/corpus/hdf5/
+# Medical research volumes: NIfTI / Analyze / NRRD (reproduce with tools/corpus/fetch-medvol.sh)
+/tools/corpus/medvol/
+# DICOM video and encapsulated documents (reproduce with tools/corpus/fetch-dcmobj.sh)
+/tools/corpus/dcmobj/
+# Whole-slide and OME microscopy corpus (reproduce with tools/corpus/fetch-wsi.sh)
+/tools/corpus/wsi/
+# HP-GL / HP-GL/2 plot file corpus (reproduce with tools/corpus/fetch-hpgl.sh)
+/tools/corpus/hpgl/
+# Point cloud corpus: LAS / LAZ / COPC / PCD / E57 (reproduce with tools/corpus/fetch-points.sh)
+/tools/corpus/points/
+# Geospatial corpus: GeoTIFF, Shapefile, GeoPackage, KML, GPX, GeoJSON (reproduce with tools/corpus/fetch-gis.sh)
+/tools/corpus/gis/
+# GIS formats corpus: FlatGeobuf, GeoParquet, GML, OSM, MapInfo, FileGDB, FIT/TCX, NITF, GeoPDF (reproduce with tools/corpus/fetch-gis-formats.sh)
+/tools/corpus/gis-formats/
+# Astronomy WCS, SER and FITS CFA corpus (reproduce with tools/corpus/fetch-astrowcs.sh)
+/tools/corpus/astrowcs/
+# MRC maps, MGH/MGZ, MINC, NeXus, Eiger, Imaris, BAG, SRTM (reproduce with tools/corpus/fetch-cheapvol.sh)
+/tools/corpus/cheapvol/
+# Scientific TIFF corpus: ImageJ, LSM, MetaMorph, SEM (reproduce with tools/corpus/fetch-scitiff.sh)
+/tools/corpus/scitiff/
+# Diffraction detector corpus: CBF, EDF, SMV, Bruker, MarCCD, R-AXIS (reproduce with tools/corpus/fetch-xtal.sh)
+/tools/corpus/xtal/
+# Sidecar georeferencing, ASCII grids, DTED, ENVI and ERDAS IMAGINE (reproduce with tools/corpus/fetch-geosidecar.sh)
+/tools/corpus/geosidecar/
+# GRIB corpus: ecCodes test data, GFS, HRRR, ECMWF open data, ICON-EU (reproduce with tools/corpus/fetch-grib.sh)
+/tools/corpus/grib/
+# Nikon High Efficiency NEF corpus (reproduce with tools/corpus/fetch-nikhe1.sh)
+/tools/corpus/nikhe1/
+# Materials science: TIA, BCF, EBSD, AFM, areal topography (reproduce with tools/corpus/fetch-matsci.sh)
+/tools/corpus/matsci/
+# SEG-Y / Seismic Unix corpus: segyio test data, xtgeo cubes, F3 crop (reproduce with tools/corpus/fetch-segy.sh)
+/tools/corpus/segy/
+# ASDF corpus: asdf-standard reference files, Roman simulated products (reproduce with tools/corpus/fetch-asdf.sh)
+/tools/corpus/asdf/
+# CERN ROOT corpus: scikit-hep-testdata files, hsimple.root (reproduce with tools/corpus/fetch-root.sh)
+/tools/corpus/root/
+# Industrial CT volumes: TXM/TXRM, Amira, SkyScan, Nikon xtekct, VGI, DICONDE (reproduce with tools/corpus/fetch-indct.sh)
+/tools/corpus/indct/
+# Leica LIF/LOF, Nikon ND2 and slide annotation corpus (reproduce with tools/corpus/fetch-vendormicro.sh)
+/tools/corpus/vendormicro/
+# MIRAX, BIF, VSI, OIR, SPE and SIF corpus (reproduce with tools/corpus/fetch-microscopy.sh)
+/tools/corpus/microscopy/
+# ICS, FCS and Hamamatsu VMS corpus (reproduce with tools/corpus/fetch-micro2.sh)
+/tools/corpus/micro2/
+# Zeiss CZI corpus (reproduce with tools/corpus/fetch-czi.sh)
+/tools/corpus/czi/
+# FITS tables corpus: HEALPix and GW sky maps, X-ray event lists, VOTables (reproduce with tools/corpus/fetch-fitstables.sh)
+/tools/corpus/fitstables/
+# DICOM SR, waveform and RT dose/structure corpus (reproduce with tools/corpus/fetch-dicomrt.sh)
+/tools/corpus/dicomrt/
+# imzML mass spectrometry imaging corpus: pyimzML examples, Galaxy training data, zenodo (reproduce with tools/corpus/fetch-imzml.sh)
+/tools/corpus/imzml/
+# Reflectance transformation imaging: HP PTMs, Relight folders, a CHI HSH .rti (reproduce with tools/corpus/fetch-rti.sh)
+/tools/corpus/rti/
+# GDSII corpus: KLayout test data, SKY130 SRAM macros and cells, Caravel (reproduce with tools/corpus/fetch-gdsii.sh)
+/tools/corpus/gdsii/
+# Molecular structures: RCSB PDB entries, COD crystal structures, PubChem SDFs (reproduce with tools/corpus/fetch-mol.sh)
+/tools/corpus/mol/
+# Thermal stills: FLIR R-JPEG, InfiRay IRG, InfraTec IRB (reproduce with tools/corpus/fetch-thermal.sh)
+/tools/corpus/thermal/
+# HDF4 / HDF-EOS2 corpus: GDAL and HDF Group test files, Unidata-mirrored EOS products (reproduce with tools/corpus/fetch-hdf4.sh)
+/tools/corpus/hdf4/
+# CASA image tables: casacore and spectral-cube test images (reproduce with tools/corpus/fetch-casa.sh)
+/tools/corpus/casa/
+# UGRID / ICON unstructured meshes: xugrid and uxarray samples, NOAA gridded tests (reproduce with tools/corpus/fetch-ugrid.sh)
+/tools/corpus/ugrid/
+# Brain surfaces and tractography: nibabel and MRtrix3 test data, Conte69 CIFTI, fsLR surfaces (reproduce with tools/corpus/fetch-neurosurf.sh)
+/tools/corpus/neurosurf/
+# RAW variant corpus: DNG lossy/JXL/float/VC-5, sRAW, ARW1, SuperCCD (reproduce with tools/corpus/fetch-raw-variants.sh)
+/tools/corpus/raw-variants/
+# Lens-correction corpus: Sony and Fujifilm raws with lens tables (reproduce with tools/corpus/fetch-lens.sh)
+/tools/corpus/lens/
+# Camera RAW corpus beyond the big vendors (reproduce with tools/corpus/fetch-raw-more.sh)
+/tools/corpus/raw-more/
+# Rarer camera RAW cases: IIQ calibration, RADC, CMYG, SRF, X3F (reproduce with tools/corpus/fetch-rawrest.sh)
+/tools/corpus/rawrest/
+# Old and rare camera RAW containers: MDC, QTK, K25, STI, ORI, old .RAW, J6I, FlashPix, Lytro (reproduce with tools/corpus/fetch-raw400.sh)
+/tools/corpus/raw400/
+# DPX, Cineon, PFM, XWD, MIFF, TIM, WSQ, JBIG and JBIG2 corpus (reproduce with tools/corpus/fetch-raster-*.sh)
+/tools/corpus/raster/
+# Document corpora: DjVu, XPS, CGM (reproduce with tools/corpus/fetch-*.sh)
+/tools/corpus/docs/
+# Matroska / WebM / MPEG-TS, VP8 / VP9 / Opus / Vorbis corpus (reproduce with tools/corpus/fetch-video2.sh)
+/tools/corpus/video2/
+# Editor and legacy raster corpus: PDN, PSP, CDR, BPG, FLIF (reproduce with tools/corpus/fetch-editors*.sh)
+/tools/corpus/editors/
+# Layered-editor corpus: Krita, GIMP XCF, PaintShop Pro and PSD files with their oracles (reproduce with tools/corpus/fetch-layered.sh)
+/tools/corpus/igapA/
+# Design and office-drawing corpus: Clip Studio, Sketch, Figma, Visio, ODF, WPG (reproduce with tools/corpus/fetch-design2*.sh)
+/tools/corpus/design2/
+# Planetary corpus: VICAR, PDS3, PDS4, fpack (reproduce with tools/corpus/fetch-space.sh)
+/tools/corpus/space/
+# JPEG XS corpus: reference-encoder synthetics, ISO/IEC 21122-4 conformance codestreams (reproduce with tools/corpus/fetch-jpegxs.sh)
+/tools/corpus/jpegxs/
+# MPEG-1/2, MPEG-4 Part 2, H.263 and MPEG audio corpus (reproduce with tools/corpus/fetch-videocodecs.sh)
+/tools/corpus/videocodecs/
+# Electronics and lab spectra corpus: Gerber, KiCad, JCAMP-DX, SPC, mzML, Bruker NMR (reproduce with tools/corpus/fetch-pcb-spectra.sh)
+/tools/corpus/pcb-spectra/
+# buildingSMART BCF-XML schemas and test cases (CC BY-ND; reproduce with tools/corpus/fetch-bcf.sh)
+/tools/corpus/bcf/
+# buildingSMART IDS test cases (CC BY-ND; reproduce with tools/corpus/fetch-ids.sh)
+/tools/corpus/ids/
+# Real building models for the IFC checks (reproduce with tools/corpus/fetch-ifc-checks.sh)
+/tools/corpus/ifc-checks/
+# FLIR sequences: SEQ and CSQ (reproduce with tools/corpus/fetch-thermal-seq.sh)
+/tools/corpus/thermal-seq/
+# Testo BMT and Fluke IS2 (reproduce with tools/corpus/fetch-thermal2.sh)
+/tools/corpus/thermal2/
+# Meshopt-compressed glTF streams and models (reproduce with tools/corpus/gen-meshopt.py)
+/tools/corpus/meshopt/
+# Office preview corpus and oracle (reproduce with tools/corpus/gen-office.py)
+/tools/corpus/office/
+# sci2 remote-sensing corpus and oracle (reproduce with tools/corpus/fetch-sci2.sh)
+/tools/corpus/sci2/
+# Cesium 3D Tiles corpus (reproduce with tools/corpus/fetch-3dtiles.sh)
+/tools/corpus/tiles3d/
+# NIST MBE PMI test models (reproduce with tools/corpus/fetch-pmi.sh)
+/tools/corpus/pmi/
+# Raw video corpus: Cinema RAW Light prefix, ProRes RAW frames (reproduce with tools/corpus/fetch-rawvid1.sh)
+/tools/corpus/rawvid1/
+
+# OS, editor and tool clutter
+.DS_Store
+._*
+.idea/
+.vscode/
+.claude/
+.playwright-cli/
+*.orig
+*.rej
+*.ips
+*.crash
+node_modules/
+.venv/
+# Secrets and signing material (the TLS test certificates are .der, which stay tracked)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx

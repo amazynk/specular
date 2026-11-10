@@ -1,0 +1,71 @@
+# Specular — Banyo: kamera profili ve renk kartından yapılan kamera profilleri.
+
+develop-input-profile = Kamera profili
+develop-input-profile-auto = Kamera standardı
+develop-input-profile-matrix = Yalnızca matris
+develop-input-profile-file = Profil dosyası…
+develop-input-profile-named = Dosya: { $name }
+develop-input-profile-in-use = { $name } kullanılıyor.
+develop-input-profile-changed = { $name } kullanılıyor. Dosya seçildikten sonra değişti.
+develop-input-profile-missing = Profil dosyası yok. Kameranın matrisi kullanılıyor.
+develop-input-profile-unusable = Profil dosyası kullanılamıyor: { $reason }. Kameranın matrisi kullanılıyor.
+develop-input-profile-dialog = Bir kamera profili seçin
+develop-input-profile-kind = DNG kamera profilleri
+
+develop-chart-start = Renk kartından profil yap…
+develop-chart-title = Renk kartından profil
+develop-chart-kind = Kart
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Referans
+develop-chart-ref-load = Dosya yükle…
+develop-chart-hint-xrite = Kartın referans dosyasını (CGATS metni) yükleyin. Kartla birlikte gelir ya da kartınızın baskısı için X-Rite'ın web sitesinde bulunur.
+develop-chart-hint-it8 = Hedefinizin referans dosyasını yükleyin. Her partinin, üreticisinden gelen kendi dosyası vardır.
+develop-chart-spyder = SpyderCHECKR desteklenmiyor: renk değerleri Datacolor'a ait.
+develop-chart-step-reference = Kartı seçin ve referans dosyasını yükleyin.
+develop-chart-step-corner = { $name } yamasının ortasına tıklayın ({ $number } / 4).
+develop-chart-measuring = Kart ölçülüyor…
+develop-chart-step-save = Profili kaydedin ya da köşeleri yeniden işaretleyin.
+develop-chart-corner-dark-skin = koyu ten (sol üst)
+develop-chart-corner-bluish-green = mavimsi yeşil (sağ üst)
+develop-chart-corner-black = siyah (sağ alt)
+develop-chart-corner-white = beyaz (sol alt)
+
+develop-chart-ref-too-large = Dosya bir referans dosyası için çok büyük.
+develop-chart-ref-not-cgats = CGATS referans dosyası değil.
+develop-chart-ref-no-ids = Dosyada yama adları yok.
+develop-chart-ref-no-colour = Dosyada L*a*b* ya da XYZ değerleri yok.
+develop-chart-ref-bad-row = Dosyanın { $row }. satırı bozuk.
+develop-chart-ref-count = Dosya { $declared } yama diyor ama { $found } yama var.
+develop-chart-ref-duplicate = { $id } yaması dosyada iki kez var.
+develop-chart-ref-illuminant = Değerler { $name } ışığı için. D50 ya da D65 gerekir.
+develop-chart-ref-wrong-chart = Dosyada { $found } yama var. Bu kartta { $expected } var.
+develop-chart-ref-names = Yama adları bu karta uymuyor.
+develop-chart-ref-corner = { $id } köşe yaması dosyada yok.
+develop-chart-ref-unreadable = Dosya okunamıyor: { $reason }
+develop-chart-ref-dialog = Kartın referans dosyasını seçin
+develop-chart-ref-kind = Renk kartı referans dosyaları
+
+develop-chart-not-found = Orada kart bulunamadı. Köşeleri yeniden işaretleyin.
+develop-chart-too-few = Yalnızca { $count } yama kullanılabiliyor. Kartı eşit aydınlatın ve parlamadan kaçının.
+develop-chart-no-greys = Hiçbir gri yama kullanılamıyor. Griler patlamayacak şekilde pozlayın.
+develop-chart-degenerate = Yamalar profil yapmak için birbirine fazla benziyor.
+
+develop-chart-report-after = Profille ΔE2000: ortalama { $mean }, ortanca { $median }, en çok { $max }
+develop-chart-report-before = Önce: ortalama { $mean }, ortanca { $median }, en çok { $max }
+develop-chart-report-cv = Uydurma dışında bırakılan yamalarla denetlendi: ortalama { $mean }
+develop-chart-left-out = Dışarıda bırakıldı: { $id } ({ $why })
+develop-chart-left-clipped = patlamış
+develop-chart-left-uneven = parlama ya da toz
+develop-chart-left-outside = fotoğrafın dışında
+develop-chart-uneven-light = Griler { PERCENT($percent) } değişiyor: ışık eşit olmayabilir.
+develop-chart-use-camera = { $camera } fotoğraflarında kullan
+develop-chart-again = Yeniden işaretle
+develop-chart-save = Kaydet…
+develop-chart-close = Kapat
+develop-chart-save-title = Kamera profilini kaydet
+develop-chart-default-name = { $camera } kart profili
+develop-chart-saved = { $name }, { $file } olarak kaydedildi.
+develop-chart-save-failed = Profil kaydedilemiyor: { $reason }

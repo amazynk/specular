@@ -1,0 +1,17 @@
+# Specular path timings (DESIGN.md §12.3.1), version 1
+# Replay fixture for the Settings snapshot: the 860M machine after its hardware JPEG decoder
+# failed the quality check (2025-10-01 09:30 UTC), with colour conversion still being
+# checked and PNG measured only on one thread so far.
+fingerprint AMD Radeon 860M Graphics (RADV GFX1152)|radv Mesa 25.2|AMD Ryzen AI 7 PRO 350 w/ Radeon 860M|0.1.0
+machine gpu=integrated threads=16
+calibrated true
+trust jpeg_decode hw_decoder blocked
+blocked jpeg_decode hw_decoder check_failed 1759311000
+trust ycbcr_to_rgb gpu unverified
+trust png_unfilter cpu_parallel trusted
+# cell task engine variant bucket load samples wall_us_per_mpx cpu_samples cpu_us_per_mpx
+cell jpeg_decode cpu 0 3 idle 40 1150.0 30 9500.0
+cell jpeg_decode cpu 0 4 idle 40 1080.0 30 9000.0
+cell jpeg_decode hw_decoder 0 4 idle 1 4220.0 1 900.0
+cell ycbcr_to_rgb cpu 0 3 idle 2 11967.6 2 6680.0
+cell png_unfilter cpu 0 3 idle 3 5127.9 3 8287.9

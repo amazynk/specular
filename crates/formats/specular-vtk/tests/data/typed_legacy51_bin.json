@@ -1,0 +1,102 @@
+{
+"point_data": [
+{
+"name": "p_float32",
+"components": 1,
+"tuples": 24,
+"offset": 0
+},
+{
+"name": "velocity",
+"components": 3,
+"tuples": 24,
+"offset": 24
+},
+{
+"name": "p_int8",
+"components": 1,
+"tuples": 24,
+"offset": 96
+},
+{
+"name": "p_uint8",
+"components": 1,
+"tuples": 24,
+"offset": 120
+},
+{
+"name": "p_int16",
+"components": 1,
+"tuples": 24,
+"offset": 144
+},
+{
+"name": "p_uint16",
+"components": 1,
+"tuples": 24,
+"offset": 168
+},
+{
+"name": "p_int32",
+"components": 1,
+"tuples": 24,
+"offset": 192
+},
+{
+"name": "p_uint32",
+"components": 1,
+"tuples": 24,
+"offset": 216
+},
+{
+"name": "p_int64",
+"components": 1,
+"tuples": 24,
+"offset": 240
+},
+{
+"name": "p_uint64",
+"components": 1,
+"tuples": 24,
+"offset": 264
+},
+{
+"name": "p_float64",
+"components": 1,
+"tuples": 24,
+"offset": 288
+}
+],
+"cell_data": [
+{
+"name": "cell_id",
+"components": 1,
+"tuples": 6,
+"offset": 312
+}
+],
+"field_data": [
+{
+"name": "TIME",
+"components": 1,
+"tuples": 1,
+"offset": 318
+}
+],
+"kind": "grid",
+"dims": [
+4,
+3,
+2
+],
+"origin": [
+0.0,
+0.0,
+0.0
+],
+"spacing": [
+1.5,
+1.0,
+0.75
+]
+}

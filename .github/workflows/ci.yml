@@ -1,0 +1,404 @@
+# Continuous integration. Every job uses the toolchain pinned in
+# rust-toolchain.toml; rustup installs it on first use.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+  RUST_BACKTRACE: "1"
+
+jobs:
+  fmt:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo fmt --all --check
+
+  # clippy + tests on all three platforms.
+  check:
+    name: clippy + test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+            libxkbcommon-dev libwayland-dev
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+
+  # Pseudo-locales en-XA (long, accented) and ar-XB (forced RTL): the i18n unit and message-id
+  # tests, then screenshots of the real UI in both, uploaded for review.
+  pseudo-locale:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+            libxkbcommon-dev libwayland-dev xvfb mesa-vulkan-drivers libvulkan1
+      - uses: Swatinem/rust-cache@v2
+      - name: i18n tests (pseudo-locales, message ids)
+        run: cargo test --locked -p specular-i18n
+      - name: Screenshots in en-XA and ar-XB (software Vulkan, lavapipe)
+        continue-on-error: true   # a missing GPU path must not hide the test result above
+        run: |
+          cargo build --locked --release -p specular --bin specular
+          mkdir -p target/pseudo
+          for l in en-XA ar-XB; do
+            xvfb-run -a -s "-screen 0 1920x1080x24" timeout 120 \
+              target/release/specular --lang "$l" --size 1280x800 --screenshot "target/pseudo/$l.png"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pseudo-locale-screenshots
+          path: target/pseudo/
+          if-no-files-found: ignore
+
+  # Screenshot tests of the chrome and the gallery at 1x/1.5x/2x (crates/specular-shots):
+  # rendered offscreen on the software Vulkan rasteriser (lavapipe) with the bundled fonts and
+  # compared with the committed PNG goldens. Elsewhere (no lavapipe) they skip; here a missing
+  # adapter fails. On a mismatch the actual and diff images are uploaded. To accept a change:
+  # `SPECULAR_BLESS=1 cargo test -p specular-widgets --test shots` and
+  # `SPECULAR_BLESS=1 cargo test -p specular --bin specular gallery::shots`, review, commit.
+  screenshots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SPECULAR_SHOTS_REQUIRE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+            libxkbcommon-dev libwayland-dev mesa-vulkan-drivers libvulkan1
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: screenshots
+      - name: Chrome (viewer, Settings, palette, info panel; dark, light, Hebrew)
+        run: cargo test --locked -p specular-widgets --test shots -- --nocapture
+      - name: Gallery (grid with the filter bar; dark, light)
+        if: success() || failure()
+        run: cargo test --locked -p specular --bin specular gallery::shots -- --nocapture
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshot-diffs
+          path: target/shots/
+          if-no-files-found: ignore
+
+  # End-to-end colour check (crates/specular-render/tests/colour_e2e.rs): synthetic images in
+  # every colour path are decoded, drawn 1:1 by the renderer and the compositor's final pass
+  # on software Vulkan (lavapipe), read back and compared with Little CMS, jxl-oxide and f64
+  # formulas. SPECULAR_REQUIRE_GPU turns a missing adapter into a failure instead of a skip.
+  colour-e2e:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+            libxkbcommon-dev libwayland-dev mesa-vulkan-drivers libvulkan1
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: colour-e2e
+      - name: Rendered colours vs references (lavapipe)
+        env:
+          SPECULAR_REQUIRE_GPU: "1"
+          VK_LOADER_DRIVERS_SELECT: "*lvp*"
+        run: cargo test --locked -p specular-render --test colour_e2e -- --nocapture
+
+  deny:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      # Licences, advisories (fresh RustSec snapshot), duplicates and sources; policy in deny.toml.
+      - run: tools/ci/deny.sh --install --fetch
+
+  # packaging/THIRD-PARTY.md must match the dependency tree.
+  third-party:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo install --locked --features cli --root target/tools cargo-about
+      - run: tools/release/third-party.sh --check
+
+  # Desktop integration files and scripts.
+  packaging-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends desktop-file-utils appstream shellcheck
+      - run: desktop-file-validate packaging/linux/app.specular.Specular.desktop
+      - run: appstreamcli validate --no-net packaging/linux/app.specular.Specular.metainfo.xml
+      - run: shellcheck build.sh tools/release/*.sh tools/bench/gate/*.sh packaging/linux/*.sh packaging/macos/*.sh tools/fuzz/*.sh tools/corpus/robust-corpus.sh
+
+  # Fuzz smoke test (tools/fuzz/run.sh): every target of every fuzz crate for 60 s, one job per
+  # crate, seeded from the committed fuzz/seeds and small test fixtures. The corpus grown by
+  # earlier runs is restored from the cache, so coverage builds up across runs.
+  fuzz:
+    name: fuzz (${{ matrix.crate }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        crate:
+          - crates/formats/specular-avif
+          - crates/formats/specular-bitmap
+          - crates/formats/specular-brotli
+          - crates/formats/specular-exr
+          - crates/formats/specular-h264
+          - crates/formats/specular-heic
+          - crates/formats/specular-icns
+          - crates/formats/specular-iff
+          - crates/formats/specular-jp2
+          - crates/formats/specular-jpeg
+          - crates/formats/specular-jxl
+          - crates/formats/specular-legacy
+          - crates/formats/specular-ora
+          - crates/formats/specular-pict
+          - crates/formats/specular-png
+          - crates/formats/specular-psd
+          - crates/formats/specular-radiance
+          - crates/formats/specular-raw
+          - crates/formats/specular-texture
+          - crates/formats/specular-tiff
+          - crates/formats/specular-webp
+          - crates/specular-archive
+          - crates/specular-color
+          - crates/specular-decode
+          - crates/specular-metadata
+          - crates/specular-query
+    steps:
+      - uses: actions/checkout@v4
+      - id: name
+        run: echo "name=$(basename '${{ matrix.crate }}')" >>"$GITHUB_OUTPUT"
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ${{ matrix.crate }}/fuzz
+          key: ${{ steps.name.outputs.name }}
+      - uses: actions/cache@v4
+        with:
+          path: ${{ matrix.crate }}/fuzz/corpus
+          key: fuzz-corpus-${{ steps.name.outputs.name }}-${{ github.run_id }}
+          restore-keys: fuzz-corpus-${{ steps.name.outputs.name }}-
+      - run: command -v cargo-fuzz || cargo install --locked cargo-fuzz
+      - name: Run every fuzz target for 60 s
+        run: tools/fuzz/run.sh ${{ matrix.crate }} 60
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: fuzz-artifacts-${{ steps.name.outputs.name }}
+          path: ${{ matrix.crate }}/fuzz/artifacts/
+
+  # JPEG robustness corpus (tools/corpus/robust-corpus.sh, ~5,500 mutated JPEGs, gitignored):
+  # every decoder entry point on every file; zero panics, no file over the time limit, no hang,
+  # bounded peak RSS. The corpus is deterministic, so it is cached on the hash of the script and
+  # the two generators it runs, and regenerated only when one of them changes. The test runs in
+  # the dev profile (opt-level 1, dependencies at 3, debug assertions and overflow checks on).
+  jpeg-robust-corpus:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: jpeg-robust-corpus
+      - id: corpus
+        uses: actions/cache@v4
+        with:
+          path: tools/corpus/out/robust
+          key: jpeg-robust-corpus-${{ hashFiles('tools/corpus/robust-corpus.sh', 'crates/formats/specular-jpeg/examples/robust.rs', 'tools/specular-corpus/src/**') }}
+      - name: Corpus tools
+        if: steps.corpus.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libjpeg-turbo-progs imagemagick \
+            libimage-exiftool-perl
+          # The seed generator calls ImageMagick 7's `magick`; Ubuntu ships IM6.
+          if ! command -v magick >/dev/null; then
+            mkdir -p "$HOME/.local/bin"
+            printf '#!/bin/sh\nexec convert "$@"\n' >"$HOME/.local/bin/magick"
+            chmod +x "$HOME/.local/bin/magick"
+            echo "$HOME/.local/bin" >>"$GITHUB_PATH"
+          fi
+      - name: Generate the corpus
+        if: steps.corpus.outputs.cache-hit != 'true'
+        run: tools/corpus/robust-corpus.sh
+      - name: Decode every file
+        env:
+          SPECULAR_ROBUST_CORPUS: ${{ github.workspace }}/tools/corpus/out/robust
+        run: cargo test --locked -p specular-jpeg --test robust_corpus -- --nocapture
+
+  # Instruction-count speed gate (tools/bench/perf-gate.py): a fixed set of single-threaded
+  # decodes, one per main format, counted under valgrind's callgrind and compared with the
+  # committed tools/bench/perf-gate-baseline.json. Fails when any case needs more than 2 % more
+  # instructions. The counts are exact, so unlike the timing gate below this works on hosted
+  # runners. To accept a change, bless locally (`./build.sh bench-gate --bless`) or from this
+  # job's artifact (`tools/bench/perf-gate.py --bless-from perf-gate-results.json`) and commit
+  # the baseline.
+  perf-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends valgrind
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: perf-gate
+      - name: Count and compare (fail on >2 % more instructions)
+        run: |
+          python3 -I tools/bench/perf-gate.py -j 4 --out perf-gate-results.json \
+            --markdown "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: perf-gate-results
+          path: perf-gate-results.json
+          if-no-files-found: ignore
+
+  # App gate (tools/bench/perfgate_app.py): the viewer's headline cases in a private headless
+  # sway on generated inputs, gated on what does not depend on the runner's speed: no frame
+  # while idle, a button held still, a hidden Library walk or a paused video; no frame without
+  # a cause; one frame to the prefetched next image; the image in the first present; bytes
+  # read against the committed tools/bench/perf-gate-app-baseline.json. Wall-clock rows are
+  # information. Bless: `./build.sh bench-gate --suite app --bless`.
+  app-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+            libxkbcommon-dev libwayland-dev sway mesa-vulkan-drivers libvulkan1
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: app-gate
+      - name: Scripted runs and gates
+        run: |
+          python3 -I tools/bench/perf-gate.py --suite app --out app-gate-results.json \
+            --markdown "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: app-gate-results
+          path: app-gate-results.json
+          if-no-files-found: ignore
+
+  # Develop timing gate (crates/specular-develop/benches/develop): every
+  # budget's bench with GPU timestamps and wall clock, compared with the committed baseline by
+  # the +10 % rule. Gated only on the machine the baseline was blessed on (set DEVELOP_RUNNER
+  # to a self-hosted runner label with that GPU); elsewhere, without a GPU or under load it
+  # says "skipped" (a warning, not a pass) and the software adapter's numbers are information.
+  # Bless on an idle machine: `./build.sh bench-gate --suite develop --bless`.
+  develop-gate:
+    runs-on: ${{ vars.DEVELOP_RUNNER || 'ubuntu-24.04' }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vulkan (software adapter on hosted runners)
+        if: ${{ !vars.DEVELOP_RUNNER }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mesa-vulkan-drivers libvulkan1
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: develop-gate
+      - name: Benches and gate (fail at +10 %)
+        env:
+          DV_BENCH_GATE: "1"
+          DV_BENCH_MARKDOWN: develop-gate.md
+        run: cargo bench --locked -p specular-develop --profile dev --bench develop
+      - name: Summary
+        if: always()
+        run: cat develop-gate.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: develop-gate-results
+          path: target/develop-bench/results-*.json
+          if-no-files-found: ignore
+
+  # Decode benchmark gate: fails if a specular decoder is >10% slower than the last main-branch
+  # run on the same CPU model. Hosted runners vary in CPU, so the comparison is only enforced
+  # when the CPU matches; set the repository variable BENCH_RUNNER to a self-hosted runner label
+  # to make the gate reliable.
+  bench:
+    runs-on: ${{ vars.BENCH_RUNNER || 'ubuntu-24.04' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corpus tools
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libjpeg-turbo-progs imagemagick \
+            python3-pil libimage-exiftool-perl icc-profiles-free
+          # The corpus generator calls ImageMagick 7's `magick`; Ubuntu ships IM6.
+          if ! command -v magick >/dev/null; then
+            mkdir -p "$HOME/.local/bin"
+            printf '#!/bin/sh\nexec convert "$@"\n' >"$HOME/.local/bin/magick"
+            chmod +x "$HOME/.local/bin/magick"
+            echo "$HOME/.local/bin" >>"$GITHUB_PATH"
+          fi
+      - uses: Swatinem/rust-cache@v2
+      - name: Generate the small corpus
+        run: cargo run --locked --release -p specular-corpus -- --small --no-network
+      - name: Benchmark
+        run: |
+          cargo run --locked --release -p specular-bench --features specular -- --quick \
+            --decoders specular-full,specular-full-1t,specular-view,specular-view-1t
+          cp tools/corpus/out/bench/decode-latest.json bench-current.json
+      - name: Restore the main-branch baseline
+        id: baseline
+        uses: actions/cache/restore@v4
+        with:
+          path: bench-baseline.json
+          key: bench-baseline-${{ runner.os }}-${{ github.sha }}
+          restore-keys: bench-baseline-${{ runner.os }}-
+      - name: Compare (fail on >10% regression)
+        if: steps.baseline.outputs.cache-matched-key != ''
+        run: |
+          python3 tools/release/bench-compare.py bench-baseline.json bench-current.json \
+            --threshold 0.10 --markdown "$GITHUB_STEP_SUMMARY"
+      - name: Save as the new baseline (main only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: cp bench-current.json bench-baseline.json
+      - uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        with:
+          path: bench-baseline.json
+          key: bench-baseline-${{ runner.os }}-${{ github.sha }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bench-json
+          path: |
+            bench-current.json
+            tools/corpus/out/bench/decode-latest.md

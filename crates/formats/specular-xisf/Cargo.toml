@@ -1,0 +1,25 @@
+[package]
+name = "specular-xisf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "XISF (PixInsight) decoder for Specular: monolithic files, attached / inline / embedded blocks, UInt8-64 and Float32/64 samples, planar and normal storage, zlib / LZ4 / LZ4HC / Zstandard with byte shuffling, FITS keywords and properties"
+
+[dependencies]
+rayon = "1.11"
+roxmltree = "0.21"
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+thiserror = "2"
+# Own inflate (zlib blocks).
+specular-png = { path = "../specular-png" }
+# The memory budget for decompressed blocks.
+specular-core = { path = "../../specular-core" }
+# The XML nesting check before roxmltree (which recurses per element).
+specular-limits = { path = "../../specular-limits" }
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }
+
+[lints]
+workspace = true

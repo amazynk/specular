@@ -1,0 +1,25 @@
+[package]
+name = "specular-exr"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "OpenEXR decoder for Specular: scanline/tiled, multi-part, mip/rip levels, NONE/RLE/ZIP/PIZ/PXR24/B44/DWAA/DWAB/HTJ2K compression, deep parts flattened, parallel chunk decode to interleaved f32/f16 RGBA"
+
+[dependencies]
+rayon = "1.11"
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+specular-core = { path = "../../specular-core" }
+specular-jp2 = { path = "../specular-jp2" }
+thiserror = "2"
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+
+[dev-dependencies]
+# Differential-test and benchmark oracle only; never linked into Specular (BSD-3-Clause).
+# Pinned: 1.74 pulls in pulp -> paste (RUSTSEC-2024-0436, unmaintained). 1.73 has every
+# compression it implements; it lacks DWA and deep reading, which tests/conformance.rs checks
+# against OpenEXR itself instead (tools/corpus/exr-dwa.sh).
+exr = "=1.73.0"
+
+[lints]
+workspace = true

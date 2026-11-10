@@ -1,0 +1,20 @@
+[package]
+name = "specular-visio"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Microsoft Visio drawings for Specular: VSDX/VSTX/VSSX packages drawn as pages (ShapeSheet cells, masters, styles, themes, geometry, text, images), binary VSD shown by its embedded preview"
+
+[dependencies]
+specular-drawpage = { path = "../specular-drawpage" }
+specular-ora = { path = "../specular-ora" }  # bounded ZIP reader (OPC packages)
+specular-cfb = { path = "../specular-cfb" }  # compound files (binary VSD)
+specular-vector = { path = "../../specular-vector" }  # text extents (text backgrounds)
+thiserror = "2"
+
+[dev-dependencies]
+specular-png = { path = "../specular-png" }  # images in the render example
+
+[lints]
+workspace = true

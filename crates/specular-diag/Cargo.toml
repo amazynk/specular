@@ -1,0 +1,20 @@
+[package]
+name = "specular-diag"
+description = "Specular's diagnostics: privacy redaction, the diagnostics bundle (a zip the user saves and shares themselves) and the opt-in update check"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-core = { path = "../specular-core" }
+specular-remote = { path = "../specular-remote" }
+crc32fast = "1.5"
+serde_json = "1"
+
+[dev-dependencies]
+# Oracle for the bundle's zip writer.
+zip = { version = "8.6", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+
+[lints]
+workspace = true

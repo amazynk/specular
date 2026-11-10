@@ -1,0 +1,19 @@
+[package]
+name = "specular-textdoc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own readers of text-like files: plain text and logs (character sets, CP437), Markdown, CSV/TSV and RTF, with line and row indexes over mapped files"
+
+[dependencies]
+encoding_rs = "0.8"
+specular-subs = { path = "../../specular-subs" }  # character set guessing
+specular-epub = { path = "../specular-epub" }  # HtmlDoc: rendered documents as pages
+
+[dev-dependencies]
+# Test oracle for the CSV reader only.
+csv = "1.4"
+
+[lints]
+workspace = true

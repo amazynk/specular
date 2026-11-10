@@ -1,0 +1,9 @@
+# Synthetic Exif/XMP fixtures (JPEG, PNG, WebP, HEIC, AVIF, JPEG XL incl. brob boxes, PSD, CR3).
+../specular-thumbs/tests/data/gpsmeta/*.jpg
+../specular-thumbs/tests/data/gpsmeta/*.png
+../specular-thumbs/tests/data/gpsmeta/*.webp
+../specular-thumbs/tests/data/gpsmeta/*.heic
+../specular-thumbs/tests/data/gpsmeta/*.avif
+../specular-thumbs/tests/data/gpsmeta/*.jxl
+../specular-thumbs/tests/data/gpsmeta/*.psd
+../specular-thumbs/tests/data/gpsmeta/*.cr3

@@ -1,0 +1,80 @@
+# Specular — Medical analysis: segmentations, SUV, fusion, TMTV, time-intensity curves. Türkçe. machine-drafted, needs native review
+
+palette-segments = Segmentasyonları göster veya gizle
+palette-segment-opacity = Sonraki segmentasyon dolgu opaklığı
+palette-fusion = Aynı referans çerçevesindeki seriyi kaynaştır
+palette-fusion-colormap = Sonraki füzyon renk haritası
+palette-fusion-blend = Sonraki füzyon opaklığı
+palette-fusion-nudge = Kaynaştırılan seriyi elle taşı
+palette-tmtv = TMTV aracı (küre, kutu, kapalı)
+palette-tmtv-threshold = TMTV eşiği (SUV { NUMBER(2.5) } veya SUVmax’ın { PERCENT(41) }’i)
+palette-time-curve = Son bölgenin zaman-yoğunluk eğrisi
+palette-export-curve = Zaman-yoğunluk eğrisini CSV olarak kaydet
+
+analysis-searching = Segmentasyonlar ve kaynaştırılacak seriler hâlâ aranıyor
+segments-none = Bu referans çerçevesine ait segmentasyon bulunamadı
+segments-shown = Segmentasyonlar gösteriliyor
+segments-hidden = Segmentasyonlar gizlendi
+segments-fill = Segmentasyon dolgusu { PERCENT($percent) }
+segments-failed = Segmentasyon gösterilmedi: { $reason }
+segment-entry = { $name } · { $ml } mL
+
+suv-value = SUVbw { $value }
+suv-factor = SUVbw katsayısı { $factor }, enjeksiyondan { $minutes } min sonra
+suv-refused = SUV yok: { $reason }
+suv-preset = SUV 0–{ $upper }
+suv-refused-not-pet = PET görüntüsü değil
+suv-refused-units = piksel birimleri Bq/mL değil
+suv-refused-corrected = atenüasyon ve bozunma için düzeltilmemiş
+suv-refused-decay = desteklenmeyen bozunma düzeltmesi
+suv-refused-weight = hasta ağırlığı yok
+suv-refused-dose = enjekte edilen doz yok
+suv-refused-half-life = radyonüklid yarı ömrü yok
+suv-refused-injection = enjeksiyon zamanı yok
+suv-refused-scan-time = çekim zamanı yok
+suv-refused-delay = enjeksiyon çekimden sonra
+suv-refused-scale = Philips SUV ölçek katsayısı yok
+suv-refused-height = hasta boyu yok
+suv-refused-sex = hasta cinsiyeti yok
+suv-refused-lbm = yağsız vücut kütlesi aralık dışında
+
+colormap-hot-iron = Kızgın demir
+colormap-rainbow = Gökkuşağı
+colormap-viridis = Viridis
+fusion-none = Bu referans çerçevesinde kaynaştırılacak PET, SPECT, CT veya MR serisi yok
+fusion-needed = Önce bir seri kaynaştırın (Shift+U)
+fusion-opening = { $modality } kaynaştırılıyor
+fusion-off = Füzyon kapalı
+fusion-refused = Kaynaştırılamıyor: { $reason }
+fusion-on = Kaynaştırılan { $modality }: { $colormap }, { PERCENT($blend) }
+fusion-hidden = Kaynaştırılan { $modality } gizlendi
+fusion-window-suv = Füzyon penceresi SUV { $low }–{ $high }
+fusion-value = { $modality } { $value }
+fusion-value-suv = { $modality } SUVbw { $value }
+fusion-blend-toast = Füzyon opaklığı { PERCENT($percent) }
+fusion-moved = Elle taşındı: { $x }, { $y }, { $z } mm, { $degrees }°
+fusion-nudge-hint = Oklar kaynaştırılan seriyi 1 mm taşır, Shift+Up/Down görünüm boyunca, [ ve ] döndürür
+fusion-nudge-off = Kaynaştırılan seri sabitlendi
+
+tmtv-hint-sphere = TMTV: merkezinden bir küre sürükleyin
+tmtv-hint-box = TMTV: bir kutu sürükleyin
+tmtv-off = TMTV kapalı
+tmtv-threshold-suv = Eşik SUV { $suv }
+tmtv-threshold-share = Eşik SUVmax’ın { PERCENT($share) }’i
+tmtv-result = TMTV { $ml } mL, { $count } bölgede
+tmtv-stats = SUVmax { $max }, SUVmean { $mean }, TLG { $tlg }
+tmtv-outside = Bölge hacmin dışında
+tmtv-no-pet = TMTV, SUV içeren bir PET hacmi gerektirir
+
+analysis-mpr-only = Füzyon ve TMTV MPR’de çalışır (Shift+R)
+curve-not-dynamic = Çok kareli bir görüntü veya dinamik bir seri değil
+curve-not-mpr = Zaman-yoğunluk eğrileri MPR dışında, görüntü üzerinde çizilir
+curve-no-roi = Önce bir elips veya dikdörtgen çizin
+curve-loading = { $count } zaman noktası okunuyor…
+curve-title = Zaman-yoğunluk eğrisi
+curve-mean = Ortalama
+curve-max = Maks.
+curve-seconds = s
+curve-saved = Eğri kaydedildi
+curve-none = Kaydedilecek eğri yok
+curve-failed = Eğri oluşturulamadı: { $reason }

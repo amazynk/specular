@@ -1,0 +1,22 @@
+[package]
+name = "specular-sketch"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Sketch (.sketch, version 43 and later) documents drawn as pages from their JSON layers, their embedded previews, and Figma (.fig) local-copy thumbnails, for Specular"
+
+[dependencies]
+specular-drawpage = { path = "../specular-drawpage" }
+specular-ora = { path = "../specular-ora" }  # bounded ZIP reader
+serde_json = "1"
+thiserror = "2"
+
+[dev-dependencies]
+# The sketch-render example decodes PNG and JPEG images for the oracle run (the app uses its
+# registry).
+specular-png = { path = "../specular-png" }
+specular-jpeg = { path = "../specular-jpeg" }
+
+[lints]
+workspace = true

@@ -1,0 +1,15 @@
+[package]
+name = "specular-lottie"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Lottie animations (Bodymovin JSON, and .lottie packages) read and drawn frame by frame as vector pages for Specular (own reader)"
+
+[dependencies]
+specular-drawpage = { path = "../specular-drawpage" }
+specular-ora = { path = "../specular-ora" }  # bounded ZIP reader for .lottie packages
+serde_json = "1"
+
+[lints]
+workspace = true

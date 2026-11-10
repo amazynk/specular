@@ -1,0 +1,170 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "c{1}",
+   "offset": 0,
+   "shape": [
+    2,
+    2
+   ]
+  },
+  {
+   "complex": false,
+   "name": "c{3}",
+   "offset": 4,
+   "shape": [
+    3,
+    1
+   ]
+  },
+  {
+   "complex": false,
+   "name": "flag",
+   "offset": 7,
+   "shape": [
+    3,
+    5
+   ]
+  },
+  {
+   "complex": false,
+   "name": "img",
+   "offset": 22,
+   "shape": [
+    16,
+    20,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "s.a",
+   "offset": 982,
+   "shape": [
+    2,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "s.inner.b",
+   "offset": 988,
+   "shape": [
+    1,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "sa(1).p",
+   "offset": 991,
+   "shape": [
+    2,
+    2
+   ]
+  },
+  {
+   "complex": false,
+   "name": "sa(1).q",
+   "offset": 995,
+   "shape": [
+    1,
+    3
+   ]
+  },
+  {
+   "complex": false,
+   "name": "sa(2).p",
+   "offset": 998,
+   "shape": [
+    1,
+    4
+   ]
+  },
+  {
+   "complex": false,
+   "name": "sa(2).q",
+   "offset": 1002,
+   "shape": [
+    2,
+    2
+   ]
+  },
+  {
+   "complex": false,
+   "name": "sp",
+   "offset": 1006,
+   "shape": [
+    6,
+    5
+   ]
+  },
+  {
+   "complex": false,
+   "name": "v_f4",
+   "offset": 1036,
+   "shape": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "complex": false,
+   "name": "v_f8",
+   "offset": 1060,
+   "shape": [
+    1,
+    6
+   ]
+  },
+  {
+   "complex": false,
+   "name": "v_i1",
+   "offset": 1066,
+   "shape": [
+    2,
+    3,
+    2,
+    2
+   ]
+  },
+  {
+   "complex": false,
+   "name": "v_u1",
+   "offset": 1090,
+   "shape": [
+    4,
+    5
+   ]
+  },
+  {
+   "complex": true,
+   "name": "z",
+   "offset": 1110,
+   "re_offset": 1122,
+   "shape": [
+    4,
+    3
+   ]
+  },
+  {
+   "complex": true,
+   "name": "zs",
+   "offset": 1134,
+   "re_offset": 1144,
+   "shape": [
+    2,
+    5
+   ]
+  }
+ ],
+ "kind": "mat",
+ "refused": [],
+ "texts": {
+  "c{2}": "txt",
+  "name": "hello",
+  "s.inner.t": "deep"
+ }
+}

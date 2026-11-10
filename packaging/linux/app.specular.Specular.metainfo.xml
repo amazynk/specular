@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AppStream metadata. Validated by packaging/linux/build-appimage.sh with appstreamcli (pedantic). -->
+<component type="desktop-application">
+  <id>app.specular.Specular</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <name>Specular</name>
+  <summary>Open and flip through large photos instantly</summary>
+  <summary xml:lang="ar">افتح الصور الكبيرة وتصفّحها فورًا</summary>
+  <summary xml:lang="cs">Okamžité otevírání a procházení velkých fotografií</summary>
+  <summary xml:lang="da">Åbn og bladr gennem store fotos med det samme</summary>
+  <summary xml:lang="de">Große Fotos sofort öffnen und durchblättern</summary>
+  <summary xml:lang="es">Abra y recorra fotos grandes al instante</summary>
+  <summary xml:lang="fi">Avaa ja selaa suuria valokuvia viiveettä</summary>
+  <summary xml:lang="fr">Ouvrir et parcourir instantanément de grandes photos</summary>
+  <summary xml:lang="he">פתיחה ודפדוף מיידיים בתמונות גדולות</summary>
+  <summary xml:lang="it">Apri e sfoglia all’istante foto di grandi dimensioni</summary>
+  <summary xml:lang="ja">大きな写真もすぐに開いてめくれます</summary>
+  <summary xml:lang="nl">Grote foto’s direct openen en doorbladeren</summary>
+  <summary xml:lang="pl">Błyskawicznie otwieraj i przeglądaj duże zdjęcia</summary>
+  <summary xml:lang="pt-BR">Abra e folheie fotos grandes instantaneamente</summary>
+  <summary xml:lang="pt-PT">Abra e percorra fotografias grandes instantaneamente</summary>
+  <summary xml:lang="sv">Öppna och bläddra snabbt bland stora foton</summary>
+  <summary xml:lang="tr">Büyük fotoğrafları anında açın ve göz atın</summary>
+  <summary xml:lang="uk">Миттєво відкривайте й гортайте великі фотографії</summary>
+  <summary xml:lang="zh-Hans">即刻打开并浏览大尺寸照片</summary>
+  <developer id="app.specular">
+    <name>The Specular authors</name>
+  </developer>
+  <!-- Translations below are machine-drafted and need native-speaker review. -->
+  <description>
+    <p>
+      Specular is a GPU image viewer built for speed. Heavy JPEGs from medium-format cameras,
+      pixel-shift modes, stitched panoramas and scans open in a fraction of a second, and flipping
+      through a folder never waits.
+    </p>
+    <p xml:lang="ar">Specular عارض صور يعتمد على GPU ومصمَّم للسرعة. تُفتح ملفات JPEG الثقيلة من كاميرات الصيغة المتوسطة وأوضاع إزاحة البكسل والصور البانورامية المدمجة والصور الممسوحة ضوئيًا في جزء من الثانية، ولا يتأخر التنقل بين صور المجلد أبدًا.</p>
+    <p xml:lang="cs">Specular je prohlížeč obrázků využívající GPU, navržený pro rychlost. Velké soubory JPEG ze středoformátových fotoaparátů, režimů pixel-shift, spojovaných panoramat i skenů se otevřou ve zlomku sekundy a procházení složky nikdy nezdržuje.</p>
+    <p xml:lang="da">Specular er en GPU-billedfremviser bygget til fart. Tunge JPEG-filer fra mellemformatkameraer, pixel shift-tilstande, sammensatte panoramaer og scanninger åbner på en brøkdel af et sekund, og du venter aldrig, når du bladrer gennem en mappe.</p>
+    <p xml:lang="de">Specular ist ein GPU-Bildbetrachter, gebaut für Geschwindigkeit. Schwere JPEGs aus Mittelformatkameras, Pixel-Shift-Modi, zusammengesetzte Panoramen und Scans öffnen sich in Sekundenbruchteilen, und beim Durchblättern eines Ordners wartest du nie.</p>
+    <p xml:lang="es">Specular es un visor de imágenes por GPU diseñado para la velocidad. Los JPEG pesados de cámaras de formato medio, modos de desplazamiento de píxeles, panorámicas unidas y escaneos se abren en una fracción de segundo, y recorrer una carpeta nunca obliga a esperar.</p>
+    <p xml:lang="fi">Specular on nopeaksi suunniteltu GPU-kuvankatselin. Raskaat JPEG-kuvat keskikoon kameroista, pikselinsiirtotiloista, yhdistetyistä panoraamoista ja skannauksista avautuvat sekunnin murto-osassa, eikä kansion selaaminen koskaan odota.</p>
+    <p xml:lang="fr">Specular est une visionneuse d’images GPU conçue pour la vitesse. Les JPEG lourds des appareils moyen format, des modes pixel shift, des panoramas assemblés et des numérisations s’ouvrent en une fraction de seconde, et parcourir un dossier ne fait jamais attendre.</p>
+    <p xml:lang="he">Specular הוא מציג תמונות מבוסס GPU שנבנה למהירות. קובצי JPEG כבדים ממצלמות פורמט בינוני, ממצבי הזזת פיקסלים, מפנורמות מחוברות ומסריקות נפתחים בשבריר שנייה, והדפדוף בתיקייה אף פעם לא מתעכב.</p>
+    <p xml:lang="it">Specular è un visualizzatore di immagini su GPU pensato per la velocità. JPEG pesanti da fotocamere medio formato, modalità pixel shift, panorami uniti e scansioni si aprono in una frazione di secondo, e sfogliare una cartella non richiede mai attese.</p>
+    <p xml:lang="ja">Specular は速さを追求した GPU 画像ビューアです。中判カメラ、ピクセルシフト、パノラマ合成、スキャンによる重い JPEG も一瞬で開き、フォルダー内の画像送りで待たされることはありません。</p>
+    <p xml:lang="nl">Specular is een GPU-afbeeldingsviewer die gebouwd is voor snelheid. Zware JPEG’s van middenformaatcamera’s, pixel-shiftmodi, samengevoegde panorama’s en scans openen in een fractie van een seconde, en door een map bladeren gaat zonder wachten.</p>
+    <p xml:lang="pl">Specular to przeglądarka obrazów wykorzystująca GPU, zaprojektowana z myślą o szybkości. Ciężkie pliki JPEG z aparatów średnioformatowych, trybów pixel shift, łączonych panoram i skanów otwierają się w ułamku sekundy, a przeglądanie folderu nigdy nie wymaga czekania.</p>
+    <p xml:lang="pt-BR">Specular é um visualizador de imagens por GPU feito para ser rápido. JPEGs pesados de câmeras de médio formato, modos de pixel shift, panoramas costurados e digitalizações abrem em uma fração de segundo, e folhear uma pasta nunca faz esperar.</p>
+    <p xml:lang="pt-PT">O Specular é um visualizador de imagens por GPU concebido para a rapidez. JPEG pesados de câmaras de médio formato, modos de pixel shift, panoramas montados e digitalizações abrem numa fração de segundo, e percorrer uma pasta nunca obriga a esperar.</p>
+    <p xml:lang="sv">Specular är en GPU-bildvisare byggd för fart. Tunga JPEG-filer från mellanformatskameror, pixel shift-lägen, sammanfogade panoramor och skanningar öppnas på en bråkdel av en sekund, och du väntar aldrig när du bläddrar i en mapp.</p>
+    <p xml:lang="tr">Specular, hız için tasarlanmış GPU tabanlı bir görüntü görüntüleyicidir. Orta format fotoğraf makinelerinden, piksel kaydırma modlarından, birleştirilmiş panoramalardan ve taramalardan gelen ağır JPEG dosyaları saniyenin çok küçük bir bölümünde açılır; bir klasörde gezinirken hiç beklemezsiniz.</p>
+    <p xml:lang="uk">Specular — переглядач зображень на GPU, створений для швидкості. Важкі JPEG із середньоформатних камер, режимів зсуву пікселів, зшитих панорам і сканів відкриваються за частку секунди, а гортання теки ніколи не змушує чекати.</p>
+    <p xml:lang="zh-Hans">Specular 是一款为速度而生的 GPU 图像查看器。来自中画幅相机、像素偏移模式、拼接全景和扫描的大型 JPEG 都能在瞬间打开，浏览文件夹时也从不需要等待。</p>
+    <ul>
+      <li>Viewport-sized decoding: a 100 MP photo shows sharp pixels long before a full decode would finish</li>
+      <li xml:lang="ar">فك ترميز بحجم نافذة العرض: تُظهر صورة بدقة 100 ميغابكسل وحدات بكسل حادة قبل وقت طويل من انتهاء فك الترميز الكامل</li>
+      <li xml:lang="cs">Dekódování podle velikosti zobrazení: fotografie se 100 MP ukáže ostré pixely dávno před dokončením úplného dekódování</li>
+      <li xml:lang="da">Afkodning i visningens størrelse: et foto på 100 MP viser skarpe pixels længe før en fuld afkodning ville være færdig</li>
+      <li xml:lang="de">Dekodierung in Fenstergröße: Ein 100-MP-Foto zeigt scharfe Pixel, lange bevor eine vollständige Dekodierung fertig wäre</li>
+      <li xml:lang="es">Decodificación al tamaño de la vista: una foto de 100 MP muestra píxeles nítidos mucho antes de que termine una decodificación completa</li>
+      <li xml:lang="fi">Näkymän kokoinen purku: 100 megapikselin kuva näyttää terävät pikselit kauan ennen kuin täysi purku ehtisi valmistua</li>
+      <li xml:lang="fr">Décodage à la taille de l’affichage : une photo de 100 Mpx montre des pixels nets bien avant la fin d’un décodage complet</li>
+      <li xml:lang="he">פענוח בגודל התצוגה: תמונה של 100 מגה־פיקסל מציגה פיקסלים חדים הרבה לפני שפענוח מלא היה מסתיים</li>
+      <li xml:lang="it">Decodifica alla dimensione della vista: una foto da 100 MP mostra pixel nitidi molto prima che una decodifica completa sia finita</li>
+      <li xml:lang="ja">表示サイズに合わせたデコード：1 億画素の写真でも、フルデコードが終わるずっと前から鮮明なピクセルを表示</li>
+      <li xml:lang="nl">Decoderen op weergavegrootte: een foto van 100 MP toont scherpe pixels lang voordat een volledige decodering klaar zou zijn</li>
+      <li xml:lang="pl">Dekodowanie w rozmiarze widoku: zdjęcie 100 MP pokazuje ostre piksele długo przed zakończeniem pełnego dekodowania</li>
+      <li xml:lang="pt-BR">Decodificação no tamanho da tela: uma foto de 100 MP mostra pixels nítidos muito antes de uma decodificação completa terminar</li>
+      <li xml:lang="pt-PT">Descodificação ao tamanho da vista: uma fotografia de 100 MP mostra píxeis nítidos muito antes de uma descodificação completa terminar</li>
+      <li xml:lang="sv">Avkodning i vyns storlek: ett foto på 100 MP visar skarpa pixlar långt innan en fullständig avkodning skulle bli klar</li>
+      <li xml:lang="tr">Görünüm boyutunda kod çözme: 100 MP bir fotoğraf, tam kod çözme bitmeden çok önce keskin pikseller gösterir</li>
+      <li xml:lang="uk">Декодування під розмір вікна перегляду: фото на 100 Мп показує чіткі пікселі задовго до завершення повного декодування</li>
+      <li xml:lang="zh-Hans">按视图尺寸解码：1 亿像素的照片远在完整解码完成之前就能显示清晰的像素</li>
+      <li>Smooth, cursor-anchored zoom and momentum pan, with a navigator and loupe</li>
+      <li xml:lang="ar">تكبير سلس متمركز حول المؤشر وتحريك بالقصور الذاتي، مع متصفّح مصغّر وعدسة مكبّرة</li>
+      <li xml:lang="cs">Plynulé přibližování ukotvené ke kurzoru a posouvání se setrvačností, s navigátorem a lupou</li>
+      <li xml:lang="da">Jævn zoom forankret ved markøren og panorering med inerti, med navigator og lup</li>
+      <li xml:lang="de">Flüssiger Zoom am Mauszeiger und Verschieben mit Schwung, mit Navigator und Lupe</li>
+      <li xml:lang="es">Zoom suave anclado al cursor y desplazamiento con inercia, con navegador y lupa</li>
+      <li xml:lang="fi">Sujuva osoittimeen ankkuroitu zoomaus ja liikemäärällä panorointi, navigaattori ja suurennuslasi</li>
+      <li xml:lang="fr">Zoom fluide centré sur le curseur et défilement avec inertie, avec navigateur et loupe</li>
+      <li xml:lang="he">זום חלק שמעוגן לסמן וגלילה עם תנופה, עם נווט וזכוכית מגדלת</li>
+      <li xml:lang="it">Zoom fluido ancorato al puntatore e scorrimento con inerzia, con navigatore e lente</li>
+      <li xml:lang="ja">カーソル位置を基準にした滑らかなズームと慣性スクロール、ナビゲーターとルーペ付き</li>
+      <li xml:lang="nl">Vloeiend zoomen rond de cursor en verschuiven met vaart, met navigator en loep</li>
+      <li xml:lang="pl">Płynne powiększanie zakotwiczone przy kursorze i przesuwanie z bezwładnością, z nawigatorem i lupą</li>
+      <li xml:lang="pt-BR">Zoom suave ancorado no cursor e movimento com inércia, com navegador e lupa</li>
+      <li xml:lang="pt-PT">Zoom suave ancorado no cursor e deslocamento com inércia, com navegador e lupa</li>
+      <li xml:lang="sv">Mjuk zoom förankrad vid markören och panorering med tröghet, med navigator och lupp</li>
+      <li xml:lang="tr">İmlece sabitlenen akıcı yakınlaştırma ve ataletli kaydırma, gezgin ve büyüteçle birlikte</li>
+      <li xml:lang="uk">Плавне масштабування з прив’язкою до курсора та прокручування з інерцією, з навігатором і лупою</li>
+      <li xml:lang="zh-Hans">以光标为中心的流畅缩放和惯性平移，并提供导航器和放大镜</li>
+      <li>Correct colour: EXIF orientation, ICC colour management and gamma-correct downscaling</li>
+      <li xml:lang="ar">ألوان صحيحة: اتجاه EXIF وإدارة ألوان ICC وتصغير صحيح من حيث غاما</li>
+      <li xml:lang="cs">Správné barvy: orientace podle EXIF, správa barev ICC a zmenšování se správnou gamou</li>
+      <li xml:lang="da">Korrekte farver: EXIF-orientering, ICC-farvestyring og gammakorrekt nedskalering</li>
+      <li xml:lang="de">Korrekte Farben: EXIF-Ausrichtung, ICC-Farbmanagement und gammakorrektes Verkleinern</li>
+      <li xml:lang="es">Color correcto: orientación EXIF, gestión del color ICC y reducción con corrección gamma</li>
+      <li xml:lang="fi">Oikeat värit: EXIF-suunta, ICC-värinhallinta ja gammakorjattu pienennys</li>
+      <li xml:lang="fr">Couleurs exactes : orientation EXIF, gestion des couleurs ICC et réduction avec correction gamma</li>
+      <li xml:lang="he">צבע נכון: כיוון EXIF, ניהול צבע ICC והקטנה מתוקנת גמא</li>
+      <li xml:lang="it">Colore corretto: orientamento EXIF, gestione del colore ICC e riduzione con correzione gamma</li>
+      <li xml:lang="ja">正確な色：EXIF の向き、ICC カラーマネジメント、ガンマ補正された縮小</li>
+      <li xml:lang="nl">Juiste kleuren: EXIF-oriëntatie, ICC-kleurbeheer en gammacorrect verkleinen</li>
+      <li xml:lang="pl">Poprawne kolory: orientacja EXIF, zarządzanie kolorem ICC i pomniejszanie z korekcją gamma</li>
+      <li xml:lang="pt-BR">Cores corretas: orientação EXIF, gerenciamento de cores ICC e redução com correção de gama</li>
+      <li xml:lang="pt-PT">Cor correta: orientação EXIF, gestão de cor ICC e redução com correção de gama</li>
+      <li xml:lang="sv">Korrekta färger: EXIF-orientering, ICC-färghantering och gammakorrekt nedskalning</li>
+      <li xml:lang="tr">Doğru renk: EXIF yönlendirmesi, ICC renk yönetimi ve gama doğru küçültme</li>
+      <li xml:lang="uk">Правильні кольори: орієнтація EXIF, керування кольором ICC і зменшення з урахуванням гами</li>
+      <li xml:lang="zh-Hans">准确的色彩：EXIF 方向、ICC 色彩管理和伽马校正缩小</li>
+      <li>An information panel in plain language, with the place a photo was taken found offline</li>
+      <li xml:lang="ar">لوحة معلومات بلغة بسيطة، مع تحديد مكان التقاط الصورة دون اتصال بالإنترنت</li>
+      <li xml:lang="cs">Informační panel srozumitelným jazykem, včetně místa pořízení fotografie zjištěného offline</li>
+      <li xml:lang="da">Et informationspanel i letforståeligt sprog, hvor stedet, hvor et foto blev taget, findes offline</li>
+      <li xml:lang="de">Ein Infobereich in verständlicher Sprache, der den Aufnahmeort eines Fotos offline ermittelt</li>
+      <li xml:lang="es">Un panel de información en lenguaje claro, que encuentra sin conexión el lugar donde se tomó la foto</li>
+      <li xml:lang="fi">Selkokielinen tietopaneeli, joka selvittää kuvan ottopaikan ilman verkkoyhteyttä</li>
+      <li xml:lang="fr">Un panneau d’informations en langage clair, qui retrouve hors ligne le lieu de prise de vue</li>
+      <li xml:lang="he">חלונית מידע בשפה פשוטה, שמאתרת ללא חיבור לרשת את המקום שבו צולמה התמונה</li>
+      <li xml:lang="it">Un pannello informazioni in linguaggio semplice, che trova offline il luogo in cui è stata scattata la foto</li>
+      <li xml:lang="ja">わかりやすい言葉の情報パネル。撮影場所をオフラインで特定</li>
+      <li xml:lang="nl">Een infopaneel in begrijpelijke taal, dat offline vindt waar een foto is gemaakt</li>
+      <li xml:lang="pl">Panel informacji napisany prostym językiem, z miejscem wykonania zdjęcia ustalanym offline</li>
+      <li xml:lang="pt-BR">Um painel de informações em linguagem simples, que descobre offline o local onde a foto foi tirada</li>
+      <li xml:lang="pt-PT">Um painel de informações em linguagem simples, que determina sem ligação à Internet o local onde a fotografia foi tirada</li>
+      <li xml:lang="sv">En informationspanel på begriplig svenska, som tar reda på var fotot togs utan internetanslutning</li>
+      <li xml:lang="tr">Fotoğrafın çekildiği yeri çevrimdışı bulan, sade bir dille yazılmış bilgi paneli</li>
+      <li xml:lang="uk">Інформаційна панель зрозумілою мовою, яка без інтернету визначає місце зйомки фотографії</li>
+      <li xml:lang="zh-Hans">用通俗语言呈现的信息面板，可离线查找照片的拍摄地点</li>
+      <li>Light and dark themes, several languages and right-to-left layouts</li>
+      <li xml:lang="ar">سمات فاتحة وداكنة، ولغات عدة وتخطيطات من اليمين إلى اليسار</li>
+      <li xml:lang="cs">Světlý a tmavý motiv, několik jazyků a rozvržení zprava doleva</li>
+      <li xml:lang="da">Lyst og mørkt tema, flere sprog og layout fra højre mod venstre</li>
+      <li xml:lang="de">Helles und dunkles Design, mehrere Sprachen und Layouts von rechts nach links</li>
+      <li xml:lang="es">Temas claro y oscuro, varios idiomas y diseños de derecha a izquierda</li>
+      <li xml:lang="fi">Vaalea ja tumma teema, useita kieliä ja oikealta vasemmalle -asettelut</li>
+      <li xml:lang="fr">Thèmes clair et sombre, plusieurs langues et mises en page de droite à gauche</li>
+      <li xml:lang="he">ערכות נושא בהירה וכהה, מספר שפות ופריסות מימין לשמאל</li>
+      <li xml:lang="it">Temi chiaro e scuro, più lingue e layout da destra a sinistra</li>
+      <li xml:lang="ja">ライトテーマとダークテーマ、多言語対応、右から左へのレイアウト</li>
+      <li xml:lang="nl">Lichte en donkere thema’s, meerdere talen en lay-outs van rechts naar links</li>
+      <li xml:lang="pl">Jasny i ciemny motyw, wiele języków i układy od prawej do lewej</li>
+      <li xml:lang="pt-BR">Temas claro e escuro, vários idiomas e layouts da direita para a esquerda</li>
+      <li xml:lang="pt-PT">Temas claro e escuro, vários idiomas e esquemas da direita para a esquerda</li>
+      <li xml:lang="sv">Ljust och mörkt tema, flera språk och layouter från höger till vänster</li>
+      <li xml:lang="tr">Açık ve koyu temalar, birden çok dil ve sağdan sola düzenler</li>
+      <li xml:lang="uk">Світла й темна теми, кілька мов і макети справа наліво</li>
+      <li xml:lang="zh-Hans">浅色和深色主题、多种语言以及从右到左的布局</li>
+    </ul>
+    <p>
+      Specular is free and open source under the MIT License or the Apache License 2.0, for personal
+      and commercial use.
+    </p>
+    <p xml:lang="ar">Specular مجاني ومفتوح المصدر بموجب MIT License / Apache License 2.0، للاستخدام الشخصي والتجاري.</p>
+    <p xml:lang="cs">Specular je svobodný a otevřený software pod licencí MIT License / Apache License 2.0, pro osobní i komerční použití.</p>
+    <p xml:lang="da">Specular er gratis og open source under MIT License / Apache License 2.0, til personlig og kommerciel brug.</p>
+    <p xml:lang="de">Specular ist kostenlos und quelloffen unter der MIT License / Apache License 2.0, für private und kommerzielle Nutzung.</p>
+    <p xml:lang="es">Specular es gratuito y de código abierto bajo la MIT License / Apache License 2.0, para uso personal y comercial.</p>
+    <p xml:lang="fi">Specular on ilmainen ja avointa lähdekoodia (MIT License / Apache License 2.0), henkilökohtaiseen ja kaupalliseen käyttöön.</p>
+    <p xml:lang="fr">Specular est gratuit et open source sous MIT License / Apache License 2.0, pour un usage personnel et commercial.</p>
+    <p xml:lang="he">Specular חינמי וקוד פתוח תחת MIT License / Apache License 2.0, לשימוש אישי ומסחרי.</p>
+    <p xml:lang="it">Specular è gratuito e open source con licenza MIT License / Apache License 2.0, per uso personale e commerciale.</p>
+    <p xml:lang="ja">Specular は MIT License / Apache License 2.0 のもとで公開されている無料のオープンソースソフトウェアです。個人でも商用でも使えます。</p>
+    <p xml:lang="nl">Specular is gratis en open source onder de MIT License / Apache License 2.0, voor persoonlijk en commercieel gebruik.</p>
+    <p xml:lang="pl">Specular jest darmowy i otwartoźródłowy na licencji MIT License / Apache License 2.0, do użytku osobistego i komercyjnego.</p>
+    <p xml:lang="pt-BR">O Specular é gratuito e de código aberto sob a MIT License / Apache License 2.0, para uso pessoal e comercial.</p>
+    <p xml:lang="pt-PT">O Specular é gratuito e de código aberto ao abrigo da MIT License / Apache License 2.0, para uso pessoal e comercial.</p>
+    <p xml:lang="sv">Specular är gratis och öppen källkod under MIT License / Apache License 2.0, för personligt och kommersiellt bruk.</p>
+    <p xml:lang="tr">Specular, MIT License / Apache License 2.0 altında ücretsiz ve açık kaynaklıdır; kişisel ve ticari kullanım içindir.</p>
+    <p xml:lang="uk">Specular — безкоштовна програма з відкритим кодом за ліцензією MIT License / Apache License 2.0, для особистого й комерційного використання.</p>
+    <p xml:lang="zh-Hans">Specular 依据 MIT License / Apache License 2.0 免费开源，可用于个人和商业用途。</p>
+  </description>
+  <launchable type="desktop-id">app.specular.Specular.desktop</launchable>
+  <url type="homepage">https://amazynk.com/specular</url>
+  <url type="bugtracker">https://github.com/amazynk/specular/issues</url>
+  <url type="vcs-browser">https://github.com/amazynk/specular</url>
+  <categories>
+    <category>Graphics</category>
+    <category>Viewer</category>
+  </categories>
+  <keywords>
+    <keyword>image</keyword>
+    <keyword>photo</keyword>
+    <keyword>viewer</keyword>
+    <keyword>jpeg</keyword>
+  </keywords>
+  <provides>
+    <binary>specular</binary>
+    <mediatype>image/jpeg</mediatype>
+    <mediatype>image/png</mediatype>
+  </provides>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-10-06" type="development">
+      <description>
+        <p>First preview: JPEG and PNG viewing, folder browsing, zoom and pan, info panel.</p>
+      </description>
+    </release>
+  </releases>
+</component>

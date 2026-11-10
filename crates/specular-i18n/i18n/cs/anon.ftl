@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = Exportovat anonymizovanou kopii…
+palette-export-patient-disc = Exportovat složku disku pacienta…
+palette-mask-burned-in-text = Zakrýt vpálený text
+anon-title = Exportovat anonymizovanou kopii
+anon-disc-title = Exportovat složku disku pacienta
+anon-images = Snímky
+anon-images-current = Tento snímek
+anon-images-series = Tato série (soubory: { $count })
+anon-images-study = Tato studie (soubory: { $count })
+anon-images-reading = Čtení složky…
+anon-anonymise = Anonymizovat
+anon-dates = Data a časy
+anon-dates-remove = Odstranit
+anon-dates-keep = Zachovat
+anon-dates-shift = Posunout
+anon-patient = Charakteristiky pacienta
+anon-device = Identita zařízení
+anon-institution = Identita zdravotnického zařízení
+anon-descriptions = Popisy
+anon-descriptions-remove = Odstranit
+anon-descriptions-clean = Vyčistit
+anon-structured = Obsah zpráv
+anon-uids = UID
+anon-uids-replace = Nahradit
+anon-uids-keep = Zachovat
+anon-overlays = Překryvy a křivky
+anon-keep = Zachovat
+anon-remove = Odstranit
+anon-on = Zapnuto
+anon-off = Vypnuto
+anon-burned-in = Vpálený text
+anon-masks = Zakryté oblasti: { $count }
+anon-masks-none = Žádné masky
+anon-folder = Složka
+anon-folder-choose = Vybrat…
+anon-export = Exportovat
+anon-risk-present = Tyto snímky podle údajů obsahují text o pacientovi: před exportem jej zakryjte.
+anon-risk-possible = Snímky tohoto druhu často obsahují text o pacientovi: před exportem je zkontrolujte.
+anon-progress = Export { $done } z { $total }…
+anon-stopping = Zastavování…
+anon-mask-title = Zakrýt vpálený text
+anon-mask-hint = Přetažením přes text jej zakryjete. Zakryté oblasti budou v každém snímku černé.
+anon-mask-suggest = Navrhnout
+anon-mask-remove = Odstranit
+anon-mask-clear = Vymazat
+anon-mask-done = Hotovo
+anon-mask-area = Oblast { $n }, { $width } × { $height } pixelů
+anon-mask-suggested = { $count ->
+    [0] U okrajů nebyl nalezen žádný text
+   *[other] Navržené textové oblasti: { $count }
+}
+anon-done = Anonymizované soubory zapsané do { $folder }: { $count }
+anon-disc-done = Složka disku pacienta zapsána do { $folder }, snímky: { $count }
+anon-skipped-burned-in = Přeskočené soubory s vpáleným textem bez masek: { $count }
+anon-skipped-failed = Soubory, které nešlo exportovat: { $count }
+anon-stopped = Export zastaven
+anon-failed = Export se nezdařil: { $reason }
+anon-not-empty = Složka už obsahuje disk pacienta

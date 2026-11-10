@@ -1,0 +1,23 @@
+[package]
+name = "specular-settings"
+description = "Specular's settings: one declarative schema, settings.toml persistence that keeps comments, live reload, undo, search and --set parsing"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-log = { path = "../specular-log" }
+specular-i18n = { path = "../specular-i18n" }
+# The executable's folder without Windows's `\\?\` prefix (paths.rs `exe_dir`).
+specular-platform = { path = "../specular-platform" }
+toml_edit = "0.25"
+notify = "8.2"
+directories = "6"
+tempfile = "3"
+log = "0.4"
+thiserror = "2"
+
+[lints]
+workspace = true

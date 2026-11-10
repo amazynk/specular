@@ -1,0 +1,16 @@
+[package]
+name = "specular-astro"
+description = "Astronomy for Specular: subframe metrics (sigma-clipped background and noise, star detection, per-star HFD, FWHM and eccentricity from an elliptical Moffat fit, per-frame medians and SNR, sigma auto-reject suggestions, header facts), DS9 region files, ICRS/FK5/galactic frames, plate-solver command lines and solutions, and HiPS survey tiles (own code, no UI)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# Tiles, rows and stars in parallel on the global pool (named by specular-thread).
+rayon = "1.11"
+# WCS, headers and sky frames for regions, plate solutions and HiPS.
+specular-fits = { path = "../formats/specular-fits" }
+
+[lints]
+workspace = true

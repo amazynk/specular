@@ -1,0 +1,17 @@
+[package]
+name = "specular-swf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Flash SWF movies: the first frame drawn as a vector page (shapes, gradients, bitmaps, morph shapes, sprites, embedded-font text), and what the movie holds, for Specular (own reader; no ActionScript is ever run)"
+
+[dependencies]
+specular-drawpage = { path = "../specular-drawpage" }
+# CWS bodies (zlib) and lossless bitmaps.
+specular-png = { path = "../specular-png" }
+# ZWS bodies: raw LZMA (already in the tree for TIFF and ROOT).
+lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+
+[lints]
+workspace = true

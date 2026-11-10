@@ -1,0 +1,17 @@
+[package]
+name = "specular-jcamp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own readers for optical and NMR spectra files: JCAMP-DX 4.24-6.0 (AFFN and ASDF with SQZ/DIF/DUP, XYDATA, XYPOINTS, PEAK TABLE, NTUPLES, LINK blocks) and Galactic/Thermo SPC (old and new formats, single and multi-file, X arrays)"
+
+[dependencies]
+specular-spectra = { path = "../specular-spectra" }
+thiserror = "2"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+serde_json = "1"  # the oracle expectations

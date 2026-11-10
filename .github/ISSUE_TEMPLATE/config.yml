@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/amazynk/specular/discussions/new?category=q-a
+    about: How do I…? Questions about using or building Specular.
+  - name: Share an idea
+    url: https://github.com/amazynk/specular/discussions/new?category=ideas
+    about: Ideas that need discussion before they become an issue.
+  - name: Chat on Discord
+    url: https://amazynk.com/discord/
+    about: Talk with other users and the developers.
+  - name: Report a security problem
+    url: https://github.com/amazynk/specular/security/advisories/new
+    about: Please report vulnerabilities privately.

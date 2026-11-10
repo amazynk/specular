@@ -1,0 +1,11 @@
+mrtrix image
+dim: 6,5,4,3
+vox: 2.0,2.0,3.0,1.0
+layout: +3,-2,+1,+0
+datatype: Float32BE
+transform: 0.9800665778412416,-0.19866933079506122,0.0,4.0
+transform: 0.19866933079506122,0.9800665778412416,0.0,-8.0
+transform: 0.0,0.0,1.0,12.0
+comments: synthetic fixture
+file: vol4d.dat 40
+END

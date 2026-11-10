@@ -1,0 +1,135 @@
+# Release packages for all three platforms, built with ./build.sh. UNTESTED: never run on GitHub.
+#
+# Linux runs on Ubuntu 22.04 so the binary needs glibc <= 2.35 (an AppImage or tarball only runs
+# on systems with a glibc at least as new as the build machine's).
+#
+# Secrets (all optional; without them the packages are unsigned):
+#   Windows: SPECULAR_SIGN_CERT_SHA1 (a code-signing certificate must already be in the runner's
+#            store; for Azure Trusted Signing replace the signtool call in build.sh)
+#   macOS:   MACOS_CERT_P12 (base64), MACOS_CERT_PASSWORD, SPECULAR_SIGN_IDENTITY,
+#            APPLE_ID, APPLE_TEAM_ID, APPLE_APP_PASSWORD
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+            libxkbcommon-dev libwayland-dev desktop-file-utils appstream flatpak flatpak-builder \
+            libjpeg-turbo-progs imagemagick python3-pil libimage-exiftool-perl icc-profiles-free \
+            sway libfuse2 nasm
+          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          flatpak install --user -y flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
+          if ! command -v magick >/dev/null; then
+            mkdir -p "$HOME/.local/bin"
+            printf '#!/bin/sh\nexec convert "$@"\n' >"$HOME/.local/bin/magick"
+            chmod +x "$HOME/.local/bin/magick"
+            echo "$HOME/.local/bin" >>"$GITHUB_PATH"
+          fi
+      - name: PGO training corpus
+        run: cargo run --locked --release -p specular-corpus -- --small --no-network
+      - name: Build (PGO) and package
+        run: ./build.sh release linux --package --pgo --out target/dist/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: target/dist/release/linux/
+
+  windows:
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: WiX v4
+        run: |
+          dotnet tool install -g wix --version 4.*
+          echo "$USERPROFILE/.dotnet/tools" >>"$GITHUB_PATH"
+      - name: nasm (rav1d's and rav1e's assembly)
+        run: |
+          choco install -y nasm
+          echo "C:/Program Files/NASM" >>"$GITHUB_PATH"
+      - name: Build and package
+        env:
+          SPECULAR_SIGN_CERT_SHA1: ${{ secrets.SPECULAR_SIGN_CERT_SHA1 }}
+          SPECULAR_RELEASE_URL: https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}
+        run: |
+          sign=
+          [ -n "$SPECULAR_SIGN_CERT_SHA1" ] && sign=--sign
+          ./build.sh release windows --package $sign --out target/dist/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: target/dist/release/windows/
+
+  macos:
+    runs-on: macos-14
+    env:
+      # A step's own env is not visible to its `if:`; the job's is.
+      HAS_MACOS_CERT: ${{ secrets.MACOS_CERT_P12 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: nasm (rav1d's and rav1e's x86_64 assembly)
+        run: brew install nasm
+      - name: Import the signing certificate
+        if: env.HAS_MACOS_CERT == 'true'
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+        run: |
+          kc="$RUNNER_TEMP/signing.keychain-db"
+          security create-keychain -p ci "$kc"
+          security set-keychain-settings -lut 3600 "$kc"
+          security unlock-keychain -p ci "$kc"
+          echo "$MACOS_CERT_P12" | base64 --decode >"$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$kc" -P "$MACOS_CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k ci "$kc"
+          # shellcheck disable=SC2046 # one keychain path per word
+          security list-keychains -d user -s "$kc" $(security list-keychains -d user | tr -d '"')
+      - name: Build and package
+        env:
+          SPECULAR_SIGN_IDENTITY: ${{ secrets.SPECULAR_SIGN_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: |
+          sign=
+          [ -n "$SPECULAR_SIGN_IDENTITY" ] && sign=--sign
+          ./build.sh release macos --package $sign --out target/dist/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: target/dist/release/macos/
+
+  publish:
+    needs: [linux, windows, macos]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+      - name: Draft GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          find dist -type f \( -name '*.AppImage' -o -name '*.flatpak' -o -name '*.tar.gz' \
+            -o -name '*.zip' -o -name '*.msi' -o -name '*.dmg' -o -name '*.sha256' \) -print0 \
+            | xargs -0 gh release create "${{ github.ref_name }}" --draft --repo "${{ github.repository }}" \
+                --title "Specular ${{ github.ref_name }}"

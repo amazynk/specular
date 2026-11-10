@@ -1,0 +1,17 @@
+[package]
+name = "specular-pdf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "PDF and Illustrator pages through hayro (pure Rust), and EPS previews (DOS EPS binary header, EPSI) for Specular"
+
+[dependencies]
+# PDF rasteriser (Apache-2.0 OR MIT) for PDF and Adobe Illustrator files. Default features: the 14 standard fonts (Foxit CFF, BSD) and the predefined
+# CMaps are embedded, so no system font is ever looked up.
+hayro = "0.8"
+specular-thread = { path = "../../specular-thread" }
+thiserror = "2"
+
+[lints]
+workspace = true

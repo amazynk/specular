@@ -1,0 +1,14 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = True
+CompressedDataSize = 491
+TransformMatrix = 0.69670670934716539 0.71735609089952279 0 -0.66072871413793843 0.64170937423977936 0.38941834230865052 0.2793516197631058 -0.27131037182928791 0.9210609940028851
+Offset = -3 4 5.5
+CenterOfRotation = 0 0 0
+AnatomicalOrientation = ALI
+ElementSpacing = 0.80000000000000004 1.2 2.5
+DimSize = 5 4 3
+ElementType = MET_DOUBLE
+ElementDataFile = double_zlib.zraw

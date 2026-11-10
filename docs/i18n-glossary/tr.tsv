@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galeri	the thumbnail grid of one folder	
+Library	Library	Kitaplık	the catalogue of indexed folders	
+Folder	Folder	Klasör	a file-system folder	
+Remove	Remove	Kaldır	take an item out of a list; files stay	
+Delete	Delete	Sil	destroy data or files	
+Forget	Forget	Unut	drop a remembered choice or record	
+Move to trash	Move to trash	Çöp kutusuna taşı	send files to the system trash	
+Export	Export	Dışa aktar	write a copy in another form	
+Import	Import	İçe aktarma	copy photos in from a card or device	
+Settings	Settings	Ayarlar	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Geri al	reverse the last action (never the word for Cancel)	
+Redo	Redo	Yinele		
+Zoom	Zoom	Yakınlaştırma	image magnification	
+Page	Page	Sayfa	a page of a document or multi-page file	
+Layer	Layers	Katmanlar	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Kanallar	colour or audio channels	
+Series	Series	Seri	a DICOM series	
+Study	Study	Tetkik	a DICOM study	Tetkik (clinical term), not Çalışma.
+Slice	Slice	Kesit	one cross-sectional image of a volume	
+Frame	Frames	Kare	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Parça	a numbered piece of an album	
+Subtitle	Subtitles	Altyazılar	text over a video	
+Loudness	Loudness	Ses yüksekliği	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Model	a local AI model	
+Download	Download	İndir	fetch from the network	
+Cull mode	Cull mode	Ayıklama modu	the mode for picking and rejecting photos	
+Pick	Pick	Seç	a cull mark	
+Reject	Reject	Reddet	a cull mark	
+Rating	Rating	Puan	stars	
+Local AI	Local AI	Yerel yapay zekâ	the Settings section and the feature set	
+Metadata	Metadata	Meta veriler		
+Thumbnail	Thumbnail	Küçük resim		
+Slideshow	Slideshow	Slayt gösterisi		
+Compare	Compare	Karşılaştırma		
+Print	Print	Yazdır		
+Search	Search	Ara		
+Filter	Filter	Filtre	narrow what is shown (not an optical filter)	
+Rename	Rename	Yeniden adlandır		

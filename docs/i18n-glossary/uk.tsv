@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Галерея	the thumbnail grid of one folder	
+Library	Library	Бібліотека	the catalogue of indexed folders	
+Folder	Folder	Тека	a file-system folder	Тека, never папка.
+Remove	Remove	Вилучити	take an item out of a list; files stay	Вилучити.
+Delete	Delete	Видалити	destroy data or files	
+Forget	Forget	Забути	drop a remembered choice or record	
+Move to trash	Move to trash	Перемістити в кошик	send files to the system trash	
+Export	Export	Експортувати	write a copy in another form	
+Import	Import	Імпорт	copy photos in from a card or device	
+Settings	Settings	Налаштування	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Скасувати	reverse the last action (never the word for Cancel)	
+Redo	Redo	Повторити		
+Zoom	Zoom	Масштаб	image magnification	
+Page	Page	Сторінка	a page of a document or multi-page file	
+Layer	Layers	Шари	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Канали	colour or audio channels	
+Series	Series	Серія	a DICOM series	
+Study	Study	Дослідження	a DICOM study	
+Slice	Slice	Зріз	one cross-sectional image of a volume	
+Frame	Frames	Кадри	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Доріжка	a numbered piece of an album	
+Subtitle	Subtitles	Субтитри	text over a video	
+Loudness	Loudness	Гучність	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Модель	a local AI model	
+Download	Download	Завантажити	fetch from the network	
+Cull mode	Cull mode	Режим відбору	the mode for picking and rejecting photos	
+Pick	Pick	Відібрати	a cull mark	
+Reject	Reject	Відхилити	a cull mark	
+Rating	Rating	Оцінка	stars	
+Local AI	Local AI	Локальний ШІ	the Settings section and the feature set	
+Metadata	Metadata	Метадані		
+Thumbnail	Thumbnail	Мініатюра		
+Slideshow	Slideshow	Слайд-шоу		
+Compare	Compare	Порівняння		
+Print	Print	Друк		
+Search	Search	Шукати		
+Filter	Filter	Фільтр	narrow what is shown (not an optical filter)	
+Rename	Rename	Перейменувати		

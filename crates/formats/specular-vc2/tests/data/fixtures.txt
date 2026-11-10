@@ -1,0 +1,16 @@
+ff-dd97-420 64 48 420 8
+ff-legall-422-10 64 48 422 10
+ff-haar-444-12 64 48 444 12
+ff-haarns-420 96 64 420 8
+ld-dd97-420 64 48 420 8
+ld-legall-422-10 64 48 422 10
+ld-dd137-444 64 32 444 8
+ld-haar-fields 64 48 420 8
+ld-fidelity 64 48 420 8
+ld-daub97-12 64 48 420 12
+ld-tight 64 48 422 8
+hq-fidelity-prefix 64 48 420 8
+hq-daub97-444-12 64 32 444 12
+hq-dd137-deep 64 64 422 10
+hq-haar-shift 64 48 420 8
+hq-fields-422 64 48 422 10

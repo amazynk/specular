@@ -1,0 +1,30 @@
+[package]
+name = "specular-figure"
+description = "Figures and slides from the viewer (DESIGN.md §6.5): the figure model (image panels at their exact pixels, vector scale bar, colour bar, insets, labels, measurements, provenance), its SVG, PDF and 16-bit raster writers, the GPU readback of the display path, and a minimal PPTX writer for key images"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-core = { path = "../specular-core" }
+specular-gfx = { path = "../specular-gfx" }
+specular-render = { path = "../specular-render" }
+specular-png = { path = "../formats/specular-png" }
+# Vector items rasterised for PNG and TIFF figures (the build swash already uses).
+zeno = "0.3"
+# Flate streams of the PDF writer (the build specular-print uses).
+miniz_oxide = "0.8"
+# The PPTX container (the build specular-measure writes ImageJ ROI sets with).
+zip = { version = "8.6", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+
+[dev-dependencies]
+specular-shots = { path = "../specular-shots" }
+# Oracles: the SVG back through resvg (the build specular-decode reads SVG with), the PDF back
+# through hayro (specular-pdf), the PPTX parts through roxmltree.
+resvg = { version = "0.48", default-features = false }
+specular-pdf = { path = "../formats/specular-pdf" }
+roxmltree = "0.21"
+
+[lints]
+workspace = true

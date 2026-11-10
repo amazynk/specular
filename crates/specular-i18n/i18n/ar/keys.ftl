@@ -1,0 +1,104 @@
+# Specular — Settings → Keys, the key binding editor (DESIGN.md §11). machine-drafted, needs native review
+# Key names inside messages ($keys) are never translated.
+
+settings-keys-sequence-timeout = انتظار المفتاح التالي
+settings-keys-sequence-timeout-help = المدة التي ينتظرها تسلسل مفاتيح مثل G G للمفتاح التالي. المفتاح الذي يبدأ أيضًا تسلسلًا أطول يُنفَّذ بعد هذا التوقف.
+settings-keys-bindings = اختصارات المفاتيح
+settings-keys-bindings-help = اختر إجراءً ثم اضغط المفاتيح المراد ربطها. لكل وضع مفاتيحه الخاصة؛ ويستخدم وضع الفرز والصور الطبية مفاتيح العارض عند غياب غيرها. لربط Esc اضغطه ضغطة قصيرة؛ والضغط المطوّل يلغي. تُحفظ الاختصارات في keymap.toml.
+palette-customise-keys = تخصيص المفاتيح…
+keys-mode-viewer = العارض
+keys-mode-cull = وضع الفرز
+keys-mode-medical = الصور الطبية
+keys-modes = الوضع
+keys-presets = الإعداد المسبق
+keys-preset-default = الافتراضي
+keys-preset-vim = Vim
+keys-preset-culling = فرز على طريقة Lightroom
+keys-preset-photo-mechanic = على طريقة Photo Mechanic
+action-pan-left = تحريك لليسار
+action-pan-right = تحريك لليمين
+action-pan-up = تحريك للأعلى
+action-pan-down = تحريك للأسفل
+action-pan-page-left = تحريك شاشة لليسار
+action-pan-page-right = تحريك شاشة لليمين
+action-pan-page-up = تحريك شاشة للأعلى
+action-pan-page-down = تحريك شاشة للأسفل
+action-reload = إعادة تحميل الصورة
+keys-action-cull-pick = اختيار
+keys-action-cull-reject = رفض
+keys-action-cull-unflag = إزالة العلامة
+keys-action-cull-rate = { $stars ->
+    [0] إزالة التقييم
+   *[other] التقييم بالنجوم: { $stars }
+}
+keys-action-cull-label = تسمية اللون: { $label }
+keys-action-cull-copy-to = نسخ إلى المجلد { $slot }
+keys-action-cull-move-to = نقل إلى المجلد { $slot }
+keys-import = استيراد…
+keys-export = تصدير…
+keys-export-mode = تصدير { $mode }…
+keys-reset-mode = إعادة تعيين { $mode }
+keys-reset-all = إعادة تعيين كل المفاتيح
+keys-add = إضافة مفتاح لـ { $action }
+keys-change = تغيير { $keys }
+keys-remove = إزالة { $keys }
+keys-reset-action = إعادة تعيين { $action }
+keys-none = لا مفاتيح
+keys-changed = مُغيَّر
+keys-press = اضغط المفاتيح…
+keys-recording-hint = اضغط Esc مطوّلًا للإلغاء
+keys-cancel-recording = إلغاء
+keys-no-match = لا يطابق أي إجراء أو مفتاح «{ $query }».
+keys-list = الإجراءات ومفاتيحها
+keys-confirm-preset = استخدام الإعداد المسبق { $preset }؟ سيحل محل كل اختصاراتك.
+keys-confirm-reset-mode = إعادة تعيين كل مفاتيح { $mode } إلى الإعداد المسبق؟
+keys-confirm-reset-all = إعادة تعيين كل مفاتيح جميع الأوضاع إلى الإعداد المسبق؟
+keys-confirm-ok = استبدال
+keys-confirm-reset = إعادة تعيين
+keys-confirm-cancel = إلغاء
+keys-conflict-same = { $keys } ينفّذ «{ $other }» بالفعل.
+keys-conflict-prefix = { $keys } و{ $sequence } («{ $other }») يبدآن بالشكل نفسه: الأقصر لا يُنفَّذ إلا بعد توقف.
+keys-conflict-shadow = { $keys } ينفّذ «{ $other }» في { $mode }.
+keys-conflict-reserved = قد لا يصل { $keys } إلى Specular أبدًا: { $reason }
+keys-choice-replace = استبدال
+keys-choice-swap = تبديل
+keys-choice-keep = الاحتفاظ بكليهما
+keys-choice-anyway = الربط على أي حال
+keys-choice-cancel = إلغاء
+keys-reserved-switch = فهو يبدّل النوافذ.
+keys-reserved-close = فهو يغلق النافذة.
+keys-reserved-secure = فالنظام يستحوذ عليه.
+keys-reserved-desktop = اختصارات Super تخص سطح المكتب.
+keys-reserved-workspaces = فهو يبدّل الطرفيات أو مساحات العمل.
+keys-reserved-input = فهو يبدّل طريقة الإدخال أو تخطيط لوحة المفاتيح.
+keys-reserved-macos = فنظام macOS يستحوذ عليه.
+keys-announce-recording = جارٍ تسجيل مفاتيح { $action }. اضغط المفاتيح أو اضغط Esc مطوّلًا للإلغاء.
+keys-announce-key = { $keys }
+keys-announce-bound = أصبح { $keys } ينفّذ { $action }.
+keys-announce-already = { $keys } ينفّذ { $action } بالفعل.
+keys-announce-cancelled = أُلغي التسجيل.
+keys-announce-removed = أُزيل { $keys } من { $action }.
+keys-announce-reset-action = عادت مفاتيح الإعداد المسبق إلى { $action }.
+keys-announce-reset-mode = أُعيد تعيين مفاتيح { $mode }.
+keys-announce-reset-all = أُعيد تعيين كل المفاتيح.
+keys-announce-preset = يُستخدم الآن الإعداد المسبق { $preset }.
+keys-toast-imported = استُوردت الاختصارات
+keys-toast-exported = صُدّرت الاختصارات
+keys-toast-reloaded = تغيّر keymap.toml: أُعيد تحميل الاختصارات
+keys-toast-error = تعذّرت قراءة الاختصارات: { $error }
+keys-toast-write-error = تعذّر حفظ keymap.toml: { $error }
+keys-pending = { $keys } …  { $next }
+keys-problem-syntax = تعذّرت قراءة keymap.toml: { $error }
+keys-problem-key = تم تجاهل المفتاح المجهول «{ $key }».
+keys-problem-action = «{ $key }» يشير إلى إجراء مجهول «{ $action }»؛ تم تجاهله.
+keys-problem-mode = الجدول [{ $mode }] ليس وضعًا؛ تم تجاهله.
+keys-problem-duplicate = { $keys } مذكور مرتين في { $mode }؛ يُستخدم الثاني.
+keys-problem-prefix = { $keys } يبدأ { $longer } في { $mode }، لذا لا يُنفَّذ إلا بعد توقف.
+keys-problem-preset = إعداد مسبق مجهول «{ $preset }»؛ تُطبَّق المفاتيح الافتراضية.
+
+## keymap.toml editor (machine-drafted, needs native review)
+
+keys-edit-file = تحرير keymap.toml
+keys-problem-action-suggestion = «{ $key }» يشير إلى إجراء مجهول «{ $action }»؛ تم تجاهله. هل تقصد «{ $suggestion }»؟
+keys-problem-mode-suggestion = الجدول [{ $mode }] ليس وضعًا؛ تم تجاهله. هل تقصد [{ $suggestion }]؟
+keys-problem-preset-suggestion = إعداد مسبق مجهول «{ $preset }»؛ تُطبَّق المفاتيح الافتراضية. هل تقصد «{ $suggestion }»؟

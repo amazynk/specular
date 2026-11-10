@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = تصدير نسخة مجهولة الهوية…
+palette-export-patient-disc = تصدير مجلد قرص المريض…
+palette-mask-burned-in-text = إخفاء النص المطبوع على الصورة
+anon-title = تصدير نسخة مجهولة الهوية
+anon-disc-title = تصدير مجلد قرص المريض
+anon-images = الصور
+anon-images-current = هذه الصورة
+anon-images-series = هذه السلسلة (الملفات: { $count })
+anon-images-study = هذه الدراسة (الملفات: { $count })
+anon-images-reading = جارٍ قراءة المجلد…
+anon-anonymise = إخفاء الهوية
+anon-dates = التواريخ والأوقات
+anon-dates-remove = إزالة
+anon-dates-keep = الإبقاء
+anon-dates-shift = إزاحة
+anon-patient = خصائص المريض
+anon-device = هوية الجهاز
+anon-institution = هوية المؤسسة
+anon-descriptions = الأوصاف
+anon-descriptions-remove = إزالة
+anon-descriptions-clean = تنظيف
+anon-structured = محتوى التقارير
+anon-uids = المعرّفات الفريدة
+anon-uids-replace = استبدال
+anon-uids-keep = الإبقاء
+anon-overlays = التراكبات والمنحنيات
+anon-keep = الإبقاء
+anon-remove = إزالة
+anon-on = تشغيل
+anon-off = إيقاف
+anon-burned-in = النص المطبوع على الصورة
+anon-masks = المناطق المخفية: { $count }
+anon-masks-none = لا أقنعة
+anon-folder = المجلد
+anon-folder-choose = اختيار…
+anon-export = تصدير
+anon-risk-present = تشير هذه الصور إلى أنها تعرض نصًا خاصًا بالمريض: أخفِه قبل التصدير.
+anon-risk-possible = غالبًا ما تعرض الصور من هذا النوع نصًا خاصًا بالمريض: تحقّق منها قبل التصدير.
+anon-progress = جارٍ تصدير { $done } من { $total }…
+anon-stopping = جارٍ الإيقاف…
+anon-mask-title = إخفاء النص المطبوع على الصورة
+anon-mask-hint = اسحب فوق النص لإخفائه. تصبح المناطق المخفية سوداء في كل إطار.
+anon-mask-suggest = اقتراح
+anon-mask-remove = إزالة
+anon-mask-clear = مسح
+anon-mask-done = تم
+anon-mask-area = المنطقة { $n }، { $width } × { $height } بكسل
+anon-mask-suggested = { $count ->
+    [0] لم يُعثر على نص قرب الحواف
+   *[other] مناطق النص المقترحة: { $count }
+}
+anon-done = الملفات مجهولة الهوية المكتوبة في { $folder }: { $count }
+anon-disc-done = كُتب مجلد قرص المريض في { $folder }، الصور: { $count }
+anon-skipped-burned-in = الملفات المتخطاة لاحتوائها على نص مطبوع دون أقنعة: { $count }
+anon-skipped-failed = الملفات التي تعذّر تصديرها: { $count }
+anon-stopped = أُوقف التصدير
+anon-failed = تعذّر التصدير: { $reason }
+anon-not-empty = يحتوي المجلد على قرص مريض بالفعل

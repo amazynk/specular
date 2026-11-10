@@ -1,0 +1,19 @@
+specular-jxl
+===========
+
+The decoder in this crate (src/bitstream, src/coding, src/color, src/common, src/frame,
+src/grid, src/image, src/modular, src/oxide, src/render, src/threadpool, src/vardct) is an
+in-tree fork of jxl-oxide 0.12.6 and its component crates (jxl-bitstream, jxl-coding,
+jxl-color, jxl-oxide-common, jxl-frame, jxl-grid, jxl-image, jxl-modular, jxl-oxide,
+jxl-render, jxl-threadpool, jxl-vardct):
+
+    jxl-oxide - https://github.com/tirr-c/jxl-oxide
+    Copyright (c) Wonwoo Choi and the jxl-oxide contributors
+    Licensed under either of the MIT licence (LICENSE-MIT) or the Apache License,
+    Version 2.0 (LICENSE-APACHE), at your option.
+
+Modifications for Specular: the crates were flattened into one, all `unsafe` code was
+replaced by safe equivalents, architecture-specific SIMD paths were removed in favour of
+portable / autovectorisable code, and an 8-bit sRGB output layer with fused downscaling, DC
+previews and animation compositing was added (src/lib.rs). The modifications are
+distributed under the same terms.

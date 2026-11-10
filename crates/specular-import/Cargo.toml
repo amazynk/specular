@@ -1,0 +1,23 @@
+[package]
+name = "specular-import"
+description = "Import from cameras, phones and memory cards for Specular: DCIM sources, new-item scan with sidecars and RAW+JPEG pairs, an import ledger, folder and rename patterns, verified resumable copies"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-log = { path = "../specular-log" }
+specular-platform = { path = "../specular-platform" }
+# Exif location in JPEG, HEIC, CR3 and TIFF-based RAW files.
+specular-decode = { path = "../specular-decode" }
+# The batch rename pattern (`{name}`, `{n:03}`, `{date:…}`), reused for import names.
+specular-convert = { path = "../specular-convert" }
+# `pure`: no C or assembly, as elsewhere in the tree.
+blake3 = { version = "1.8", features = ["pure"] }
+# Local wall-clock dates from modification and video times.
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+
+[lints]
+workspace = true

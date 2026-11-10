@@ -1,0 +1,26 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "sp",
+   "offset": 0,
+   "shape": [
+    7,
+    5
+   ]
+  },
+  {
+   "complex": true,
+   "name": "zs",
+   "offset": 35,
+   "re_offset": 59,
+   "shape": [
+    4,
+    6
+   ]
+  }
+ ],
+ "kind": "mat73",
+ "refused": [],
+ "texts": {}
+}

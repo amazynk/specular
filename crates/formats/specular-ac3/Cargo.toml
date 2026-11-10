@@ -1,0 +1,10 @@
+[package]
+name = "specular-ac3"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own AC-3 and E-AC-3 decoder (ATSC A/52 with Annexes D and E) for the sound of Specular's DVD, camcorder, broadcast, Matroska and MP4 movies"
+
+[lints]
+workspace = true

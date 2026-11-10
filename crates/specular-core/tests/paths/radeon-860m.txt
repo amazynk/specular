@@ -1,0 +1,28 @@
+# Specular path timings (DESIGN.md §12.3.1), version 1
+# Replay fixture: Ryzen AI 7 PRO 350 (8 cores / 16 threads) with a Radeon 860M iGPU, Vulkan
+# (RADV), VA-API JPEG decode. JPEG rates from the hw_jpeg measurements (50 MP 4:2:0: 54 ms in
+# software on all threads, 211 ms on the hardware decoder; a second software decode alongside
+# slows the first to 91 ms); colour conversion and PNG unfiltering from the idle calibration
+# (`calibrate_colour_step`, `specular_decode::calibrate::png`) on this machine.
+fingerprint AMD Radeon 860M Graphics (RADV GFX1152)|radv Mesa 25.2|AMD Ryzen AI 7 PRO 350 w/ Radeon 860M|0.1.0
+machine gpu=integrated threads=16
+calibrated true
+trust jpeg_decode hw_decoder trusted
+trust ycbcr_to_rgb gpu trusted
+trust png_unfilter cpu_parallel trusted
+# cell task engine variant bucket load samples wall_us_per_mpx cpu_samples cpu_us_per_mpx
+cell jpeg_decode cpu 0 3 idle 40 1150.0 30 9500.0
+cell jpeg_decode cpu 0 3 busy 25 1900.0 0 0.0
+cell jpeg_decode cpu 0 4 idle 40 1080.0 30 9000.0
+cell jpeg_decode cpu 0 4 busy 25 1820.0 0 0.0
+cell jpeg_decode hw_decoder 0 3 idle 12 4300.0 12 950.0
+cell jpeg_decode hw_decoder 0 4 idle 12 4220.0 12 900.0
+cell jpeg_decode hw_decoder 0 4 busy 6 4350.0 0 0.0
+cell ycbcr_to_rgb cpu 0 1 idle 2 14759.5 2 8613.5
+cell ycbcr_to_rgb cpu 0 3 idle 2 11967.6 2 6680.0
+cell ycbcr_to_rgb gpu 0 1 idle 2 7861.8 2 1786.3
+cell ycbcr_to_rgb gpu 0 3 idle 2 6083.6 2 1035.7
+cell png_unfilter cpu 0 3 idle 2 5127.9 2 8287.9
+cell png_unfilter cpu 3 3 idle 2 1445.1 2 1996.6
+cell png_unfilter cpu_parallel 0 3 idle 2 5715.0 2 8779.0
+cell png_unfilter cpu_parallel 3 3 idle 2 772.6 2 1536.1

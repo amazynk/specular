@@ -1,0 +1,14 @@
+[SemImageFile]
+InstructName=SU8230
+SerialNumber=1234
+DataNumber=1
+SampleName=grid
+Format=tif
+ImageName=hitachi.tif
+Date=2026/10/11
+Time=10:20:30
+AcceleratingVoltage=3000 Volt
+Magnification=100000
+WorkingDistance=8000 um
+SignalName=SE(U)
+PixelSize=1.27

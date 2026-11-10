@@ -1,0 +1,64 @@
+# Flatpak manifest, built from source (Flathub style: offline build from vendored crates).
+#
+#   packaging/linux/build-flatpak.sh            # generates cargo-sources.json, runs flatpak-builder
+#
+# cargo-sources.json is generated from Cargo.lock by flatpak-cargo-generator
+# (https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo) and is not checked in.
+#
+# Toolchain: the rust-nightly SDK extension tracks the latest nightly, not the date pinned in
+# rust-toolchain.toml; rustup is not available inside the sandbox. If a nightly regression bites,
+# switch to the local manifest (app.specular.Specular.local.yml), which packages a binary built
+# with the pinned toolchain by tools/release/pgo.sh. Flathub requires from-source builds.
+#
+# Not yet tested end to end from source; the local manifest was used to check the finish-args
+# and files.
+app-id: app.specular.Specular
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-nightly
+command: specular
+finish-args:
+  # Wayland first, X11 only where Wayland is missing.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # GPU (wgpu: Vulkan, GL fallback).
+  - --device=dri
+  # An image viewer flips through the folder of the opened file and moves files to the trash, so it
+  # needs the host file system. The document portal only grants the one file that was opened.
+  - --filesystem=host
+  # The remote-control socket (specular ipc, docs/ipc.md): shared with the desktop, so programs
+  # outside the sandbox can reach it. Still private to the user (0700 folder, 0600 socket).
+  - --filesystem=xdg-run/specular:create
+build-options:
+  append-path: /usr/lib/sdk/rust-nightly/bin
+  env:
+    CARGO_HOME: /run/build/specular/cargo
+    CARGO_NET_OFFLINE: 'true'
+    # Do not set RUSTFLAGS here: it would replace .cargo/config.toml's x86-64-v3 baseline.
+modules:
+  - name: specular
+    buildsystem: simple
+    build-commands:
+      # specular/asm: rav1d's and rav1e's assembly for AVIF decode and output (nasm is in the SDK).
+      - cargo --offline build --release --locked --features specular/asm -p specular --bin specular -p specular-decode-host --bin specular-decode-host
+      - install -Dm755 target/release/specular /app/bin/specular
+      # The sandboxed decode host (HEIC via the runtime's libheif, RAR/CBR), next to the viewer.
+      - install -Dm755 target/release/specular-decode-host /app/bin/specular-decode-host
+      - install -Dm644 packaging/linux/app.specular.Specular.desktop /app/share/applications/app.specular.Specular.desktop
+      - install -Dm644 packaging/linux/app.specular.Specular.metainfo.xml /app/share/metainfo/app.specular.Specular.metainfo.xml
+      - install -Dm644 packaging/icons/specular.svg /app/share/icons/hicolor/scalable/apps/app.specular.Specular.svg
+      - for s in 16 32 48 64 128 256 512; do install -Dm644 packaging/icons/specular-$s.png /app/share/icons/hicolor/${s}x${s}/apps/app.specular.Specular.png; done
+      - install -Dm644 packaging/THIRD-PARTY.md /app/share/doc/specular/THIRD-PARTY.md
+      # Flatpak does not export thumbnailers to the host (yet); shipped for completeness.
+      - install -Dm644 packaging/linux/specular.thumbnailer /app/share/thumbnailers/specular.thumbnailer
+    sources:
+      - type: dir
+        path: ../..
+        # Never package build output or the corpus (tools/corpus/real holds private photos).
+        skip:
+          - target
+          - tools/corpus
+      - cargo-sources.json

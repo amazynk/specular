@@ -1,0 +1,10 @@
+[package]
+name = "specular-flac"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own FLAC decoder (RFC 9639) for the sound of Specular's Matroska, MP4, Ogg and native FLAC files"
+
+[lints]
+workspace = true

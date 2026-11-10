@@ -1,0 +1,19 @@
+[package]
+name = "specular-shots"
+description = "Screenshot tests of Specular's chrome: renders draw lists offscreen on the software Vulkan rasteriser (lavapipe) and compares them with committed PNG goldens"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-gfx = { path = "../specular-gfx" }
+# Every shot's texts are checked against the language it is drawn in.
+specular-i18n = { path = "../specular-i18n" }
+specular-png = { path = "../formats/specular-png" }
+pollster = "0.4"
+# Encodes the goldens at a high compression (specular-png decodes them).
+png = "0.18"
+
+[lints]
+workspace = true

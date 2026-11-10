@@ -1,0 +1,21 @@
+[package]
+name = "specular-texture"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "GPU texture containers (DDS, KTX2) and BCn block decompression for Specular"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+thiserror = "2"
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+
+[dev-dependencies]
+# Differential oracle and benchmark baseline for the BCn decoders (MIT).
+bcdec_rs = "0.2"
+
+[lints]
+workspace = true

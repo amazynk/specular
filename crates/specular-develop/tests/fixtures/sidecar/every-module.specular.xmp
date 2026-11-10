@@ -1,0 +1,746 @@
+<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="" xmlns:spd="http://ns.specular.app/develop/1/"
+    spd:schema="1"
+    spd:process="1"
+    spd:writer="Specular"
+    spd:source="size=31457280 mtime=1761998400000000000 hash=001d3a577491aecbe805223f5c7996b3d0ed0a2744617e9bb8d5f20f2c496683"
+    spd:customOrder="False"
+    spd:editHash="9470c3d42709f4c5e408d79b5d6a8406c3b7a61357919faded738af449f132d1">
+   <spd:masks>
+    <rdf:Seq>
+     <rdf:li spd:id="1" spd:shape="radial" spd:centre="0.5 0.4" spd:inner="0.1 0.1" spd:outer="0.3 0.25" spd:angle="10.0"/>
+     <rdf:li spd:id="2" spd:shape="ellipse" spd:centre="0.4 0.5" spd:radii="0.2 0.1" spd:angle="15.0" spd:feather="0.05"/>
+     <rdf:li spd:id="3" spd:shape="rectangle" spd:centre="0.5 0.5" spd:half="0.25 0.125" spd:angle="-5.0" spd:round="0.1" spd:feather="0.03"/>
+     <rdf:li spd:id="4" spd:shape="polygon" spd:points="0.1 0.1 0.01 0.9 0.15 0.02 0.5 0.8 0.0" spd:closed="True"/>
+     <rdf:li spd:id="5" spd:shape="linear" spd:start="0.0 0.0" spd:end="0.0 0.4"/>
+     <rdf:li spd:id="6" spd:shape="brush" spd:strokes="U1BERQEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFmBgACj8L1PDMzMz9mZmY/AAPNzEw+zcxMPgAAgD8AAIA+rkdhPs3MTD+amZk+AACAPpqZGT8K16M8AAAAPwAAgD8BAq5HYT7NzEw+mpmZPrgehT49Clc+ZmZmPwIEZmxvdwRzaXplAA=="/>
+    </rdf:Seq>
+   </spd:masks>
+   <spd:modules>
+    <rdf:Seq>
+     <rdf:li spd:module="flat_field" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:flat=""
+        spd:dark=""
+        spd:auto="False"
+        spd:blur="False"/>
+     </rdf:li>
+     <rdf:li spd:module="hot_pixels" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:threshold="1.0"/>
+     </rdf:li>
+     <rdf:li spd:module="chromatic_aberration" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:auto="True"
+        spd:red="0.0"
+        spd:blue="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="raw_front_end" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:demosaic="directional"
+        spd:dual_threshold="0.2"
+        spd:highlights="opposed"
+        spd:highlight_threshold="1.0"
+        spd:dng_opcodes="True"
+        spd:input_profile="auto"
+        spd:profile_path=""/>
+     </rdf:li>
+     <rdf:li spd:module="denoise" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:luminance="0.2"
+        spd:colour="0.0"
+        spd:detail="0.5"
+        spd:nlm="True"
+        spd:mode="ai"
+        spd:model="ffdnet-color"
+        spd:blend="0.75"/>
+     </rdf:li>
+     <rdf:li spd:module="defringe" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:purple_hue="320.0"
+        spd:green_hue="140.0"
+        spd:hue_range="40.0"
+        spd:edge="2.0"/>
+     </rdf:li>
+     <rdf:li spd:module="capture_sharpening" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:radius="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="lens" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:embedded="True"
+        spd:distortion_on="True"
+        spd:vignetting_on="True"
+        spd:ca_on="True"
+        spd:distortion="0.0"
+        spd:vignette="0.0"
+        spd:tca_red="0.0"
+        spd:tca_blue="0.0"
+        spd:auto_scale="True"/>
+     </rdf:li>
+     <rdf:li spd:module="perspective" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:mode="off"
+        spd:vertical="0.0"
+        spd:horizontal="0.0"
+        spd:rotate="0.0"
+        spd:aspect="0.0"
+        spd:scale="100.0"
+        spd:offset_x="0.0"
+        spd:offset_y="0.0"
+        spd:auto_scale="True"/>
+     </rdf:li>
+     <rdf:li spd:module="crop_orientation" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:quarter_turns="0"
+        spd:flip_horizontal="False"
+        spd:flip_vertical="False"
+        spd:angle_deg="0.0"
+        spd:crop="0.0 0.0 1.0 1.0"
+        spd:aspect="original"/>
+     </rdf:li>
+     <rdf:li spd:module="retouch" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:split_radius="6.0"
+        spd:spot_mode="heal blur remove"
+        spd:spot_layer="all low all"
+        spd:spot_target="0.3 0.4 0.6 0.3 0.7 0.6"
+        spd:spot_source="0.35 0.5 0.6 0.3 0.75 0.6"
+        spd:spot_size="0.02 0.01 0.015"
+        spd:spot_feather="0.5 0.8 0.5"
+        spd:spot_opacity="1.0 0.6 1.0"
+        spd:spot_blur="0.004 0.002 0.004"
+        spd:spot_points="0.0 3.0 2.0"
+        spd:spot_path="0.55 0.3 0.6 0.32 0.65 0.29 0.68 0.6 0.72 0.61"
+        spd:spot_model="- - big-lama"/>
+     </rdf:li>
+     <rdf:li spd:module="negative" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:base="1.0 1.0 1.0"
+        spd:d_max="1.5"
+        spd:exposure="0.0"
+        spd:grade="2.0"
+        spd:gloss="0.5"
+        spd:black_white="False"/>
+     </rdf:li>
+     <rdf:li spd:module="exposure" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:exposure_ev="0.0"
+        spd:black_offset="0.0"
+        spd:auto="False"
+        spd:auto_percentile="50.0"
+        spd:auto_target_ev="-2.5"/>
+     </rdf:li>
+     <rdf:li spd:module="exposure" spd:version="1" spd:instance="1" spd:enabled="True" spd:label="Sky">
+      <spd:params
+        spd:exposure_ev="-0.4"
+        spd:black_offset="0.0"
+        spd:auto="False"
+        spd:auto_percentile="50.0"
+        spd:auto_target_ev="-2.5"/>
+      <spd:blend spd:mode="soft-light" spd:opacity="0.8" spd:invert="True" spd:feather="0.02" spd:blur="1.5" spd:contrast="0.25" spd:offset="-0.1" spd:edgeAware="0.5" spd:details="0.3" spd:radius="0.035"
+        spd:mask="(union (subtract (intersect (shape 1) (range luminance input 0.0 0.1 0.6 0.8)) (opacity 0.5 (not (shape 3)))) (exclude (colours 0.1 0.05 0.2 0.4 0.8 0.1 0.3 0.7) (union (module tone_equalizer 0) (union (ai object &quot;efficient \&quot;sam\&quot; (ti)&quot; box 0.1 0.2 0.6 0.9 + 0.25 0.5 - 0.75 0.125) (intersect (all) (subtract (details 0.3 0.15) (depth &quot;depth-anything-v2-small&quot; 0.6 1.0 0.05)))))))"/>
+     </rdf:li>
+     <rdf:li spd:module="relight" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:near="0.0"
+        spd:far="0.0"
+        spd:split="0.5"
+        spd:transition="0.3"
+        spd:model="depth-anything-v2-small"/>
+     </rdf:li>
+     <rdf:li spd:module="colour_calibration" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:adaptation="cat16"
+        spd:white_source="as_shot"
+        spd:white_x="0.3457"
+        spd:white_y="0.3585"
+        spd:as_shot_x="0.3457"
+        spd:as_shot_y="0.3585"
+        spd:mixer="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0"
+        spd:gamut_compression="1.0"
+        spd:gamut_threshold="0.8"/>
+     </rdf:li>
+     <rdf:li spd:module="surface_blur" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.4"
+        spd:radius="0.002"
+        spd:edges="0.12"/>
+     </rdf:li>
+     <rdf:li spd:module="dehaze" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:strength="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="graduated_nd" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:centre="0.5 0.4"
+        spd:angle="0.0"
+        spd:softness="0.4"
+        spd:tint_hue="250.0"
+        spd:tint_amount="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="depth_blur" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:focus="0.2"
+        spd:range="0.1"
+        spd:highlights="0.3"
+        spd:near="True"
+        spd:model="depth-anything-v2-small"/>
+     </rdf:li>
+     <rdf:li spd:module="tone_equalizer" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:highlights_ev="-0.75"
+        spd:shadows_ev="0.5"/>
+     </rdf:li>
+     <rdf:li spd:module="diffuse" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:iterations="6"
+        spd:radius="0.0"
+        spd:span="0.001"
+        spd:speed_1="-0.5"
+        spd:anisotropy_1="-1.0"
+        spd:speed_2="-0.25"
+        spd:anisotropy_2="-1.0"
+        spd:speed_3="-0.5"
+        spd:anisotropy_3="-1.0"
+        spd:speed_4="-0.25"
+        spd:anisotropy_4="-1.0"
+        spd:edges="0.6"
+        spd:threshold="0.1"
+        spd:highlights="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="local_contrast" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:texture="0.2"
+        spd:clarity="0.1"/>
+     </rdf:li>
+     <rdf:li spd:module="local_contrast" spd:version="1" spd:instance="1" spd:enabled="True">
+      <spd:params/>
+      <spd:blend spd:mode="normal" spd:opacity="1.0" spd:feather="0.0" spd:blur="0.0" spd:contrast="0.0" spd:offset="0.0" spd:edgeAware="0.0" spd:details="0.0"
+        spd:mask="(shape 2)"/>
+     </rdf:li>
+     <rdf:li spd:module="colour_balance" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:vibrance="0.0"
+        spd:saturation="0.0"
+        spd:chroma="0.0"
+        spd:brilliance="0.0"
+        spd:shadows_hue="0.0"
+        spd:shadows_chroma="0.0"
+        spd:shadows_luminance="0.0"
+        spd:midtones_hue="0.0"
+        spd:midtones_chroma="0.0"
+        spd:midtones_luminance="0.0"
+        spd:highlights_hue="0.0"
+        spd:highlights_chroma="0.0"
+        spd:highlights_luminance="0.0"
+        spd:global_hue="0.0"
+        spd:global_chroma="0.0"
+        spd:global_luminance="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="colour_equalizer" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:hue_red="0.0"
+        spd:hue_orange="0.0"
+        spd:hue_yellow="0.0"
+        spd:hue_green="0.0"
+        spd:hue_aqua="0.0"
+        spd:hue_blue="0.0"
+        spd:hue_purple="0.0"
+        spd:hue_magenta="0.0"
+        spd:saturation_red="0.0"
+        spd:saturation_orange="0.0"
+        spd:saturation_yellow="0.0"
+        spd:saturation_green="0.0"
+        spd:saturation_aqua="0.0"
+        spd:saturation_blue="0.0"
+        spd:saturation_purple="0.0"
+        spd:saturation_magenta="0.0"
+        spd:brightness_red="0.0"
+        spd:brightness_orange="0.0"
+        spd:brightness_yellow="0.0"
+        spd:brightness_green="0.0"
+        spd:brightness_aqua="0.0"
+        spd:brightness_blue="0.0"
+        spd:brightness_purple="0.0"
+        spd:brightness_magenta="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="point_colour" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:picked="False"
+        spd:target_hue="0.0"
+        spd:target_saturation="0.0"
+        spd:target_lightness="0.5"
+        spd:range="0.5"
+        spd:hue_range="0.5"
+        spd:saturation_range="0.5"
+        spd:lightness_range="0.5"
+        spd:shift_hue="0.0"
+        spd:shift_saturation="0.0"
+        spd:shift_lightness="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="black_white" spd:version="1" spd:instance="0" spd:enabled="False">
+      <spd:params
+        spd:mix_red="0.0"
+        spd:mix_orange="0.0"
+        spd:mix_yellow="0.0"
+        spd:mix_green="0.0"
+        spd:mix_aqua="0.0"
+        spd:mix_blue="0.0"
+        spd:mix_purple="0.0"
+        spd:mix_magenta="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="curves" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:points="0.0 0.0 0.25 0.2 0.75 0.8 1.0 1.0"/>
+     </rdf:li>
+     <rdf:li spd:module="lut_3d" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:path=""
+        spd:space="linear_rec2020"
+        spd:interpolation="tetrahedral"
+        spd:strength="1.0"/>
+     </rdf:li>
+     <rdf:li spd:module="sharpen" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:radius="1.0"
+        spd:detail="0.25"
+        spd:masking="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="vignette" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:midpoint="0.5"
+        spd:roundness="0.0"
+        spd:shape="0.0"
+        spd:feather="0.5"
+        spd:centre="0.0 0.0"
+        spd:protect="0.0"/>
+     </rdf:li>
+     <rdf:li spd:module="glow" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:radius="0.02"
+        spd:threshold="2.0"
+        spd:mode="bloom"/>
+     </rdf:li>
+     <rdf:li spd:module="grain" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:amount="0.0"
+        spd:size="0.25"
+        spd:bias="0.0"
+        spd:colour="False"
+        spd:seed="0"/>
+     </rdf:li>
+     <rdf:li spd:module="view_transform" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:method="sigmoid"
+        spd:contrast="1.5"
+        spd:skew="0.0"
+        spd:white_target="1.0"
+        spd:black_target="0.0"
+        spd:hue_preservation="1.0"
+        spd:inset="0.1"
+        spd:outset="0.1"
+        spd:hdr_limit_ev="2.0"/>
+     </rdf:li>
+     <rdf:li spd:module="frame" spd:version="1" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:border="0.0"
+        spd:border_px="False"
+        spd:colour="1.0 1.0 1.0"
+        spd:aspect="0.0"
+        spd:watermark="False"
+        spd:svg=""
+        spd:text="© $(exif.artist) $(date)"
+        spd:anchor="8"
+        spd:scale="0.25"
+        spd:opacity="0.6"
+        spd:margin="0.02"/>
+     </rdf:li>
+     <rdf:li spd:module="kind_900" spd:version="2" spd:instance="0" spd:enabled="True">
+      <spd:params
+        spd:glow="0.25"/>
+     </rdf:li>
+    </rdf:Seq>
+   </spd:modules>
+   <spd:snapshots>
+    <rdf:Seq>
+     <rdf:li spd:name="Before the sky">
+      <spd:masks>
+       <rdf:Seq>
+        <rdf:li spd:id="1" spd:shape="radial" spd:centre="0.5 0.4" spd:inner="0.1 0.1" spd:outer="0.3 0.25" spd:angle="10.0"/>
+        <rdf:li spd:id="2" spd:shape="ellipse" spd:centre="0.4 0.5" spd:radii="0.2 0.1" spd:angle="15.0" spd:feather="0.05"/>
+        <rdf:li spd:id="3" spd:shape="rectangle" spd:centre="0.5 0.5" spd:half="0.25 0.125" spd:angle="-5.0" spd:round="0.1" spd:feather="0.03"/>
+        <rdf:li spd:id="4" spd:shape="polygon" spd:points="0.1 0.1 0.01 0.9 0.15 0.02 0.5 0.8 0.0" spd:closed="True"/>
+        <rdf:li spd:id="5" spd:shape="linear" spd:start="0.0 0.0" spd:end="0.0 0.4"/>
+        <rdf:li spd:id="6" spd:shape="brush" spd:strokes="U1BERQEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFmBgACj8L1PDMzMz9mZmY/AAPNzEw+zcxMPgAAgD8AAIA+rkdhPs3MTD+amZk+AACAPpqZGT8K16M8AAAAPwAAgD8BAq5HYT7NzEw+mpmZPrgehT49Clc+ZmZmPwIEZmxvdwRzaXplAA=="/>
+       </rdf:Seq>
+      </spd:masks>
+      <spd:modules>
+       <rdf:Seq>
+        <rdf:li spd:module="flat_field" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:flat=""
+           spd:dark=""
+           spd:auto="False"
+           spd:blur="False"/>
+        </rdf:li>
+        <rdf:li spd:module="hot_pixels" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:threshold="1.0"/>
+        </rdf:li>
+        <rdf:li spd:module="chromatic_aberration" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:auto="True"
+           spd:red="0.0"
+           spd:blue="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="raw_front_end" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:demosaic="directional"
+           spd:dual_threshold="0.2"
+           spd:highlights="opposed"
+           spd:highlight_threshold="1.0"
+           spd:dng_opcodes="True"
+           spd:input_profile="auto"
+           spd:profile_path=""/>
+        </rdf:li>
+        <rdf:li spd:module="denoise" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:luminance="0.2"
+           spd:colour="0.0"
+           spd:detail="0.5"
+           spd:nlm="True"
+           spd:mode="ai"
+           spd:model="ffdnet-color"
+           spd:blend="0.75"/>
+        </rdf:li>
+        <rdf:li spd:module="defringe" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:purple_hue="320.0"
+           spd:green_hue="140.0"
+           spd:hue_range="40.0"
+           spd:edge="2.0"/>
+        </rdf:li>
+        <rdf:li spd:module="capture_sharpening" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:radius="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="lens" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:embedded="True"
+           spd:distortion_on="True"
+           spd:vignetting_on="True"
+           spd:ca_on="True"
+           spd:distortion="0.0"
+           spd:vignette="0.0"
+           spd:tca_red="0.0"
+           spd:tca_blue="0.0"
+           spd:auto_scale="True"/>
+        </rdf:li>
+        <rdf:li spd:module="perspective" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:mode="off"
+           spd:vertical="0.0"
+           spd:horizontal="0.0"
+           spd:rotate="0.0"
+           spd:aspect="0.0"
+           spd:scale="100.0"
+           spd:offset_x="0.0"
+           spd:offset_y="0.0"
+           spd:auto_scale="True"/>
+        </rdf:li>
+        <rdf:li spd:module="crop_orientation" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:quarter_turns="0"
+           spd:flip_horizontal="False"
+           spd:flip_vertical="False"
+           spd:angle_deg="0.0"
+           spd:crop="0.0 0.0 1.0 1.0"
+           spd:aspect="original"/>
+        </rdf:li>
+        <rdf:li spd:module="retouch" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:split_radius="6.0"
+           spd:spot_mode="heal blur remove"
+           spd:spot_layer="all low all"
+           spd:spot_target="0.3 0.4 0.6 0.3 0.7 0.6"
+           spd:spot_source="0.35 0.5 0.6 0.3 0.75 0.6"
+           spd:spot_size="0.02 0.01 0.015"
+           spd:spot_feather="0.5 0.8 0.5"
+           spd:spot_opacity="1.0 0.6 1.0"
+           spd:spot_blur="0.004 0.002 0.004"
+           spd:spot_points="0.0 3.0 2.0"
+           spd:spot_path="0.55 0.3 0.6 0.32 0.65 0.29 0.68 0.6 0.72 0.61"
+           spd:spot_model="- - big-lama"/>
+        </rdf:li>
+        <rdf:li spd:module="negative" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:base="1.0 1.0 1.0"
+           spd:d_max="1.5"
+           spd:exposure="0.0"
+           spd:grade="2.0"
+           spd:gloss="0.5"
+           spd:black_white="False"/>
+        </rdf:li>
+        <rdf:li spd:module="exposure" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:exposure_ev="0.0"
+           spd:black_offset="0.0"
+           spd:auto="False"
+           spd:auto_percentile="50.0"
+           spd:auto_target_ev="-2.5"/>
+        </rdf:li>
+        <rdf:li spd:module="exposure" spd:version="1" spd:instance="1" spd:enabled="True" spd:label="Sky">
+         <spd:params
+           spd:exposure_ev="-0.4"
+           spd:black_offset="0.0"
+           spd:auto="False"
+           spd:auto_percentile="50.0"
+           spd:auto_target_ev="-2.5"/>
+         <spd:blend spd:mode="soft-light" spd:opacity="0.8" spd:invert="True" spd:feather="0.02" spd:blur="1.5" spd:contrast="0.25" spd:offset="-0.1" spd:edgeAware="0.5" spd:details="0.3" spd:radius="0.035"
+           spd:mask="(union (subtract (intersect (shape 1) (range luminance input 0.0 0.1 0.6 0.8)) (opacity 0.5 (not (shape 3)))) (exclude (colours 0.1 0.05 0.2 0.4 0.8 0.1 0.3 0.7) (union (module tone_equalizer 0) (union (ai object &quot;efficient \&quot;sam\&quot; (ti)&quot; box 0.1 0.2 0.6 0.9 + 0.25 0.5 - 0.75 0.125) (intersect (all) (subtract (details 0.3 0.15) (depth &quot;depth-anything-v2-small&quot; 0.6 1.0 0.05)))))))"/>
+        </rdf:li>
+        <rdf:li spd:module="relight" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:near="0.0"
+           spd:far="0.0"
+           spd:split="0.5"
+           spd:transition="0.3"
+           spd:model="depth-anything-v2-small"/>
+        </rdf:li>
+        <rdf:li spd:module="colour_calibration" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:adaptation="cat16"
+           spd:white_source="as_shot"
+           spd:white_x="0.3457"
+           spd:white_y="0.3585"
+           spd:as_shot_x="0.3457"
+           spd:as_shot_y="0.3585"
+           spd:mixer="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0"
+           spd:gamut_compression="1.0"
+           spd:gamut_threshold="0.8"/>
+        </rdf:li>
+        <rdf:li spd:module="surface_blur" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.4"
+           spd:radius="0.002"
+           spd:edges="0.12"/>
+        </rdf:li>
+        <rdf:li spd:module="dehaze" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:strength="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="graduated_nd" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:centre="0.5 0.4"
+           spd:angle="0.0"
+           spd:softness="0.4"
+           spd:tint_hue="250.0"
+           spd:tint_amount="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="depth_blur" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:focus="0.2"
+           spd:range="0.1"
+           spd:highlights="0.3"
+           spd:near="True"
+           spd:model="depth-anything-v2-small"/>
+        </rdf:li>
+        <rdf:li spd:module="tone_equalizer" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:highlights_ev="-0.75"
+           spd:shadows_ev="0.5"/>
+        </rdf:li>
+        <rdf:li spd:module="diffuse" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:iterations="6"
+           spd:radius="0.0"
+           spd:span="0.001"
+           spd:speed_1="-0.5"
+           spd:anisotropy_1="-1.0"
+           spd:speed_2="-0.25"
+           spd:anisotropy_2="-1.0"
+           spd:speed_3="-0.5"
+           spd:anisotropy_3="-1.0"
+           spd:speed_4="-0.25"
+           spd:anisotropy_4="-1.0"
+           spd:edges="0.6"
+           spd:threshold="0.1"
+           spd:highlights="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="local_contrast" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:texture="0.2"
+           spd:clarity="0.1"/>
+        </rdf:li>
+        <rdf:li spd:module="local_contrast" spd:version="1" spd:instance="1" spd:enabled="True">
+         <spd:params/>
+         <spd:blend spd:mode="normal" spd:opacity="1.0" spd:feather="0.0" spd:blur="0.0" spd:contrast="0.0" spd:offset="0.0" spd:edgeAware="0.0" spd:details="0.0"
+           spd:mask="(shape 2)"/>
+        </rdf:li>
+        <rdf:li spd:module="colour_balance" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:vibrance="0.0"
+           spd:saturation="0.0"
+           spd:chroma="0.0"
+           spd:brilliance="0.0"
+           spd:shadows_hue="0.0"
+           spd:shadows_chroma="0.0"
+           spd:shadows_luminance="0.0"
+           spd:midtones_hue="0.0"
+           spd:midtones_chroma="0.0"
+           spd:midtones_luminance="0.0"
+           spd:highlights_hue="0.0"
+           spd:highlights_chroma="0.0"
+           spd:highlights_luminance="0.0"
+           spd:global_hue="0.0"
+           spd:global_chroma="0.0"
+           spd:global_luminance="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="colour_equalizer" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:hue_red="0.0"
+           spd:hue_orange="0.0"
+           spd:hue_yellow="0.0"
+           spd:hue_green="0.0"
+           spd:hue_aqua="0.0"
+           spd:hue_blue="0.0"
+           spd:hue_purple="0.0"
+           spd:hue_magenta="0.0"
+           spd:saturation_red="0.0"
+           spd:saturation_orange="0.0"
+           spd:saturation_yellow="0.0"
+           spd:saturation_green="0.0"
+           spd:saturation_aqua="0.0"
+           spd:saturation_blue="0.0"
+           spd:saturation_purple="0.0"
+           spd:saturation_magenta="0.0"
+           spd:brightness_red="0.0"
+           spd:brightness_orange="0.0"
+           spd:brightness_yellow="0.0"
+           spd:brightness_green="0.0"
+           spd:brightness_aqua="0.0"
+           spd:brightness_blue="0.0"
+           spd:brightness_purple="0.0"
+           spd:brightness_magenta="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="point_colour" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:picked="False"
+           spd:target_hue="0.0"
+           spd:target_saturation="0.0"
+           spd:target_lightness="0.5"
+           spd:range="0.5"
+           spd:hue_range="0.5"
+           spd:saturation_range="0.5"
+           spd:lightness_range="0.5"
+           spd:shift_hue="0.0"
+           spd:shift_saturation="0.0"
+           spd:shift_lightness="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="black_white" spd:version="1" spd:instance="0" spd:enabled="False">
+         <spd:params
+           spd:mix_red="0.0"
+           spd:mix_orange="0.0"
+           spd:mix_yellow="0.0"
+           spd:mix_green="0.0"
+           spd:mix_aqua="0.0"
+           spd:mix_blue="0.0"
+           spd:mix_purple="0.0"
+           spd:mix_magenta="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="curves" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:points="0.0 0.0 0.25 0.2 0.75 0.8 1.0 1.0"/>
+        </rdf:li>
+        <rdf:li spd:module="lut_3d" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:path=""
+           spd:space="linear_rec2020"
+           spd:interpolation="tetrahedral"
+           spd:strength="1.0"/>
+        </rdf:li>
+        <rdf:li spd:module="sharpen" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:radius="1.0"
+           spd:detail="0.25"
+           spd:masking="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="vignette" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:midpoint="0.5"
+           spd:roundness="0.0"
+           spd:shape="0.0"
+           spd:feather="0.5"
+           spd:centre="0.0 0.0"
+           spd:protect="0.0"/>
+        </rdf:li>
+        <rdf:li spd:module="glow" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:radius="0.02"
+           spd:threshold="2.0"
+           spd:mode="bloom"/>
+        </rdf:li>
+        <rdf:li spd:module="grain" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:amount="0.0"
+           spd:size="0.25"
+           spd:bias="0.0"
+           spd:colour="False"
+           spd:seed="0"/>
+        </rdf:li>
+        <rdf:li spd:module="view_transform" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:method="sigmoid"
+           spd:contrast="1.5"
+           spd:skew="0.0"
+           spd:white_target="1.0"
+           spd:black_target="0.0"
+           spd:hue_preservation="1.0"
+           spd:inset="0.1"
+           spd:outset="0.1"
+           spd:hdr_limit_ev="2.0"/>
+        </rdf:li>
+        <rdf:li spd:module="frame" spd:version="1" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:border="0.0"
+           spd:border_px="False"
+           spd:colour="1.0 1.0 1.0"
+           spd:aspect="0.0"
+           spd:watermark="False"
+           spd:svg=""
+           spd:text="© $(exif.artist) $(date)"
+           spd:anchor="8"
+           spd:scale="0.25"
+           spd:opacity="0.6"
+           spd:margin="0.02"/>
+        </rdf:li>
+        <rdf:li spd:module="kind_900" spd:version="2" spd:instance="0" spd:enabled="True">
+         <spd:params
+           spd:glow="0.25"/>
+        </rdf:li>
+       </rdf:Seq>
+      </spd:modules>
+     </rdf:li>
+    </rdf:Seq>
+   </spd:snapshots>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>

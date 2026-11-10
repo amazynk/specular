@@ -1,0 +1,71 @@
+# Specular — Fremkald: kameraprofil, og kameraprofiler lavet med et farvekort.
+
+develop-input-profile = Kameraprofil
+develop-input-profile-auto = Kameraets standard
+develop-input-profile-matrix = Kun matrix
+develop-input-profile-file = Profilfil…
+develop-input-profile-named = Fil: { $name }
+develop-input-profile-in-use = { $name } bruges.
+develop-input-profile-changed = { $name } bruges. Filen er ændret, siden den blev valgt.
+develop-input-profile-missing = Profilfilen mangler. Kameraets matrix bruges.
+develop-input-profile-unusable = Profilfilen kan ikke bruges: { $reason }. Kameraets matrix bruges.
+develop-input-profile-dialog = Vælg en kameraprofil
+develop-input-profile-kind = DNG-kameraprofiler
+
+develop-chart-start = Lav profil fra farvekort…
+develop-chart-title = Profil fra farvekort
+develop-chart-kind = Kort
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Reference
+develop-chart-ref-load = Indlæs fil…
+develop-chart-hint-xrite = Indlæs kortets referencefil (CGATS-tekst). Den følger med kortet eller findes på X-Rites websted for kortets udgave.
+develop-chart-hint-it8 = Indlæs referencefilen for dit testkort. Hvert parti har sin egen, fra producenten.
+develop-chart-spyder = SpyderCHECKR understøttes ikke: dets farveværdier tilhører Datacolor.
+develop-chart-step-reference = Vælg kortet, og indlæs dets referencefil.
+develop-chart-step-corner = Klik midt på { $name } ({ $number } af 4).
+develop-chart-measuring = Kortet måles…
+develop-chart-step-save = Gem profilen, eller marker hjørnerne igen.
+develop-chart-corner-dark-skin = mørk hud (øverst til venstre)
+develop-chart-corner-bluish-green = blågrøn (øverst til højre)
+develop-chart-corner-black = sort (nederst til højre)
+develop-chart-corner-white = hvid (nederst til venstre)
+
+develop-chart-ref-too-large = Filen er for stor til en referencefil.
+develop-chart-ref-not-cgats = Ikke en CGATS-referencefil.
+develop-chart-ref-no-ids = Filen har ingen feltnavne.
+develop-chart-ref-no-colour = Filen har ingen L*a*b*- eller XYZ-værdier.
+develop-chart-ref-bad-row = Række { $row } i filen er beskadiget.
+develop-chart-ref-count = Filen angiver { $declared } felter, men har { $found }.
+develop-chart-ref-duplicate = Feltet { $id } står to gange i filen.
+develop-chart-ref-illuminant = Værdierne gælder lyset { $name }. D50 eller D65 er nødvendigt.
+develop-chart-ref-wrong-chart = Filen har { $found } felter. Dette kort har { $expected }.
+develop-chart-ref-names = Feltnavnene passer ikke til dette kort.
+develop-chart-ref-corner = Hjørnefeltet { $id } mangler i filen.
+develop-chart-ref-unreadable = Filen kan ikke læses: { $reason }
+develop-chart-ref-dialog = Vælg kortets referencefil
+develop-chart-ref-kind = Referencefiler til farvekort
+
+develop-chart-not-found = Der blev ikke fundet et kort der. Marker hjørnerne igen.
+develop-chart-too-few = Kun { $count } felter kan bruges. Belys kortet jævnt, og undgå refleksioner.
+develop-chart-no-greys = Intet gråt felt kan bruges. Eksponer, så de grå ikke brænder ud.
+develop-chart-degenerate = Felterne ligner hinanden for meget til en profil.
+
+develop-chart-report-after = ΔE2000 med profilen: middel { $mean }, median { $median }, maks. { $max }
+develop-chart-report-before = Før: middel { $mean }, median { $median }, maks. { $max }
+develop-chart-report-cv = Kontrolleret på felter uden for tilpasningen: middel { $mean }
+develop-chart-left-out = Udeladt: { $id } ({ $why })
+develop-chart-left-clipped = udbrændt
+develop-chart-left-uneven = refleksion eller støv
+develop-chart-left-outside = uden for billedet
+develop-chart-uneven-light = De grå varierer { PERCENT($percent) }: lyset er måske ujævnt.
+develop-chart-use-camera = Brug til billeder fra { $camera }
+develop-chart-again = Marker igen
+develop-chart-save = Gem…
+develop-chart-close = Luk
+develop-chart-save-title = Gem kameraprofil
+develop-chart-default-name = Kortprofil { $camera }
+develop-chart-saved = { $name } er gemt som { $file }.
+develop-chart-save-failed = Profilen kan ikke gemmes: { $reason }

@@ -1,0 +1,19 @@
+[package]
+name = "specular-mzml"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own mzML (indexed or not; base64 binary arrays with zlib and MS-Numpress) and mzXML readers: a TIC or chromatogram overview and spectra read on demand"
+
+[dependencies]
+specular-spectra = { path = "../specular-spectra" }
+specular-png = { path = "../specular-png" }  # zlib inflate
+memchr = "2"
+quick-xml = "0.41"
+
+[dev-dependencies]
+sha2 = "0.10"  # array hashes against the oracle (tests/oracle.rs)
+
+[lints]
+workspace = true

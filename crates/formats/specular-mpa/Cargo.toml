@@ -1,0 +1,10 @@
+[package]
+name = "specular-mpa"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own MPEG audio Layer I/II decoder (ISO/IEC 11172-3, 13818-3 low rates) for the sound of Specular's MPEG and AVI movies"
+
+[lints]
+workspace = true

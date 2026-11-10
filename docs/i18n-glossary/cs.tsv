@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galerie	the thumbnail grid of one folder	
+Library	Library	Knihovna	the catalogue of indexed folders	
+Folder	Folder	Složka	a file-system folder	
+Remove	Remove	Odebrat	take an item out of a list; files stay	
+Delete	Delete	Smazat	destroy data or files	
+Forget	Forget	Zapomenout	drop a remembered choice or record	
+Move to trash	Move to trash	Přesunout do koše	send files to the system trash	
+Export	Export	Exportovat	write a copy in another form	
+Import	Import	Import	copy photos in from a card or device	
+Settings	Settings	Nastavení	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Zpět	reverse the last action (never the word for Cancel)	
+Redo	Redo	Znovu		
+Zoom	Zoom	Zvětšení	image magnification	Zvětšení and přiblížení both occur; prefer Zvětšení for the noun.
+Page	Page	Strana	a page of a document or multi-page file	
+Layer	Layers	Hladiny	drawing and map layers (circuit boards: their own word)	Vrstva; CAD drawing layers are Hladiny (AutoCAD).
+Channel	Channels	Kanály	colour or audio channels	
+Series	Series	Série	a DICOM series	
+Study	Study	Studie	a DICOM study	Studie (not vyšetření).
+Slice	Slice	Řez	one cross-sectional image of a volume	
+Frame	Frames	Snímky	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Stopa	a numbered piece of an album	
+Subtitle	Subtitles	Titulky	text over a video	
+Loudness	Loudness	Hlasitost	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Model	a local AI model	
+Download	Download	Stáhnout	fetch from the network	
+Cull mode	Cull mode	Režim třídění	the mode for picking and rejecting photos	
+Pick	Pick	Vybrat	a cull mark	
+Reject	Reject	Odmítnout	a cull mark	
+Rating	Rating	Hodnocení	stars	
+Local AI	Local AI	Místní AI	the Settings section and the feature set	
+Metadata	Metadata	Metadata		
+Thumbnail	Thumbnail	Miniatura		
+Slideshow	Slideshow	Prezentace		
+Compare	Compare	Porovnání		
+Print	Print	Tisk		
+Search	Search	Hledat		
+Filter	Filter	Filtr	narrow what is shown (not an optical filter)	
+Rename	Rename	Přejmenovat		

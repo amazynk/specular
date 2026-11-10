@@ -1,0 +1,15 @@
+[package]
+name = "specular-dv"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own DV video decoder (IEC 61834, SMPTE 314M): DV, DVCPRO and DVCPRO50 frames, VAUX/AAUX facts and PCM sound"
+
+[dependencies]
+rayon = "1.11"
+# Frame planes reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

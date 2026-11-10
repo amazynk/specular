@@ -1,0 +1,4 @@
+size	8	1	1
+planes	0
+axis	0	0.5	-1.0	s
+unit	V

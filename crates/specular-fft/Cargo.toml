@@ -1,0 +1,13 @@
+[package]
+name = "specular-fft"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Fast Fourier transforms for Specular's science views: mixed-radix Stockham FFTs of any length (radix 2, 3, 4, 5 and small odd primes, Bluestein for large prime factors) and the centred 2-D log power spectrum of an image plane"
+
+[dependencies]
+rayon = "1.11"
+
+[lints]
+workspace = true

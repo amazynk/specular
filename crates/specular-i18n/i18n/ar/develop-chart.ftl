@@ -1,0 +1,71 @@
+# Specular — التحميض: ملف تعريف الكاميرا، وملفات تعريف الكاميرا المصنوعة من لوحة ألوان.
+
+develop-input-profile = ملف تعريف الكاميرا
+develop-input-profile-auto = معيار الكاميرا
+develop-input-profile-matrix = المصفوفة فقط
+develop-input-profile-file = ملف تعريف…
+develop-input-profile-named = الملف: { $name }
+develop-input-profile-in-use = يُستخدم { $name }.
+develop-input-profile-changed = يُستخدم { $name }. تغيّر الملف منذ اختياره.
+develop-input-profile-missing = ملف التعريف مفقود. تُستخدم مصفوفة الكاميرا.
+develop-input-profile-unusable = لا يمكن استخدام ملف التعريف: { $reason }. تُستخدم مصفوفة الكاميرا.
+develop-input-profile-dialog = اختر ملف تعريف كاميرا
+develop-input-profile-kind = ملفات تعريف كاميرا DNG
+
+develop-chart-start = إنشاء ملف تعريف من لوحة ألوان…
+develop-chart-title = ملف تعريف من لوحة ألوان
+develop-chart-kind = اللوحة
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = المرجع
+develop-chart-ref-load = تحميل ملف…
+develop-chart-hint-xrite = حمّل ملف مرجع اللوحة (نص CGATS). يأتي مع اللوحة، أو من موقع X-Rite لإصدار لوحتك.
+develop-chart-hint-it8 = حمّل ملف مرجع لوحتك. لكل دفعة ملفها الخاص من الصانع.
+develop-chart-spyder = SpyderCHECKR غير مدعوم: قيم ألوانه ملك لـ Datacolor.
+develop-chart-step-reference = اختر اللوحة وحمّل ملف مرجعها.
+develop-chart-step-corner = انقر وسط { $name } ({ $number } من 4).
+develop-chart-measuring = جارٍ قياس اللوحة…
+develop-chart-step-save = احفظ ملف التعريف، أو حدّد الزوايا من جديد.
+develop-chart-corner-dark-skin = البشرة الداكنة (أعلى اليسار)
+develop-chart-corner-bluish-green = الأخضر المزرق (أعلى اليمين)
+develop-chart-corner-black = الأسود (أسفل اليمين)
+develop-chart-corner-white = الأبيض (أسفل اليسار)
+
+develop-chart-ref-too-large = الملف كبير جدًا ليكون ملف مرجع.
+develop-chart-ref-not-cgats = ليس ملف مرجع CGATS.
+develop-chart-ref-no-ids = لا يحتوي الملف على أسماء الرقع.
+develop-chart-ref-no-colour = لا يحتوي الملف على قيم L*a*b* أو XYZ.
+develop-chart-ref-bad-row = السطر { $row } في الملف تالف.
+develop-chart-ref-count = يذكر الملف { $declared } رقعة لكنه يحتوي على { $found }.
+develop-chart-ref-duplicate = الرقعة { $id } واردة في الملف مرتين.
+develop-chart-ref-illuminant = القيم لإضاءة { $name }. يلزم D50 أو D65.
+develop-chart-ref-wrong-chart = في الملف { $found } رقعة. في هذه اللوحة { $expected }.
+develop-chart-ref-names = أسماء الرقع لا تطابق هذه اللوحة.
+develop-chart-ref-corner = رقعة الزاوية { $id } غير موجودة في الملف.
+develop-chart-ref-unreadable = تتعذر قراءة الملف: { $reason }
+develop-chart-ref-dialog = اختر ملف مرجع اللوحة
+develop-chart-ref-kind = ملفات مرجع لوحات الألوان
+
+develop-chart-not-found = لم يُعثر على اللوحة هناك. حدّد الزوايا من جديد.
+develop-chart-too-few = يمكن استخدام { $count } رقعة فقط. أضئ اللوحة بالتساوي وتجنّب الانعكاس.
+develop-chart-no-greys = لا يمكن استخدام أي رقعة رمادية. اضبط التعريض كي لا تحترق الرماديات.
+develop-chart-degenerate = الرقع متشابهة جدًا لإنشاء ملف تعريف.
+
+develop-chart-report-after = ΔE2000 مع ملف التعريف: المتوسط { $mean }، الوسيط { $median }، الأقصى { $max }
+develop-chart-report-before = قبل: المتوسط { $mean }، الوسيط { $median }، الأقصى { $max }
+develop-chart-report-cv = تحقُّق على رقع خارج المطابقة: المتوسط { $mean }
+develop-chart-left-out = مستبعدة: { $id } ({ $why })
+develop-chart-left-clipped = محترقة
+develop-chart-left-uneven = انعكاس أو غبار
+develop-chart-left-outside = خارج الصورة
+develop-chart-uneven-light = تتفاوت الرماديات بنسبة { PERCENT($percent) }: قد تكون الإضاءة غير متساوية.
+develop-chart-use-camera = استخدامه لصور { $camera }
+develop-chart-again = تحديد من جديد
+develop-chart-save = حفظ…
+develop-chart-close = إغلاق
+develop-chart-save-title = حفظ ملف تعريف الكاميرا
+develop-chart-default-name = ملف تعريف لوحة { $camera }
+develop-chart-saved = حُفظ { $name } باسم { $file }.
+develop-chart-save-failed = تعذّر حفظ ملف التعريف: { $reason }

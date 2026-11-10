@@ -1,0 +1,20 @@
+[package]
+name = "specular-pdn"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Paint.NET .pdn reader for Specular: the .NET binary serialization record grammar (parsed as data), layers, blend modes, the embedded thumbnail"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-png = { path = "../specular-png" }  # gzip inflate
+rayon = "1.11"  # layer compositing in parallel row bands
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }
+flate2 = "1"  # gzip chunks of synthetic documents
+serde_json = "1"  # pypdn oracle metadata
+
+[lints]
+workspace = true

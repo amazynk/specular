@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE GIFTI SYSTEM "http://www.nitrc.org/frs/download.php/115/gifti.dtd">
+<GIFTI Version="1.0" NumberOfDataArrays="2">
+<MetaData><MD><Name>AnatomicalStructurePrimary</Name><Value>CortexLeft</Value></MD></MetaData>
+<DataArray Intent="NIFTI_INTENT_POINTSET" DataType="NIFTI_TYPE_FLOAT32" ArrayIndexingOrder="ColumnMajorOrder" Dimensionality="2" Dim0="42" Dim1="3" Encoding="GZipBase64Binary" Endian="BigEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData/>
+<Data>eJw75O+tcXBi5oZDMJqHgQEZH/jx7j8IH6p4pADGxb33DvkA5Yx77x088cQZpAZMG0PFQfJtQLEZ
+QCx4og0sxgMVB2EQ2wciB1MDpmFm8CDMhskfcGBgcDxgGgDChwykVoDwwR/WTx0Nyk/CaQWgWiTs
+CMQO4qKJjpserQHjD0AxKBssDlUHZwPFwXo/QDFUDGYOWAzIP6RZGAbGHkB3QtlgvVA9jgWo2Mms
+LgWED1b+nAjCB6o9rjixb+mF0Y4X/ps4GdTPcmIBqmWB6AH5F4QPJv7LdKhgiwGbA1QDVwsMP7A4
+kH9wBUIdiCbWPAAGx8ip</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_TRIANGLE" DataType="NIFTI_TYPE_INT32" ArrayIndexingOrder="RowMajorOrder" Dimensionality="2" Dim0="80" Dim1="3" Encoding="GZipBase64Binary" Endian="BigEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData/>
+<Data>eJxN0YtuglAQBUAEq+Cj1loREVG01vr/P1hoZhNMbjZzcq6ykiT/n1V/3vuz7M+a32ThNSfmh86G
+J7LwhhPzU2fLc1l4y4n5pbPjhSy848Rc6ex5KQvveeLZDp6/5EIWLkedYfej76x4KgtXo87wWyfP
+U3MqC9ejzrDL2b4Nz2ThZtQZ/quLXVrOZeGWs/5c+3OzY8dTWbjjzPzWuXMqC985M390HjyThR+c
+mb86T85l4Sdn5lXnxYUs/Brt1XkXhffYeY/HkUtO7XJyt+KlLFzxzC5nd2teyMI153a5uNvwXBZu
+uLDLwd2WJ7LwMA9/JuwT7Q==</Data>
+</DataArray>
+</GIFTI>

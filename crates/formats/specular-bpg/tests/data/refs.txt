@@ -1,0 +1,16 @@
+# name frame width height maxval fnv1a64-of-PAM-samples num den (libbpg 0.9.8)
+photo-422video 0 333 211 255 d550ea0dacbddd69 0 1
+photo-420video 0 333 211 255 d037422d9865df61 0 1
+alpha-premul 0 333 211 255 78bb8f967087be40 0 1
+anim-alpha-delays 0 160 100 255 92ead0251f90316c 2 25
+anim-alpha-delays 1 160 100 255 256ea0d96dd6c997 5 25
+anim-alpha-delays 2 160 100 255 1435306e463da559 8 25
+anim-alpha-delays 3 160 100 255 a2f07e9a2fef2eaf 2 25
+anim-alpha-delays 4 160 100 255 f58b8f1b1fdae9fa 12 25
+anim-alpha-delays 5 160 100 255 2b0859d455634ef5 1 25
+grad-12-420 0 257 129 65535 93a8a922d9bc9f62 0 1
+meta-exif 0 333 211 255 cf69cb6173277941 0 1
+cmyk 0 333 211 255 e4f2ff9969fceb05 0 1
+grey-10 0 333 211 65535 bcefe7ff3c1f9448 0 1
+grad-14-444 0 257 129 65535 9f70de0d9ea7fda1 0 1
+logo-ycgco-420 0 320 240 255 cbcbc637f8c5fc2b 0 1

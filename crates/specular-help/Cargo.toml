@@ -1,0 +1,20 @@
+[package]
+name = "specular-help"
+description = "Specular's offline manual: page sources per locale, their parser and full-text search, help topics for contexts and disabled reasons, build information and the third-party licence list"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-i18n = { path = "../specular-i18n" }
+specular-input = { path = "../specular-input" }
+
+[dev-dependencies]
+# `licences_in_sync` reads `cargo metadata`.
+serde_json = "1"
+# The settings schema, for `settings_paths_exist`.
+specular-settings = { path = "../specular-settings" }
+
+[lints]
+workspace = true

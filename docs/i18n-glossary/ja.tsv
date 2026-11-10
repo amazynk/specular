@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	ギャラリー	the thumbnail grid of one folder	
+Library	Library	ライブラリ	the catalogue of indexed folders	
+Folder	Folder	フォルダー	a file-system folder	
+Remove	Remove	削除	take an item out of a list; files stay	
+Delete	Delete	削除	destroy data or files	
+Forget	Forget	消去	drop a remembered choice or record	消去.
+Move to trash	Move to trash	ゴミ箱に移動	send files to the system trash	
+Export	Export	エクスポート	write a copy in another form	エクスポート, not 書き出す.
+Import	Import	読み込み	copy photos in from a card or device	
+Settings	Settings	設定	the Settings window, also in paths: Settings › Section	
+Undo	Undo	取り消す	reverse the last action (never the word for Cancel)	
+Redo	Redo	やり直す		
+Zoom	Zoom	ズーム	image magnification	ズーム for the noun; 拡大・縮小 for the action in sentences.
+Page	Page	ページ	a page of a document or multi-page file	
+Layer	Layers	画層	drawing and map layers (circuit boards: their own word)	レイヤー; CAD drawing layers are 画層 (AutoCAD).
+Channel	Channels	チャンネル	colour or audio channels	
+Series	Series	シリーズ	a DICOM series	
+Study	Study	検査	a DICOM study	
+Slice	Slice	スライス	one cross-sectional image of a volume	
+Frame	Frames	フレーム	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	トラック	a numbered piece of an album	
+Subtitle	Subtitles	字幕	text over a video	
+Loudness	Loudness	ラウドネス	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	モデル	a local AI model	
+Download	Download	ダウンロード	fetch from the network	
+Cull mode	Cull mode	選別モード	the mode for picking and rejecting photos	
+Pick	Pick	採用	a cull mark	
+Reject	Reject	不採用	a cull mark	
+Rating	Rating	レーティング	stars	
+Local AI	Local AI	ローカル AI	the Settings section and the feature set	ローカル AI, with a space.
+Metadata	Metadata	メタデータ		
+Thumbnail	Thumbnail	サムネイル		
+Slideshow	Slideshow	スライドショー		
+Compare	Compare	比較		
+Print	Print	印刷		
+Search	Search	検索		
+Filter	Filter	フィルター	narrow what is shown (not an optical filter)	
+Rename	Rename	名前を変更		

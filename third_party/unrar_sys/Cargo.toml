@@ -1,0 +1,48 @@
+# Vendored copy of unrar_sys 0.5.8 (crates.io; upstream https://github.com/muja/unrar.rs,
+# path unrar_sys, commit 8fe139781b92d0678afecc568496f5805401a6c4). `src/` and `vendor/` are
+# byte-identical to the published crate. Specular's changes are this manifest, `build.rs` and
+# `patches/specular-handle-io.patch` and `patches/specular-password.patch` (applied in that order
+# to a copy of `vendor/unrar` at build time); see the patches' headers and packaging/THIRD-PARTY.md. Wired in by `[patch.crates-io]` in the
+# workspace manifest.
+#
+# UnRAR source code may be used in any software to handle
+# RAR archives without limitations free of charge, but cannot be
+# used to develop RAR (WinRAR) compatible archiver and to
+# re-create RAR compression algorithm, which is proprietary.
+# Distribution of modified UnRAR source code in separate form
+# or as a part of other software is permitted, provided that
+# full text of this paragraph, starting from "UnRAR source code"
+# words, is included in license, or in documentation if license
+# is not available, and in source code comments of resulting package.
+
+[package]
+edition = "2021"
+name = "unrar_sys"
+version = "0.5.8"
+authors = ["Danyel Bayraktar <rust@danyel.io>"]
+build = "build.rs"
+description = "FFI bindings to unrar (with minimal abstractions), with Specular's handle-I/O patch"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/muja/unrar.rs"
+autoexamples = false
+autotests = false
+autobenches = false
+
+[lib]
+name = "unrar_sys"
+path = "src/lib.rs"
+
+[dependencies.libc]
+version = "0.2"
+default-features = false
+
+[build-dependencies.cc]
+version = "1"
+
+[features]
+default = ["std"]
+std = ["libc/std", "winapi/std"]
+
+[target."cfg(windows)".dependencies.winapi]
+version = "0.3"
+features = ["minwindef", "ntdef"]

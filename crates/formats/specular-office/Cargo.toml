@@ -1,0 +1,19 @@
+[package]
+name = "specular-office"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Office documents for Specular, previews only: the thumbnail Word, Excel and PowerPoint (OOXML and 97-2003), Pages, Numbers and Keynote store, and the document properties (title, author, dates, page and slide counts) from docProps, the OLE property sets and OpenDocument meta.xml; password-protected packages are recognised and refused. No document is rendered."
+
+[dependencies]
+specular-cfb = { path = "../specular-cfb" }
+specular-ora = { path = "../specular-ora" }  # bounded ZIP reader
+thiserror = "2"
+
+[dev-dependencies]
+serde_json = "1"  # the corpus oracle
+sha2 = "0.10"  # preview hashes against the oracle
+
+[lints]
+workspace = true

@@ -1,0 +1,14 @@
+[package]
+name = "specular-query"
+description = "Typed queries, facets and events for Specular's gallery and library: parser with spans and errors, tri-state evaluator, facet counts, events split on time gaps and location jumps"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+# No dependencies and no UI: the gallery uses it today, the Library later, and the fuzzer
+# builds it on its own.
+[dependencies]
+
+[lints]
+workspace = true

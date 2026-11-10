@@ -1,0 +1,71 @@
+# Specular — Vyvolání: profil fotoaparátu a profily z barevné tabulky.
+
+develop-input-profile = Profil fotoaparátu
+develop-input-profile-auto = Standard fotoaparátu
+develop-input-profile-matrix = Jen matice
+develop-input-profile-file = Soubor profilu…
+develop-input-profile-named = Soubor: { $name }
+develop-input-profile-in-use = Používá se { $name }.
+develop-input-profile-changed = Používá se { $name }. Soubor se od výběru změnil.
+develop-input-profile-missing = Soubor profilu chybí. Používá se matice fotoaparátu.
+develop-input-profile-unusable = Soubor profilu nelze použít: { $reason }. Používá se matice fotoaparátu.
+develop-input-profile-dialog = Vyberte profil fotoaparátu
+develop-input-profile-kind = Profily fotoaparátu DNG
+
+develop-chart-start = Vytvořit profil z barevné tabulky…
+develop-chart-title = Profil z barevné tabulky
+develop-chart-kind = Tabulka
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Reference
+develop-chart-ref-load = Načíst soubor…
+develop-chart-hint-xrite = Načtěte referenční soubor tabulky (text CGATS). Je přiložen k tabulce, nebo na webu X-Rite pro vydání vaší tabulky.
+develop-chart-hint-it8 = Načtěte referenční soubor svého terče. Každá šarže má vlastní, od výrobce.
+develop-chart-spyder = SpyderCHECKR není podporován: jeho barevné hodnoty patří Datacolor.
+develop-chart-step-reference = Vyberte tabulku a načtěte její referenční soubor.
+develop-chart-step-corner = Klikněte doprostřed pole { $name } ({ $number } ze 4).
+develop-chart-measuring = Měří se tabulka…
+develop-chart-step-save = Uložte profil, nebo označte rohy znovu.
+develop-chart-corner-dark-skin = tmavá pleť (vlevo nahoře)
+develop-chart-corner-bluish-green = modrozelená (vpravo nahoře)
+develop-chart-corner-black = černá (vpravo dole)
+develop-chart-corner-white = bílá (vlevo dole)
+
+develop-chart-ref-too-large = Soubor je pro referenční soubor příliš velký.
+develop-chart-ref-not-cgats = Nejde o referenční soubor CGATS.
+develop-chart-ref-no-ids = Soubor nemá názvy polí.
+develop-chart-ref-no-colour = Soubor nemá hodnoty L*a*b* ani XYZ.
+develop-chart-ref-bad-row = Řádek { $row } souboru je poškozen.
+develop-chart-ref-count = Soubor uvádí { $declared } polí, ale obsahuje { $found }.
+develop-chart-ref-duplicate = Pole { $id } je v souboru dvakrát.
+develop-chart-ref-illuminant = Hodnoty platí pro světlo { $name }. Je třeba D50 nebo D65.
+develop-chart-ref-wrong-chart = Soubor má { $found } polí. Tato tabulka má { $expected }.
+develop-chart-ref-names = Názvy polí neodpovídají této tabulce.
+develop-chart-ref-corner = V souboru chybí rohové pole { $id }.
+develop-chart-ref-unreadable = Soubor nelze přečíst: { $reason }
+develop-chart-ref-dialog = Vyberte referenční soubor tabulky
+develop-chart-ref-kind = Referenční soubory barevných tabulek
+
+develop-chart-not-found = Tabulka tam nebyla nalezena. Označte rohy znovu.
+develop-chart-too-few = Použít lze jen { $count } polí. Osvětlete tabulku rovnoměrně a vyhněte se odleskům.
+develop-chart-no-greys = Nelze použít žádné šedé pole. Exponujte tak, aby šedé nebyly přepálené.
+develop-chart-degenerate = Pole jsou si příliš podobná na vytvoření profilu.
+
+develop-chart-report-after = ΔE2000 s profilem: průměr { $mean }, medián { $median }, max. { $max }
+develop-chart-report-before = Předtím: průměr { $mean }, medián { $median }, max. { $max }
+develop-chart-report-cv = Ověřeno na polích mimo přizpůsobení: průměr { $mean }
+develop-chart-left-out = Vynecháno: { $id } ({ $why })
+develop-chart-left-clipped = přepálené
+develop-chart-left-uneven = odlesk nebo prach
+develop-chart-left-outside = mimo fotografii
+develop-chart-uneven-light = Šedé se liší o { PERCENT($percent) }: světlo může být nerovnoměrné.
+develop-chart-use-camera = Použít pro fotky z { $camera }
+develop-chart-again = Označit znovu
+develop-chart-save = Uložit…
+develop-chart-close = Zavřít
+develop-chart-save-title = Uložit profil fotoaparátu
+develop-chart-default-name = Profil z tabulky { $camera }
+develop-chart-saved = { $name } uložen jako { $file }.
+develop-chart-save-failed = Profil nelze uložit: { $reason }

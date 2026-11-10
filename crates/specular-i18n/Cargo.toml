@@ -1,0 +1,38 @@
+[package]
+name = "specular-i18n"
+description = "Localisation for Specular: Fluent catalogues, locale negotiation, live language switching, ICU4X formatting, collation and bidi helpers"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+fluent-bundle = "0.16"
+fluent-syntax = "0.12"
+fluent-langneg = "0.13"
+unic-langid = { version = "0.9", features = ["unic-langid-macros"] }
+sys-locale = "0.3"
+specular-log = { path = "../specular-log" }
+thiserror = "2"
+# ICU4X components (Unicode-3.0), same versions as specular-metadata.
+icu_calendar = "2.3"
+icu_collator = "2.3"
+icu_datetime = "2.3"
+icu_decimal = "2.3"
+icu_list = "2.3"
+icu_locale_core = "2.3"
+icu_experimental = "0.6"
+icu_provider = { version = "2.3", features = ["sync"] }
+fixed_decimal = { version = "0.7", features = ["ryu"] }
+icu_normalizer = "2.3"
+writeable = "0.6"
+
+[dev-dependencies]
+# Already in the tree through fluent-bundle; the plural-coverage test asks it for each
+# locale's CLDR categories.
+intl_pluralrules = "7"
+regex = "1"
+walkdir = "2"
+
+[lints]
+workspace = true
