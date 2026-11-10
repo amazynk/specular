@@ -1,0 +1,21 @@
+# Specular path timings (DESIGN.md §12.3.1), version 1
+# Replay fixture (synthetic): an 8-core desktop CPU with a fast discrete GPU (NVDEC-class JPEG
+# decoder, PCIe 4.0 x16). The hardware decoder outruns our software decoder and the shader
+# conversion is nearly free.
+fingerprint Fast discrete GPU|vendor driver|8-core desktop CPU|0.1.0
+machine gpu=discrete threads=8
+calibrated true
+trust jpeg_decode hw_decoder trusted
+trust ycbcr_to_rgb gpu trusted
+trust png_unfilter cpu_parallel trusted
+# cell task engine variant bucket load samples wall_us_per_mpx cpu_samples cpu_us_per_mpx
+cell jpeg_decode cpu 0 3 idle 40 1700.0 30 9500.0
+cell jpeg_decode cpu 0 3 busy 25 3000.0 0 0.0
+cell jpeg_decode cpu 0 4 idle 40 1600.0 30 9000.0
+cell jpeg_decode cpu 0 4 busy 25 2900.0 0 0.0
+cell jpeg_decode hw_decoder 0 3 idle 12 750.0 12 350.0
+cell jpeg_decode hw_decoder 0 4 idle 12 700.0 12 300.0
+cell ycbcr_to_rgb cpu 0 1 idle 4 9000.0 4 8000.0
+cell ycbcr_to_rgb cpu 0 3 idle 4 7000.0 4 6500.0
+cell ycbcr_to_rgb gpu 0 1 idle 4 900.0 4 300.0
+cell ycbcr_to_rgb gpu 0 3 idle 4 600.0 4 200.0

@@ -1,0 +1,17 @@
+[package]
+name = "specular-legacy"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoders for Specular's small legacy raster formats: PCX, SGI/RGB, Sun Raster, XBM, XPM, WBMP, farbfeld, FLI/FLC"
+
+[dependencies]
+rayon = "1.11"
+
+[dev-dependencies]
+# Differential-test oracle only; never linked into Specular.
+pcx = "0.2"
+
+[lints]
+workspace = true

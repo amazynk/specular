@@ -1,0 +1,21 @@
+[package]
+name = "specular-points"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Point clouds for Specular: own LAS 1.0-1.4 and LAZ (LASzip arithmetic decoder, pointwise v2 and layered v3 items) readers, COPC by octree level, PCD (ASCII, binary, LZF-compressed), XYZ/PTS/TXT columns, point-only PLY and E57 (XML, CRC-checked pages, bit-packed vectors, poses); decoded in parallel chunks with progress, capped and subsampled, colours, intensity, classes and returns, CRS names; an octree of shuffled leaves for per-frame point budgets; a CPU preview renderer for thumbnails"
+
+[dependencies]
+thiserror = "2"
+rayon = "1.11"
+parking_lot = "0.12"
+# E57's XML section.
+quick-xml = "0.41"
+# Bounds, the z-up frame and the iso basis shared with the mesh view.
+specular-mesh = { path = "../specular-mesh" }
+# The elevation colour map of thumbnails (the GPU view uses the same table).
+specular-inspect = { path = "../../specular-inspect" }
+
+[lints]
+workspace = true

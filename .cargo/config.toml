@@ -1,0 +1,23 @@
+# x86-64-v3 (AVX2, FMA, BMI1/2, LZCNT, MOVBE; Haswell 2013+ / Zen 1+) is the baseline, so SIMD code
+# written with std::simd compiles to AVX2 with no runtime dispatch and no `unsafe` (DESIGN.md §12.2).
+# aarch64 always has NEON.
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "target-cpu=x86-64-v3"]
+# Test and bench binaries skip the Vulkan drivers for GPUs this machine lacks, as the app does
+# in `main`; `cargo run` is left alone. See the script.
+runner = "tools/ci/vk-runner.sh"
+# Windows: the C runtime is linked statically, so the binaries run without the Visual C++
+# Redistributable (VCRUNTIME140.dll, MSVCP140.dll), from the MSI and from a copied folder alike.
+# The C and C++ dependencies follow it (cc and cmake read crt-static; so does
+# third_party/jpegxl-src).
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-cpu=x86-64-v3", "-C", "target-feature=+crt-static"]
+[target.x86_64-apple-darwin]
+rustflags = ["-C", "target-cpu=x86-64-v3"]
+
+# Tests never run `main`, which tells the Vulkan loader to skip Mesa's device-selection layer
+# (`skip_absent_vulkan_drivers`). Without this the test binaries load the layer, which opens the
+# desktop's Wayland socket to pick a GPU, hundreds of times per run. The
+# app's own `set_var` still applies when it runs.
+[env]
+VK_LOADER_LAYERS_DISABLE = "*MESA_device_select*"

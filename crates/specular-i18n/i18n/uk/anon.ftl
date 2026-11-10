@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = Експортувати анонімізовану копію…
+palette-export-patient-disc = Експортувати теку диска пацієнта…
+palette-mask-burned-in-text = Замаскувати впалений текст
+anon-title = Експортувати анонімізовану копію
+anon-disc-title = Експортувати теку диска пацієнта
+anon-images = Зображення
+anon-images-current = Це зображення
+anon-images-series = Ця серія (файли: { $count })
+anon-images-study = Це дослідження (файли: { $count })
+anon-images-reading = Читання теки…
+anon-anonymise = Анонімізувати
+anon-dates = Дати й час
+anon-dates-remove = Видалити
+anon-dates-keep = Зберегти
+anon-dates-shift = Зсунути
+anon-patient = Характеристики пацієнта
+anon-device = Ідентифікація пристрою
+anon-institution = Ідентифікація закладу
+anon-descriptions = Описи
+anon-descriptions-remove = Видалити
+anon-descriptions-clean = Очистити
+anon-structured = Вміст звітів
+anon-uids = UID
+anon-uids-replace = Замінити
+anon-uids-keep = Зберегти
+anon-overlays = Накладки й криві
+anon-keep = Зберегти
+anon-remove = Видалити
+anon-on = Увімк.
+anon-off = Вимк.
+anon-burned-in = Впалений текст
+anon-masks = Замасковані області: { $count }
+anon-masks-none = Немає масок
+anon-folder = Тека
+anon-folder-choose = Вибрати…
+anon-export = Експортувати
+anon-risk-present = Ці зображення позначені як такі, що містять текст пацієнта: замаскуйте його перед експортом.
+anon-risk-possible = Зображення такого типу часто містять текст пацієнта: перевірте перед експортом.
+anon-progress = Експорт { $done } з { $total }…
+anon-stopping = Зупинення…
+anon-mask-title = Замаскувати впалений текст
+anon-mask-hint = Проведіть над текстом, щоб замаскувати його. Замасковані області стають чорними в кожному кадрі.
+anon-mask-suggest = Запропонувати
+anon-mask-remove = Видалити
+anon-mask-clear = Очистити
+anon-mask-done = Готово
+anon-mask-area = Область { $n }, { $width } × { $height } пікселів
+anon-mask-suggested = { $count ->
+    [0] Біля країв текст не знайдено
+   *[other] Запропоновані текстові області: { $count }
+}
+anon-done = Анонімізовані файли записано до { $folder }: { $count }
+anon-disc-done = Теку диска пацієнта записано до { $folder }, зображення: { $count }
+anon-skipped-burned-in = Пропущені файли з впаленим текстом без масок: { $count }
+anon-skipped-failed = Файли, які не вдалося експортувати: { $count }
+anon-stopped = Експорт зупинено
+anon-failed = Не вдалося експортувати: { $reason }
+anon-not-empty = Тека вже містить диск пацієнта

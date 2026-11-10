@@ -1,0 +1,7 @@
+# Opt-in: tune the Apple Silicon build for M2 or newer (adds i8mm, bf16, v8.6a on top of the
+# target's default `apple-m1`, which already has NEON, dotprod, fp16, crc, aes, sha3).
+# Not used by default: the release must run on every M1. Use for local A/B on a Mac:
+#   cargo build --release --target aarch64-apple-darwin --config .cargo/apple-m2.toml
+# (Intel Macs: x86_64-apple-darwin already targets x86-64-v3 in config.toml.) See docs/macos.md.
+[target.aarch64-apple-darwin]
+rustflags = ["-C", "target-cpu=apple-m2"]

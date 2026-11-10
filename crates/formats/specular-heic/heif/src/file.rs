@@ -1,0 +1,672 @@
+//! Whole-file view: `ftyp`, the top-level boxes, the file-level `meta`
+//! tree and item payload resolution across all three `iloc`
+//! construction methods (ISO/IEC 14496-12 §8.11.3).
+
+use std::borrow::Cow;
+
+use crate::boxes::{fourcc_str, iter_boxes, payload, walk_boxes, BoxHeader, FourCc, WalkEntry};
+use crate::error::{HeifError, Result};
+use crate::ftyp::FileType;
+use crate::meta::{reference, ItemInfo, ItemLocation, Meta};
+
+/// Upper bound on the concatenated size of one item's data.
+pub const MAX_ITEM_BYTES: u64 = 1 << 30;
+/// Maximum construction-method-2 indirection depth.
+pub const MAX_ILOC_DEPTH: usize = 8;
+/// Upper bound on the item resolutions behind one construction-method-2
+/// item (every extent resolves its source item again).
+pub const MAX_ILOC_RESOLVES: usize = 1 << 12;
+/// Box-tree walk limits used by [`HeifFile::box_walk`].
+pub const MAX_WALK_DEPTH: usize = 32;
+/// Maximum number of boxes [`HeifFile::box_walk`] enumerates.
+pub const MAX_WALK_BOXES: usize = 1 << 20;
+
+/// A parsed HEIF / HEIC / MIAF / AVIF file over its bytes `D`.
+///
+/// `HeifFile` (the default, `D = Vec<u8>`) owns its bytes:
+/// [`HeifFile::parse`] copies the input, [`HeifFile::from_vec`] takes
+/// it over. [`HeifFileRef`] (`D = &[u8]`) is the zero-copy view from
+/// [`HeifFile::parse_borrowed`]. Every reader (`item_data`, the
+/// derivation graph, MIAF checks, sequences, decoding) is generic
+/// over `D: AsRef<[u8]>`, so both forms take the same paths; item
+/// payloads are borrowed from the bytes wherever an item is one
+/// contiguous span.
+#[derive(Clone, Debug)]
+#[non_exhaustive]
+pub struct HeifFile<D = Vec<u8>> {
+    data: D,
+    /// The equivalent file of a low-overhead (`mini`) input.
+    equivalent: Option<Vec<u8>>,
+    /// The `ftyp` (or `styp`) box. For a low-overhead (`mif3`) file,
+    /// the equivalent `ftyp` of Amd 2:2026 O.2.1.2 (`mif1` and, with a
+    /// gain map, `tmap` added).
+    pub file_type: FileType,
+    /// The file-level `meta` box, when present. For a low-overhead
+    /// file, the equivalent `MetaBox` of Amd 2:2026 O.4.
+    pub meta: Option<Meta>,
+    /// Headers of every top-level box, in file order (for a
+    /// low-overhead file: of the equivalent `ftyp` / `meta` / `mdat`,
+    /// which is what [`HeifFile::bytes`] returns).
+    pub top_level: Vec<BoxHeader>,
+    /// The parsed `MinimizedImageBox` of a low-overhead file (ISO/IEC
+    /// 23008-12:2025/Amd 2:2026 Annex O), which this view expanded.
+    pub minimized: Option<crate::mini::MinimizedImage>,
+}
+
+/// The zero-copy form of [`HeifFile`]: a view over borrowed bytes.
+pub type HeifFileRef<'a> = HeifFile<&'a [u8]>;
+
+impl HeifFile<Vec<u8>> {
+    /// Parse a file held in memory (the bytes are copied; see
+    /// [`HeifFile::parse_borrowed`] for the zero-copy view).
+    pub fn parse(bytes: &[u8]) -> Result<Self> {
+        Self::from_data(bytes.to_vec())
+    }
+
+    /// Parse a file, taking ownership of its bytes.
+    pub fn from_vec(data: Vec<u8>) -> Result<Self> {
+        Self::from_data(data)
+    }
+
+    /// Consume the view and return the file bytes (the original input,
+    /// also for a low-overhead file).
+    pub fn into_bytes(self) -> Vec<u8> {
+        self.data
+    }
+}
+
+impl<'a> HeifFile<&'a [u8]> {
+    /// Parse a file held in memory, borrowing the bytes (no copy).
+    pub fn parse_borrowed(bytes: &'a [u8]) -> Result<Self> {
+        Self::from_data(bytes)
+    }
+
+    /// Detach from the borrowed input (one copy of the bytes).
+    pub fn into_owned(self) -> HeifFile<Vec<u8>> {
+        HeifFile {
+            data: self.data.to_vec(),
+            equivalent: self.equivalent,
+            file_type: self.file_type,
+            meta: self.meta,
+            top_level: self.top_level,
+            minimized: self.minimized,
+        }
+    }
+}
+
+impl<D: AsRef<[u8]>> HeifFile<D> {
+    /// Parse a file from any byte container (owned or borrowed).
+    pub fn from_data(data: D) -> Result<Self> {
+        let mut top_level = Vec::new();
+        let mut file_type = None;
+        let mut meta = None;
+        let bytes = data.as_ref();
+        for h in iter_boxes(bytes) {
+            let h = h?;
+            let p = payload(bytes, &h);
+            match &h.box_type {
+                b"ftyp" | b"styp" => {
+                    if file_type.is_none() {
+                        file_type = Some(FileType::parse(h.box_type, p)?);
+                    }
+                }
+                b"meta" if meta.is_none() => meta = Some(Meta::parse(p)?),
+                _ => {}
+            }
+            top_level.push(h);
+        }
+        let file_type = file_type
+            .ok_or_else(|| HeifError::invalid("no ftyp box (ISO/IEC 23008-12 §10 requires one)"))?;
+        if let Some(first) = top_level.first() {
+            if !matches!(&first.box_type, b"ftyp" | b"styp") {
+                return Err(HeifError::invalid(format!(
+                    "first box is '{}' — ftyp shall be first (ISO/IEC 14496-12 §4.3)",
+                    fourcc_str(&first.box_type)
+                )));
+            }
+        }
+        // Amd 2:2026 O.1: "When a parser encounters a MinimizedImageBox,
+        // it shall expand it to a MetaBox and a MediaDataBox".
+        if meta.is_none() {
+            if let Some(h) = top_level.iter().find(|h| &h.box_type == b"mini") {
+                let mini = crate::mini::MinimizedImage::parse(payload(bytes, h))?;
+                let eq = mini.equivalent_file(&file_type)?;
+                let inner = HeifFile::from_data(eq.as_slice())?;
+                let (file_type, meta, top_level) = (inner.file_type, inner.meta, inner.top_level);
+                return Ok(Self {
+                    data,
+                    equivalent: Some(eq),
+                    file_type,
+                    meta,
+                    top_level,
+                    minimized: Some(mini),
+                });
+            }
+        }
+        Ok(Self {
+            data,
+            equivalent: None,
+            file_type,
+            meta,
+            top_level,
+            minimized: None,
+        })
+    }
+
+    /// The file bytes every reader works on: the input, or for a
+    /// low-overhead (`mini`) file the equivalent file of Amd 2:2026
+    /// O.4 (see [`HeifFile::original_bytes`] for the input).
+    pub fn bytes(&self) -> &[u8] {
+        match &self.equivalent {
+            Some(e) => e,
+            None => self.data.as_ref(),
+        }
+    }
+
+    /// The input bytes as given (differs from [`HeifFile::bytes`] only
+    /// for a low-overhead file).
+    pub fn original_bytes(&self) -> &[u8] {
+        self.data.as_ref()
+    }
+
+    /// `true` when a top-level `moov` box exists (image sequence / video).
+    pub fn has_moov(&self) -> bool {
+        self.top_level.iter().any(|h| &h.box_type == b"moov")
+    }
+
+    /// Payload of the first top-level box of `box_type`.
+    pub fn top_level_payload(&self, box_type: &FourCc) -> Option<&[u8]> {
+        self.top_level
+            .iter()
+            .find(|h| &h.box_type == box_type)
+            .map(|h| payload(self.bytes(), h))
+    }
+
+    /// Flattened box tree (bounded walk), for inspection and traces.
+    pub fn box_walk(&self) -> Result<Vec<WalkEntry>> {
+        walk_boxes(self.bytes(), MAX_WALK_DEPTH, MAX_WALK_BOXES)
+    }
+
+    /// The `meta` box, or an error naming what is missing.
+    pub fn meta(&self) -> Result<&Meta> {
+        self.meta
+            .as_ref()
+            .ok_or_else(|| HeifError::invalid("file has no meta box"))
+    }
+
+    /// The primary item (`pitm`), or an error.
+    pub fn primary_item(&self) -> Result<&ItemInfo> {
+        let meta = self.meta()?;
+        let id = meta
+            .primary_item_id
+            .ok_or_else(|| HeifError::invalid("meta has no pitm box"))?;
+        meta.item(id)
+            .ok_or_else(|| HeifError::invalid(format!("pitm names item {id} which is not in iinf")))
+    }
+
+    /// Resolve the payload bytes of an item (all extents concatenated,
+    /// every construction method). Borrows from the file when the item
+    /// is a single contiguous span.
+    pub fn item_data(&self, item_id: u32) -> Result<Cow<'_, [u8]>> {
+        // Calls and bytes copied across the whole construction-method-2
+        // tree: many extents per level, each resolving its source again,
+        // made a short chain exponential.
+        let mut budget = IlocBudget {
+            resolves: MAX_ILOC_RESOLVES,
+            bytes: 2 * MAX_ITEM_BYTES,
+        };
+        self.item_data_depth(item_id, 0, &mut budget)
+    }
+
+    /// Owned copy of [`item_data`](Self::item_data).
+    pub fn item_data_owned(&self, item_id: u32) -> Result<Vec<u8>> {
+        self.item_data(item_id).map(Cow::into_owned)
+    }
+
+    /// The payload of every `iloc` extent of an item, one slice per
+    /// extent in `iloc` order (construction methods 0 and 1; the
+    /// extents of a method-2 item are offsets into other items and are
+    /// refused here). HEIF Amd 1:2025 §6.5.41 (`cexg`) makes each
+    /// extent one independently decodable tile.
+    pub fn item_extents(&self, item_id: u32) -> Result<Vec<&[u8]>> {
+        let meta = self.meta()?;
+        let loc = meta
+            .location(item_id)
+            .ok_or_else(|| HeifError::invalid(format!("item {item_id} has no iloc entry")))?;
+        let source: &[u8] = match loc.construction_method {
+            0 => {
+                self.check_self_contained(meta, loc)?;
+                self.bytes()
+            }
+            1 => meta.idat.as_deref().ok_or_else(|| {
+                HeifError::invalid(format!(
+                    "item {item_id} uses idat offsets but meta has no idat box"
+                ))
+            })?,
+            m => {
+                return Err(HeifError::unsupported(format!(
+                    "item {item_id}: per-extent access to construction method {m} data"
+                )));
+            }
+        };
+        let spans = self.spans_in(loc, source.len())?;
+        Ok(spans.iter().map(|(s, e)| &source[*s..*e]).collect())
+    }
+
+    /// The byte spans (absolute file offsets) of an item whose data
+    /// lives in this file via construction method 0. Used by the
+    /// demuxers to hand out packets without copying twice.
+    pub fn item_file_spans(&self, item_id: u32) -> Result<Vec<(usize, usize)>> {
+        let meta = self.meta()?;
+        let loc = meta
+            .location(item_id)
+            .ok_or_else(|| HeifError::invalid(format!("item {item_id} has no iloc entry")))?;
+        if loc.construction_method != 0 {
+            return Err(HeifError::invalid(format!(
+                "item {item_id} uses construction method {}",
+                loc.construction_method
+            )));
+        }
+        self.check_self_contained(meta, loc)?;
+        self.spans_in(loc, self.bytes().len())
+    }
+
+    fn check_self_contained(&self, meta: &Meta, loc: &ItemLocation) -> Result<()> {
+        if !meta.is_self_contained(loc) {
+            return Err(HeifError::unsupported(format!(
+                "item {}: data_reference_index {} points outside this file",
+                loc.item_id, loc.data_reference_index
+            )));
+        }
+        Ok(())
+    }
+
+    /// Spans of `loc`'s extents inside a source of `source_len` bytes.
+    fn spans_in(&self, loc: &ItemLocation, source_len: usize) -> Result<Vec<(usize, usize)>> {
+        let mut out = Vec::with_capacity(loc.extents.len());
+        let mut total: u64 = 0;
+        for (i, e) in loc.extents.iter().enumerate() {
+            let start = loc
+                .base_offset
+                .checked_add(e.offset)
+                .ok_or_else(|| HeifError::invalid("iloc offset overflow"))?;
+            if start > source_len as u64 {
+                return Err(HeifError::invalid(format!(
+                    "item {} extent {i} starts at {start}, past the {source_len}-byte source",
+                    loc.item_id
+                )));
+            }
+            let len = if e.length == 0 {
+                source_len as u64 - start
+            } else {
+                e.length
+            };
+            let end = start
+                .checked_add(len)
+                .ok_or_else(|| HeifError::invalid("iloc extent end overflow"))?;
+            if end > source_len as u64 {
+                return Err(HeifError::invalid(format!(
+                    "item {} extent {i} ends at {end}, past the {source_len}-byte source",
+                    loc.item_id
+                )));
+            }
+            total = total.saturating_add(len);
+            if total > MAX_ITEM_BYTES {
+                return Err(HeifError::exhausted(format!(
+                    "item {} exceeds {MAX_ITEM_BYTES} bytes",
+                    loc.item_id
+                )));
+            }
+            out.push((start as usize, end as usize));
+        }
+        Ok(out)
+    }
+
+    fn item_data_depth(
+        &self,
+        item_id: u32,
+        depth: usize,
+        budget: &mut IlocBudget,
+    ) -> Result<Cow<'_, [u8]>> {
+        if depth > MAX_ILOC_DEPTH {
+            return Err(HeifError::exhausted(format!(
+                "item {item_id}: construction-method-2 chain deeper than {MAX_ILOC_DEPTH}"
+            )));
+        }
+        budget.resolves = budget.resolves.checked_sub(1).ok_or_else(|| {
+            HeifError::exhausted(format!(
+                "item {item_id}: construction method 2 resolves more than {MAX_ILOC_RESOLVES} items"
+            ))
+        })?;
+        let meta = self.meta()?;
+        let loc = meta
+            .location(item_id)
+            .ok_or_else(|| HeifError::invalid(format!("item {item_id} has no iloc entry")))?;
+        if loc.extents.is_empty() {
+            return Ok(Cow::Borrowed(&[]));
+        }
+        match loc.construction_method {
+            0 => {
+                self.check_self_contained(meta, loc)?;
+                let spans = self.spans_in(loc, self.bytes().len())?;
+                concat_spans(self.bytes(), &spans, item_id)
+            }
+            1 => {
+                let idat = meta.idat.as_deref().ok_or_else(|| {
+                    HeifError::invalid(format!(
+                        "item {item_id} uses idat offsets but meta has no idat box"
+                    ))
+                })?;
+                let spans = self.spans_in(loc, idat.len())?;
+                concat_spans(idat, &spans, item_id)
+            }
+            2 => {
+                let sources = meta.references_from(item_id, &reference::ILOC);
+                let mut out = Vec::new();
+                let mut total: u64 = 0;
+                for (i, e) in loc.extents.iter().enumerate() {
+                    let idx = if e.index == 0 { 1 } else { e.index } as usize;
+                    let src_id = *sources.get(idx - 1).ok_or_else(|| {
+                        HeifError::invalid(format!(
+                            "item {item_id} extent {i}: extent_index {idx} but only {} 'iloc' references",
+                            sources.len()
+                        ))
+                    })?;
+                    if src_id == item_id {
+                        return Err(HeifError::invalid(format!(
+                            "item {item_id} references itself through construction method 2"
+                        )));
+                    }
+                    let src = self.item_data_depth(src_id, depth + 1, budget)?;
+                    let start = loc
+                        .base_offset
+                        .checked_add(e.offset)
+                        .ok_or_else(|| HeifError::invalid("iloc offset overflow"))?;
+                    if start > src.len() as u64 {
+                        return Err(HeifError::invalid(format!(
+                            "item {item_id} extent {i} starts past the end of item {src_id}"
+                        )));
+                    }
+                    let len = if e.length == 0 {
+                        src.len() as u64 - start
+                    } else {
+                        e.length
+                    };
+                    let end = start
+                        .checked_add(len)
+                        .ok_or_else(|| HeifError::invalid("iloc extent end overflow"))?;
+                    if end > src.len() as u64 {
+                        return Err(HeifError::invalid(format!(
+                            "item {item_id} extent {i} ends past the end of item {src_id}"
+                        )));
+                    }
+                    total = total.saturating_add(len);
+                    if total > MAX_ITEM_BYTES {
+                        return Err(HeifError::exhausted(format!(
+                            "item {item_id} exceeds {MAX_ITEM_BYTES} bytes"
+                        )));
+                    }
+                    budget.bytes = budget.bytes.checked_sub(len).ok_or_else(|| {
+                        HeifError::exhausted(format!(
+                            "item {item_id}: construction method 2 copies too many bytes"
+                        ))
+                    })?;
+                    out.extend_from_slice(&src[start as usize..end as usize]);
+                }
+                Ok(Cow::Owned(out))
+            }
+            m => Err(HeifError::invalid(format!(
+                "item {item_id}: construction_method {m}"
+            ))),
+        }
+    }
+}
+
+/// What resolving one item through construction method 2 may still spend.
+struct IlocBudget {
+    resolves: usize,
+    bytes: u64,
+}
+
+/// The item's extents joined. They may not add up to more than `source` holds: extents that
+/// overlap (65 535 of them naming the same bytes) would otherwise multiply a small file.
+fn concat_spans<'a>(
+    source: &'a [u8],
+    spans: &[(usize, usize)],
+    item_id: u32,
+) -> Result<Cow<'a, [u8]>> {
+    if spans.len() == 1 {
+        return Ok(Cow::Borrowed(&source[spans[0].0..spans[0].1]));
+    }
+    let total: usize = spans.iter().map(|(s, e)| e - s).sum();
+    if total > source.len() {
+        return Err(HeifError::invalid(format!(
+            "item {item_id}: extents overlap ({total} bytes from {})",
+            source.len()
+        )));
+    }
+    let mut v = Vec::with_capacity(total);
+    for (s, e) in spans {
+        v.extend_from_slice(&source[*s..*e]);
+    }
+    Ok(Cow::Owned(v))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::boxes::write::{boxed, full_boxed};
+
+    fn ftyp() -> Vec<u8> {
+        let mut b = b"heic".to_vec();
+        b.extend_from_slice(&0u32.to_be_bytes());
+        b.extend_from_slice(b"mif1");
+        boxed(b"ftyp", &b)
+    }
+
+    fn hdlr() -> Vec<u8> {
+        let mut b = vec![0u8; 4];
+        b.extend_from_slice(b"pict");
+        b.extend_from_slice(&[0u8; 13]);
+        full_boxed(b"hdlr", 0, 0, &b)
+    }
+
+    fn infe(id: u16, ty: &[u8; 4]) -> Vec<u8> {
+        let mut b = id.to_be_bytes().to_vec();
+        b.extend_from_slice(&[0, 0]);
+        b.extend_from_slice(ty);
+        b.push(0);
+        full_boxed(b"infe", 2, 0, &b)
+    }
+
+    fn iinf(entries: &[Vec<u8>]) -> Vec<u8> {
+        let mut b = (entries.len() as u16).to_be_bytes().to_vec();
+        for e in entries {
+            b.extend_from_slice(e);
+        }
+        full_boxed(b"iinf", 0, 0, &b)
+    }
+
+    type IlocItem = (u16, u8, Vec<(u32, u32, u32)>);
+
+    /// iloc v1 with 4-byte offsets/lengths, 4-byte index.
+    fn iloc(items: &[IlocItem]) -> Vec<u8> {
+        let mut b = vec![0x44u8, 0x04];
+        b.extend_from_slice(&(items.len() as u16).to_be_bytes());
+        for (id, cm, ex) in items {
+            b.extend_from_slice(&id.to_be_bytes());
+            b.extend_from_slice(&(*cm as u16).to_be_bytes());
+            b.extend_from_slice(&[0, 0]);
+            b.extend_from_slice(&(ex.len() as u16).to_be_bytes());
+            for (i, o, l) in ex {
+                b.extend_from_slice(&i.to_be_bytes());
+                b.extend_from_slice(&o.to_be_bytes());
+                b.extend_from_slice(&l.to_be_bytes());
+            }
+        }
+        full_boxed(b"iloc", 1, 0, &b)
+    }
+
+    fn iref_iloc(from: u16, to: u16) -> Vec<u8> {
+        let mut b = from.to_be_bytes().to_vec();
+        b.extend_from_slice(&1u16.to_be_bytes());
+        b.extend_from_slice(&to.to_be_bytes());
+        full_boxed(b"iref", 0, 0, &boxed(b"iloc", &b))
+    }
+
+    fn build(meta_children: &[Vec<u8>], mdat: &[u8]) -> (Vec<u8>, usize) {
+        let mut body = vec![0u8; 4];
+        for c in meta_children {
+            body.extend_from_slice(c);
+        }
+        let mut f = ftyp();
+        f.extend(boxed(b"meta", &body));
+        let mdat_payload_off = f.len() + 8;
+        f.extend(boxed(b"mdat", mdat));
+        (f, mdat_payload_off)
+    }
+
+    /// Extents naming the same bytes again and again: refused, not concatenated.
+    #[test]
+    fn overlapping_extents_refused() {
+        let mdat = b"0123456789abcdef".to_vec();
+        let file = |off: u32| {
+            build(
+                &[
+                    hdlr(),
+                    iinf(&[infe(1, b"hvc1")]),
+                    iloc(&[(1, 0, vec![(0, off, 16); 4000])]),
+                ],
+                &mdat,
+            )
+        };
+        let (_, off) = file(0);
+        let (f, _) = file(off as u32);
+        let f = HeifFile::parse(&f).unwrap();
+        assert!(f.item_data(1).is_err());
+    }
+
+    #[test]
+    fn resolves_file_idat_and_item_offsets() {
+        let mdat = b"0123456789abcdef".to_vec();
+        // Two-pass: we need the mdat offset before building iloc, so
+        // build once with a placeholder to learn the offset.
+        let (_, off) = build(
+            &[
+                hdlr(),
+                iinf(&[infe(1, b"hvc1"), infe(2, b"grid"), infe(3, b"hvc1")]),
+                iloc(&[
+                    (1, 0, vec![(0, 0, 4), (0, 12, 4)]),
+                    (2, 1, vec![(0, 2, 3)]),
+                    (3, 2, vec![(1, 1, 2)]),
+                ]),
+                iref_iloc(3, 1),
+                boxed(b"idat", b"idat!"),
+            ],
+            &mdat,
+        );
+        let (file, off2) = build(
+            &[
+                hdlr(),
+                iinf(&[infe(1, b"hvc1"), infe(2, b"grid"), infe(3, b"hvc1")]),
+                iloc(&[
+                    (1, 0, vec![(0, off as u32, 4), (0, off as u32 + 12, 4)]),
+                    (2, 1, vec![(0, 2, 3)]),
+                    (3, 2, vec![(1, 1, 2)]),
+                ]),
+                iref_iloc(3, 1),
+                boxed(b"idat", b"idat!"),
+            ],
+            &mdat,
+        );
+        assert_eq!(off, off2);
+        let f = HeifFile::parse(&file).unwrap();
+        assert_eq!(f.item_data(1).unwrap().as_ref(), b"0123cdef");
+        assert!(matches!(f.item_data(1).unwrap(), Cow::Owned(_)));
+        assert_eq!(f.item_data(2).unwrap().as_ref(), b"at!");
+        assert!(matches!(f.item_data(2).unwrap(), Cow::Borrowed(_)));
+        // cm=2: bytes 1..3 of item 1's concatenated data.
+        assert_eq!(f.item_data(3).unwrap().as_ref(), b"12");
+        assert_eq!(f.item_file_spans(1).unwrap().len(), 2);
+        assert!(f.item_file_spans(2).is_err());
+        assert!(!f.has_moov());
+        assert!(f.primary_item().unwrap_err().to_string().contains("pitm"));
+    }
+
+    #[test]
+    fn rejects_out_of_range_and_self_reference() {
+        let (file, _) = build(
+            &[
+                hdlr(),
+                iinf(&[infe(1, b"hvc1"), infe(2, b"hvc1")]),
+                iloc(&[(1, 0, vec![(0, 5000, 4)]), (2, 2, vec![(1, 0, 0)])]),
+                iref_iloc(2, 2),
+            ],
+            b"xx",
+        );
+        let f = HeifFile::parse(&file).unwrap();
+        assert!(f.item_data(1).is_err());
+        assert!(f.item_data(2).unwrap_err().to_string().contains("itself"));
+        assert!(f.item_data(9).is_err());
+    }
+
+    #[test]
+    fn zero_length_extent_runs_to_end() {
+        let (_, off) = build(
+            &[
+                hdlr(),
+                iinf(&[infe(1, b"hvc1")]),
+                iloc(&[(1, 0, vec![(0, 0, 0)])]),
+            ],
+            b"abcdef",
+        );
+        let (file, _) = build(
+            &[
+                hdlr(),
+                iinf(&[infe(1, b"hvc1")]),
+                iloc(&[(1, 0, vec![(0, off as u32 + 2, 0)])]),
+            ],
+            b"abcdef",
+        );
+        let f = HeifFile::parse(&file).unwrap();
+        assert_eq!(f.item_data(1).unwrap().as_ref(), b"cdef");
+    }
+
+    /// Each construction-method-2 level re-resolves its source once per
+    /// extent: 64 extents over 5 levels is 64^5 resolutions unbudgeted.
+    #[test]
+    fn hostile_iloc_fan_out_chain() {
+        let mut items = vec![(1, 1, vec![(0, 0, 4)])];
+        let mut refs = Vec::new();
+        for id in 2..=6u16 {
+            items.push((id, 2, vec![(1, 0, 1); 64]));
+            let mut r = id.to_be_bytes().to_vec();
+            r.extend_from_slice(&1u16.to_be_bytes());
+            r.extend_from_slice(&(id - 1).to_be_bytes());
+            refs.extend(boxed(b"iloc", &r));
+        }
+        let entries: Vec<_> = (1..=6).map(|id| infe(id, b"hvc1")).collect();
+        let (file, _) = build(
+            &[
+                hdlr(),
+                iinf(&entries),
+                iloc(&items),
+                full_boxed(b"iref", 0, 0, &refs),
+                boxed(b"idat", b"abcd"),
+            ],
+            b"",
+        );
+        let f = HeifFile::parse(&file).unwrap();
+        assert_eq!(f.item_data(2).unwrap().as_ref(), [b'a'; 64]);
+        let e = f.item_data(6).unwrap_err().to_string();
+        assert!(e.contains("resolves more than"), "{e}");
+    }
+
+    #[test]
+    fn requires_ftyp_first() {
+        let mut file = boxed(b"free", &[]);
+        file.extend(ftyp());
+        assert!(HeifFile::parse(&file).is_err());
+        assert!(HeifFile::parse(&boxed(b"mdat", &[1, 2])).is_err());
+    }
+}

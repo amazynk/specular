@@ -1,0 +1,12 @@
+[package]
+name = "specular-retro2"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoders for 8-bit home computer screens (Amstrad CPC, MSX, Apple II, BBC Micro, Atari 8-bit) and Kodak Photo CD"
+
+[dependencies]
+
+[lints]
+workspace = true

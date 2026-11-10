@@ -1,0 +1,243 @@
+{
+ "kind": "lif",
+ "images": [
+  {
+   "path": "Series001",
+   "name": "Series001",
+   "dims": [
+    {
+     "code": "X",
+     "count": 20,
+     "origin": 0.0,
+     "length": 2.85e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Y",
+     "count": 16,
+     "origin": 2e-06,
+     "length": 2.25e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Z",
+     "count": 3,
+     "origin": 0.0,
+     "length": 1e-06,
+     "unit": "m"
+    }
+   ],
+   "channels": [
+    {
+     "lut": "Green",
+     "bits": 12,
+     "float": false,
+     "name": "FITC"
+    },
+    {
+     "lut": "Red",
+     "bits": 12,
+     "float": false,
+     "name": "TRITC"
+    },
+    {
+     "lut": "Blue",
+     "bits": 12,
+     "float": false,
+     "name": "DAPI"
+    }
+   ],
+   "planes": {
+    "0:0": "841a16930149ecbd",
+    "0:1": "e19abb4765a2e4a4",
+    "0:2": "b98dbb423187d294",
+    "1:0": "d605c3892efe7510",
+    "1:1": "c31c08c8de607d0d",
+    "1:2": "3bd8ca775beb7c9d",
+    "2:0": "3f87cb88a4dbacfa",
+    "2:1": "82e40ba1f06cbdb4",
+    "2:2": "7fc732bfe20fd1a2"
+   }
+  },
+  {
+   "path": "Folder/Mosaic 6ch",
+   "name": "Mosaic 6ch",
+   "dims": [
+    {
+     "code": "X",
+     "count": 24,
+     "origin": 0.0,
+     "length": 4.6e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Y",
+     "count": 16,
+     "origin": 0.0,
+     "length": 3e-06,
+     "unit": "m"
+    },
+    {
+     "code": "T",
+     "count": 2,
+     "origin": 0.0,
+     "length": 1.0,
+     "unit": "s"
+    },
+    {
+     "code": "M",
+     "count": 2,
+     "origin": 0.0,
+     "length": 1.0,
+     "unit": ""
+    }
+   ],
+   "channels": [
+    {
+     "lut": "Blue",
+     "bits": 8,
+     "float": false,
+     "name": "DAPI"
+    },
+    {
+     "lut": "Green",
+     "bits": 8,
+     "float": false,
+     "name": "GFP"
+    },
+    {
+     "lut": "Red",
+     "bits": 8,
+     "float": false,
+     "name": "mCherry"
+    },
+    {
+     "lut": "Cyan",
+     "bits": 8,
+     "float": false,
+     "name": "CFP"
+    },
+    {
+     "lut": "Magenta",
+     "bits": 8,
+     "float": false,
+     "name": "Ch4"
+    },
+    {
+     "lut": "Yellow",
+     "bits": 8,
+     "float": false,
+     "name": "YFP"
+    }
+   ],
+   "planes": {
+    "0:0,0": "824db68d5b0af525",
+    "0:0,1": "da64778580a045f5",
+    "0:1,0": "76d81e154b70e865",
+    "0:1,1": "aabaa1c0b648ccf5",
+    "1:0,0": "87574657567f43a5",
+    "1:0,1": "654dd4f863f05765",
+    "1:1,0": "d36e4d338ebaea45",
+    "1:1,1": "448ad193f377c225",
+    "2:0,0": "19c6ef1aa6535785",
+    "2:0,1": "deef07991aa96765",
+    "2:1,0": "585209dfffbeb3c5",
+    "2:1,1": "bdba8978c02f8965",
+    "3:0,0": "8c3359295e2f15e5",
+    "3:0,1": "91596e5fb1e20e05",
+    "3:1,0": "dff3e2d381684885",
+    "3:1,1": "baad72da8a9c1435",
+    "4:0,0": "ad6e7515ad682465",
+    "4:0,1": "ae3b113a983f8675",
+    "4:1,0": "57a40bb750fe2965",
+    "4:1,1": "12a155699129af75",
+    "5:0,0": "7e0f29b833ffbcf5",
+    "5:0,1": "926afc78b638c435",
+    "5:1,0": "467d58147742ed65",
+    "5:1,1": "e02e3429a6931505"
+   }
+  },
+  {
+   "path": "Folder/Camera RGB",
+   "name": "Camera RGB",
+   "dims": [
+    {
+     "code": "X",
+     "count": 18,
+     "origin": 0.0,
+     "length": 3.3999999999999996e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Y",
+     "count": 12,
+     "origin": 0.0,
+     "length": 2.2e-06,
+     "unit": "m"
+    }
+   ],
+   "channels": [
+    {
+     "lut": "Red",
+     "bits": 8,
+     "float": false,
+     "name": "Red"
+    },
+    {
+     "lut": "Green",
+     "bits": 8,
+     "float": false,
+     "name": "Green"
+    },
+    {
+     "lut": "Blue",
+     "bits": 8,
+     "float": false,
+     "name": "Blue"
+    }
+   ],
+   "planes": {
+    "0:": "a04a59101aec2c91",
+    "1:": "7f761164562582e9",
+    "2:": "c31007e2c244e771"
+   }
+  },
+  {
+   "path": "Ratio",
+   "name": "Ratio",
+   "dims": [
+    {
+     "code": "X",
+     "count": 10,
+     "origin": 0.0,
+     "length": 9e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Y",
+     "count": 8,
+     "origin": 0.0,
+     "length": 7e-06,
+     "unit": "m"
+    }
+   ],
+   "channels": [
+    {
+     "lut": "Gray",
+     "bits": 32,
+     "float": true,
+     "name": "Ch0"
+    }
+   ],
+   "planes": {
+    "0:": "175e5b5b500427ea"
+   }
+  }
+ ],
+ "lof": false,
+ "version": 2,
+ "readlif": {
+  "agree": 33,
+  "total": 36
+ }
+}

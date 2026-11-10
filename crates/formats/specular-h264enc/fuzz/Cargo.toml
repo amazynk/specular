@@ -1,0 +1,23 @@
+[package]
+name = "specular-h264enc-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-h264 = { path = "../../specular-h264" }
+specular-h264enc = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "roundtrip"
+path = "fuzz_targets/roundtrip.rs"
+test = false
+doc = false
+bench = false

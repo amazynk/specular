@@ -1,0 +1,16 @@
+{
+ "arrays": [
+  {
+   "complex": true,
+   "name": "",
+   "offset": 0,
+   "re_offset": 7,
+   "shape": [
+    7
+   ]
+  }
+ ],
+ "kind": "npy",
+ "refused": [],
+ "texts": {}
+}

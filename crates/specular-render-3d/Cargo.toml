@@ -1,0 +1,27 @@
+[package]
+name = "specular-render-3d"
+description = "Triangle meshes and point clouds on the GPU. Meshes: uploaded once in chunks (16-bit quantised positions, octahedral normals, u32 indices, pulled from storage buffers), drawn shaded, shaded with edges, as a wireframe or as x-ray with 4× MSAA, under an orbit camera (orthographic or perspective, standard views, fit) over a ground grid. Point clouds: uploaded in 64 MB pages a few MB a frame as they load, drawn as round splats (px or model units) coloured by RGB, intensity, elevation or ASPRS class with optional eye-dome lighting, under a per-frame point budget picked by octree leaf. Gaussian splats: sorted back to front on the CPU when the camera moves and drawn as alpha-blended anisotropic Gaussians with view-dependent colour"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-gfx = { path = "../specular-gfx" }
+specular-mesh = { path = "../formats/specular-mesh" }
+specular-points = { path = "../formats/specular-points" }
+specular-mol = { path = "../formats/specular-mol" }
+specular-splat = { path = "../formats/specular-splat" }
+# The elevation colour map (batlow).
+specular-inspect = { path = "../specular-inspect" }
+bytemuck = { version = "1", features = ["derive"] }
+rayon = "1"
+
+[dev-dependencies]
+# Validates the shaders without a GPU (the version wgpu uses).
+naga = { version = "30", features = ["wgsl-in"] }
+# Renders on the software rasteriser.
+specular-shots = { path = "../specular-shots" }
+
+[lints]
+workspace = true

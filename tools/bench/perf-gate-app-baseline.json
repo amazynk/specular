@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "env": {
+    "profile": "dev",
+    "gpu": "AMD Radeon 860M Graphics (RADV KRACKAN1)",
+    "cpus": 16,
+    "load_average": [
+      37.4,
+      27.9
+    ]
+  },
+  "cases": {
+    "cold-start": {
+      "peak_rss_mb": 300.9
+    },
+    "next-image": {
+      "peak_rss_mb": 394.4
+    },
+    "tiff-100k-first-view": {
+      "peak_rss_mb": 509.6
+    },
+    "ct-512-first-slice": {
+      "peak_rss_mb": 302.7
+    },
+    "mpr-first-view": {
+      "peak_rss_mb": 421.8
+    },
+    "vr-orbit": {
+      "orbit_frames_to_rest": 37,
+      "peak_rss_mb": 420.5
+    },
+    "map-frame": {
+      "peak_rss_mb": 374.4
+    },
+    "gallery-scroll": {},
+    "library-scroll-100k": {},
+    "idle-still": {
+      "peak_rss_mb": 351.8
+    },
+    "idle-press": {
+      "peak_rss_mb": 320.6
+    },
+    "idle-hidden-walk": {
+      "peak_rss_mb": 355.3
+    },
+    "idle-video-paused": {
+      "peak_rss_mb": 314.7
+    },
+    "remote-state": {
+      "peak_rss_mb": 310.1
+    }
+  }
+}

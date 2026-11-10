@@ -1,0 +1,80 @@
+# Specular — Medical analysis: segmentations, SUV, fusion, TMTV, time-intensity curves. 日本語. machine-drafted, needs native review
+
+palette-segments = セグメンテーションの表示／非表示
+palette-segment-opacity = 次のセグメンテーション塗りつぶし不透明度
+palette-fusion = 同じ座標系 (Frame of Reference) のシリーズを融合
+palette-fusion-colormap = 次の融合カラーマップ
+palette-fusion-blend = 次の融合不透明度
+palette-fusion-nudge = 融合シリーズを手動で移動
+palette-tmtv = TMTV ツール (球、ボックス、オフ)
+palette-tmtv-threshold = TMTV しきい値 (SUV { NUMBER(2.5) } または SUVmax の { PERCENT(41) })
+palette-time-curve = 最後の領域の時間-信号強度曲線
+palette-export-curve = 時間-信号強度曲線を CSV で保存
+
+analysis-searching = セグメンテーションと融合するシリーズを検索中
+segments-none = この座標系のセグメンテーションは見つかりませんでした
+segments-shown = セグメンテーションを表示
+segments-hidden = セグメンテーションを非表示
+segments-fill = セグメンテーション塗りつぶし { PERCENT($percent) }
+segments-failed = セグメンテーションを表示できません: { $reason }
+segment-entry = { $name } · { $ml } mL
+
+suv-value = SUVbw { $value }
+suv-factor = SUVbw 係数 { $factor }、投与後 { $minutes } min
+suv-refused = SUV なし: { $reason }
+suv-preset = SUV 0–{ $upper }
+suv-refused-not-pet = PET 画像ではありません
+suv-refused-units = 画素の単位が Bq/mL ではありません
+suv-refused-corrected = 減弱補正・減衰補正がされていません
+suv-refused-decay = 未対応の減衰補正
+suv-refused-weight = 患者の体重がありません
+suv-refused-dose = 投与量がありません
+suv-refused-half-life = 放射性核種の半減期がありません
+suv-refused-injection = 投与時刻がありません
+suv-refused-scan-time = 収集時刻がありません
+suv-refused-delay = 投与がスキャンより後です
+suv-refused-scale = Philips SUV スケール係数がありません
+suv-refused-height = 患者の身長がありません
+suv-refused-sex = 患者の性別がありません
+suv-refused-lbm = 除脂肪体重が範囲外です
+
+colormap-hot-iron = ホットアイアン
+colormap-rainbow = レインボー
+colormap-viridis = Viridis
+fusion-none = この座標系に融合できる PET、SPECT、CT、MR シリーズがありません
+fusion-needed = まずシリーズを融合してください (Shift+U)
+fusion-opening = { $modality } を融合中
+fusion-off = 融合オフ
+fusion-refused = 融合できません: { $reason }
+fusion-on = { $modality } を融合: { $colormap }、{ PERCENT($blend) }
+fusion-hidden = 融合した { $modality } を非表示
+fusion-window-suv = 融合ウィンドウ SUV { $low }–{ $high }
+fusion-value = { $modality } { $value }
+fusion-value-suv = { $modality } SUVbw { $value }
+fusion-blend-toast = 融合不透明度 { PERCENT($percent) }
+fusion-moved = 手動で移動: { $x }、{ $y }、{ $z } mm、{ $degrees }°
+fusion-nudge-hint = 矢印キーで融合シリーズを 1 mm 移動、Shift+Up/Down で視線方向、[ と ] で回転
+fusion-nudge-off = 融合シリーズを固定
+
+tmtv-hint-sphere = TMTV: 中心から球をドラッグ
+tmtv-hint-box = TMTV: ボックスをドラッグ
+tmtv-off = TMTV オフ
+tmtv-threshold-suv = しきい値 SUV { $suv }
+tmtv-threshold-share = しきい値 SUVmax の { PERCENT($share) }
+tmtv-result = TMTV { $ml } mL、{ $count } 領域
+tmtv-stats = SUVmax { $max }、SUVmean { $mean }、TLG { $tlg }
+tmtv-outside = 領域がボリュームの外にあります
+tmtv-no-pet = TMTV には SUV 付きの PET ボリュームが必要です
+
+analysis-mpr-only = 融合と TMTV は MPR で使えます (Shift+R)
+curve-not-dynamic = マルチフレーム画像でもダイナミックシリーズでもありません
+curve-not-mpr = 時間-信号強度曲線は MPR の外で画像上に描きます
+curve-no-roi = まず楕円か矩形を描いてください
+curve-loading = { $count } 時点を読み込み中…
+curve-title = 時間-信号強度曲線
+curve-mean = 平均
+curve-max = 最大
+curve-seconds = s
+curve-saved = 曲線を保存しました
+curve-none = 保存する曲線がありません
+curve-failed = 曲線を作成できません: { $reason }

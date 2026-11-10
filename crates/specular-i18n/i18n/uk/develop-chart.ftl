@@ -1,0 +1,71 @@
+# Specular — Проявлення: профіль камери і профілі камери з кольорової мішені.
+
+develop-input-profile = Профіль камери
+develop-input-profile-auto = Стандарт камери
+develop-input-profile-matrix = Лише матриця
+develop-input-profile-file = Файл профілю…
+develop-input-profile-named = Файл: { $name }
+develop-input-profile-in-use = Використовується { $name }.
+develop-input-profile-changed = Використовується { $name }. Файл змінився відтоді, як його вибрали.
+develop-input-profile-missing = Файлу профілю немає. Використовується матриця камери.
+develop-input-profile-unusable = Файл профілю не можна використати: { $reason }. Використовується матриця камери.
+develop-input-profile-dialog = Виберіть профіль камери
+develop-input-profile-kind = Профілі камер DNG
+
+develop-chart-start = Створити профіль з мішені…
+develop-chart-title = Профіль з мішені
+develop-chart-kind = Мішень
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Еталон
+develop-chart-ref-load = Завантажити файл…
+develop-chart-hint-xrite = Завантажте еталонний файл мішені (текст CGATS). Він іде з мішенню або є на сайті X-Rite для вашого випуску мішені.
+develop-chart-hint-it8 = Завантажте еталонний файл своєї мішені. Кожна партія має власний, від виробника.
+develop-chart-spyder = SpyderCHECKR не підтримується: його значення кольорів належать Datacolor.
+develop-chart-step-reference = Виберіть мішень і завантажте її еталонний файл.
+develop-chart-step-corner = Клацніть центр поля { $name } ({ $number } з 4).
+develop-chart-measuring = Вимірювання мішені…
+develop-chart-step-save = Збережіть профіль або позначте кути знову.
+develop-chart-corner-dark-skin = темна шкіра (угорі ліворуч)
+develop-chart-corner-bluish-green = синьо-зелений (угорі праворуч)
+develop-chart-corner-black = чорний (унизу праворуч)
+develop-chart-corner-white = білий (унизу ліворуч)
+
+develop-chart-ref-too-large = Файл завеликий для еталонного файлу.
+develop-chart-ref-not-cgats = Це не еталонний файл CGATS.
+develop-chart-ref-no-ids = У файлі немає назв полів.
+develop-chart-ref-no-colour = У файлі немає значень L*a*b* чи XYZ.
+develop-chart-ref-bad-row = Рядок { $row } файлу пошкоджено.
+develop-chart-ref-count = Файл вказує { $declared } полів, але має { $found }.
+develop-chart-ref-duplicate = Поле { $id } є у файлі двічі.
+develop-chart-ref-illuminant = Значення для світла { $name }. Потрібне D50 або D65.
+develop-chart-ref-wrong-chart = Файл має { $found } полів. Ця мішень має { $expected }.
+develop-chart-ref-names = Назви полів не відповідають цій мішені.
+develop-chart-ref-corner = У файлі немає кутового поля { $id }.
+develop-chart-ref-unreadable = Файл не можна прочитати: { $reason }
+develop-chart-ref-dialog = Виберіть еталонний файл мішені
+develop-chart-ref-kind = Еталонні файли мішеней
+
+develop-chart-not-found = Там мішень не знайдено. Позначте кути знову.
+develop-chart-too-few = Можна використати лише { $count } полів. Освітлюйте мішень рівно й уникайте відблисків.
+develop-chart-no-greys = Жодне сіре поле не можна використати. Експонуйте так, щоб сірі не пересвітилися.
+develop-chart-degenerate = Поля надто схожі, щоб створити профіль.
+
+develop-chart-report-after = ΔE2000 з профілем: середнє { $mean }, медіана { $median }, макс. { $max }
+develop-chart-report-before = Раніше: середнє { $mean }, медіана { $median }, макс. { $max }
+develop-chart-report-cv = Перевірено на полях поза підгонкою: середнє { $mean }
+develop-chart-left-out = Пропущено: { $id } ({ $why })
+develop-chart-left-clipped = пересвічене
+develop-chart-left-uneven = відблиск або пил
+develop-chart-left-outside = поза фото
+develop-chart-uneven-light = Сірі різняться на { PERCENT($percent) }: світло може бути нерівним.
+develop-chart-use-camera = Використовувати для фото з { $camera }
+develop-chart-again = Позначити знову
+develop-chart-save = Зберегти…
+develop-chart-close = Закрити
+develop-chart-save-title = Зберегти профіль камери
+develop-chart-default-name = Профіль з мішені { $camera }
+develop-chart-saved = { $name } збережено як { $file }.
+develop-chart-save-failed = Профіль не можна зберегти: { $reason }

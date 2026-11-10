@@ -1,0 +1,15 @@
+[package]
+name = "specular-neuro"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "HCP-style neuroimaging surfaces and tractography for Specular: GIFTI (.surf/.func/.shape/.label.gii; ASCII, base64 and zlib-base64 arrays in either byte order, coordinate transforms, label tables), CIFTI-2 (.dscalar/.dlabel/.dtseries/.pscalar.nii: the NIfTI-2 XML extension, brain models, parcels, named maps and series), TrackVis .trk (v1/v2, scalars and properties, voxmm to RAS) and MRtrix .tck streamlines, each read with bounds from the declared sizes and the file size"
+
+[dependencies]
+thiserror = "2"
+# Own inflate (GIFTI GZipBase64Binary is zlib; gzip-compressed files).
+specular-png = { path = "../specular-png" }
+
+[lints]
+workspace = true

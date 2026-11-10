@@ -1,0 +1,17 @@
+[package]
+name = "specular-anim"
+description = "Animation playback engine for Specular: player state machine, drift-free timing, decode-ahead frame ring"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-log = { path = "../specular-log" }
+parking_lot = "0.12"
+
+[lints]
+workspace = true

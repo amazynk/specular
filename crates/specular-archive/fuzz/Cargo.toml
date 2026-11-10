@@ -1,0 +1,29 @@
+[package]
+name = "specular-archive-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-archive = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "open"
+path = "fuzz_targets/open.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "comicinfo"
+path = "fuzz_targets/comicinfo.rs"
+test = false
+doc = false
+bench = false

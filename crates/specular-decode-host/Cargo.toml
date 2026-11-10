@@ -1,0 +1,55 @@
+[package]
+name = "specular-decode-host"
+description = "Sandboxed helper process that runs Specular's C/C++ parsers (libheif, UnRAR, SQLite) and vendor SDKs the user installed (Blackmagic RAW)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "specular-decode-host"
+path = "src/main.rs"
+
+# A stand-in for the Blackmagic RAW SDK's library (Linux), loaded by the tests' hosts.
+[[example]]
+name = "braw_mock"
+crate-type = ["cdylib"]
+
+[features]
+default = ["rar"]
+# UnRAR (C++, compiled in through unrar_sys; UnRAR licence: extraction only).
+rar = ["dep:unrar"]
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-sandbox = { path = "../specular-sandbox" }
+libloading = "0.8"
+# GeoPackage and MBTiles databases are read here, never in the viewer (src/sqlite.rs).
+rusqlite = { version = "0.39", features = ["bundled", "hooks", "limits"] }
+# Built from third_party/unrar_sys (workspace `[patch.crates-io]`): UnRAR with Specular's
+# handle-I/O patch, so the host reads archives only through files the viewer passes.
+unrar = { version = "0.5.8", optional = true }
+
+[target.'cfg(unix)'.dependencies]
+rustix = { version = "1.1", default-features = false, features = ["std", "fs", "process", "thread", "net"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_Security", "Win32_System_JobObjects", "Win32_System_Threading"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+seccompiler = "0.5"
+landlock = "0.4.7"
+libc = "0.2"
+
+[dev-dependencies]
+# The CZI tests compare planes with the oracles by SHA-256.
+sha2 = "0.10"
+# The out-of-process overhead test decodes the same HEIC in process too.
+specular-heic = { path = "../formats/specular-heic" }
+
+[build-dependencies]
+# Windows: the icon and version information compiled into the executable (build.rs).
+embed-resource = "3.0.11"
+
+[lints]
+workspace = true

@@ -1,0 +1,24 @@
+##TITLE= Parameter file, XWIN-NMR		Version 3.5
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= fixture
+$$ 2026-10-19 12:00:00.000 +0200  fixture@specular
+$$ /opt/data/fixture
+##$TD= 4096
+##$SW_h= 25000.0
+##$SW= 248.48424609879734
+##$SFO1= 100.62006099999999
+##$BF1= 100.61
+##$O1= 10061.0
+##$NUC1= <13C>
+##$PULPROG= <zgpg30>
+##$SOLVENT= <CDCl3>
+##$DATE= 1000000000
+##$AQ_mod= 1
+##$DIGMOD= 1
+##$DSPFVS= 10
+##$DECIM= 4
+##$BYTORDA= 1
+##$NS= 128
+##END=

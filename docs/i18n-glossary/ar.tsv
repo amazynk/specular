@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	المعرض	the thumbnail grid of one folder	
+Library	Library	المكتبة	the catalogue of indexed folders	
+Folder	Folder	المجلد	a file-system folder	
+Remove	Remove	إزالة	take an item out of a list; files stay	
+Delete	Delete	حذف	destroy data or files	
+Forget	Forget	نسيان	drop a remembered choice or record	
+Move to trash	Move to trash	نقل إلى سلة المهملات	send files to the system trash	
+Export	Export	تصدير	write a copy in another form	
+Import	Import	الاستيراد	copy photos in from a card or device	
+Settings	Settings	الإعدادات	the Settings window, also in paths: Settings › Section	
+Undo	Undo	تراجع	reverse the last action (never the word for Cancel)	
+Redo	Redo	إعادة		
+Zoom	Zoom	التكبير	image magnification	
+Page	Page	الصفحة	a page of a document or multi-page file	
+Layer	Layers	الطبقات	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	القنوات	colour or audio channels	
+Series	Series	السلسلة	a DICOM series	
+Study	Study	الدراسة	a DICOM study	
+Slice	Slice	المقطع	one cross-sectional image of a volume	مقطع / المقاطع, not شريحة.
+Frame	Frames	الإطارات	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	المقطوعة	a numbered piece of an album	
+Subtitle	Subtitles	الترجمة	text over a video	
+Loudness	Loudness	الجهارة	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	النموذج	a local AI model	
+Download	Download	تنزيل	fetch from the network	
+Cull mode	Cull mode	وضع الفرز	the mode for picking and rejecting photos	
+Pick	Pick	اختيار	a cull mark	
+Reject	Reject	رفض	a cull mark	
+Rating	Rating	التقييم	stars	
+Local AI	Local AI	الذكاء الاصطناعي المحلي	the Settings section and the feature set	
+Metadata	Metadata	البيانات الوصفية		
+Thumbnail	Thumbnail	صورة مصغّرة		
+Slideshow	Slideshow	عرض الشرائح		
+Compare	Compare	المقارنة		
+Print	Print	طباعة		
+Search	Search	بحث		
+Filter	Filter	التصفية	narrow what is shown (not an optical filter)	
+Rename	Rename	إعادة التسمية		

@@ -1,0 +1,21 @@
+[package]
+name = "specular-font"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Fonts for Specular: TrueType, OpenType (CFF and CFF2), TTC/OTC collections, WOFF and WOFF2 unwrapped to SFNT, name/OS2/fvar/colour facts, cmap, glyf and CFF outlines, a CPU preview (own parsers)"
+
+[dependencies]
+thiserror = "2"
+specular-brotli = { path = "../specular-brotli" }
+specular-png = { path = "../specular-png" }
+# The CPU rasteriser for the gallery preview (resvg already brings it in).
+tiny-skia = { version = "0.12", default-features = false, features = ["std", "simd"] }
+
+[dev-dependencies]
+# Oracle only: names, cmap, metrics, axes and outlines are compared with it.
+ttf-parser = "0.25"
+
+[lints]
+workspace = true

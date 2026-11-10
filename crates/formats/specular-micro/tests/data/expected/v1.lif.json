@@ -1,0 +1,42 @@
+{
+ "kind": "lif",
+ "images": [
+  {
+   "path": "Only",
+   "name": "Only",
+   "dims": [
+    {
+     "code": "X",
+     "count": 16,
+     "origin": 0.0,
+     "length": 2.25e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Y",
+     "count": 12,
+     "origin": 2e-06,
+     "length": 1.6499999999999999e-06,
+     "unit": "m"
+    }
+   ],
+   "channels": [
+    {
+     "lut": "Gray",
+     "bits": 8,
+     "float": false,
+     "name": "Ch0"
+    }
+   ],
+   "planes": {
+    "0:": "40f0411941d53a05"
+   }
+  }
+ ],
+ "lof": false,
+ "version": 1,
+ "readlif": {
+  "agree": 1,
+  "total": 1
+ }
+}

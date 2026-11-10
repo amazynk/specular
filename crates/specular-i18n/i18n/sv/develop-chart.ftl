@@ -1,0 +1,71 @@
+# Specular — Framkalla: kameraprofil, och kameraprofiler gjorda med ett färgkort.
+
+develop-input-profile = Kameraprofil
+develop-input-profile-auto = Kamerans standard
+develop-input-profile-matrix = Bara matris
+develop-input-profile-file = Profilfil…
+develop-input-profile-named = Fil: { $name }
+develop-input-profile-in-use = { $name } används.
+develop-input-profile-changed = { $name } används. Filen har ändrats sedan den valdes.
+develop-input-profile-missing = Profilfilen saknas. Kamerans matris används.
+develop-input-profile-unusable = Profilfilen kan inte användas: { $reason }. Kamerans matris används.
+develop-input-profile-dialog = Välj en kameraprofil
+develop-input-profile-kind = DNG-kameraprofiler
+
+develop-chart-start = Gör profil från färgkort…
+develop-chart-title = Profil från färgkort
+develop-chart-kind = Kort
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Referens
+develop-chart-ref-load = Läs in fil…
+develop-chart-hint-xrite = Läs in kortets referensfil (CGATS-text). Den följer med kortet, eller finns på X-Rites webbplats för kortets utgåva.
+develop-chart-hint-it8 = Läs in referensfilen för ditt testkort. Varje parti har en egen, från tillverkaren.
+develop-chart-spyder = SpyderCHECKR stöds inte: dess färgvärden är Datacolors.
+develop-chart-step-reference = Välj kortet och läs in dess referensfil.
+develop-chart-step-corner = Klicka i mitten av { $name } ({ $number } av 4).
+develop-chart-measuring = Kortet mäts…
+develop-chart-step-save = Spara profilen, eller markera hörnen igen.
+develop-chart-corner-dark-skin = mörk hud (uppe till vänster)
+develop-chart-corner-bluish-green = blågrön (uppe till höger)
+develop-chart-corner-black = svart (nere till höger)
+develop-chart-corner-white = vit (nere till vänster)
+
+develop-chart-ref-too-large = Filen är för stor för en referensfil.
+develop-chart-ref-not-cgats = Inte en CGATS-referensfil.
+develop-chart-ref-no-ids = Filen har inga fältnamn.
+develop-chart-ref-no-colour = Filen har inga L*a*b*- eller XYZ-värden.
+develop-chart-ref-bad-row = Rad { $row } i filen är skadad.
+develop-chart-ref-count = Filen anger { $declared } fält men har { $found }.
+develop-chart-ref-duplicate = Fältet { $id } finns två gånger i filen.
+develop-chart-ref-illuminant = Värdena gäller ljuset { $name }. D50 eller D65 behövs.
+develop-chart-ref-wrong-chart = Filen har { $found } fält. Det här kortet har { $expected }.
+develop-chart-ref-names = Fältnamnen passar inte det här kortet.
+develop-chart-ref-corner = Hörnfältet { $id } saknas i filen.
+develop-chart-ref-unreadable = Filen kan inte läsas: { $reason }
+develop-chart-ref-dialog = Välj kortets referensfil
+develop-chart-ref-kind = Referensfiler för färgkort
+
+develop-chart-not-found = Inget kort hittades där. Markera hörnen igen.
+develop-chart-too-few = Bara { $count } fält kan användas. Belys kortet jämnt och undvik reflexer.
+develop-chart-no-greys = Inget grått fält kan användas. Exponera så att de grå inte fräts ut.
+develop-chart-degenerate = Fälten är för lika för att ge en profil.
+
+develop-chart-report-after = ΔE2000 med profilen: medel { $mean }, median { $median }, max { $max }
+develop-chart-report-before = Före: medel { $mean }, median { $median }, max { $max }
+develop-chart-report-cv = Kontrollerat på fält utanför anpassningen: medel { $mean }
+develop-chart-left-out = Utelämnat: { $id } ({ $why })
+develop-chart-left-clipped = utfrätt
+develop-chart-left-uneven = reflex eller damm
+develop-chart-left-outside = utanför bilden
+develop-chart-uneven-light = De grå varierar { PERCENT($percent) }: ljuset kan vara ojämnt.
+develop-chart-use-camera = Använd för bilder från { $camera }
+develop-chart-again = Markera igen
+develop-chart-save = Spara…
+develop-chart-close = Stäng
+develop-chart-save-title = Spara kameraprofil
+develop-chart-default-name = Kortprofil { $camera }
+develop-chart-saved = { $name } sparades som { $file }.
+develop-chart-save-failed = Profilen kan inte sparas: { $reason }

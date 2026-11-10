@@ -1,0 +1,16 @@
+[package]
+name = "specular-rti"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Reflectance transformation imaging for Specular: HP polynomial texture maps (PTM 1.1 and 1.2: RGB, LRGB, lookup-table and JPEG-compressed with plane prediction), CHI hemispherical-harmonics .rti / .hsh files and CNR-ISTI Relight folders (PTM, HSH, SH, RBF and bilinear bases in RGB, LRGB, MRGB and MYCC), with a CPU reference of the relighting the shader does"
+
+[dependencies]
+serde_json = "1"
+specular-core = { path = "../../specular-core" }  # memory budget for the coefficient layers
+specular-jpeg = { path = "../specular-jpeg" }
+thiserror = "2"
+
+[lints]
+workspace = true

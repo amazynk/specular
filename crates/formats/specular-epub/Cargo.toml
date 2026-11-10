@@ -1,0 +1,38 @@
+[package]
+name = "specular-epub"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "EPUB 2 and 3 books for Specular: package, contents and font obfuscation, own XHTML/CSS block layout paginated and drawn on the CPU"
+
+[dependencies]
+# The book is a ZIP (OCF container).
+specular-archive = { path = "../../specular-archive" }
+# The memory budget the parts read from it are reserved from.
+specular-core = { path = "../../specular-core" }
+# The bundled fonts: always there, the same on every machine.
+specular-theme = { path = "../../specular-theme" }
+# The app's text stack: inline shaping, bidi and line breaking (block layout is ours).
+parley = "0.11"
+fontique = "0.11"
+# Glyph outlines (the text stack's font reader, as specular-vector uses).
+skrifa = "0.44"
+# The CPU rasteriser resvg already brings in.
+tiny-skia = { version = "0.12", default-features = false, features = ["std", "simd"] }
+# IDPF font obfuscation key (RustCrypto).
+sha1 = { version = "0.11", default-features = false }
+thiserror = "2"
+# MOBI and FB2 books are rewritten as a stored ZIP (EPUB): its CRC-32s.
+crc32fast = "1.5"
+# WOFF and WOFF2 book fonts, unwrapped to SFNT.
+specular-font = { path = "../specular-font" }
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }
+# The epub-render example decodes PNG and JPEG pictures (the app uses its registry).
+specular-png = { path = "../specular-png" }
+specular-jpeg = { path = "../specular-jpeg" }
+
+[lints]
+workspace = true

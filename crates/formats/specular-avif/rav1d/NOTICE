@@ -1,0 +1,18 @@
+specular-rav1d is a fork of re_rav1d 0.1.3 (https://crates.io/crates/re_rav1d), itself a
+republish of rav1d (https://github.com/memorysafety/rav1d), the Rust port of dav1d.
+
+Licence: BSD-2-Clause (see COPYING). The safe `dav1d` API module in lib.rs derives from
+dav1d-rs (MIT, notice reproduced in lib.rs).
+
+Changes made for Specular (2026-10):
+- removed the `paste` proc-macro dependency (unmaintained, RUSTSEC-2024-0436):
+  * src/wedge.rs: generated identifiers written out explicitly;
+  * include/common/bitdepth.rs, src/wrap_fn_ptr.rs, src/itx.rs (asm only): assembly symbol
+    names are now built with `#[link_name = concat!(...)]` instead of pasted identifiers;
+- Cargo.toml: renamed package, only `rlib` output, upstream examples/tests not vendored.
+- lib.rs (safe `dav1d` API): reserved/unknown CICP code points in Picture::color_primaries,
+  transfer_characteristic, matrix_coefficients, chroma_location and pixel_layout map to
+  "unspecified" defaults instead of `unreachable!()` (a corrupt file could abort the process).
+- lib.rs, src/internal.rs: `// SAFETY:` comments added to 27 unsafe blocks/impls that had none
+  (no code change), so the workspace's clippy::undocumented_unsafe_blocks passes.
+- 33 files with unsafe: module header '//! SAFETY policy: vendored rav1d, see UNSAFE.md' + '#![allow(unsafe_code)]' (no code change).

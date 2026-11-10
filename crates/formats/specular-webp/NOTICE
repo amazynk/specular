@@ -1,0 +1,6 @@
+specular-webp is a fork of image-webp 0.2.4 (https://github.com/image-rs/image-webp),
+Copyright (c) the image-rs developers, licensed under the MIT licence or the Apache Licence 2.0
+at your option (LICENSE-MIT, LICENSE-APACHE in this directory). The files copied from it
+(src/{alpha_blending,decoder,extended,huffman,loop_filter,lossless,lossless_transform,transform,
+vp8,vp8_arithmetic_decoder,yuv}.rs) keep that licence, including Specular's modifications to them.
+The encoder and the nightly benchmark modules were removed.

@@ -1,0 +1,5 @@
+size 16 12 2
+x 1.1840812500000001e-08 2.3681625000000003e-08 m
+y 1.1840833333333335e-08 2.368166666666667e-08 m
+plane 0 m	Height Sensor
+plane 1 m	Height Sensor (retrace)

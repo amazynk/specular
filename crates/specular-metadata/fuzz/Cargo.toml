@@ -1,0 +1,29 @@
+[package]
+name = "specular-metadata-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-metadata = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "jpeg"
+path = "fuzz_targets/jpeg.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "payloads"
+path = "fuzz_targets/payloads.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,71 @@
+[package]
+name = "specular-bench"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decode-level and viewer-level benchmark harness for Specular"
+
+[features]
+default = []
+# Enables the in-process specular-jpeg comparison rows.
+specular = ["dep:specular-jpeg"]
+# The instruction-count gate (`specular-bench gate`, run by tools/bench/perf-gate.py): every
+# main decoder plus the pure-Rust encoders that generate its inputs.
+gate = [
+    "dep:specular-jpeg",
+    "dep:specular-png",
+    "dep:specular-webp",
+    "dep:specular-avif",
+    "dep:specular-heic",
+    "dep:specular-core",
+    "dep:specular-jxl",
+    "dep:specular-bitmap",
+    "dep:specular-tiff",
+    "dep:specular-raw",
+    "dep:specular-dicom",
+    "dep:specular-map",
+    "dep:specular-thumbs",
+    "dep:specular-h264enc",
+    "dep:miniz_oxide",
+    "dep:jpeg-encoder",
+    "dep:png",
+    "dep:gif",
+    "dep:tiff",
+]
+
+[dependencies]
+specular-thread = { path = "../../crates/specular-thread" }
+anyhow = "1.0.100"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+rustix = { version = "1.1.5", features = ["fs", "process"] }
+nix = { version = "0.30.1", default-features = false, features = ["resource"] }
+zune-jpeg = "0.5.15"
+zune-core = "0.5.3"
+jpeg-decoder = { version = "0.3", default-features = true }
+x11rb = { version = "0.13.2", default-features = false }
+specular-jpeg = { path = "../../crates/formats/specular-jpeg", optional = true }
+specular-png = { path = "../../crates/formats/specular-png", optional = true }
+specular-webp = { path = "../../crates/formats/specular-webp", optional = true }
+specular-avif = { path = "../../crates/formats/specular-avif", optional = true }
+specular-heic = { path = "../../crates/formats/specular-heic", optional = true }
+specular-core = { path = "../../crates/specular-core", optional = true }
+specular-jxl = { path = "../../crates/formats/specular-jxl", optional = true }
+specular-bitmap = { path = "../../crates/formats/specular-bitmap", optional = true }
+specular-tiff = { path = "../../crates/formats/specular-tiff", optional = true }
+specular-raw = { path = "../../crates/formats/specular-raw", optional = true }
+# The headline cases (headline.rs): CT series and MPR volume, map clustering, the grid layout.
+specular-dicom = { path = "../../crates/formats/specular-dicom", optional = true }
+specular-map = { path = "../../crates/specular-map", optional = true }
+specular-thumbs = { path = "../../crates/specular-thumbs", optional = true }
+specular-h264enc = { path = "../../crates/formats/specular-h264enc", optional = true }
+# Deflate for the 100k x 100k TIFF's tiles.
+miniz_oxide = { version = "0.9", optional = true }
+jpeg-encoder = { version = "0.7", optional = true }
+png = { version = "0.18", optional = true }
+gif = { version = "0.14", optional = true }
+tiff = { version = "0.11", default-features = false, features = ["lzw", "deflate"], optional = true }
+
+[lints]
+workspace = true

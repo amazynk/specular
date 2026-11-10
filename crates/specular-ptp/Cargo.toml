@@ -1,0 +1,15 @@
+[package]
+name = "specular-ptp"
+description = "Picture Transfer Protocol (ISO 15740) for Specular's tethered capture: sessions, objects, capture, events and exposure properties over USB bulk transfers"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# USB bulk and interrupt transfers, pure Rust (Apache-2.0 OR MIT). Only `usb.rs` uses it; the
+# protocol is written against `Transport`.
+nusb = { version = "0.2.8", default-features = false }
+
+[lints]
+workspace = true

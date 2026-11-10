@@ -1,0 +1,30 @@
+[package]
+name = "specular-library"
+description = "Specular's Library: SQLite catalogue of watched locations, background indexer, catalogue-wide search through specular-query"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+# SQLite (WAL, FTS5 with the trigram tokenizer). Bundled: one known SQLite on every platform,
+# compiled with FTS5, rather than whatever the system has.
+rusqlite = { version = "0.39", features = ["bundled"] }
+specular-query = { path = "../specular-query" }
+specular-thumbs = { path = "../specular-thumbs" }
+specular-decode = { path = "../specular-decode" }
+specular-metadata = { path = "../specular-metadata" }
+specular-similar = { path = "../specular-similar" }
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+# The UI-thread guard at every way into the catalogue (debug builds).
+specular-platform = { path = "../specular-platform" }
+parking_lot = "0.12"
+
+[dev-dependencies]
+specular-png = { path = "../formats/specular-png" }  # tests/messy_trees.rs: synthetic images
+specular-jpeg = { path = "../formats/specular-jpeg" }  # tests/messy_trees.rs
+
+[lints]
+workspace = true

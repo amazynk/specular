@@ -1,0 +1,18 @@
+[package]
+name = "specular-netcdf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Read-only NetCDF decoder for Specular: classic CDF-1, CDF-2 (64-bit offset) and CDF-5 (64-bit data) files with record variables, and NetCDF-4 files mapped from HDF5 (dimension scales, coordinate variables, CF attributes)"
+
+[dependencies]
+thiserror = "2"
+specular-core = { path = "../../specular-core" }
+specular-hdf5 = { path = "../specular-hdf5" }
+
+[dev-dependencies]
+serde_json = "1"
+
+[lints]
+workspace = true

@@ -1,0 +1,2103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Shared MIME info. JPEG and PNG are already defined by shared-mime-info on every desktop; this
+     file only adds the Specular-specific glob for .jfif/.jpe, which some systems lack, the XISF and EMD
+     types, newer HDF5/NetCDF globs, the 3D model types older databases lack, the medical
+     research volume types (NIfTI, NRRD, MetaImage), the whole-slide, OME-TIFF, Zeiss LSM and
+     MetaMorph microscopy types and the Shapefile and GeoPackage types, and is safe to install alongside it.
+     research volume types (NIfTI, NRRD, MetaImage), the whole-slide and OME-TIFF microscopy
+     types, the SRTM and DTED elevation tiles and the Shapefile and GeoPackage types, and is safe to install alongside it.
+     Associations themselves come from MimeType= in the .desktop file. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="image/jpeg">
+    <glob pattern="*.jpg"/>
+    <glob pattern="*.jpeg"/>
+    <glob pattern="*.jpe"/>
+    <glob pattern="*.jfif"/>
+  </mime-type>
+  <mime-type type="image/png">
+    <glob pattern="*.png"/>
+  </mime-type>
+  <!-- XISF (PixInsight) is not in shared-mime-info; FITS is (image/fits). Gzip-compressed
+       FITS (.fits.gz, as archives serve it) opens as FITS: its globs outweigh *.gz. -->
+  <mime-type type="image/fits">
+    <glob pattern="*.fits.gz" weight="60"/>
+    <glob pattern="*.fit.gz" weight="60"/>
+    <glob pattern="*.fts.gz" weight="60"/>
+  </mime-type>
+  <mime-type type="image/x-xisf">
+    <comment>XISF astronomical image</comment>
+    <glob pattern="*.xisf"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="XISF0100"/>
+    </magic>
+  </mime-type>
+  <!-- fpack's tile-compressed FITS (.fz) is not in shared-mime-info: a FITS sub-class here,
+       by name (its magic is FITS's). -->
+  <mime-type type="image/x-fpack">
+    <comment>Tile-compressed FITS image</comment>
+    <sub-class-of type="image/fits"/>
+    <glob pattern="*.fz"/>
+    <glob pattern="*.fits.fz"/>
+  </mime-type>
+  <!-- VICAR and PDS3 (NASA planetary images) are not in shared-mime-info. A PDS3 label's `.lbl`
+       also names label-printer files, which the magic tells apart; attached PDS3 and VICAR
+       `.img` files keep the disk-image type and open by content. -->
+  <mime-type type="image/x-vicar">
+    <comment>VICAR planetary image</comment>
+    <glob pattern="*.vic"/>
+    <glob pattern="*.vicar"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="LBLSIZE="/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-pds">
+    <comment>PDS planetary data label</comment>
+    <glob pattern="*.lbl"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PDS_VERSION_ID"/>
+      <match type="string" offset="0" value="ODL_VERSION_ID"/>
+      <match type="string" offset="0" value="CCSD3ZF"/>
+    </magic>
+  </mime-type>
+  <!-- ASDF (Advanced Scientific Data Format: Roman and JWST data products) is not in
+       shared-mime-info. -->
+  <mime-type type="application/x-asdf">
+    <comment>ASDF scientific data</comment>
+    <glob pattern="*.asdf"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="#ASDF "/>
+    </magic>
+  </mime-type>
+  <!-- CERN ROOT files (particle physics histograms, graphs and trees) are not in
+       shared-mime-info. -->
+  <mime-type type="application/x-root">
+    <comment>CERN ROOT data</comment>
+    <glob pattern="*.root"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="root"/>
+    </magic>
+  </mime-type>
+  <!-- SER planetary/lucky-imaging video (Lucam Recorder, FireCapture, SharpCap). `.ser` also
+       names FEI TIA microscope files, so the type rests on the magic. -->
+  <mime-type type="video/x-ser">
+    <comment>SER astronomical video</comment>
+    <glob pattern="*.ser"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="LUCAM-RECORDER"/>
+    </magic>
+  </mime-type>
+  <!-- AVCHD and Blu-ray transport streams: shared-mime-info names them video/mp2t (with magic);
+       Windows and DLNA use video/vnd.dlna.mpeg-tts, declared here as its subclass. -->
+  <mime-type type="video/vnd.dlna.mpeg-tts">
+    <comment>AVCHD video</comment>
+    <sub-class-of type="video/mp2t"/>
+    <glob pattern="*.mts"/>
+    <glob pattern="*.m2ts"/>
+  </mime-type>
+  <mime-type type="video/x-ms-vob">
+    <comment>DVD video</comment>
+    <sub-class-of type="video/mpeg"/>
+    <glob pattern="*.vob"/>
+  </mime-type>
+  <!-- Ogg video (video/ogg, video/x-ogm+ogg) is in shared-mime-info; IVF, the raw VP8/VP9/AV1 stream file of
+       libvpx and libaom, is not. -->
+  <mime-type type="video/x-ivf">
+    <comment>IVF video stream</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="DKIF"/>
+    </magic>
+    <glob pattern="*.ivf"/>
+  </mime-type>
+  <!-- HDF5 (application/x-hdf) and NetCDF (application/x-netcdf) are in shared-mime-info, with
+       magic; these add the newer extensions some systems lack. EMD electron microscopy files are
+       HDF5 inside, a type of their own here, by name only. -->
+  <mime-type type="application/x-hdf">
+    <glob pattern="*.h5"/>
+    <glob pattern="*.hdf5"/>
+    <glob pattern="*.he5"/>
+    <!-- HDF4: shared-mime-info has .hdf, .h4 and .hdf4 and the magic; HDF-EOS2 names too. -->
+    <glob pattern="*.he2"/>
+    <glob pattern="*.hdfeos"/>
+  </mime-type>
+  <mime-type type="application/x-netcdf">
+    <glob pattern="*.nc"/>
+    <glob pattern="*.nc4"/>
+  </mime-type>
+  <mime-type type="application/x-emd">
+    <comment>EMD electron microscopy data</comment>
+    <sub-class-of type="application/x-hdf"/>
+    <glob pattern="*.emd"/>
+  </mime-type>
+  <!-- NeXus and Imaris are HDF5 conventions, by name only. BAG (.bag) and Gaussian cube
+       (.cube) share their extensions with unrelated files and are recognised by content
+       when opened, without a glob. -->
+  <mime-type type="application/x-nexus">
+    <comment>NeXus data</comment>
+    <sub-class-of type="application/x-hdf"/>
+    <glob pattern="*.nxs"/>
+    <glob pattern="*.nx5"/>
+  </mime-type>
+  <mime-type type="application/x-imaris">
+    <comment>Imaris microscopy volume</comment>
+    <sub-class-of type="application/x-hdf"/>
+    <glob pattern="*.ims"/>
+  </mime-type>
+  <!-- SRTM elevation tiles: big-endian 16-bit heights with no header. -->
+  <mime-type type="application/x-srtm-hgt">
+    <comment>SRTM elevation tile</comment>
+    <glob pattern="*.hgt"/>
+  </mime-type>
+  <!-- X-ray diffraction detector frames. SMV and R-AXIS share .img with disk images and EDF
+       shares .edf with EEG recordings: the viewer claims those by content, not by name. -->
+  <mime-type type="image/x-cbf">
+    <comment>Crystallographic Binary File</comment>
+    <glob pattern="*.cbf"/>
+    <glob pattern="*.cbf.gz"/>
+    <glob pattern="*.cbf.bz2"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="###CBF"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-bruker-sfrm">
+    <comment>Bruker diffraction frame</comment>
+    <glob pattern="*.sfrm"/>
+    <magic priority="40">
+      <match type="string" offset="0" value="FORMAT  :"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-marccd">
+    <comment>MarCCD diffraction frame</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.mccd"/>
+  </mime-type>
+  <mime-type type="image/x-rigaku-raxis">
+    <comment>Rigaku R-AXIS diffraction frame</comment>
+    <glob pattern="*.osc"/>
+    <magic priority="40">
+      <match type="string" offset="0" value="R-AXIS"/>
+    </magic>
+  </mime-type>
+  <!-- SMV (ADSC, Rigaku d*TREK) and ESRF EDF frames: by magic only, no glob (see above). -->
+  <mime-type type="image/x-smv">
+    <comment>SMV diffraction frame</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="{">
+        <match type="string" offset="1:3" value="HEADER_BYTES="/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-esrf-edf">
+    <comment>ESRF EDF detector frame</comment>
+    <magic priority="40">
+      <match type="string" offset="0" value="{">
+        <match type="string" offset="1:4096" value="Dim_1"/>
+        <match type="string" offset="1:4096" value="EDF_DataFormatVersion"/>
+      </match>
+    </magic>
+  </mime-type>
+  <!-- Molecular structures (the chemical-mime-data names): PDB and PDBx/mmCIF macromolecules,
+       crystallographic CIF, MDL SDF and molfiles. By glob: their content starts with
+       records ("HEADER", "data_", a title line) that other text formats share. Molecular
+       XYZ shares *.xyz with model/x-xyz (a lower glob weight, so point clouds keep the
+       name) and is told apart by content when opened; it is declared so files that
+       chemical-mime-data already calls chemical/x-xyz open here too. -->
+  <mime-type type="chemical/x-pdb">
+    <comment>Protein Data Bank structure</comment>
+    <glob pattern="*.pdb"/>
+    <glob pattern="*.ent"/>
+    <glob pattern="*.pdb.gz"/>
+    <glob pattern="*.ent.gz"/>
+  </mime-type>
+  <mime-type type="chemical/x-mmcif">
+    <comment>PDBx/mmCIF macromolecular structure</comment>
+    <glob pattern="*.mmcif"/>
+    <glob pattern="*.mcif"/>
+    <glob pattern="*.mmcif.gz"/>
+  </mime-type>
+  <mime-type type="chemical/x-cif">
+    <comment>Crystallographic Information File</comment>
+    <glob pattern="*.cif"/>
+    <glob pattern="*.cif.gz"/>
+  </mime-type>
+  <mime-type type="chemical/x-mdl-sdfile">
+    <comment>MDL structure-data file</comment>
+    <glob pattern="*.sdf"/>
+    <glob pattern="*.sd"/>
+    <glob pattern="*.sdf.gz"/>
+  </mime-type>
+  <mime-type type="chemical/x-mdl-molfile">
+    <comment>MDL molfile</comment>
+    <glob pattern="*.mol"/>
+    <glob pattern="*.mol.gz"/>
+  </mime-type>
+  <mime-type type="chemical/x-xyz">
+    <comment>XYZ molecular structure</comment>
+    <glob pattern="*.xyz" weight="40"/>
+  </mime-type>
+  <!-- Gaussian cube volumes share *.cube with colour lookup tables and have no magic: no glob
+       here (the viewer reads the header lines); declared so files chemical-mime-data names
+       chemical/x-gaussian-cube open here too. -->
+  <mime-type type="chemical/x-gaussian-cube">
+    <comment>Gaussian cube volume</comment>
+    <sub-class-of type="text/plain"/>
+  </mime-type>
+  <!-- DTED elevation tiles (level 0, 1 and 2): the User Header Label "UHL1" at byte 0, or
+       after up to three 80-byte tape labels. -->
+  <mime-type type="application/x-dted">
+    <comment>DTED elevation tile</comment>
+    <glob pattern="*.dt0"/>
+    <glob pattern="*.dt1"/>
+    <glob pattern="*.dt2"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="UHL1"/>
+    </magic>
+  </mime-type>
+  <!-- GRIB editions 1 and 2 (WMO FM 92): weather and climate model fields. Every message
+       starts with "GRIB"; files may carry a short header before the first one, so the extension
+       counts too. -->
+  <mime-type type="application/x-grib">
+    <comment>GRIB meteorological data</comment>
+    <glob pattern="*.grib"/>
+    <glob pattern="*.grb"/>
+    <glob pattern="*.grib1"/>
+    <glob pattern="*.grib2"/>
+    <glob pattern="*.grb1"/>
+    <glob pattern="*.grb2"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="GRIB"/>
+    </magic>
+  </mime-type>
+  <!-- Seismic data: SEG-Y (found by its binary header as well) and Seismic Unix traces. -->
+  <mime-type type="application/x-segy">
+    <comment>SEG-Y seismic data</comment>
+    <glob pattern="*.sgy"/>
+    <glob pattern="*.segy"/>
+  </mime-type>
+  <mime-type type="application/x-seismic-unix">
+    <comment>Seismic Unix data</comment>
+    <glob pattern="*.su"/>
+  </mime-type>
+  <!-- Camera RAW formats shared-mime-info lacks (it has CRW, MRW, X3F, DCR and KDC). The
+       TIFF-based ones are told apart by their globs; Hasselblad's .fff shares FLIR's glob and
+       is told apart by content when opened. -->
+  <mime-type type="image/x-hasselblad-3fr">
+    <comment>Hasselblad raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.3fr"/>
+  </mime-type>
+  <mime-type type="image/x-phaseone-iiq">
+    <comment>Phase One raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.iiq"/>
+  </mime-type>
+  <mime-type type="image/x-gopro-gpr">
+    <comment>GoPro raw image</comment>
+    <sub-class-of type="image/x-adobe-dng"/>
+    <glob pattern="*.gpr"/>
+  </mime-type>
+  <mime-type type="image/x-leaf-mos">
+    <comment>Leaf raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.mos"/>
+  </mime-type>
+  <mime-type type="image/x-mamiya-mef">
+    <comment>Mamiya raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.mef"/>
+  </mime-type>
+  <mime-type type="image/x-epson-erf">
+    <comment>Epson raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.erf"/>
+  </mime-type>
+  <mime-type type="image/x-arri-ari">
+    <comment>ARRI raw camera frame</comment>
+    <magic priority="50">
+      <match type="string" value="ARRI\x12\x34\x56\x78" offset="0"/>
+    </magic>
+    <glob pattern="*.ari"/>
+  </mime-type>
+  <!-- Older and rarer camera RAW containers. Not in shared-mime-info (`.ori` is Olympus's
+       high-resolution ORF, added to the system's type). -->
+  <mime-type type="image/x-olympus-orf">
+    <glob pattern="*.ori"/>
+  </mime-type>
+  <mime-type type="image/x-sinar-sti">
+    <comment>Sinar raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.sti"/>
+  </mime-type>
+  <mime-type type="image/x-kodak-k25">
+    <comment>Kodak DC25 raw image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.k25"/>
+  </mime-type>
+  <mime-type type="image/x-quicktake">
+    <comment>Apple QuickTake photo</comment>
+    <magic priority="50">
+      <match type="string" value="qktk" offset="0"/>
+      <match type="string" value="qktn" offset="0"/>
+    </magic>
+    <glob pattern="*.qtk"/>
+  </mime-type>
+  <mime-type type="image/x-minolta-mdc">
+    <comment>Minolta RD-175 raw image</comment>
+    <glob pattern="*.mdc"/>
+  </mime-type>
+  <mime-type type="image/x-ricoh-j6i">
+    <comment>Ricoh J6I photo</comment>
+    <magic priority="50">
+      <match type="string" value="DSCIM" offset="2"/>
+    </magic>
+    <glob pattern="*.j6i"/>
+  </mime-type>
+  <mime-type type="image/x-lytro-lfp">
+    <comment>Lytro light field picture</comment>
+    <magic priority="50">
+      <match type="string" value="\x89LFP\r\n\x1a\n" offset="0"/>
+    </magic>
+    <glob pattern="*.lfp"/>
+    <glob pattern="*.lfr"/>
+  </mime-type>
+  <mime-type type="image/x-phaseone-eip">
+    <comment>Phase One enhanced image package</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.eip"/>
+  </mime-type>
+  <mime-type type="image/vnd.fpx">
+    <comment>FlashPix image</comment>
+    <sub-class-of type="application/x-ole-storage"/>
+    <glob pattern="*.fpx"/>
+  </mime-type>
+  <!-- Blackmagic RAW clips: QuickTime movies of BRAW frames, opened through the user's own
+       Blackmagic RAW SDK. Not in shared-mime-info. -->
+  <mime-type type="video/x-braw">
+    <comment>Blackmagic RAW clip</comment>
+    <sub-class-of type="video/quicktime"/>
+    <glob pattern="*.braw"/>
+  </mime-type>
+  <!-- Canon Cinema RAW Light clips: CRX sensor frames in Canon's CR3-like ISO media file
+       (the same magic as CR3, so by name). Not in shared-mime-info. -->
+  <mime-type type="video/x-canon-crm">
+    <comment>Canon Cinema RAW Light clip</comment>
+    <glob pattern="*.crm"/>
+  </mime-type>
+  <!-- Thermal stills: not in shared-mime-info (FLIR's radiometric JPEGs are image/jpeg and
+       are told apart by their content). -->
+  <mime-type type="application/x-flir-fff">
+    <comment>FLIR thermal image</comment>
+    <magic priority="50">
+      <match type="string" value="FFF\0" offset="0"/>
+      <match type="string" value="AFF\0" offset="0"/>
+    </magic>
+    <glob pattern="*.fff"/>
+  </mime-type>
+  <!-- FLIR sequences: FFF frames back to back (.seq raw counts, .csq JPEG-LS counts); the
+       same magic as a single FFF, so the extension tells them apart. -->
+  <mime-type type="video/x-flir-seq">
+    <comment>FLIR thermal sequence</comment>
+    <sub-class-of type="application/x-flir-fff"/>
+    <glob pattern="*.seq" weight="60"/>
+    <glob pattern="*.csq" weight="60"/>
+  </mime-type>
+  <mime-type type="application/x-infiray-irg">
+    <comment>InfiRay thermal image</comment>
+    <glob pattern="*.irg"/>
+  </mime-type>
+  <mime-type type="application/x-infratec-irb">
+    <comment>InfraTec thermal image</comment>
+    <magic priority="50">
+      <match type="string" value="\xffIRB\0" offset="0"/>
+    </magic>
+    <glob pattern="*.irb"/>
+  </mime-type>
+  <!-- Testo thermal images (testo 865–883: a JPEG preview, then the radiometric data;
+       older cameras wrote a bitmap first). The extension tells them from plain JPEGs. -->
+  <mime-type type="application/x-testo-bmt">
+    <comment>Testo thermal image</comment>
+    <glob pattern="*.bmt"/>
+  </mime-type>
+  <!-- Fluke thermal images: a ZIP of the camera's records and photos. -->
+  <mime-type type="application/x-fluke-is2">
+    <comment>Fluke thermal image</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.is2"/>
+  </mime-type>
+  <!-- Imaging mass spectrometry: the imzML XML (its .ibd binary beside it is not opened alone). -->
+  <mime-type type="application/x-imzml">
+    <comment>imzML mass spectrometry image</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.imzML"/>
+    <glob pattern="*.imzml"/>
+  </mime-type>
+  <!-- Reflectance transformation images: not in shared-mime-info. PTM by its version line;
+       CHI's HSH .rti and the old binary .hsh by name. -->
+  <mime-type type="image/x-ptm">
+    <comment>Polynomial texture map</comment>
+    <glob pattern="*.ptm"/>
+    <magic priority="50">
+      <match type="string" value="PTM_1." offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-rti">
+    <comment>Reflectance transformation image</comment>
+    <glob pattern="*.rti"/>
+    <glob pattern="*.hsh"/>
+  </mime-type>
+  <!-- Microscopy: not in shared-mime-info. Gwyddion registers application/x-gwyddion
+       itself (same glob and magic); the others are ours. -->
+  <mime-type type="image/x-gatan-dm">
+    <comment>DigitalMicrograph image</comment>
+    <glob pattern="*.dm3"/>
+    <glob pattern="*.dm4"/>
+  </mime-type>
+  <!-- CCP4/MRC maps also come as .map and .map.gz, too generic for a glob: plain ones are
+       found by the magic, and the viewer reads the header before listing either. -->
+  <mime-type type="image/x-mrc">
+    <comment>MRC electron microscopy image</comment>
+    <glob pattern="*.mrc"/>
+    <glob pattern="*.mrcs"/>
+    <glob pattern="*.ccp4"/>
+    <magic priority="50">
+      <match type="string" offset="208" value="MAP "/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-gwyddion">
+    <comment>Gwyddion scanning probe data</comment>
+    <glob pattern="*.gwy"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="GWYP"/>
+      <match type="string" offset="0" value="GWYO"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-igor-binary-wave">
+    <comment>Igor Pro binary wave</comment>
+    <glob pattern="*.ibw"/>
+  </mime-type>
+  <!-- Arrays and lab data: not in shared-mime-info. MATLAB level 4 files have no magic; Zarr
+       stores are folders (or zips of one) and have no type. -->
+  <mime-type type="application/x-npy">
+    <comment>NumPy array</comment>
+    <glob pattern="*.npy"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="\x93NUMPY"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-npz">
+    <sub-class-of type="application/zip"/>
+    <comment>NumPy array archive</comment>
+    <glob pattern="*.npz"/>
+  </mime-type>
+  <mime-type type="application/x-matlab-data">
+    <comment>MATLAB data</comment>
+    <glob pattern="*.mat"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="MATLAB 5.0 MAT-file"/>
+      <match type="string" offset="0" value="MATLAB 7.3 MAT-file"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-tdms">
+    <comment>NI TDMS measurement</comment>
+    <glob pattern="*.tdms"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="TDSm"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-vtk">
+    <comment>VTK dataset</comment>
+    <glob pattern="*.vtk"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="# vtk DataFile"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-vtk-image-data">
+    <sub-class-of type="application/xml"/>
+    <comment>VTK image data</comment>
+    <glob pattern="*.vti"/>
+  </mime-type>
+  <mime-type type="application/x-vtk-rectilinear-grid">
+    <sub-class-of type="application/xml"/>
+    <comment>VTK rectilinear grid</comment>
+    <glob pattern="*.vtr"/>
+  </mime-type>
+  <mime-type type="application/x-vtk-structured-grid">
+    <sub-class-of type="application/xml"/>
+    <comment>VTK structured grid</comment>
+    <glob pattern="*.vts"/>
+  </mime-type>
+  <mime-type type="application/x-vtk-unstructured-grid">
+    <sub-class-of type="application/xml"/>
+    <comment>VTK unstructured grid</comment>
+    <glob pattern="*.vtu"/>
+  </mime-type>
+  <mime-type type="application/x-vtk-polydata">
+    <sub-class-of type="application/xml"/>
+    <comment>VTK polygonal data</comment>
+    <glob pattern="*.vtp"/>
+  </mime-type>
+  <!-- Materials science (all ours). FEI TIA series files share *.ser with SER videos and take
+       its type by name; Specular tells them apart by content, and reads the calibration from
+       the .emi beside them. Zygo MetroPro .dat files are recognised by content only. -->
+  <mime-type type="application/x-fei-emi">
+    <comment>FEI TIA experiment</comment>
+    <glob pattern="*.emi"/>
+  </mime-type>
+  <mime-type type="application/x-bruker-bcf">
+    <comment>Bruker hypermap</comment>
+    <glob pattern="*.bcf"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="AAMVHFSS"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-edax-ang">
+    <comment>EDAX EBSD map</comment>
+    <glob pattern="*.ang"/>
+  </mime-type>
+  <mime-type type="application/x-oxford-ctf">
+    <comment>Oxford Instruments EBSD map</comment>
+    <glob pattern="*.ctf"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="Channel Text File"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nanoscope">
+    <comment>Bruker Nanoscope scan</comment>
+    <glob pattern="*.spm"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="\\*File list"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nanonis-sxm">
+    <comment>Nanonis scan</comment>
+    <glob pattern="*.sxm"/>
+    <magic priority="50">
+      <match type="string" offset="0" value=":NANONIS_VERSION:"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-jpk">
+    <comment>JPK scan</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.jpk"/>
+  </mime-type>
+  <mime-type type="application/x-ntmdt">
+    <comment>NT-MDT scan</comment>
+    <glob pattern="*.mdt"/>
+  </mime-type>
+  <mime-type type="application/x-x3p">
+    <comment>X3P surface topography</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.x3p"/>
+  </mime-type>
+  <mime-type type="application/x-zygo-datx">
+    <comment>Zygo surface topography</comment>
+    <sub-class-of type="application/x-hdf"/>
+    <glob pattern="*.datx"/>
+  </mime-type>
+  <mime-type type="application/x-keyence-vk4">
+    <comment>Keyence laser microscope image</comment>
+    <glob pattern="*.vk4"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="VK4_"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-sensofar-plu">
+    <comment>Sensofar surface topography</comment>
+    <glob pattern="*.plu"/>
+  </mime-type>
+  <mime-type type="application/x-alicona-al3d">
+    <comment>Alicona surface topography</comment>
+    <glob pattern="*.al3d"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="AliconaImaging"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-digitalsurf-sur">
+    <comment>Digital Surf surface topography</comment>
+    <glob pattern="*.sur"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="DIGITAL SURF"/>
+      <match type="string" offset="0" value="DSCOMPRESSED"/>
+    </magic>
+  </mime-type>
+  <!-- Vendor light microscopy: not in shared-mime-info. LIF and LOF open with a 0x70 block
+       header whose byte 8 is 0x2A; ND2 with the chunk magic 0x0ABECEDA (legacy ND2 files
+       start like JPEG 2000 and are found by the glob). -->
+  <mime-type type="image/x-leica-lif">
+    <comment>Leica LIF microscopy image</comment>
+    <glob pattern="*.lif"/>
+    <glob pattern="*.lof"/>
+    <magic priority="50">
+      <match type="little32" offset="0" value="0x70">
+        <match type="byte" offset="8" value="0x2a"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-nikon-nd2">
+    <comment>Nikon ND2 microscopy image</comment>
+    <glob pattern="*.nd2"/>
+    <magic priority="50">
+      <match type="little32" offset="0" value="0x0abeceda"/>
+    </magic>
+  </mime-type>
+  <!-- Olympus FluoView OIR; Princeton Instruments SPE (no signature, its own glob); Andor SIF
+       by magic only (`.sif` is also Singularity's container images). -->
+  <mime-type type="image/x-olympus-oir">
+    <comment>Olympus OIR microscopy image</comment>
+    <glob pattern="*.oir"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="OLYMPUSRAWFORMAT"/>
+    </magic>
+  </mime-type>
+  <!-- Zeiss CZI (ZEN): the ZISRAW file segment. -->
+  <mime-type type="image/x-zeiss-czi">
+    <comment>Zeiss CZI microscopy image</comment>
+    <glob pattern="*.czi"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ZISRAWFILE"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-princeton-spe">
+    <comment>Princeton Instruments SPE spectroscopy frames</comment>
+    <glob pattern="*.spe"/>
+  </mime-type>
+  <mime-type type="image/x-andor-sif">
+    <comment>Andor SIF spectroscopy frames</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="Andor Technology Multi-Channel File"/>
+    </magic>
+  </mime-type>
+  <!-- HP-GL plots: shared-mime-info has the type with *.hpgl only. -->
+  <mime-type type="application/vnd.hp-hpgl">
+    <comment>HP-GL plot file</comment>
+    <glob pattern="*.hpgl"/>
+    <glob pattern="*.hpg"/>
+    <glob pattern="*.hp2"/>
+    <glob pattern="*.hgl"/>
+    <glob pattern="*.plt"/>
+    <glob pattern="*.pen"/>
+  </mime-type>
+  <!-- IC layouts: GDSII stream files are not in shared-mime-info. The magic is the HEADER
+       record (length 6, type 0x0002) then BGNLIB (type 0x0102) at byte 8. -->
+  <mime-type type="application/vnd.gds">
+    <comment>GDSII IC layout</comment>
+    <glob pattern="*.gds"/>
+    <glob pattern="*.gds2"/>
+    <glob pattern="*.gdsii"/>
+    <magic priority="50">
+      <match type="big32" offset="0" value="0x00060002">
+        <match type="big16" offset="8" value="0x0102"/>
+      </match>
+    </magic>
+  </mime-type>
+  <!-- Circuit boards: Gerber (IANA application/vnd.gerber, not in shared-mime-info) by its
+       format statement, X2 attributes or the usual G04 comment; Excellon drill files by their
+       M48 header; KiCad 6-9 boards and schematics by their leading S-expression. -->
+  <mime-type type="application/vnd.gerber">
+    <comment>Gerber PCB layer</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.gbr"/>
+    <glob pattern="*.ger"/>
+    <glob pattern="*.gbx"/>
+    <glob pattern="*.pho"/>
+    <glob pattern="*.art"/>
+    <glob pattern="*.gtl"/>
+    <glob pattern="*.gbl"/>
+    <glob pattern="*.gto"/>
+    <glob pattern="*.gbo"/>
+    <glob pattern="*.gts"/>
+    <glob pattern="*.gbs"/>
+    <glob pattern="*.gtp"/>
+    <glob pattern="*.gbp"/>
+    <glob pattern="*.gko"/>
+    <glob pattern="*.gm1"/>
+    <glob pattern="*.gm2"/>
+    <glob pattern="*.gm3"/>
+    <glob pattern="*.gm4"/>
+    <glob pattern="*.gm13"/>
+    <glob pattern="*.gm15"/>
+    <glob pattern="*.gp1"/>
+    <glob pattern="*.gp2"/>
+    <glob pattern="*.g1"/>
+    <glob pattern="*.g2"/>
+    <glob pattern="*.g3"/>
+    <glob pattern="*.g4"/>
+    <glob pattern="*.g5"/>
+    <glob pattern="*.g6"/>
+    <glob pattern="*.gd1"/>
+    <glob pattern="*.gg1"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="%FSLA"/>
+      <match type="string" offset="0" value="%TF."/>
+      <match type="string" offset="0" value="G04 "/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-excellon">
+    <comment>Excellon drill file</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.drl"/>
+    <glob pattern="*.xln"/>
+    <glob pattern="*.drd"/>
+    <magic priority="40">
+      <match type="string" offset="0" value="M48"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-ipc2581">
+    <comment>IPC-2581 board</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.cvg"/>
+    <magic priority="50">
+      <match type="string" offset="0:256" value="&lt;IPC-2581"/>
+    </magic>
+    <root-XML localName="IPC-2581"/>
+    <root-XML namespaceURI="http://webstds.ipc.org/2581" localName="IPC-2581"/>
+  </mime-type>
+  <!-- LandXML survey data: .xml files, told by their root element (no registered type). -->
+  <mime-type type="application/x-landxml+xml">
+    <comment>LandXML survey data</comment>
+    <sub-class-of type="application/xml"/>
+    <magic priority="50">
+      <match type="string" offset="0:512" value="&lt;LandXML"/>
+    </magic>
+    <root-XML localName="LandXML"/>
+    <root-XML namespaceURI="http://www.landxml.org/schema/LandXML-1.2" localName="LandXML"/>
+    <root-XML namespaceURI="http://www.landxml.org/schema/LandXML-1.1" localName="LandXML"/>
+    <root-XML namespaceURI="http://www.landxml.org/schema/LandXML-1.0" localName="LandXML"/>
+  </mime-type>
+  <mime-type type="application/x-kicad-pcb">
+    <comment>KiCad board</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.kicad_pcb"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="(kicad_pcb"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-kicad-schematic">
+    <comment>KiCad schematic</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.kicad_sch"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="(kicad_sch"/>
+    </magic>
+  </mime-type>
+  <!-- Spectra: JCAMP-DX (chemical-mime-data's name) by its ##TITLE= record; mzML and mzXML
+       (no registered types; the names other tools use) by their root element. -->
+  <mime-type type="chemical/x-jcamp-dx">
+    <comment>JCAMP-DX spectrum</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.jdx"/>
+    <glob pattern="*.dx"/>
+    <glob pattern="*.jcm"/>
+    <glob pattern="*.jcamp"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="##TITLE="/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mzml">
+    <comment>mzML mass spectrometry run</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.mzML"/>
+    <glob pattern="*.mzml"/>
+    <glob pattern="*.mzML.gz" weight="60"/>
+    <glob pattern="*.mzml.gz" weight="60"/>
+    <magic priority="50">
+      <match type="string" offset="0:256" value="&lt;mzML"/>
+      <match type="string" offset="0:256" value="&lt;indexedmzML"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mzxml">
+    <comment>mzXML mass spectrometry run</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.mzXML"/>
+    <glob pattern="*.mzxml"/>
+    <glob pattern="*.mzXML.gz" weight="60"/>
+    <glob pattern="*.mzxml.gz" weight="60"/>
+    <magic priority="50">
+      <match type="string" offset="0:256" value="&lt;mzXML"/>
+    </magic>
+  </mime-type>
+  <!-- 3D models: shared-mime-info has model/stl, model/obj and the glTF types; PLY and 3MF are
+       newer or missing on some systems. -->
+  <mime-type type="model/x-ply">
+    <comment>PLY 3D model</comment>
+    <glob pattern="*.ply"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ply\n"/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/3mf">
+    <comment>3MF 3D model</comment>
+    <glob pattern="*.3mf"/>
+  </mime-type>
+  <!-- Scene formats: none in shared-mime-info. USDA and USDZ (and COLLADA) have IANA names;
+       binary USD and the rest are x- names. ".usd" is text or binary: the magic decides. -->
+  <mime-type type="model/x-usd">
+    <comment>USD 3D scene</comment>
+    <glob pattern="*.usd"/>
+    <glob pattern="*.usdc"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PXR-USDC"/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/vnd.usda">
+    <comment>USD 3D scene (text)</comment>
+    <glob pattern="*.usda"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="#usda"/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/vnd.usdz+zip">
+    <comment>USDZ 3D scene</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.usdz"/>
+  </mime-type>
+  <mime-type type="model/vnd.collada+xml">
+    <comment>COLLADA 3D scene</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.dae"/>
+  </mime-type>
+  <mime-type type="model/x-collada-zae">
+    <comment>COLLADA 3D scene package</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.zae"/>
+  </mime-type>
+  <mime-type type="model/x-3ds">
+    <comment>3D Studio model</comment>
+    <glob pattern="*.3ds"/>
+  </mime-type>
+  <mime-type type="model/x-lwo">
+    <comment>LightWave object</comment>
+    <glob pattern="*.lwo"/>
+  </mime-type>
+  <mime-type type="model/x-fbx">
+    <comment>FBX 3D scene</comment>
+    <glob pattern="*.fbx"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="Kaydara FBX Binary"/>
+    </magic>
+  </mime-type>
+  <!-- X3D (IANA model/x3d+xml, model/x3d-vrml; not in shared-mime-info), gzipped files under
+       the same types. VRML 97 is shared-mime-info's model/vrml. Rhino and AMF have no
+       registered types. -->
+  <mime-type type="model/x3d+xml">
+    <comment>X3D 3D scene</comment>
+    <glob pattern="*.x3d"/>
+    <glob pattern="*.x3dz"/>
+  </mime-type>
+  <mime-type type="model/x3d-vrml">
+    <comment>X3D 3D scene (classic encoding)</comment>
+    <glob pattern="*.x3dv"/>
+    <glob pattern="*.x3dvz"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="#X3D V"/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/x-3dm">
+    <comment>Rhino 3D model</comment>
+    <glob pattern="*.3dm"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="3D Geometry File Format "/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/x-amf">
+    <comment>AMF 3D printing model</comment>
+    <glob pattern="*.amf"/>
+  </mime-type>
+  <!-- IFC: no registered type. By name only: IFC starts with STEP's "ISO-10303-21;". -->
+  <mime-type type="model/x-ifc">
+    <comment>IFC building model</comment>
+    <glob pattern="*.ifc"/>
+  </mime-type>
+  <mime-type type="model/x-ifczip">
+    <comment>IFC building model (zipped)</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.ifczip"/>
+  </mime-type>
+  <mime-type type="application/vnd.sketchup.skp">
+    <comment>SketchUp model</comment>
+    <glob pattern="*.skp"/>
+  </mime-type>
+  <!-- STEP (IANA model/step; newer shared-mime-info has it, older does not). By name only:
+       IFC files start with the same "ISO-10303-21;" line. model/iges is in shared-mime-info. -->
+  <mime-type type="model/step">
+    <comment>STEP CAD model</comment>
+    <glob pattern="*.step"/>
+    <glob pattern="*.stp"/>
+  </mime-type>
+  <!-- Gaussian splats: no registered types. Version 4 SPZ starts "NGSP". -->
+  <mime-type type="model/x-gaussian-splat">
+    <comment>Gaussian splats</comment>
+    <glob pattern="*.splat"/>
+  </mime-type>
+  <mime-type type="model/x-spz">
+    <comment>Gaussian splats (SPZ)</comment>
+    <glob pattern="*.spz"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="NGSP"/>
+    </magic>
+  </mime-type>
+  <!-- Point clouds: LAS, LAZ (and COPC) and E57 have IANA types shared-mime-info lacks; LAS and
+       LAZ share "LASF". ".pcd" is Kodak Photo CD's glob, so PCD is told by its header. -->
+  <mime-type type="application/vnd.las">
+    <comment>LAS point cloud</comment>
+    <glob pattern="*.las"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="LASF"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.laszip">
+    <comment>LAZ compressed point cloud</comment>
+    <glob pattern="*.laz"/>
+    <glob pattern="*.copc.laz" weight="60"/>
+  </mime-type>
+  <mime-type type="model/e57">
+    <comment>E57 3D imaging data</comment>
+    <glob pattern="*.e57"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ASTM-E57"/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/x-pcd">
+    <comment>PCD point cloud</comment>
+    <glob pattern="*.pcd" weight="40"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="# .PCD"/>
+      <match type="string" offset="0" value="VERSION"/>
+    </magic>
+  </mime-type>
+  <mime-type type="model/x-xyz">
+    <comment>XYZ point cloud</comment>
+    <glob pattern="*.xyz"/>
+  </mime-type>
+  <mime-type type="model/x-pts">
+    <comment>PTS point cloud</comment>
+    <glob pattern="*.pts"/>
+  </mime-type>
+  <mime-type type="model/x-ptx">
+    <comment>PTX point cloud</comment>
+    <glob pattern="*.ptx"/>
+  </mime-type>
+  <!-- Medical research volumes, none in shared-mime-info. NIfTI-1 single files carry "n+1" at
+       byte 344, NIfTI-2 "n+2" at byte 4 (".hdr" pairs and Analyze stay with their globs'
+       owners and are recognised by content when opened). -->
+  <mime-type type="application/x-nifti">
+    <comment>NIfTI medical volume</comment>
+    <glob pattern="*.nii"/>
+    <glob pattern="*.nii.gz" weight="60"/>
+    <magic priority="50">
+      <match type="string" offset="344" value="n+1\0"/>
+      <match type="string" offset="4" value="n+2\0"/>
+    </magic>
+  </mime-type>
+  <!-- FreeSurfer volumes: .mgh is raw (big-endian version 1 header), .mgz the same gzipped. -->
+  <mime-type type="application/x-freesurfer-mgh">
+    <comment>FreeSurfer MGH volume</comment>
+    <glob pattern="*.mgh"/>
+    <glob pattern="*.mgz"/>
+  </mime-type>
+  <!-- Philips PAR/REC: the .PAR text header (its banner) names the type; the .REC beside it
+       holds the voxels and is too generic a name to claim. -->
+  <mime-type type="application/x-philips-parrec">
+    <comment>Philips PAR/REC volume</comment>
+    <glob pattern="*.par"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="# === DATA DESCRIPTION FILE"/>
+    </magic>
+  </mime-type>
+  <!-- MINC volumes: MINC2 is HDF5, MINC1 NetCDF classic; told apart by content. -->
+  <mime-type type="application/x-minc">
+    <comment>MINC volume</comment>
+    <glob pattern="*.mnc"/>
+  </mime-type>
+  <!-- MRtrix images: .mih is a text header beside its data, .mif the header and data in one
+       file. Bare *.mif is FrameMaker's in shared-mime-info, so only the gzipped form and the
+       header take the type by name; .mif files are recognised by content when opened. -->
+  <mime-type type="application/x-mrtrix-image">
+    <comment>MRtrix image</comment>
+    <glob pattern="*.mif.gz" weight="60"/>
+    <glob pattern="*.mih"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="mrtrix image\n"/>
+    </magic>
+  </mime-type>
+  <!-- Brain surfaces and tractography (HCP and connectome tools), none in shared-mime-info.
+       GIFTI is XML (.surf.gii, .func.gii, .shape.gii, .label.gii); CIFTI-2 is NIfTI-2 with an
+       XML extension, named by its compound extension (longer globs win over *.nii);
+       TrackVis .trk starts with "TRACK", MRtrix .tck with "mrtrix tracks". -->
+  <mime-type type="application/x-gifti">
+    <comment>GIFTI brain surface data</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.gii"/>
+  </mime-type>
+  <mime-type type="application/x-cifti">
+    <comment>CIFTI-2 brain data</comment>
+    <sub-class-of type="application/x-nifti"/>
+    <glob pattern="*.dscalar.nii" weight="60"/>
+    <glob pattern="*.dlabel.nii" weight="60"/>
+    <glob pattern="*.dtseries.nii" weight="60"/>
+    <glob pattern="*.pscalar.nii" weight="60"/>
+    <glob pattern="*.plabel.nii" weight="60"/>
+    <glob pattern="*.ptseries.nii" weight="60"/>
+    <glob pattern="*.dconn.nii" weight="60"/>
+  </mime-type>
+  <mime-type type="application/x-trackvis">
+    <comment>TrackVis tractogram</comment>
+    <glob pattern="*.trk"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="TRACK\0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mrtrix-tracks">
+    <comment>MRtrix tractogram</comment>
+    <glob pattern="*.tck"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="mrtrix tracks\n"/>
+    </magic>
+  </mime-type>
+  <!-- Industrial CT volumes, none in shared-mime-info. Zeiss Xradia files are OLE compound
+       documents (told from Office files by their streams when opened); Amira/Avizo lattices
+       start with "# AmiraMesh" or "# Avizo"; Nikon X-Tek and Volume Graphics headers are text
+       beside a raw .vol / .raw (which keeps no type: headerless volumes are opened by name). -->
+  <mime-type type="application/x-xradia-txm">
+    <comment>Zeiss Xradia CT scan</comment>
+    <sub-class-of type="application/x-ole-storage"/>
+    <glob pattern="*.txm"/>
+    <glob pattern="*.txrm"/>
+    <glob pattern="*.xrm"/>
+  </mime-type>
+  <mime-type type="application/x-amira-mesh">
+    <comment>Amira/Avizo volume</comment>
+    <glob pattern="*.am"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="# AmiraMesh"/>
+      <match type="string" offset="0" value="# Avizo"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-xtek-ct">
+    <comment>Nikon X-Tek CT volume</comment>
+    <glob pattern="*.xtekct"/>
+    <glob pattern="*.xtekvolume"/>
+  </mime-type>
+  <mime-type type="application/x-vgstudio-vgi">
+    <comment>Volume Graphics volume</comment>
+    <glob pattern="*.vgi"/>
+  </mime-type>
+  <mime-type type="application/x-nrrd">
+    <comment>NRRD volume</comment>
+    <glob pattern="*.nrrd"/>
+    <glob pattern="*.nhdr"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="NRRD000"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-metaimage">
+    <comment>MetaImage volume</comment>
+    <glob pattern="*.mha"/>
+    <glob pattern="*.mhd"/>
+  </mime-type>
+  <!-- Whole-slide images and OME-TIFF are TIFF inside; they get types of their own (by name)
+       so they open in Specular even where TIFF goes elsewhere. The longer OME globs win over *.tif. -->
+  <mime-type type="image/x-aperio-svs">
+    <comment>Aperio SVS whole-slide image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.svs"/>
+  </mime-type>
+  <mime-type type="image/x-hamamatsu-ndpi">
+    <comment>Hamamatsu NDPI whole-slide image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.ndpi"/>
+  </mime-type>
+  <mime-type type="image/x-leica-scn">
+    <comment>Leica SCN whole-slide image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.scn"/>
+  </mime-type>
+  <mime-type type="image/x-ome-tiff">
+    <comment>OME-TIFF microscopy image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.ome.tif" weight="60"/>
+    <glob pattern="*.ome.tiff" weight="60"/>
+    <glob pattern="*.ome.btf" weight="60"/>
+  </mime-type>
+  <!-- MIRAX: the .mrxs beside its folder (a JPEG preview by content, so the glob decides).
+       Olympus VSI by its metadata header only (`.vsi` is also Visual Studio's content
+       installer); Ventana `.bif` is not registered (also Roku's trick-play index). -->
+  <mime-type type="image/x-mirax">
+    <comment>3DHISTECH MIRAX whole-slide image</comment>
+    <glob pattern="*.mrxs"/>
+  </mime-type>
+  <!-- Hamamatsu VMS / VMU: INI index files named by their first section. -->
+  <mime-type type="image/x-hamamatsu-vms">
+    <comment>Hamamatsu VMS whole-slide image</comment>
+    <glob pattern="*.vms"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="[Virtual Microscope Specimen]"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-hamamatsu-vmu">
+    <comment>Hamamatsu VMU whole-slide image</comment>
+    <glob pattern="*.vmu"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="[Uncompressed Virtual Microscope Specimen]"/>
+    </magic>
+  </mime-type>
+  <!-- ICS: `.ics` is iCalendar's too, so by magic only: two separator bytes, then
+       "ics_version". -->
+  <mime-type type="image/x-ics">
+    <comment>Image Cytometry Standard image</comment>
+    <magic priority="60">
+      <match type="string" offset="2" value="ics_version"/>
+    </magic>
+  </mime-type>
+  <!-- Flow cytometry list-mode data (ISAC's registered type). -->
+  <mime-type type="application/vnd.isac.fcs">
+    <comment>Flow cytometry data</comment>
+    <glob pattern="*.fcs"/>
+    <glob pattern="*.lmd"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="FCS2.0    "/>
+      <match type="string" offset="0" value="FCS3.0    "/>
+      <match type="string" offset="0" value="FCS3.1    "/>
+      <match type="string" offset="0" value="FCS3.2    "/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-olympus-vsi">
+    <comment>Olympus VSI whole-slide image</comment>
+    <sub-class-of type="image/tiff"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="II*\0">
+        <match type="string" offset="8" value="\x18\0IS"/>
+      </match>
+    </magic>
+  </mime-type>
+  <!-- Zeiss LSM confocal stacks and MetaMorph STK stacks: TIFF inside, by name. -->
+  <mime-type type="image/x-zeiss-lsm">
+    <comment>Zeiss LSM microscopy image</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.lsm"/>
+  </mime-type>
+  <mime-type type="image/x-metamorph-stk">
+    <comment>MetaMorph stack</comment>
+    <sub-class-of type="image/tiff"/>
+    <glob pattern="*.stk"/>
+  </mime-type>
+  <!-- Geodata: GeoJSON, KML, KMZ and GPX are in shared-mime-info; Shapefiles (the main .shp,
+       file code 9994 big-endian at byte 0) and GeoPackages (SQLite with application id "GPKG"
+       at byte 68) are not. -->
+  <mime-type type="application/x-shapefile">
+    <comment>ESRI Shapefile</comment>
+    <glob pattern="*.shp"/>
+    <magic priority="50">
+      <match type="big32" offset="0" value="9994"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/geopackage+sqlite3">
+    <comment>GeoPackage</comment>
+    <sub-class-of type="application/vnd.sqlite3"/>
+    <glob pattern="*.gpkg"/>
+    <magic priority="60">
+      <match type="string" offset="68" value="GPKG"/>
+    </magic>
+  </mime-type>
+  <!-- Portable Float Map: not in shared-mime-info. The magic ("PF" grey or colour, then a
+       line end or space) keeps printer font metrics files, which share .pfm, out. -->
+  <mime-type type="image/x-portable-floatmap">
+    <comment>Portable Float Map image</comment>
+    <glob pattern="*.pfm"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PF\n"/>
+      <match type="string" offset="0" value="Pf\n"/>
+      <match type="string" offset="0" value="PF4\n"/>
+      <match type="string" offset="0" value="PF "/>
+      <match type="string" offset="0" value="Pf "/>
+    </magic>
+  </mime-type>
+  <!-- DPX is in shared-mime-info with the big-endian magic only; this adds little-endian
+       files ("XPDS"). -->
+  <mime-type type="image/dpx">
+    <glob pattern="*.dpx"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="SDPX"/>
+      <match type="string" offset="0" value="XPDS"/>
+    </magic>
+  </mime-type>
+  <!-- Kodak Cineon film scans: not in shared-mime-info. -->
+  <mime-type type="image/x-cineon">
+    <comment>Cineon image</comment>
+    <glob pattern="*.cin"/>
+    <magic priority="50">
+      <match type="big32" offset="0" value="0x802a5fd7"/>
+      <match type="little32" offset="0" value="0x802a5fd7"/>
+    </magic>
+  </mime-type>
+  <!-- ImageMagick's own format: not in shared-mime-info. -->
+  <mime-type type="image/x-miff">
+    <comment>ImageMagick image</comment>
+    <glob pattern="*.miff"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="id=ImageMagick"/>
+    </magic>
+  </mime-type>
+  <!-- PlayStation TIM textures: not in shared-mime-info; no reliable magic. -->
+  <mime-type type="image/x-sony-tim">
+    <comment>PlayStation TIM image</comment>
+    <glob pattern="*.tim"/>
+  </mime-type>
+  <!-- FBI WSQ fingerprints: not in shared-mime-info. -->
+  <mime-type type="image/x-wsq">
+    <comment>WSQ fingerprint image</comment>
+    <glob pattern="*.wsq"/>
+  </mime-type>
+  <!-- JBIG (T.82): not in shared-mime-info; no magic. -->
+  <mime-type type="image/x-jbig">
+    <comment>JBIG image</comment>
+    <glob pattern="*.jbg"/>
+    <glob pattern="*.jbig"/>
+    <glob pattern="*.bie"/>
+  </mime-type>
+  <!-- Standalone JBIG2 (T.88) files: not in shared-mime-info. -->
+  <mime-type type="image/x-jbig2">
+    <comment>JBIG2 image</comment>
+    <glob pattern="*.jb2"/>
+    <glob pattern="*.jbig2"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="\x97JB2\r\n\x1a\n"/>
+    </magic>
+  </mime-type>
+  <!-- JPEG XS (ISO/IEC 21122): IANA's image/jxs, not yet in shared-mime-info. A .jxs is an
+       image file (the "JXS " signature box) or a bare codestream (SOC then CAP markers). -->
+  <mime-type type="image/jxs">
+    <comment>JPEG XS image</comment>
+    <glob pattern="*.jxs"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="\x00\x00\x00\x0cJXS \r\n\x87\n"/>
+      <match type="string" offset="0" value="\xff\x10\xff\x50"/>
+    </magic>
+  </mime-type>
+  <!-- JPEG XS in HEIF (ISO/IEC 21122-3, a "jxs1" primary item): IANA's image/jxsi. A HEIF
+       file, so only the extension tells it apart. -->
+  <mime-type type="image/jxsi">
+    <comment>JPEG XS image (HEIF)</comment>
+    <sub-class-of type="image/heif"/>
+    <glob pattern="*.jxsi"/>
+  </mime-type>
+  <!-- Web map tile sets: MBTiles (SQLite with application id "MPBX" at byte 68) and
+       PMTiles v3 ("PMTiles" then version byte 3). -->
+  <mime-type type="application/x-mbtiles">
+    <comment>MBTiles map tiles</comment>
+    <sub-class-of type="application/vnd.sqlite3"/>
+    <glob pattern="*.mbtiles"/>
+    <magic priority="60">
+      <match type="string" offset="68" value="MPBX"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.pmtiles">
+    <comment>PMTiles map tiles</comment>
+    <glob pattern="*.pmtiles"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="PMTiles\x03"/>
+    </magic>
+  </mime-type>
+  <!-- Paint.NET, PaintShop Pro, BPG and FLIF are not in shared-mime-info (CorelDRAW is:
+       application/vnd.corel-draw). -->
+  <mime-type type="image/x-paintnet">
+    <comment>Paint.NET image</comment>
+    <glob pattern="*.pdn"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PDN3"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-paintshoppro">
+    <comment>PaintShop Pro image</comment>
+    <glob pattern="*.psp"/>
+    <glob pattern="*.pspimage"/>
+    <glob pattern="*.tub"/>
+    <glob pattern="*.psptube"/>
+    <glob pattern="*.pspframe"/>
+    <glob pattern="*.pspmask"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="Paint Shop Pro Image File"/>
+    </magic>
+  </mime-type>
+  <!-- Clip Studio Paint, Sketch and Figma are not in shared-mime-info (Visio, OpenDocument and
+       WordPerfect Graphics are). Sketch and Figma local copies are ZIPs: by glob only. -->
+  <mime-type type="application/x-clip-studio">
+    <comment>Clip Studio Paint illustration</comment>
+    <glob pattern="*.clip"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="CSFCHUNK"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-sketch">
+    <comment>Sketch document</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.sketch"/>
+  </mime-type>
+  <mime-type type="application/x-figma">
+    <comment>Figma file</comment>
+    <glob pattern="*.fig"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="fig-kiwi"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/bpg">
+    <comment>BPG image</comment>
+    <glob pattern="*.bpg"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="BPG\xfb"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/flif">
+    <comment>FLIF image</comment>
+    <glob pattern="*.flif"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="FLIF"/>
+    </magic>
+  </mime-type>
+  <!-- Vector map formats not in shared-mime-info (GML, GPX, KML and GeoJSON are). Parquet,
+       Arrow, OSM XML, TCX and NITF are IANA types; Garmin FIT shares .fit with FITS and is
+       told apart by its ".FIT" signature at byte 8. -->
+  <mime-type type="application/flatgeobuf">
+    <comment>FlatGeobuf map</comment>
+    <glob pattern="*.fgb"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="fgb\x03"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.apache.parquet">
+    <comment>Parquet table</comment>
+    <glob pattern="*.parquet"/>
+    <glob pattern="*.geoparquet"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PAR1"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.apache.arrow.file">
+    <comment>Arrow table</comment>
+    <glob pattern="*.arrow"/>
+    <glob pattern="*.feather"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ARROW1"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.apache.arrow.stream">
+    <comment>Arrow stream</comment>
+    <glob pattern="*.arrows"/>
+  </mime-type>
+  <mime-type type="application/vnd.openstreetmap.data+xml">
+    <comment>OpenStreetMap data</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.osm"/>
+  </mime-type>
+  <mime-type type="application/x-osm-pbf">
+    <comment>OpenStreetMap PBF data</comment>
+    <glob pattern="*.osm.pbf"/>
+    <magic priority="60">
+      <match type="string" offset="6" value="OSMHeader"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.ant.fit">
+    <comment>Garmin FIT activity</comment>
+    <glob pattern="*.fit" weight="40"/>
+    <magic priority="70">
+      <match type="string" offset="8" value=".FIT"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.garmin.tcx+xml">
+    <comment>Garmin TCX activity</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.tcx"/>
+  </mime-type>
+  <mime-type type="application/x-mapinfo-tab">
+    <comment>MapInfo table</comment>
+    <glob pattern="*.tab"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="!table"/>
+    </magic>
+  </mime-type>
+  <!-- More GIS formats (none in shared-MIME-info: our own names). BSB/KAP nautical charts
+       and their .bsb descriptions; ER Mapper headers; SAGA grid headers and their ZIP; GDAL
+       virtual rasters (an XML root VRTDataset); TopoJSON; IGC flight logs; NMEA GPS logs.
+       S-57 cells (.000) and Arc/Info grids (folders) are recognised by content only. -->
+  <mime-type type="application/x-bsb-chart">
+    <comment>BSB/KAP nautical chart</comment>
+    <glob pattern="*.kap"/>
+    <glob pattern="*.bsb"/>
+  </mime-type>
+  <mime-type type="application/x-ermapper">
+    <comment>ER Mapper raster</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.ers"/>
+    <magic priority="50">
+      <match type="string" offset="0:256" value="DatasetHeader Begin"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-saga-grid">
+    <comment>SAGA GIS grid</comment>
+    <glob pattern="*.sgrd"/>
+    <glob pattern="*.sg-grd-z"/>
+  </mime-type>
+  <mime-type type="application/x-gdal-vrt">
+    <comment>GDAL virtual raster</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.vrt"/>
+    <root-XML namespaceURI="" localName="VRTDataset"/>
+  </mime-type>
+  <mime-type type="application/x-topojson">
+    <comment>TopoJSON topology</comment>
+    <sub-class-of type="application/json"/>
+    <glob pattern="*.topojson"/>
+  </mime-type>
+  <mime-type type="application/x-igc">
+    <comment>IGC flight log</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.igc"/>
+  </mime-type>
+  <mime-type type="application/x-nmea">
+    <comment>NMEA GPS log</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.nmea"/>
+  </mime-type>
+  <mime-type type="application/vnd.nitf">
+    <comment>NITF image</comment>
+    <glob pattern="*.ntf"/>
+    <glob pattern="*.nitf"/>
+    <glob pattern="*.nsf"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="NITF02.10"/>
+      <match type="string" offset="0" value="NSIF01.00"/>
+      <match type="string" offset="0" value="NITF02.00"/>
+    </magic>
+  </mime-type>
+  <!-- Kindle books: MOBI, AZW3 and FB2 are in shared-mime-info; the older AZW name of a
+       Mobipocket book is not everywhere. -->
+  <mime-type type="application/vnd.amazon.ebook">
+    <comment>Kindle book</comment>
+    <magic priority="50">
+      <match type="string" offset="60" value="BOOKMOBI"/>
+    </magic>
+    <glob pattern="*.azw"/>
+  </mime-type>
+  <!-- IFF ANIM: shared-mime-info matches only *.anim1-9 and *.animj; files are often plain
+       .anim. -->
+  <mime-type type="video/x-anim">
+    <glob pattern="*.anim"/>
+  </mime-type>
+  <!-- Sound files shared-mime-info lacks (AU, VOC, TTA, Shorten, DSF, DSDIFF and the tracker
+       modules are in it), YUV4MPEG2 and CD+G. -->
+  <mime-type type="audio/x-caf">
+    <comment>Apple Core Audio file</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="caff"/>
+    </magic>
+    <glob pattern="*.caf"/>
+  </mime-type>
+  <mime-type type="audio/x-w64">
+    <comment>Sony Wave64 sound</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="riff"/>
+    </magic>
+    <glob pattern="*.w64"/>
+  </mime-type>
+  <mime-type type="audio/x-rf64">
+    <comment>RF64 sound</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="RF64"/>
+    </magic>
+    <glob pattern="*.rf64"/>
+  </mime-type>
+  <mime-type type="audio/x-bw64">
+    <comment>BW64 sound</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="BW64"/>
+    </magic>
+    <glob pattern="*.bw64"/>
+  </mime-type>
+  <mime-type type="audio/x-8svx">
+    <comment>Amiga 8SVX sound</comment>
+    <magic priority="50">
+      <match type="string" offset="8" value="8SVX"/>
+      <match type="string" offset="8" value="16SV"/>
+    </magic>
+    <glob pattern="*.8svx"/>
+    <glob pattern="*.16sv"/>
+    <glob pattern="*.svx"/>
+  </mime-type>
+  <mime-type type="audio/x-avr">
+    <comment>AVR sound</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="2BIT"/>
+    </magic>
+    <glob pattern="*.avr"/>
+  </mime-type>
+  <mime-type type="audio/x-nist-sphere">
+    <comment>NIST SPHERE sound</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="NIST_1A"/>
+    </magic>
+    <glob pattern="*.sph"/>
+    <glob pattern="*.nist"/>
+  </mime-type>
+  <mime-type type="audio/x-ircam">
+    <comment>IRCAM sound</comment>
+    <glob pattern="*.sf"/>
+    <glob pattern="*.ircam"/>
+  </mime-type>
+  <mime-type type="video/x-yuv4mpeg">
+    <comment>YUV4MPEG2 video</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="YUV4MPEG2 "/>
+    </magic>
+    <glob pattern="*.y4m"/>
+  </mime-type>
+  <mime-type type="video/x-cdg">
+    <comment>CD+G karaoke graphics</comment>
+    <glob pattern="*.cdg"/>
+  </mime-type>
+  <!-- Retro, game and terminal rasters. shared-mime-info has MacPaint (only *.pntg; *.mac
+       added here), QuickTime images and image/rle; the rest are not in it. `.blp` is also
+       GNOME Blueprint's text/x-blueprint: the magic decides. X cursors (no extension),
+       Softimage PIC (`.pic`, Radiance's too) and GEM images (`.img`, disk images') by magic
+       only. -->
+  <mime-type type="image/x-mpo">
+    <comment>Multi-Picture JPEG (stereo)</comment>
+    <sub-class-of type="image/jpeg"/>
+    <glob pattern="*.mpo"/>
+  </mime-type>
+  <mime-type type="image/x-sixel">
+    <comment>Sixel image</comment>
+    <glob pattern="*.six"/>
+    <glob pattern="*.sixel"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="\033P">
+        <match type="string" offset="2:8" value="q"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-xcursor">
+    <comment>X cursor</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="Xcur"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-macpaint">
+    <glob pattern="*.mac"/>
+  </mime-type>
+  <mime-type type="image/x-avs">
+    <comment>AVS X image</comment>
+    <glob pattern="*.avs"/>
+  </mime-type>
+  <mime-type type="image/x-gem">
+    <comment>GEM bit image</comment>
+    <magic priority="30">
+      <match type="big16" offset="0" value="1">
+        <match type="string" offset="16" value="XIMG"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-degas">
+    <comment>Atari DEGAS picture</comment>
+    <glob pattern="*.pi1"/>
+    <glob pattern="*.pi2"/>
+    <glob pattern="*.pi3"/>
+    <glob pattern="*.pc1"/>
+    <glob pattern="*.pc2"/>
+    <glob pattern="*.pc3"/>
+  </mime-type>
+  <mime-type type="image/x-neochrome">
+    <comment>Atari NEOchrome picture</comment>
+    <glob pattern="*.neo"/>
+  </mime-type>
+  <mime-type type="image/x-koala">
+    <comment>Commodore 64 Koala picture</comment>
+    <glob pattern="*.koa"/>
+    <glob pattern="*.kla"/>
+  </mime-type>
+  <mime-type type="image/x-halo-cut">
+    <comment>Dr. Halo image</comment>
+    <glob pattern="*.cut"/>
+  </mime-type>
+  <mime-type type="image/x-softimage-pic">
+    <comment>Softimage PIC image</comment>
+    <magic priority="50">
+      <match type="big32" offset="0" value="0x5380f634"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-alias-pix">
+    <comment>Alias PIX image</comment>
+    <glob pattern="*.pix"/>
+  </mime-type>
+  <mime-type type="image/x-rla">
+    <comment>Wavefront RLA image</comment>
+    <glob pattern="*.rla"/>
+    <glob pattern="*.rpf"/>
+  </mime-type>
+  <mime-type type="image/x-quake2-wal">
+    <comment>Quake 2 texture</comment>
+    <glob pattern="*.wal"/>
+  </mime-type>
+  <mime-type type="image/x-blp">
+    <comment>Blizzard texture</comment>
+    <glob pattern="*.blp"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="BLP1"/>
+      <match type="string" offset="0" value="BLP2"/>
+    </magic>
+  </mime-type>
+  <!-- USGS DEM and Esri ASCII grids (the latter by its first keyword: `.asc` is PGP armour's). -->
+  <mime-type type="application/x-usgs-dem">
+    <comment>USGS DEM elevation model</comment>
+    <glob pattern="*.dem"/>
+  </mime-type>
+  <mime-type type="application/x-esri-ascii-grid">
+    <comment>Esri ASCII grid</comment>
+    <sub-class-of type="text/plain"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ncols"/>
+      <match type="string" offset="0" value="NCOLS"/>
+      <match type="string" offset="0" value="nrows"/>
+      <match type="string" offset="0" value="NROWS"/>
+    </magic>
+  </mime-type>
+  <!-- Geomview OFF meshes: not in shared-mime-info. -->
+  <mime-type type="model/x-off">
+    <comment>OFF 3D model</comment>
+    <glob pattern="*.off"/>
+    <magic priority="40">
+      <match type="string" offset="0" value="OFF"/>
+      <match type="string" offset="0" value="COFF"/>
+      <match type="string" offset="0" value="NOFF"/>
+      <match type="string" offset="0" value="STOFF"/>
+    </magic>
+  </mime-type>
+  <!-- Speech, instruments and MIDI. Plain *.sln is Visual Studio's: not claimed. -->
+  <mime-type type="audio/x-sln">
+    <comment>Signed-linear speech audio</comment>
+    <glob pattern="*.sln12"/>
+    <glob pattern="*.sln16"/>
+    <glob pattern="*.sln24"/>
+    <glob pattern="*.sln32"/>
+    <glob pattern="*.sln44"/>
+    <glob pattern="*.sln48"/>
+    <glob pattern="*.sln96"/>
+    <glob pattern="*.sln192"/>
+  </mime-type>
+  <mime-type type="audio/x-htk">
+    <comment>HTK speech recording</comment>
+    <glob pattern="*.htk"/>
+  </mime-type>
+  <mime-type type="audio/x-soundfont">
+    <comment>SoundFont instrument bank</comment>
+    <magic><match type="string" offset="0" value="RIFF"><match type="string" offset="8" value="sfbk"/></match></magic>
+    <glob pattern="*.sf2"/>
+  </mime-type>
+  <mime-type type="audio/dls">
+    <comment>DLS instrument bank</comment>
+    <magic><match type="string" offset="0" value="RIFF"><match type="string" offset="8" value="DLS "/></match></magic>
+    <glob pattern="*.dls"/>
+  </mime-type>
+  <mime-type type="audio/x-sfz">
+    <comment>SFZ instrument</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.sfz"/>
+  </mime-type>
+  <mime-type type="audio/mid">
+    <comment>RIFF MIDI song</comment>
+    <sub-class-of type="audio/midi"/>
+    <glob pattern="*.rmi"/>
+  </mime-type>
+  <mime-type type="video/x-f4v">
+    <comment>Flash MP4 video</comment>
+    <sub-class-of type="video/mp4"/>
+    <glob pattern="*.f4v"/>
+  </mime-type>
+  <mime-type type="video/x-ms-dvr">
+    <comment>Media Center recording</comment>
+    <sub-class-of type="video/x-ms-asf"/>
+    <glob pattern="*.dvr-ms"/>
+  </mime-type>
+  <mime-type type="video/wtv">
+    <comment>Windows Media Center TV recording</comment>
+    <magic priority="50">
+      <match type="string" value="\xb7\xd8\x00\x20\x37\x49\xda\x11" offset="0"/>
+    </magic>
+    <glob pattern="*.wtv"/>
+  </mime-type>
+  <mime-type type="audio/qcelp">
+    <comment>QCELP or EVRC speech</comment>
+    <magic priority="50">
+      <match type="string" value="RIFF" offset="0">
+        <match type="string" value="QLCM" offset="8"/>
+      </match>
+    </magic>
+    <glob pattern="*.qcp"/>
+  </mime-type>
+  <!-- 8-bit home computer screen dumps: no signatures, known by extension and size. .scr (Amstrad
+       CPC, ZX Spectrum, Windows screen savers) is not registered. -->
+  <mime-type type="image/x-msx-screen">
+    <comment>MSX screen</comment>
+    <glob pattern="*.sc2"/>
+    <glob pattern="*.sc5"/>
+    <glob pattern="*.sc6"/>
+    <glob pattern="*.sc7"/>
+    <glob pattern="*.sc8"/>
+    <glob pattern="*.sca"/>
+  </mime-type>
+  <mime-type type="image/x-apple-ii-hires">
+    <comment>Apple II hi-res screen</comment>
+    <glob pattern="*.hgr"/>
+  </mime-type>
+  <mime-type type="image/x-apple-ii-double-hires">
+    <comment>Apple II double hi-res screen</comment>
+    <glob pattern="*.dhr"/>
+    <glob pattern="*.a2fc"/>
+  </mime-type>
+  <mime-type type="image/x-bbc-micro-screen">
+    <comment>BBC Micro screen</comment>
+    <glob pattern="*.bb0"/>
+    <glob pattern="*.bb1"/>
+    <glob pattern="*.bb2"/>
+    <glob pattern="*.bb4"/>
+    <glob pattern="*.bb5"/>
+  </mime-type>
+  <mime-type type="image/x-atari-micropainter">
+    <comment>Atari Micro Painter picture</comment>
+    <glob pattern="*.mic"/>
+  </mime-type>
+  <mime-type type="image/x-atari-graphics8">
+    <comment>Atari Graphics 8 screen</comment>
+    <glob pattern="*.gr8"/>
+  </mime-type>
+  <mime-type type="image/x-atari-graphics9">
+    <comment>Atari Graphics 9 screen</comment>
+    <glob pattern="*.gr9"/>
+  </mime-type>
+  <!-- Gzip-compressed metafiles, as Office and LibreOffice save them. -->
+  <mime-type type="image/x-wmz">
+    <comment>Compressed Windows Metafile</comment>
+    <glob pattern="*.wmz"/>
+  </mime-type>
+  <mime-type type="image/x-emz">
+    <comment>Compressed Enhanced Metafile</comment>
+    <glob pattern="*.emz"/>
+  </mime-type>
+  <!-- Alembic archives (Ogawa container); .abc is also ABC music notation (text). -->
+  <mime-type type="model/x-alembic">
+    <comment>Alembic scene</comment>
+    <glob pattern="*.abc"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="Ogawa"/>
+    </magic>
+  </mime-type>
+  <!-- Text and subtitles: the other text types are in shared-mime-info; these add the
+       globs it lacks (DOS art .diz, .mdown, .webvtt) and the subtitle types it does not have
+       (PGS, LRC, TTML, SCC). -->
+  <mime-type type="text/x-nfo">
+    <glob pattern="*.diz"/>
+  </mime-type>
+  <mime-type type="text/markdown">
+    <glob pattern="*.mdown"/>
+  </mime-type>
+  <mime-type type="text/vtt">
+    <glob pattern="*.webvtt"/>
+  </mime-type>
+  <mime-type type="application/x-pgs">
+    <comment>Blu-ray PGS subtitles</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="PG"/>
+    </magic>
+    <glob pattern="*.sup"/>
+  </mime-type>
+  <mime-type type="text/x-lrc">
+    <comment>LRC lyrics</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.lrc"/>
+  </mime-type>
+  <mime-type type="application/ttml+xml">
+    <comment>TTML timed text</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.ttml"/>
+    <glob pattern="*.dfxp"/>
+  </mime-type>
+  <mime-type type="text/x-scc">
+    <comment>Scenarist closed captions</comment>
+    <sub-class-of type="text/plain"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="Scenarist_SCC V1.0"/>
+    </magic>
+    <glob pattern="*.scc"/>
+  </mime-type>
+  <!-- Formats 500d. Globs shared-mime-info lacks for its own types (Photoshop's PhotoDeluxe
+       and template names, Krita archives, camera sidecars that are JPEG or MP4), then our
+       own types: palettes, gradients, brushes and patterns, Aseprite, small raster formats,
+       textures, SPIDER, McIDAS AREA and raw video streams. -->
+  <mime-type type="image/vnd.adobe.photoshop">
+    <glob pattern="*.pdd"/>
+    <glob pattern="*.psdt"/>
+  </mime-type>
+  <mime-type type="application/x-krita">
+    <glob pattern="*.krz"/>
+  </mime-type>
+  <mime-type type="image/jpeg">
+    <glob pattern="*.thm"/>
+    <glob pattern="*.insp"/>
+  </mime-type>
+  <mime-type type="video/mp4">
+    <glob pattern="*.lrv"/>
+    <glob pattern="*.360"/>
+    <glob pattern="*.insv"/>
+  </mime-type>
+  <mime-type type="image/x-gimp-gpl">
+    <comment>GIMP palette</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.gpl"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="GIMP Palette"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-gimp-ggr">
+    <comment>GIMP gradient</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.ggr"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="GIMP Gradient"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-adobe-aco">
+    <comment>Photoshop swatches</comment>
+    <glob pattern="*.aco"/>
+  </mime-type>
+  <mime-type type="image/x-adobe-act">
+    <comment>Adobe colour table</comment>
+    <glob pattern="*.act"/>
+  </mime-type>
+  <mime-type type="image/x-adobe-ase">
+    <comment>Adobe Swatch Exchange</comment>
+    <glob pattern="*.ase"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ASEF"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-aseprite">
+    <comment>Aseprite sprite</comment>
+    <glob pattern="*.aseprite"/>
+    <glob pattern="*.ase"/>
+    <magic priority="50">
+      <match type="little16" offset="4" value="0xA5E0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-msp">
+    <comment>Microsoft Paint picture</comment>
+    <glob pattern="*.msp"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="DanM"/>
+      <match type="string" offset="0" value="LinS"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-gd">
+    <comment>GD image</comment>
+    <glob pattern="*.gd"/>
+  </mime-type>
+  <mime-type type="image/x-gd2">
+    <comment>GD2 image</comment>
+    <glob pattern="*.gd2"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="gd2\000"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-pixar">
+    <comment>Pixar picture</comment>
+    <glob pattern="*.pxr"/>
+    <glob pattern="*.picio"/>
+    <magic priority="50">
+      <match type="big32" offset="0" value="0x80E80000"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-labeye-im">
+    <comment>LabEye IM image</comment>
+    <glob pattern="*.im"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="Image type:"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-imt">
+    <comment>IM Tools image</comment>
+    <glob pattern="*.imt"/>
+  </mime-type>
+  <mime-type type="image/x-pgx">
+    <comment>JPEG 2000 PGX component</comment>
+    <glob pattern="*.pgx"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PG ML"/>
+      <match type="string" offset="0" value="PG LM"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-cals">
+    <comment>CALS raster</comment>
+    <glob pattern="*.cal"/>
+    <glob pattern="*.cals"/>
+    <glob pattern="*.ct1"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="srcdocid:"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-pkm">
+    <comment>PKM texture</comment>
+    <glob pattern="*.pkm"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="PKM "/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-firaxis-texture">
+    <comment>Firaxis texture</comment>
+    <glob pattern="*.ftc"/>
+    <glob pattern="*.ftu"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="FTEX"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-spider">
+    <comment>SPIDER image</comment>
+    <glob pattern="*.spi"/>
+    <glob pattern="*.spider"/>
+  </mime-type>
+  <mime-type type="image/x-mcidas-area">
+    <comment>McIDAS AREA satellite image</comment>
+    <glob pattern="*.area"/>
+    <glob pattern="*.ara"/>
+  </mime-type>
+  <mime-type type="video/x-h264">
+    <comment>H.264 video stream</comment>
+    <glob pattern="*.h264"/>
+    <glob pattern="*.264"/>
+    <glob pattern="*.avc"/>
+  </mime-type>
+  <mime-type type="video/x-h265">
+    <comment>HEVC video stream</comment>
+    <glob pattern="*.h265"/>
+    <glob pattern="*.265"/>
+    <glob pattern="*.hevc"/>
+  </mime-type>
+  <mime-type type="video/x-av1">
+    <comment>AV1 video stream</comment>
+    <glob pattern="*.obu"/>
+  </mime-type>
+  <mime-type type="video/x-motion-jpeg">
+    <comment>Motion JPEG stream</comment>
+    <glob pattern="*.mjpeg"/>
+    <glob pattern="*.mjpg"/>
+  </mime-type>
+  <mime-type type="video/x-apv">
+    <comment>APV video</comment>
+    <glob pattern="*.apv"/>
+    <magic priority="50">
+      <match type="string" offset="4" value="aPv1"/>
+    </magic>
+  </mime-type>
+  <mime-type type="audio/x-qoa">
+    <comment>QOA sound</comment>
+    <glob pattern="*.qoa"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="qoaf"/>
+    </magic>
+  </mime-type>
+  <!-- fmt500e: PlayStation movies, bitmap fonts, notebooks, diagrams, Lottie, Flash,
+       game and scene models, molecules. -->
+  <mime-type type="application/x-font-pcf">
+    <comment>X11 PCF bitmap font</comment>
+    <glob pattern="*.pcf"/>
+  </mime-type>
+  <mime-type type="application/x-font-bdf">
+    <comment>BDF bitmap font</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="STARTFONT "/>
+    </magic>
+    <glob pattern="*.bdf"/>
+  </mime-type>
+  <mime-type type="application/x-font-winfon">
+    <comment>Windows bitmap font</comment>
+    <glob pattern="*.fon"/>
+    <glob pattern="*.fnt"/>
+  </mime-type>
+  <mime-type type="application/x-font-linux-psf">
+    <comment>Linux console font</comment>
+    <glob pattern="*.psf"/>
+    <glob pattern="*.psfu"/>
+  </mime-type>
+  <mime-type type="application/x-ipynb+json">
+    <comment>Jupyter notebook</comment>
+    <glob pattern="*.ipynb"/>
+  </mime-type>
+  <mime-type type="application/vnd.jgraph.mxfile">
+    <comment>draw.io diagram</comment>
+    <glob pattern="*.drawio"/>
+    <glob pattern="*.dio"/>
+  </mime-type>
+  <mime-type type="application/vnd.excalidraw+json">
+    <comment>Excalidraw scene</comment>
+    <glob pattern="*.excalidraw"/>
+  </mime-type>
+  <mime-type type="application/zip+dotlottie">
+    <comment>Lottie animation package</comment>
+    <glob pattern="*.lottie"/>
+  </mime-type>
+  <mime-type type="application/vnd.adobe.flash.movie">
+    <comment>Flash movie</comment>
+    <glob pattern="*.swf"/>
+  </mime-type>
+  <mime-type type="chemical/x-mol2">
+    <comment>Tripos MOL2 molecule</comment>
+    <glob pattern="*.mol2"/>
+    <glob pattern="*.ml2"/>
+  </mime-type>
+  <mime-type type="chemical/x-gromacs-gro">
+    <comment>GROMACS structure</comment>
+    <glob pattern="*.gro"/>
+  </mime-type>
+  <mime-type type="video/x-psx-str">
+    <comment>PlayStation movie</comment>
+    <glob pattern="*.str"/>
+  </mime-type>
+  <mime-type type="model/x-md2">
+    <comment>Quake II model</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="IDP2"/>
+    </magic>
+    <glob pattern="*.md2"/>
+  </mime-type>
+  <mime-type type="model/x-ms3d">
+    <comment>MilkShape 3D model</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="MS3D000000"/>
+    </magic>
+    <glob pattern="*.ms3d"/>
+  </mime-type>
+  <mime-type type="model/x-magicavoxel">
+    <comment>MagicaVoxel model</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="VOX "/>
+    </magic>
+    <glob pattern="*.vox"/>
+  </mime-type>
+  <mime-type type="model/x-ac3d">
+    <comment>AC3D model</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="AC3D"/>
+    </magic>
+    <glob pattern="*.ac"/>
+    <glob pattern="*.ac3d"/>
+  </mime-type>
+  <mime-type type="model/x-directx">
+    <comment>DirectX model</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="xof 03"/>
+    </magic>
+    <glob pattern="*.x"/>
+  </mime-type>
+  <mime-type type="model/x-bvh">
+    <comment>BioVision motion capture</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="HIERARCHY"/>
+    </magic>
+    <glob pattern="*.bvh"/>
+  </mime-type>
+</mime-info>

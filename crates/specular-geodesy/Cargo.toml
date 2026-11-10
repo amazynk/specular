@@ -1,0 +1,12 @@
+[package]
+name = "specular-geodesy"
+description = "Geodesy for Specular's maps on WGS 84: decimal, DMS, UTM/UPS and MGRS/USNG coordinates (formatting and parsing), geodesic distance, bearing, path length and polygon area (Karney's method), scale-bar lengths in metric or imperial units, elevation profiles, and the traits a map's georeference plugs into"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

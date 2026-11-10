@@ -1,0 +1,10 @@
+M48
+; #@! TF.FileFunction,NonPlated,1,2,NPTH
+METRIC
+T1C3.000
+%
+G90
+G05
+T1
+X25.0Y10.0
+M30

@@ -1,0 +1,21 @@
+[package]
+name = "specular-odf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "OpenDocument for Specular: Draw (.odg) and Impress (.odp) pages rendered from draw:* shapes, styles and text, and the Thumbnails/thumbnail.png every OpenDocument package carries"
+
+[dependencies]
+specular-drawpage = { path = "../specular-drawpage" }
+specular-ora = { path = "../specular-ora" }  # bounded ZIP reader
+specular-vector = { path = "../../specular-vector" }  # font metrics: list labels, fit-to-frame text
+thiserror = "2"
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }  # small-stack hostile tests
+specular-png = { path = "../specular-png" }  # decodes embedded images in the render example and tests
+specular-jpeg = { path = "../specular-jpeg" }  # JPEG pictures in the render example
+
+[lints]
+workspace = true

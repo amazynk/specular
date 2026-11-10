@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	גלריה	the thumbnail grid of one folder	
+Library	Library	ספרייה	the catalogue of indexed folders	
+Folder	Folder	תיקייה	a file-system folder	
+Remove	Remove	הסרה	take an item out of a list; files stay	
+Delete	Delete	מחיקה	destroy data or files	
+Forget	Forget	לשכוח	drop a remembered choice or record	לשכוח (infinitive, as other buttons).
+Move to trash	Move to trash	העברה לאשפה	send files to the system trash	
+Export	Export	ייצוא	write a copy in another form	
+Import	Import	ייבוא	copy photos in from a card or device	
+Settings	Settings	הגדרות	the Settings window, also in paths: Settings › Section	
+Undo	Undo	ביטול פעולה	reverse the last action (never the word for Cancel)	ביטול פעולה. ביטול alone is Cancel.
+Redo	Redo	ביצוע מחדש		
+Zoom	Zoom	זום	image magnification	
+Page	Page	עמוד	a page of a document or multi-page file	
+Layer	Layers	שכבות	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	ערוצים	colour or audio channels	
+Series	Series	סדרה	a DICOM series	
+Study	Study	בדיקה	a DICOM study	בדיקה (clinical examination), not מחקר (research).
+Slice	Slice	פרוסה	one cross-sectional image of a volume	פרוסה. חתך is a section or cross-section (BIM, dental CPR).
+Frame	Frames	פריימים	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	רצועה	a numbered piece of an album	
+Subtitle	Subtitles	כתוביות	text over a video	
+Loudness	Loudness	עוצמה נשמעת	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	מודל	a local AI model	
+Download	Download	הורדה	fetch from the network	
+Cull mode	Cull mode	מצב מיון	the mode for picking and rejecting photos	
+Pick	Pick	בחירה	a cull mark	
+Reject	Reject	דחייה	a cull mark	
+Rating	Rating	דירוג	stars	
+Local AI	Local AI	בינה מלאכותית מקומית	the Settings section and the feature set	
+Metadata	Metadata	מטא־נתונים		
+Thumbnail	Thumbnail	תמונה ממוזערת		
+Slideshow	Slideshow	מצגת		
+Compare	Compare	השוואה		
+Print	Print	הדפסה		
+Search	Search	חיפוש		
+Filter	Filter	מסנן	narrow what is shown (not an optical filter)	
+Rename	Rename	שינוי שם		

@@ -1,0 +1,1083 @@
+//! MIAF (ISO/IEC 23000-22) constraints as typed checks.
+//!
+//! [`check`] walks a parsed file and reports every violation of the
+//! `miaf` brand's general requirements (§7) plus the shared conditions
+//! (§8) and the codec constraints of the profile being checked
+//! (Annex A). Checks are structural — they never decode pixels.
+
+use crate::boxes::{fourcc_str, FourCc};
+use crate::derived::{build_graph, ImageKind, ImageNode};
+use crate::error::Result;
+use crate::file::HeifFile;
+use crate::ftyp::{
+    BRAND_MA1A, BRAND_MA1B, BRAND_MIAB, BRAND_MIAF, BRAND_MIF1, BRAND_MIHA, BRAND_MIHB, BRAND_MIHE,
+    BRAND_MSF1, BRAND_TMAP,
+};
+use crate::meta::{reference, ITEM_TYPE_HVC1, ITEM_TYPE_IDEN, ITEM_TYPE_TMAP};
+use crate::props::{AuxKind, Colr, Property};
+
+/// A MIAF profile (Annex A) or the plain `miaf` brand.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum MiafProfile {
+    /// The `miaf` brand: §7 general requirements only.
+    Miaf,
+    /// `MiHB` — HEVC Main / Main Still Picture, 4:2:0 8-bit (A.3).
+    HevcBasic,
+    /// `MiHA` — adds Main 10 / Main Intra / Main 4:2:2 10 Intra (A.4).
+    HevcAdvanced,
+    /// `MiHE` — adds Main 4:4:4 (10) / Monochrome (10) (A.5).
+    HevcExtended,
+    /// `MiAB` — AVC Basic (A.6); AVC items are not decodable here.
+    AvcBasic,
+    /// `MA1B` — AV1 Basic (AVIF §7.2).
+    Av1Basic,
+    /// `MA1A` — AV1 Advanced (AVIF §7.3).
+    Av1Advanced,
+}
+
+impl MiafProfile {
+    /// The brand that declares this profile.
+    pub fn brand(&self) -> FourCc {
+        match self {
+            MiafProfile::Miaf => BRAND_MIAF,
+            MiafProfile::HevcBasic => BRAND_MIHB,
+            MiafProfile::HevcAdvanced => BRAND_MIHA,
+            MiafProfile::HevcExtended => BRAND_MIHE,
+            MiafProfile::AvcBasic => BRAND_MIAB,
+            MiafProfile::Av1Basic => BRAND_MA1B,
+            MiafProfile::Av1Advanced => BRAND_MA1A,
+        }
+    }
+
+    /// Every profile a file declares through its brands.
+    pub fn declared_by<D: AsRef<[u8]>>(file: &HeifFile<D>) -> Vec<MiafProfile> {
+        [
+            MiafProfile::Miaf,
+            MiafProfile::HevcBasic,
+            MiafProfile::HevcAdvanced,
+            MiafProfile::HevcExtended,
+            MiafProfile::AvcBasic,
+            MiafProfile::Av1Basic,
+            MiafProfile::Av1Advanced,
+        ]
+        .into_iter()
+        .filter(|p| file.file_type.has_brand(&p.brand()))
+        .collect()
+    }
+
+    /// `true` when the profile adopts the Annex A "shared constraints"
+    /// (self-containment, single-layer, grid-limit, single-track,
+    /// matched-duration).
+    pub fn adopts_shared_constraints(&self) -> bool {
+        !matches!(self, MiafProfile::Miaf)
+    }
+}
+
+/// One violated requirement.
+#[derive(Clone, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub struct MiafViolation {
+    /// The clause the requirement comes from (`"7.2.1.7"`, `"A.3.2"`, …).
+    pub clause: &'static str,
+    /// The item the violation concerns, when item-specific.
+    pub item_id: Option<u32>,
+    /// What went wrong.
+    pub message: String,
+}
+impl MiafViolation {
+    /// Every field as a positional argument, in declaration order
+    /// (the struct is `#[non_exhaustive]`: build it here or from
+    /// `Default` where one exists, then read / assign its public fields).
+    pub fn new(clause: &'static str, item_id: Option<u32>, message: String) -> Self {
+        Self {
+            clause,
+            item_id,
+            message,
+        }
+    }
+}
+
+/// Result of a MIAF check.
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+#[non_exhaustive]
+pub struct MiafReport {
+    /// The violations found, in discovery order.
+    pub violations: Vec<MiafViolation>,
+    /// Departures from *should*-level recommendations (MIAF Amd 1:2025
+    /// §7.3.11.5 input orientation, HEIF Amd 1:2025 §6.6.2.4.1 hidden
+    /// gain map / `pixi` / `clli` hints, …), in discovery order. They
+    /// do not affect [`MiafReport::is_conformant`].
+    pub advisories: Vec<MiafViolation>,
+}
+impl MiafReport {
+    /// Every field as a positional argument, in declaration order
+    /// (the struct is `#[non_exhaustive]`: build it here or from
+    /// `Default` where one exists, then read / assign its public fields).
+    pub fn new(violations: Vec<MiafViolation>, advisories: Vec<MiafViolation>) -> Self {
+        Self {
+            violations,
+            advisories,
+        }
+    }
+}
+
+impl MiafReport {
+    /// `true` when nothing was violated.
+    pub fn is_conformant(&self) -> bool {
+        self.violations.is_empty()
+    }
+
+    fn push(&mut self, clause: &'static str, item_id: Option<u32>, message: impl Into<String>) {
+        self.violations.push(MiafViolation {
+            clause,
+            item_id,
+            message: message.into(),
+        });
+    }
+
+    fn advise(&mut self, clause: &'static str, item_id: Option<u32>, message: impl Into<String>) {
+        self.advisories.push(MiafViolation {
+            clause,
+            item_id,
+            message: message.into(),
+        });
+    }
+}
+
+/// HEIF Amd 2:2026 §11.3.5 (`unrg` / `corg` groups of regions): every
+/// entity is a region item, all of one group's regions describe the
+/// same image through `cdsc`, and a compound region names at least
+/// the main region and one part. Reported under `"HEIF-A2 11.3.5.x"`.
+fn check_region_groups(meta: &crate::meta::Meta, rep: &mut MiafReport) {
+    for g in &meta.entity_groups {
+        let clause = match &g.grouping_type {
+            b"unrg" => "HEIF-A2 11.3.5.1",
+            b"corg" => "HEIF-A2 11.3.5.2",
+            _ => continue,
+        };
+        let name = fourcc_str(&g.grouping_type);
+        if &g.grouping_type == b"corg" && g.entity_ids.len() < 2 {
+            rep.push(
+                clause,
+                None,
+                format!(
+                    "corg group {} has {} entities (a main region and at least one part)",
+                    g.group_id,
+                    g.entity_ids.len()
+                ),
+            );
+        }
+        let mut images: Vec<Vec<u32>> = Vec::new();
+        for e in &g.entity_ids {
+            match meta.item(*e) {
+                Some(it) if it.item_type == crate::meta::ITEM_TYPE_RGAN => {
+                    let mut imgs = meta.references_from(*e, &reference::CDSC);
+                    imgs.sort_unstable();
+                    images.push(imgs);
+                }
+                Some(it) => rep.push(
+                    clause,
+                    Some(*e),
+                    format!(
+                        "{name} group {} entity {e} is a '{}' item, not a region item",
+                        g.group_id,
+                        fourcc_str(&it.item_type)
+                    ),
+                ),
+                // An entity id that is not an item (a track, or a group
+                // under unique ids): not a region item either.
+                None => rep.push(
+                    clause,
+                    None,
+                    format!(
+                        "{name} group {} entity {e} is not a region item",
+                        g.group_id
+                    ),
+                ),
+            }
+        }
+        if images.windows(2).any(|w| w[0] != w[1]) {
+            rep.push(
+                clause,
+                None,
+                format!(
+                    "{name} group {}: its region items describe different images (cdsc)",
+                    g.group_id
+                ),
+            );
+        }
+    }
+}
+
+/// HEIF Amd 1:2025 §6.6.2.4 / §10.2.6 (`tmap` derived image items):
+/// the input pair, the three `colr` placements, the `ToneMapImage`
+/// version and the `tmap` brand, reported under `"HEIF-A1 …"` clauses;
+/// MIAF Amd 1:2025 §7.3.11.5 (the mandatory `altr` grouping with a
+/// valid MIAF master image item) under `"MIAF-A1 7.3.11.5"`. The
+/// should-level rules (hidden gain map, `pixi` hint, matching input
+/// orientation) land in [`MiafReport::advisories`].
+fn check_tone_maps<D: AsRef<[u8]>>(
+    file: &HeifFile<D>,
+    meta: &crate::meta::Meta,
+    rep: &mut MiafReport,
+) {
+    let tmaps: Vec<u32> = meta
+        .items
+        .iter()
+        .filter(|i| i.item_type == ITEM_TYPE_TMAP)
+        .map(|i| i.id)
+        .collect();
+    let has_brand = file.file_type.has_brand(&BRAND_TMAP);
+    if !tmaps.is_empty() && !has_brand {
+        rep.push(
+            "HEIF-A1 10.2.6",
+            None,
+            "tone-map derived image item present but 'tmap' is not among the compatible brands",
+        );
+    }
+    if has_brand && tmaps.is_empty() {
+        rep.push(
+            "HEIF-A1 10.2.6",
+            None,
+            "'tmap' brand declared but the file has no tone-map derived image item",
+        );
+    }
+    let is_nclx_unspecified = |c: Option<&Colr>| {
+        matches!(
+            c,
+            Some(Colr::Nclx {
+                primaries: 2,
+                transfer: 2,
+                ..
+            })
+        )
+    };
+    for id in tmaps {
+        let inputs = meta.derivation_inputs(id);
+        if inputs.len() != 2 {
+            rep.push(
+                "HEIF-A1 6.6.2.4.1",
+                Some(id),
+                format!(
+                    "tmap dimg reference_count {} (shall be 2: base, gain map)",
+                    inputs.len()
+                ),
+            );
+            continue;
+        }
+        let (base, gain) = (inputs[0], inputs[1]);
+        let props_of = |i: u32| crate::props::ItemProperties::resolve(meta, i).ok();
+        if let Some(p) = props_of(base) {
+            if p.colrs().is_empty() {
+                rep.push(
+                    "HEIF-A1 6.6.2.4.1",
+                    Some(base),
+                    "tmap base input image has no colr property",
+                );
+            }
+        }
+        if let Some(p) = props_of(gain) {
+            if !is_nclx_unspecified(p.nclx()) {
+                rep.push(
+                    "HEIF-A1 6.6.2.4.1",
+                    Some(gain),
+                    "tmap gain map input image needs an nclx colr with colour_primaries = transfer_characteristics = 2",
+                );
+            }
+        }
+        if let Some(p) = props_of(id) {
+            if p.colrs().is_empty() {
+                rep.push(
+                    "HEIF-A1 6.6.2.4.1",
+                    Some(id),
+                    "tmap derived image item has no colr property",
+                );
+            }
+        }
+        match file.item_data(id) {
+            Ok(body) => match body.first() {
+                Some(0) => {
+                    if let Err(e) = crate::gainmap::GainMapMetadata::parse(&body[1..]) {
+                        rep.push(
+                            "HEIF-A1 6.6.2.4.2",
+                            Some(id),
+                            format!("ToneMapImage gain_map_metadata: {e}"),
+                        );
+                    }
+                }
+                Some(v) => rep.push(
+                    "HEIF-A1 6.6.2.4.3",
+                    Some(id),
+                    format!("ToneMapImage version {v} (shall be 0)"),
+                ),
+                None => rep.push("HEIF-A1 6.6.2.4.2", Some(id), "empty ToneMapImage body"),
+            },
+            Err(e) => rep.push("HEIF-A1 6.6.2.4.2", Some(id), e.to_string()),
+        }
+        // HEIF Amd 1 §6.6.2.4.1 should-level rules.
+        if meta.item(gain).map(|i| !i.is_hidden()).unwrap_or(false) {
+            rep.advise(
+                "HEIF-A1 6.6.2.4.1",
+                Some(gain),
+                "gain map input image should be hidden (infe flags & 1)",
+            );
+        }
+        if let Some(p) = props_of(id) {
+            if p.pixi().is_none() {
+                rep.advise(
+                    "HEIF-A1 6.6.2.4.1",
+                    Some(id),
+                    "tmap derived image item should carry a pixi property (colour-resolution hint)",
+                );
+            }
+        }
+        // MIAF Amd 1 §7.3.11.5: "All input images of a tone-map image
+        // item should have the same rotation and mirroring
+        // transformative properties."
+        let orientation = |i: u32| {
+            props_of(i).map(|p| {
+                (
+                    p.irot().map(|r| r.angle).unwrap_or(0),
+                    p.imir().map(|m| m.axis),
+                )
+            })
+        };
+        if let (Some(a), Some(b)) = (orientation(base), orientation(gain)) {
+            if a != b {
+                rep.advise(
+                    "MIAF-A1 7.3.11.5",
+                    Some(id),
+                    format!(
+                        "tmap inputs {base} and {gain} differ in rotation / mirroring (irot angle {} vs {}, imir {:?} vs {:?})",
+                        a.0, b.0, a.1, b.1
+                    ),
+                );
+            }
+        }
+        // MIAF Amd 1 §7.3.11.5: "If a tone-map derived item is present
+        // in a MIAF file, it shall be contained in an alternative
+        // images group together with another image item that is a
+        // valid MIAF master image item."
+        let altr_groups = meta.groups_containing(id, b"altr");
+        let has_master_partner = altr_groups.iter().any(|g| {
+            g.entity_ids.iter().any(|e| {
+                *e != id
+                    && meta
+                        .item(*e)
+                        .map(|i| {
+                            i.is_image()
+                                && !i.is_hidden()
+                                && meta.references_from(*e, &reference::THMB).is_empty()
+                                && meta.references_from(*e, &reference::AUXL).is_empty()
+                        })
+                        .unwrap_or(false)
+            })
+        });
+        if !has_master_partner {
+            rep.push(
+                "MIAF-A1 7.3.11.5",
+                Some(id),
+                if altr_groups.is_empty() {
+                    "tone-map derived image item is not in an 'altr' entity group".to_string()
+                } else {
+                    "no 'altr' group of the tone-map derived image item holds another non-hidden master image item".to_string()
+                },
+            );
+        }
+        // HEIF §6.4.2: an altr group holding the tmap holds only
+        // non-hidden items (the tmap itself shall not be hidden).
+        for g in altr_groups {
+            let hidden: Vec<u32> = g
+                .entity_ids
+                .iter()
+                .copied()
+                .filter(|e| meta.item(*e).map(|i| i.is_hidden()).unwrap_or(false))
+                .collect();
+            if !hidden.is_empty() {
+                rep.push(
+                    "HEIF 6.4.2",
+                    Some(id),
+                    format!(
+                        "altr group {} mixes hidden items {hidden:?} with the tmap item",
+                        g.group_id
+                    ),
+                );
+            }
+        }
+    }
+}
+
+/// MIAF §8.4 grid-limit pixel budget.
+pub const GRID_LIMIT_PIXELS: u64 = 128_000_000;
+/// MIAF §7.3.3 / §8.4 maximum size factor between successive images.
+pub const SIZE_FACTOR_LIMIT: u64 = 200;
+/// MIAF §7.3.11.4.2 minimum tile edge.
+pub const MIN_TILE_EDGE: u32 = 64;
+
+/// Check `file` against the general MIAF requirements and, when
+/// `profile` is a codec profile, its Annex A constraints.
+pub fn check<D: AsRef<[u8]>>(file: &HeifFile<D>, profile: MiafProfile) -> Result<MiafReport> {
+    let mut rep = MiafReport::default();
+    let meta = match &file.meta {
+        Some(m) => m,
+        None => {
+            rep.push("7.2.1.4", None, "file-level MetaBox is missing");
+            return Ok(rep);
+        }
+    };
+    // HEIF Amd 2:2026 O.2.1.1 / Table O.1: a low-overhead file holds
+    // `ftyp` + `mini` (version 0) and no other file-level box.
+    if file.minimized.is_some() {
+        let others: Vec<String> = crate::boxes::iter_boxes(file.original_bytes())
+            .filter_map(|h| h.ok())
+            .filter(|h| !matches!(&h.box_type, b"ftyp" | b"mini"))
+            .map(|h| fourcc_str(&h.box_type))
+            .collect();
+        if !others.is_empty() {
+            rep.push(
+                "HEIF-A2 O.2.1.1",
+                None,
+                format!("low-overhead file carries other file-level boxes: {others:?}"),
+            );
+        }
+    }
+    // §7.2.1.1: mif1 shall be present; msf1 when a sequence track exists.
+    if !file.file_type.has_brand(&BRAND_MIF1) {
+        rep.push("7.2.1.1", None, "compatible brands lack 'mif1'");
+    }
+    if file.has_moov() && !file.file_type.has_brand(&BRAND_MSF1) {
+        rep.push(
+            "7.2.1.1",
+            None,
+            "file carries a moov box but the brands lack 'msf1'",
+        );
+    }
+    // §7.2.1.1: hdlr first in meta; §7.2.1.5: 'pict'.
+    match meta.child_box_types.first() {
+        Some(b"hdlr") => {}
+        _ => rep.push(
+            "7.2.1.1",
+            None,
+            "HandlerBox is not the first box in MetaBox",
+        ),
+    }
+    match &meta.handler {
+        Some(h) if h.handler_type == *b"pict" => {}
+        Some(h) => rep.push(
+            "7.2.1.5",
+            None,
+            format!(
+                "handler_type '{}' (shall be 'pict')",
+                fourcc_str(&h.handler_type)
+            ),
+        ),
+        None => rep.push("7.2.1.5", None, "MetaBox has no HandlerBox"),
+    }
+    // §7.2.1.4: no xml/bxml in meta.
+    if meta
+        .child_box_types
+        .iter()
+        .any(|t| t == b"xml " || t == b"bxml")
+    {
+        rep.push("7.2.1.4", None, "XMLBox / BinaryXMLBox present in MetaBox");
+    }
+    // §7.2.1.10 / §7.3.2: primary item exists and is a master image.
+    let primary = match file.primary_item() {
+        Ok(p) => p.clone(),
+        Err(e) => {
+            rep.push("7.2.1.10", None, e.to_string());
+            return Ok(rep);
+        }
+    };
+    if !primary.is_image() {
+        rep.push(
+            "7.3.2",
+            Some(primary.id),
+            format!(
+                "primary item type '{}' is not an image item",
+                fourcc_str(&primary.item_type)
+            ),
+        );
+        return Ok(rep);
+    }
+    if primary.is_hidden() {
+        rep.push("HEIF 6.4.2", Some(primary.id), "primary item is hidden");
+    }
+    if !meta
+        .references_from(primary.id, &reference::THMB)
+        .is_empty()
+    {
+        rep.push("7.3.2", Some(primary.id), "primary item is a thumbnail");
+    }
+    if !meta
+        .references_from(primary.id, &reference::AUXL)
+        .is_empty()
+    {
+        rep.push(
+            "7.3.2",
+            Some(primary.id),
+            "primary item is an auxiliary image",
+        );
+    }
+    check_tone_maps(file, meta, &mut rep);
+    check_region_groups(meta, &mut rep);
+    // Per-item structural checks.
+    for it in meta.items.iter().filter(|i| i.is_image()) {
+        let id = it.id;
+        match meta.location(id) {
+            Some(loc) => {
+                // §7.2.1.7 construction methods; §7.2.1.13 bodies in mdat.
+                if it.is_coded_image() && loc.construction_method != 0 {
+                    rep.push(
+                        "7.2.1.7",
+                        Some(id),
+                        format!(
+                            "coded image item uses construction_method {}",
+                            loc.construction_method
+                        ),
+                    );
+                }
+                if it.is_derived_image() && loc.construction_method > 1 {
+                    rep.push(
+                        "7.2.1.7",
+                        Some(id),
+                        "derived image item uses construction_method 2",
+                    );
+                }
+                if profile.adopts_shared_constraints() && loc.data_reference_index != 0 {
+                    rep.push(
+                        "8.2.1",
+                        Some(id),
+                        format!(
+                            "data_reference_index {} (shall be 0)",
+                            loc.data_reference_index
+                        ),
+                    );
+                }
+            }
+            None if it.item_type != ITEM_TYPE_IDEN => {
+                rep.push("HEIF 6.2", Some(id), "image item has no iloc entry");
+            }
+            None => {}
+        }
+        // §7.2.1.8: unprotected.
+        if it.protection_index != 0 {
+            rep.push(
+                "7.2.1.8",
+                Some(id),
+                "MIAF image item references item protection",
+            );
+        }
+        let props = match crate::props::ItemProperties::resolve(meta, id) {
+            Ok(p) => p,
+            Err(e) => {
+                rep.push("7.3.6", Some(id), e.to_string());
+                continue;
+            }
+        };
+        // §7.3.6.3 ispe mandatory.
+        if props.ispe().is_none() {
+            rep.push("7.3.6.3", Some(id), "no ispe property");
+        }
+        // HEIF Amd 2:2026 §6.5.6.3: bits_per_channel shall not be 0.
+        if let Some(px) = props.pixi() {
+            if px.bits_per_channel.contains(&0) {
+                rep.push(
+                    "HEIF-A2 6.5.6.3",
+                    Some(id),
+                    format!(
+                        "pixi bits_per_channel {:?} contains 0 (shall not be 0)",
+                        px.bits_per_channel
+                    ),
+                );
+            }
+        }
+        // §7.3.6.5 square pixels.
+        if let Some(p) = props.pasp() {
+            if !p.is_square() {
+                rep.push(
+                    "7.3.6.5",
+                    Some(id),
+                    format!("pasp {}:{} (shall be 1:1)", p.h_spacing, p.v_spacing),
+                );
+            }
+        }
+        // §7.3.9 transformative: essential, from {clap, irot, imir}, ordered.
+        let mut last_rank = 0u8;
+        for e in props.transformative() {
+            let rank = match e.property.box_type() {
+                t if &t == b"clap" => 1,
+                t if &t == b"irot" => 2,
+                t if &t == b"imir" => 3,
+                _ => 0,
+            };
+            if rank == 0 {
+                rep.push(
+                    "7.3.9",
+                    Some(id),
+                    format!(
+                        "transformative property '{}' outside the permitted set",
+                        fourcc_str(&e.property.box_type())
+                    ),
+                );
+                continue;
+            }
+            if !e.essential {
+                rep.push(
+                    "7.3.9",
+                    Some(id),
+                    format!(
+                        "transformative property '{}' is not marked essential",
+                        fourcc_str(&e.property.box_type())
+                    ),
+                );
+            }
+            if rank <= last_rank {
+                rep.push(
+                    "7.3.6.7",
+                    Some(id),
+                    "transformative properties not in clap → irot → imir order",
+                );
+            }
+            last_rank = rank;
+        }
+        // HEIF B.2.3.1 / §6.5.2: decoder configuration essential.
+        for e in props.iter() {
+            if e.property.is_decoder_config() && !e.essential {
+                rep.push(
+                    "HEIF 6.5.2",
+                    Some(id),
+                    format!(
+                        "decoder configuration '{}' is not marked essential",
+                        fourcc_str(&e.property.box_type())
+                    ),
+                );
+            }
+        }
+        for t in props.unsupported_essential() {
+            rep.push(
+                "HEIF 10.2.1",
+                Some(id),
+                format!("essential property '{}' is not recognized", fourcc_str(&t)),
+            );
+        }
+        // §7.3.5.2 alpha with CICP: full range.
+        if let Some(a) = props.auxc() {
+            if a.kind() == AuxKind::Alpha {
+                if let Some(Colr::Nclx { full_range, .. }) = props.nclx() {
+                    if !full_range {
+                        rep.push(
+                            "7.3.5.2",
+                            Some(id),
+                            "alpha auxiliary carries CICP with full_range_flag 0",
+                        );
+                    }
+                }
+            }
+            if !meta.references_from(id, &reference::AUXL).is_empty()
+                && meta.references_from(id, &reference::THMB).len() > 1
+            {
+                rep.push(
+                    "HEIF 6.4.6",
+                    Some(id),
+                    "item is both auxiliary and thumbnail",
+                );
+            }
+        }
+        // §7.3.6.4 colr count / kinds; HEIF §6.5.5 pairing rule.
+        let colrs = props.colrs();
+        let nclx_count = colrs
+            .iter()
+            .filter(|c| matches!(c, Colr::Nclx { .. }))
+            .count();
+        let icc_count = colrs.iter().filter(|c| c.is_icc()).count();
+        if nclx_count > 1 || icc_count > 1 || colrs.len() > 2 {
+            rep.push(
+                "HEIF 6.5.5",
+                Some(id),
+                format!(
+                    "{} colr properties (at most one nclx and one ICC)",
+                    colrs.len()
+                ),
+            );
+        }
+        if icc_count == 1 && nclx_count == 1 {
+            if let Some(Colr::Nclx {
+                primaries,
+                transfer,
+                ..
+            }) = props.nclx()
+            {
+                if *primaries != 2 || *transfer != 2 {
+                    rep.push(
+                        "HEIF 6.5.5",
+                        Some(id),
+                        "nclx paired with an ICC profile shall use colour_primaries = transfer_characteristics = 2",
+                    );
+                }
+            }
+        }
+        // Metadata bodies in mdat (§7.2.1.13).
+        for m in meta.metadata_of(id) {
+            if let Some(loc) = meta.location(m) {
+                if loc.construction_method != 0 {
+                    rep.push(
+                        "7.2.1.13",
+                        Some(m),
+                        "Exif / XMP metadata item is not stored in a MediaDataBox",
+                    );
+                }
+            }
+        }
+        // Codec profile constraints.
+        check_codec(&mut rep, profile, it.item_type, &props, id);
+    }
+    // §7.3.3 thumbnail factor.
+    for it in meta.items.iter().filter(|i| i.is_image()) {
+        let thumbs = meta.thumbnails_of(it.id);
+        if thumbs.is_empty() {
+            continue;
+        }
+        let master_px = pixel_count(meta, it.id);
+        let mut sizes: Vec<u64> = thumbs.iter().map(|t| pixel_count(meta, *t)).collect();
+        sizes.sort_unstable();
+        sizes.push(master_px);
+        for w in sizes.windows(2) {
+            if w[0] > 0 && w[1] > w[0].saturating_mul(SIZE_FACTOR_LIMIT) {
+                rep.push(
+                    "7.3.3",
+                    Some(it.id),
+                    format!(
+                        "pixel count {} → {} exceeds the factor-{SIZE_FACTOR_LIMIT} thumbnail ladder",
+                        w[0], w[1]
+                    ),
+                );
+            }
+        }
+    }
+    // Derivation chain checks (§7.3.11) on the primary item.
+    match build_graph(file, primary.id) {
+        Ok(root) => check_derivations(&mut rep, &root, profile),
+        Err(e) => rep.push("7.3.11.1", Some(primary.id), e.to_string()),
+    }
+    Ok(rep)
+}
+
+fn pixel_count(meta: &crate::meta::Meta, id: u32) -> u64 {
+    crate::props::ItemProperties::resolve(meta, id)
+        .ok()
+        .and_then(|p| p.ispe())
+        .map(|i| i.width as u64 * i.height as u64)
+        .unwrap_or(0)
+}
+
+fn check_codec(
+    rep: &mut MiafReport,
+    profile: MiafProfile,
+    item_type: FourCc,
+    props: &crate::props::ItemProperties,
+    id: u32,
+) {
+    match profile {
+        MiafProfile::HevcBasic | MiafProfile::HevcAdvanced | MiafProfile::HevcExtended => {
+            if item_type != ITEM_TYPE_HVC1 {
+                // Other coding formats may be present (§7.3.4) but the
+                // profile's items are hvc1; nothing to check here.
+                return;
+            }
+            let Some(h) = props.hvcc() else {
+                rep.push("HEIF B.2.3.1", Some(id), "hvc1 item without hvcC");
+                return;
+            };
+            // Level 6 = 180.
+            if h.general_level_idc > 180 {
+                rep.push(
+                    "A.3.2",
+                    Some(id),
+                    format!("general_level_idc {} exceeds level 6", h.general_level_idc),
+                );
+            }
+            if h.general_tier_flag {
+                rep.push("A.3.2", Some(id), "High tier (Main tier required)");
+            }
+            let bd = h.bit_depth_luma().max(h.bit_depth_chroma());
+            let (max_depth, chroma_ok): (u8, bool) = match profile {
+                MiafProfile::HevcBasic => (8, h.chroma_format_idc == 1),
+                MiafProfile::HevcAdvanced => (10, matches!(h.chroma_format_idc, 1 | 2)),
+                _ => (10, true),
+            };
+            if bd > max_depth {
+                rep.push(
+                    "A.3.2",
+                    Some(id),
+                    format!("bit depth {bd} exceeds the profile's {max_depth}"),
+                );
+            }
+            if !chroma_ok {
+                rep.push(
+                    "A.3.2",
+                    Some(id),
+                    format!(
+                        "chroma format {} not permitted by the profile",
+                        h.chroma_name()
+                    ),
+                );
+            }
+        }
+        // AV1 profiles: checked by the AVIF crate, not here.
+        MiafProfile::Av1Basic | MiafProfile::Av1Advanced => {}
+        MiafProfile::Miaf | MiafProfile::AvcBasic => {}
+    }
+}
+
+fn check_derivations(rep: &mut MiafReport, root: &ImageNode, profile: MiafProfile) {
+    // §7.3.11.1 chain order: coded → iden? → grid? → iden? → iovl? → iden?
+    let chain = root.chain_types();
+    let mut stage = 0u8; // 0 = at top (iovl allowed), climbing down.
+    let mut prev_iden = false;
+    for t in &chain {
+        let (kind, allowed) = match *t {
+            crate::meta::ITEM_TYPE_IDEN => ("iden", true),
+            crate::meta::ITEM_TYPE_IOVL => ("iovl", stage == 0),
+            crate::meta::ITEM_TYPE_GRID => ("grid", stage <= 1),
+            _ => ("coded", true),
+        };
+        if kind == "iden" && prev_iden {
+            rep.push(
+                "7.3.11.2",
+                Some(root.item.id),
+                "identity derivation derived from an identity derivation",
+            );
+        }
+        prev_iden = kind == "iden";
+        if !allowed {
+            rep.push(
+                "7.3.11.1",
+                Some(root.item.id),
+                format!(
+                    "derivation chain {} is not in the permitted order",
+                    chain.iter().map(fourcc_str).collect::<Vec<_>>().join(" → ")
+                ),
+            );
+            break;
+        }
+        match kind {
+            "iovl" => stage = 1,
+            "grid" => stage = 2,
+            _ => {}
+        }
+    }
+    walk(rep, root, profile);
+}
+
+fn walk(rep: &mut MiafReport, node: &ImageNode, profile: MiafProfile) {
+    let id = node.item.id;
+    match &node.kind {
+        ImageKind::Grid(g) => {
+            // §7.3.11.4: same coding format + config across tiles; tile size rules.
+            let mut first_cfg: Option<(FourCc, Vec<u8>, u8)> = None;
+            let mut total_px: u64 = 0;
+            for tile in &node.inputs {
+                let cfg = tile.properties.iter().find_map(|e| match &e.property {
+                    Property::HvcC(h) => {
+                        Some((tile.item.item_type, h.raw.clone(), h.chroma_format_idc))
+                    }
+                    _ => None,
+                });
+                if let Some(c) = cfg {
+                    match &first_cfg {
+                        None => first_cfg = Some(c),
+                        Some(f) if f.0 != c.0 || f.1 != c.1 => {
+                            rep.push(
+                                "7.3.11.4.1",
+                                Some(id),
+                                format!(
+                                    "grid tile {} differs in coding format / decoder configuration",
+                                    tile.item.id
+                                ),
+                            );
+                        }
+                        _ => {}
+                    }
+                }
+                if let Some((w, h)) = tile.ispe() {
+                    total_px = total_px.saturating_add(w as u64 * h as u64);
+                }
+            }
+            if let Some(first) = node.inputs.first() {
+                if let Ok((tw, th)) = first.output_size() {
+                    if tw < MIN_TILE_EDGE || th < MIN_TILE_EDGE {
+                        rep.push(
+                            "7.3.11.4.2",
+                            Some(id),
+                            format!("tile {tw}x{th} smaller than {MIN_TILE_EDGE} pixels"),
+                        );
+                    }
+                    let chroma = first_cfg.as_ref().map(|c| c.2).unwrap_or(1);
+                    let (need_even_w, need_even_h) = match chroma {
+                        1 => (true, true),
+                        2 => (true, false),
+                        _ => (false, false),
+                    };
+                    if (need_even_w && (tw % 2 == 1 || g.output_width % 2 == 1))
+                        || (need_even_h && (th % 2 == 1 || g.output_height % 2 == 1))
+                    {
+                        rep.push(
+                            "7.3.11.4.2",
+                            Some(id),
+                            "tile or output size is odd for the chroma sampling format",
+                        );
+                    }
+                    if (tw as u64) * (g.columns as u64) < g.output_width as u64
+                        || (th as u64) * (g.rows as u64) < g.output_height as u64
+                    {
+                        rep.push(
+                            "HEIF 6.6.2.3.1",
+                            Some(id),
+                            "tiles do not cover the declared output canvas",
+                        );
+                    }
+                }
+                for tile in &node.inputs {
+                    if tile.output_size().ok() != first.output_size().ok() {
+                        rep.push(
+                            "HEIF 6.6.2.3.1",
+                            Some(id),
+                            format!("tile {} size differs from the first tile", tile.item.id),
+                        );
+                    }
+                    if tile.item.item_type == ITEM_TYPE_IDEN
+                        && tile
+                            .inputs
+                            .first()
+                            .map(|i| !matches!(i.kind, ImageKind::Coded(_)))
+                            .unwrap_or(true)
+                    {
+                        rep.push(
+                            "7.3.11.4.1",
+                            Some(id),
+                            "grid of iden items whose iden does not refer directly to a coded image",
+                        );
+                    }
+                }
+            }
+            if profile.adopts_shared_constraints() && total_px > GRID_LIMIT_PIXELS {
+                rep.push(
+                    "8.4",
+                    Some(id),
+                    format!("grid inputs total {total_px} pixels, over the {GRID_LIMIT_PIXELS} grid-limit"),
+                );
+            }
+        }
+        ImageKind::Overlay(_) => {
+            // §7.3.11.3: inputs share bit depth and explicit colour info.
+            let depths: Vec<u8> = node
+                .inputs
+                .iter()
+                .filter_map(|i| i.properties.hvcc().map(|h| h.bit_depth_luma()))
+                .collect();
+            if depths.windows(2).any(|w| w[0] != w[1]) {
+                rep.push("7.3.11.3", Some(id), "overlay inputs differ in bit depth");
+            }
+            let nclx: Vec<Option<&Colr>> =
+                node.inputs.iter().map(|i| i.properties.nclx()).collect();
+            if nclx.windows(2).any(|w| w[0] != w[1]) {
+                rep.push(
+                    "7.3.11.3",
+                    Some(id),
+                    "overlay inputs differ in explicit colour information",
+                );
+            }
+            let total_px: u64 = node
+                .inputs
+                .iter()
+                .filter_map(|i| i.ispe())
+                .map(|(w, h)| w as u64 * h as u64)
+                .sum();
+            if profile.adopts_shared_constraints() && total_px > GRID_LIMIT_PIXELS {
+                rep.push(
+                    "8.4",
+                    Some(id),
+                    format!("overlay inputs total {total_px} pixels, over the {GRID_LIMIT_PIXELS} grid-limit"),
+                );
+            }
+        }
+        ImageKind::Identity => {
+            if node
+                .inputs
+                .first()
+                .map(|i| i.item.item_type == ITEM_TYPE_IDEN)
+                .unwrap_or(false)
+            {
+                rep.push(
+                    "7.3.11.2",
+                    Some(id),
+                    "iden item derived from another iden item",
+                );
+            }
+        }
+        ImageKind::Coded(_) | ImageKind::ToneMap(_) => {}
+        ImageKind::ColourFormatEnhancement(_) => {
+            // HEIF Amd 1 §6.6.2.5.1: the cfen item carries pixi + ispe +
+            // an nclx colr; every input pixi + ispe; the inputs after the
+            // first shall be hidden.
+            if node.properties.pixi().is_none()
+                || node.properties.ispe().is_none()
+                || node.properties.nclx().is_none()
+            {
+                rep.push(
+                    "HEIF-A1 6.6.2.5.1",
+                    Some(id),
+                    "cfen item needs pixi, ispe and an nclx colr",
+                );
+            }
+            for (k, i) in node.inputs.iter().enumerate() {
+                if i.properties.pixi().is_none() || i.properties.ispe().is_none() {
+                    rep.push(
+                        "HEIF-A1 6.6.2.5.1",
+                        Some(i.item.id),
+                        "cfen input needs pixi and ispe",
+                    );
+                }
+                if k > 0 && !i.item.is_hidden() {
+                    rep.push(
+                        "HEIF-A1 6.6.2.5.1",
+                        Some(i.item.id),
+                        "cfen inputs after the first shall be hidden",
+                    );
+                }
+            }
+        }
+        ImageKind::Tiled(t) => {
+            // HEIF Amd 2 §6.11.2 / §6.11.3: tilC + ispe; a tile size of
+            // 0 has no geometry.
+            let t = &t.config;
+            if t.tile_width == 0 || t.tile_height == 0 {
+                rep.push(
+                    "HEIF-A2 6.11.3.3",
+                    Some(id),
+                    format!("tilC tile size {}x{}", t.tile_width, t.tile_height),
+                );
+            }
+            if node.properties.ispe().is_none() {
+                rep.push("HEIF-A2 6.11.2", Some(id), "tili item without ispe");
+            }
+        }
+    }
+    for i in &node.inputs {
+        walk(rep, i, profile);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn profiles_map_to_brands() {
+        assert_eq!(MiafProfile::HevcBasic.brand(), *b"MiHB");
+        assert!(MiafProfile::HevcBasic.adopts_shared_constraints());
+        assert!(!MiafProfile::Miaf.adopts_shared_constraints());
+    }
+}

@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galeria	the thumbnail grid of one folder	
+Library	Library	Biblioteca	the catalogue of indexed folders	
+Folder	Folder	Pasta	a file-system folder	
+Remove	Remove	Remover	take an item out of a list; files stay	
+Delete	Delete	Eliminar	destroy data or files	
+Forget	Forget	Esquecer	drop a remembered choice or record	
+Move to trash	Move to trash	Mover para o Lixo	send files to the system trash	
+Export	Export	Exportar	write a copy in another form	
+Import	Import	Importação	copy photos in from a card or device	
+Settings	Settings	Definições	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Anular	reverse the last action (never the word for Cancel)	
+Redo	Redo	Refazer		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Página	a page of a document or multi-page file	
+Layer	Layers	Camadas	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Canais	colour or audio channels	
+Series	Series	Série	a DICOM series	
+Study	Study	Estudo	a DICOM study	
+Slice	Slice	Corte	one cross-sectional image of a volume	
+Frame	Frames	Fotogramas	one image of a video, animation or sequence (not a picture frame)	Fotograma.
+Track	Track	Faixa	a numbered piece of an album	
+Subtitle	Subtitles	Legendas	text over a video	
+Loudness	Loudness	Loudness	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Modelo	a local AI model	
+Download	Download	Transferir	fetch from the network	
+Cull mode	Cull mode	Modo de triagem	the mode for picking and rejecting photos	Modo de triagem; the action is triar / a triagem, never seleção.
+Pick	Pick	Escolher	a cull mark	
+Reject	Reject	Rejeitar	a cull mark	
+Rating	Rating	Classificação	stars	
+Local AI	Local AI	IA local	the Settings section and the feature set	
+Metadata	Metadata	Metadados		
+Thumbnail	Thumbnail	Miniatura		
+Slideshow	Slideshow	Apresentação de diapositivos		
+Compare	Compare	Comparar		
+Print	Print	Imprimir		
+Search	Search	Pesquisar		
+Filter	Filter	Filtro	narrow what is shown (not an optical filter)	
+Rename	Rename	Mudar o nome		

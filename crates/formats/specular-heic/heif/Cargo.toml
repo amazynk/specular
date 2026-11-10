@@ -1,0 +1,17 @@
+# In-tree fork of oxideav-heif 0.0.10 (git 3f9908c2f7f8225265eb710ad8b2e1a88cfffe54; MIT,
+# Copyright (c) 2026 Karpelès Lab Inc., see LICENSE). Changes: parse side only — encoder,
+# writer, muxer, demuxer, image sequences, the oxideav-core registry and the AV1 / AVC /
+# layered-HEVC configuration records removed; no oxideav-core dependency.
+[package]
+name = "specular-heif"
+version = "0.0.10"
+edition = "2021"
+license = "MIT"
+publish = false
+description = "Fork of oxideav-heif 0.0.10: HEIF/HEIC container parsing (parse side only)"
+
+[lib]
+name = "heif"
+doctest = false
+
+[dependencies]

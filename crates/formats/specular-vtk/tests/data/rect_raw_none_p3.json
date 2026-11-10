@@ -1,0 +1,23 @@
+{
+"point_data": [
+{
+"name": "density",
+"components": 1,
+"tuples": 24,
+"offset": 0
+}
+],
+"cell_data": [],
+"field_data": [],
+"kind": "grid",
+"dims": [
+4,
+3,
+2
+],
+"coords": [
+24,
+28,
+31
+]
+}

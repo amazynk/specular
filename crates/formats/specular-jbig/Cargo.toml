@@ -1,0 +1,14 @@
+[package]
+name = "specular-jbig"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoder for JBIG1 bi-level image entities (ITU-T T.82 / ISO/IEC 11544): .jbg, .bie"
+
+[dependencies]
+# Decode buffers reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

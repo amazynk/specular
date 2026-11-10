@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PeakList>
+  <PeakList1D>
+    <PeakList1DHeader creator="fixture"/>
+    <Peak1D F1="7.26" intensity="1.0" type="0"/>
+    <Peak1D F1="3.7" intensity="1.0" type="0"/>
+    <Peak1D F1="1.2" intensity="1.0" type="0"/>
+  </PeakList1D>
+</PeakList>

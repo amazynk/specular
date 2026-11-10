@@ -1,0 +1,14 @@
+[package]
+name = "specular-mpeg4"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own MPEG-4 Part 2 video decoder (ISO/IEC 14496-2 Simple / Advanced Simple, H.263 baseline) for Specular's DivX, Xvid and 3GPP playback"
+
+[dependencies]
+# The bit reader, VLC tables and integer inverse DCT shared with the MPEG-2 decoder.
+specular-mpeg2 = { path = "../specular-mpeg2" }
+
+[lints]
+workspace = true

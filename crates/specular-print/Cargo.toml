@@ -1,0 +1,30 @@
+[package]
+name = "specular-print"
+description = "Printing and contact sheets: paper layout, GPU rasterisation of pages in bands through the viewer's image renderer, and a streaming PDF writer with an sRGB output intent"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-measure = { path = "../specular-measure" }  # scale bars: round lengths, ratios
+specular-thumbs = { path = "../specular-thumbs" }
+specular-gfx = { path = "../specular-gfx" }
+specular-render = { path = "../specular-render" }
+specular-theme = { path = "../specular-theme" }
+specular-log = { path = "../specular-log" }
+# Printing through a printer profile (Develop's soft-proof profile).
+specular-color = { path = "../specular-color" }
+specular-i18n = { path = "../specular-i18n" }  # isolate-safe ellipsis
+# Flate compression of the page images, streamed band by band.
+miniz_oxide = "0.8"
+
+[dev-dependencies]
+specular-shots = { path = "../specular-shots" }
+specular-pdf = { path = "../formats/specular-pdf" }  # drawing-scale fixture PDFs
+
+[lints]
+workspace = true

@@ -1,0 +1,71 @@
+# Specular — Développement : profil d’appareil, et profils faits d’après une mire.
+
+develop-input-profile = Profil de l’appareil
+develop-input-profile-auto = Standard de l’appareil
+develop-input-profile-matrix = Matrice seule
+develop-input-profile-file = Fichier de profil…
+develop-input-profile-named = Fichier : { $name }
+develop-input-profile-in-use = { $name } est utilisé.
+develop-input-profile-changed = { $name } est utilisé. Le fichier a changé depuis qu’il a été choisi.
+develop-input-profile-missing = Le fichier de profil est introuvable. La matrice de l’appareil est utilisée.
+develop-input-profile-unusable = Le fichier de profil est inutilisable : { $reason }. La matrice de l’appareil est utilisée.
+develop-input-profile-dialog = Choisir un profil d’appareil
+develop-input-profile-kind = Profils d’appareil DNG
+
+develop-chart-start = Créer un profil d’après une mire…
+develop-chart-title = Profil d’après une mire
+develop-chart-kind = Mire
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Référence
+develop-chart-ref-load = Charger un fichier…
+develop-chart-hint-xrite = Chargez le fichier de référence de la mire (texte CGATS). Il est fourni avec la mire, ou sur le site d’X-Rite pour l’édition de votre mire.
+develop-chart-hint-it8 = Chargez le fichier de référence de votre cible. Chaque lot a le sien, fourni par le fabricant de la cible.
+develop-chart-spyder = SpyderCHECKR n’est pas pris en charge : ses valeurs de couleur appartiennent à Datacolor.
+develop-chart-step-reference = Choisissez la mire et chargez son fichier de référence.
+develop-chart-step-corner = Cliquez au centre de { $name } ({ $number } sur 4).
+develop-chart-measuring = Mesure de la mire…
+develop-chart-step-save = Enregistrez le profil, ou marquez de nouveau les coins.
+develop-chart-corner-dark-skin = peau foncée (en haut à gauche)
+develop-chart-corner-bluish-green = vert bleuté (en haut à droite)
+develop-chart-corner-black = noir (en bas à droite)
+develop-chart-corner-white = blanc (en bas à gauche)
+
+develop-chart-ref-too-large = Le fichier est trop gros pour un fichier de référence.
+develop-chart-ref-not-cgats = Ce n’est pas un fichier de référence CGATS.
+develop-chart-ref-no-ids = Le fichier ne nomme pas les plages.
+develop-chart-ref-no-colour = Le fichier n’a pas de valeurs L*a*b* ni XYZ.
+develop-chart-ref-bad-row = La ligne { $row } du fichier est endommagée.
+develop-chart-ref-count = Le fichier annonce { $declared } plages mais en contient { $found }.
+develop-chart-ref-duplicate = La plage { $id } figure deux fois dans le fichier.
+develop-chart-ref-illuminant = Les valeurs sont pour la lumière { $name }. D50 ou D65 est nécessaire.
+develop-chart-ref-wrong-chart = Le fichier a { $found } plages. Cette mire en a { $expected }.
+develop-chart-ref-names = Les noms des plages ne correspondent pas à cette mire.
+develop-chart-ref-corner = La plage de coin { $id } manque dans le fichier.
+develop-chart-ref-unreadable = Le fichier est illisible : { $reason }
+develop-chart-ref-dialog = Choisir le fichier de référence de la mire
+develop-chart-ref-kind = Fichiers de référence de mire
+
+develop-chart-not-found = Aucune mire trouvée là. Marquez de nouveau les coins.
+develop-chart-too-few = Seules { $count } plages sont utilisables. Éclairez la mire uniformément et évitez les reflets.
+develop-chart-no-greys = Aucune plage grise n’est utilisable. Exposez sans brûler les gris.
+develop-chart-degenerate = Les plages se ressemblent trop pour faire un profil.
+
+develop-chart-report-after = ΔE2000 avec le profil : moyenne { $mean }, médiane { $median }, max { $max }
+develop-chart-report-before = Avant : moyenne { $mean }, médiane { $median }, max { $max }
+develop-chart-report-cv = Vérifié sur des plages exclues de l’ajustement : moyenne { $mean }
+develop-chart-left-out = Écartée : { $id } ({ $why })
+develop-chart-left-clipped = écrêtée
+develop-chart-left-uneven = reflet ou poussière
+develop-chart-left-outside = hors de la photo
+develop-chart-uneven-light = Les gris varient de { PERCENT($percent) } : la lumière est peut-être inégale.
+develop-chart-use-camera = Utiliser pour les photos du { $camera }
+develop-chart-again = Marquer de nouveau
+develop-chart-save = Enregistrer…
+develop-chart-close = Fermer
+develop-chart-save-title = Enregistrer le profil d’appareil
+develop-chart-default-name = Profil mire { $camera }
+develop-chart-saved = { $name } enregistré sous { $file }.
+develop-chart-save-failed = Impossible d’enregistrer le profil : { $reason }

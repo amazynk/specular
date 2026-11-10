@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<VTKFile type="StructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <StructuredGrid WholeExtent="0 2 0 2 0 1">
+  <Piece Extent="0 2 0 2 0 1">
+    <PointData Scalars="pressure">
+      <DataArray type="Float64" Name="pressure" format="binary" RangeMin="0.04917930032422091" RangeMax="0.9007230684545735">
+        AQAAAAAEAACQAAAAmwAAAA==eF4BkABv//XLV4wqweU/4LwQfQcuqT/MKi2N92fSP9Y9JhMo0Nk/muhLMoEh2T8Ud5aF4xjMP56G/UUtI9k/WDgdrPTJ5j+1kTHMPFvpP7bW6tvL1+s/GCRyPJNwxz9sYNNHNYnbP9RhN2/KNMM/duAUZJ+j0T9ADoQBrZOuP7Fvy0WhQOQ/oBwT5sXB0j82fDgvudLsPxpaRvw=
+      </DataArray>
+    </PointData>
+    <CellData>
+    </CellData>
+    <Points>
+      <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="binary" RangeMin="0" RangeMax="3.2283103115396865">
+        AQAAAAAEAADYAAAAfgAAAA==eF5jYEAGDfYg8uwZH1sg5QBhn7ENCF1jC5MLPdplD2KD1KxOYnWAsM/YxlvuguuZtrgbpNYBpOb0RZAaEPuMLdRsO4hZYDPs0tLaYGrtzp7psQfZNWvmTLA8yC4QG6QGZBeIDVIDsuvsGR6w3SC7QGyQGpBdIDZIDQBx7UgJ
+        <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+          <Value index="0">
+            0
+          </Value>
+          <Value index="1">
+            3.2283103115
+          </Value>
+        </InformationKey>
+      </DataArray>
+    </Points>
+  </Piece>
+  </StructuredGrid>
+</VTKFile>

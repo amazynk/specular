@@ -1,0 +1,22 @@
+[package]
+name = "specular-splat"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "3D Gaussian splats for Specular: own readers for antimatter15 .splat records, 3DGS PLY (f_dc/f_rest spherical harmonics up to degree 3, logit opacity, log scales, quaternions; ASCII and binary), SuperSplat compressed PLY and Niantic .spz (gzip v1-3, Zstandard v4); positions and covariances in the viewer's z-up frame, robust bounds, caps and no panics on malformed input; a tiled CPU rasteriser of sorted anisotropic Gaussians for thumbnails"
+
+[dependencies]
+thiserror = "2"
+# Decompressed streams reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+# Bounds, the z-up frame and the iso basis shared with the mesh view.
+specular-mesh = { path = "../specular-mesh" }
+# .spz v1-3 is gzip: our own inflater.
+specular-png = { path = "../specular-png" }
+# .spz v4 is Zstandard: pure Rust, as TIFF and HDF5 use it (the C libzstd binding is not allowed).
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+
+[lints]
+workspace = true

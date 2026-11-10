@@ -1,0 +1,17 @@
+[Version]
+AppVersion=5.11
+Version=351
+
+[General]
+Rank=5
+ColorLabel=4
+InTrash=false
+
+[Exposure]
+Auto=false
+Compensation=0.3
+
+[IPTC]
+Caption=Night tram;
+Title=Line 28;
+Keywords=tram;Lisbon;night;

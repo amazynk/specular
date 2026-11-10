@@ -1,0 +1,10 @@
+[package]
+name = "specular-gsm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own GSM 06.10 full-rate speech decoder for Specular's sound files"
+
+[lints]
+workspace = true

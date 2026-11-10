@@ -1,0 +1,44 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "A",
+   "offset": 0,
+   "shape": [
+    5,
+    4
+   ]
+  },
+  {
+   "complex": false,
+   "name": "B",
+   "offset": 20,
+   "shape": [
+    1,
+    7
+   ]
+  },
+  {
+   "complex": false,
+   "name": "S",
+   "offset": 27,
+   "shape": [
+    4,
+    6
+   ]
+  },
+  {
+   "complex": true,
+   "name": "Z",
+   "offset": 51,
+   "re_offset": 60,
+   "shape": [
+    3,
+    3
+   ]
+  }
+ ],
+ "kind": "mat",
+ "refused": [],
+ "texts": {}
+}

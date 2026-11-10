@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE GIFTI SYSTEM "http://www.nitrc.org/frs/download.php/115/gifti.dtd">
+<GIFTI Version="1.0" NumberOfDataArrays="7">
+<MetaData><MD><Name>AnatomicalStructurePrimary</Name><Value>CortexLeft</Value></MD></MetaData>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_FLOAT32" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="ASCII" Endian="LittleEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[ascii f32]]></Value></MD></MetaData>
+<Data>0.14112000167369843
+0.14112000167369843
+0.14112000167369843
+0.14112000167369843
+-0.6677879095077515
+-0.6677879095077515
+0.43320661783218384
+0.43320661783218384
+0.9890695214271545
+-0.9908749461174011
+0.9890695214271545
+-0.9908749461174011
+-0.7071492075920105
+-0.7553150653839111
+-0.9775301218032837
+-0.9775301218032837
+0.14112000167369843
+0.9974949955940247
+0.9974949955940247
+0.5421124696731567
+0.8765484094619751
+0.14112000167369843
+-0.7553150653839111
+-0.7071492075920105
+-0.7553150653839111
+-0.279415488243103
+0.8765484094619751
+-0.7071492075920105
+0.0
+0.5421124696731567
+0.8765484094619751
+0.5421124696731567
+-0.7071492075920105
+-0.7553150653839111
+-0.9775301218032837
+-0.9775301218032837
+0.14112000167369843
+0.9974949955940247
+0.9974949955940247
+0.5421124696731567
+0.8765484094619751
+0.14112000167369843</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_FLOAT32" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="Base64Binary" Endian="BigEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[b64 f32 BE]]></Value></MD></MetaData>
+<Data>v6XVur7oqRq/pdW6vuipGr9gAAC/YAAAv2AAAL9gAAC+RyWZvkclmb/HG02/xxtNv8LX5b+jMzO/
+j6SyvyC2nL9gAAC/ILacv4+ksr+jMzO/wtflv9ZmZr7zMzO+aUDWv6MzM79gAAC/wtflv8LX5b9g
+AAC/ozMzvmlA1r7zMzO+aUDWvvMzM78gtpy/j6Syv2AAAL+PpLK/ILacvvMzM75pQNa9mZma</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_INT32" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="Base64Binary" Endian="BigEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[b64 i32 BE]]></Value></MD></MetaData>
+<Data>/s7SxP7eFQf+7VdK/vyZjf8L29D/Gx4T/ypgVv85opn/SOTc/1gnH/9naWL/dqul/4Xt6P+VMCv/
+pHJu/7O0sf/C9vT/0jk3/+F7ev/wvb0AAAAAAA9CQwAehIYALcbJAD0JDABMS08AW42SAGrP1QB6
+EhgAiVRbAJiWngCn2OEAtxskAMZdZwDVn6oA5OHtAPQkMAEDZnMBEqi2ASHq+QExLTwBQG9/</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_INT32" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="GZipBase64Binary" Endian="LittleEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[gz i32 LE]]></Value></MD></MetaData>
+<Data>eJwBqABX/8TSzv4HFd7+Slft/o2Z/P7Q2wv/Ex4b/1ZgKv+Zojn/3ORI/x8nWP9iaWf/pat2/+jt
+hf8rMJX/bnKk/7G0s//09sL/NznS/3p74f+9vfD/AAAAAENCDwCGhB4AycYtAAwJPQBPS0wAko1b
+ANXPagAYEnoAW1SJAJ6WmADh2KcAJBu3AGddxgCqn9UA7eHkADAk9ABzZgMBtqgSAfnqIQE8LTEB
+f29AAVwkUPQ=</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_UINT8" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="GZipBase64Binary" Endian="BigEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[gz u8]]></Value></MD></MetaData>
+<Data>eJwBKgDV/wAHDhUcIyoxOD9GTVRbYmlwd36FjJOaoaivtr3Ey9LZ4Ofu9fwDChEYH0KsEow=</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_UINT8" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="ASCII" Endian="LittleEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[ascii u8]]></Value></MD></MetaData>
+<Data>0
+7
+14
+21
+28
+35
+42
+49
+56
+63
+70
+77
+84
+91
+98
+105
+112
+119
+126
+133
+140
+147
+154
+161
+168
+175
+182
+189
+196
+203
+210
+217
+224
+231
+238
+245
+252
+3
+10
+17
+24
+31</Data>
+</DataArray>
+<DataArray Intent="NIFTI_INTENT_NONE" DataType="NIFTI_TYPE_FLOAT32" ArrayIndexingOrder="RowMajorOrder" Dimensionality="1" Dim0="42" Encoding="GZipBase64Binary" Endian="BigEndian" ExternalFileName="" ExternalFileOffset="">
+<MetaData><MD><Name>Name</Name><Value><![CDATA[gz f32 BE]]></Value></MD></MetaData>
+<Data>eJwBqABX/0BCAXpAGKwoQCPmUkAjDBZAC3LWQCRTuEAo56BAWGFQQB5bo0A95e5AMIrZQC1BY0BB
+I1NAOaUGQAfm1z/6GBJACzAVQAtHXkATpMY/xBQpQC86vUALrfpAD2IMQDGmhEAljElAVDs0QDXE
+L0BKgzc/7ZESQDe5vEA0QO5ALxL9QC6hTEAs8atAMp/fQBksrz/tuBdAQZnQQA08s0ABlylAFKrd
+QBIQjypKO/w=</Data>
+</DataArray>
+</GIFTI>

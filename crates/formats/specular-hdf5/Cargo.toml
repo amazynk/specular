@@ -1,0 +1,25 @@
+[package]
+name = "specular-hdf5"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Read-only HDF5 decoder for Specular: superblocks v0-v3, object headers v1/v2, old and new style groups (symbol tables, link messages, fractal heaps, B-tree v2 indexes), attributes (dense too), contiguous, compact and chunked datasets (B-tree v1, single chunk, implicit, fixed array, extensible array and B-tree v2 indexes), filters (deflate, shuffle, fletcher32, LZF, LZ4, Zstandard, SZIP, N-bit, scale-offset, bitshuffle, Blosc, Blosc2), and the EMD conventions (Berkeley/NCEM and Velox)"
+
+[dependencies]
+rayon = "1.11"
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+serde_json = "1"
+thiserror = "2"
+specular-core = { path = "../../specular-core" }
+# Own inflate (deflate filter, Blosc zlib streams).
+specular-png = { path = "../specular-png" }
+# SZIP filter (AEC).
+specular-aec = { path = "../specular-aec" }
+
+[features]
+# A minimal HDF5 writer for other crates' test fixtures.
+writer = []
+
+[lints]
+workspace = true

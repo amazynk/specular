@@ -1,0 +1,47 @@
+[package]
+name = "specular-gis"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Geospatial data for Specular: coordinate reference systems (a small EPSG table, WKT1/WKT2/PROJJSON names and parameters, exact in-tree inverses of Transverse Mercator/UTM, Mercator, Web Mercator, Lambert conformal conic and Albers), GeoTIFF GeoKeys and GDAL tags, sidecar georeferencing (world files, .prj, GDAL .aux.xml), own Esri ASCII grid, DTED, ENVI, ESRI .hdr raw band and ERDAS IMAGINE readers, and own GeoJSON, Shapefile (with DBF, PRJ, CPG), KML/KMZ, GPX and GeoPackage readers into a feature model and a specular-vector scene with a hit-test index; the EPSG dataset with Helmert datum shifts to WGS 84; MBTiles, PMTiles v3 and Mapbox Vector Tiles"
+
+[dependencies]
+specular-limits = { path = "../../specular-limits" }
+specular-vector = { path = "../../specular-vector" }
+kurbo = "0.13"
+encoding_rs = "0.8"
+# GeoJSON and PROJJSON (GeoJSON through an own order-keeping value tree).
+serde = "1"
+serde_json = "1"
+# KML, GPX and GDAL metadata.
+roxmltree = "0.21"
+# OpenStreetMap XML, streamed.
+quick-xml = "0.41"
+# KMZ: a ZIP holding the KML.
+zip = { version = "9.5", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+# GeoPackage and MBTiles are SQLite databases, queried in the sandboxed decode host: only the
+# query types (`specular_sandbox::sql`) are used here.
+specular-sandbox = { path = "../../specular-sandbox" }
+# Writes the MBTiles fixture for other crates' tests (feature `sqlite-fixtures`).
+rusqlite = { version = "0.39", features = ["bundled"], optional = true }
+# Deflated tiles of the synthetic GeoTIFF fixtures.
+flate2 = "1"
+# Parallel text parsing (ASCII grids) and block decoding (ERDAS IMAGINE).
+rayon = "1.11"
+# PMTiles directories and tiles compressed with Brotli or Zstandard.
+specular-brotli = { path = "../specular-brotli" }
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+
+[features]
+sqlite-fixtures = ["dep:rusqlite"]
+
+[dev-dependencies]
+# The oracle: GeoPackage and MBTiles fixtures are written and read with SQLite in process.
+rusqlite = { version = "0.39", features = ["bundled"] }
+# The corpus test reads GeoTIFF tags the way the viewer does.
+specular-tiff = { path = "../specular-tiff" }
+specular-thread = { path = "../../specular-thread" }
+
+[lints]
+workspace = true

@@ -1,0 +1,22 @@
+[package]
+name = "specular-bim"
+description = "BIM review: BCF 2.1 and 3.0 (BIM Collaboration Format) archives read, edited and written (topics, comments, viewpoints with cameras, components and clipping planes, snapshots), checked against the buildingSMART schemas' rules; saved camera views in a sidecar JSON next to the model; BCF component selection, visibility and colours applied to a building model's mesh by IFC GUID"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-mesh = { path = "../formats/specular-mesh" }
+getrandom = "0.3"
+rayon = "1.11"
+roxmltree = "0.21"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+zip = { version = "9.5", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+
+[dev-dependencies]
+sha2 = "0.10"
+
+[lints]
+workspace = true

@@ -1,0 +1,18 @@
+{
+"point_data": [
+{
+"name": "temp",
+"components": 1,
+"tuples": 27,
+"offset": 0
+}
+],
+"cell_data": [],
+"field_data": [],
+"kind": "mesh",
+"points": 27,
+"cells": 8,
+"triangles": 48,
+"area": 24.0,
+"tri_offset": 27
+}

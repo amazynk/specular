@@ -1,0 +1,23 @@
+[package]
+name = "specular-similar"
+description = "Duplicates and similar shots for Specular: pixel signatures, SSIM verify, candidate index, grouping, best-pick suggestions and remembered decisions"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+# `pure`: no C or assembly, so every target builds without a C toolchain (Rust SIMD stays).
+blake3 = { version = "1.8", features = ["pure"] }
+crossbeam-channel = "0.5"
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-thumbs = { path = "../specular-thumbs" }
+
+[dev-dependencies]
+png = "0.18"
+proptest = "1"
+
+[lints]
+workspace = true

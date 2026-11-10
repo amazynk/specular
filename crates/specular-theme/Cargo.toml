@@ -1,0 +1,12 @@
+[package]
+name = "specular-theme"
+description = "Design tokens for Specular: colours (dark/light), metrics, springs and easing, bundled fonts"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

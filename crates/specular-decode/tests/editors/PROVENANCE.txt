@@ -1,0 +1,3 @@
+pypdn-untitled3.pdn, pypdn-untitled3.png: from pypdn (https://github.com/addisonElliott/pypdn,
+commit 3481b08b, tests/data/Untitled3.pdn and flattenOpacityTest.png), MIT licence,
+Copyright (c) 2018 Addison Elliott. The PNG is the document as Paint.NET flattened it.

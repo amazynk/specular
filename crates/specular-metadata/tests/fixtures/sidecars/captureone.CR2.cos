@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SL Engine="1300">
+ <DL>
+  <E K="Rating" V="3"/>
+  <E K="ColorLabel" V="5"/>
+  <E K="Exposure" V="0.25"/>
+ </DL>
+</SL>

@@ -1,0 +1,156 @@
+[package]
+name = "specular-decode"
+description = "Decoder trait, format registry and probing for Specular (JPEG via specular-jpeg, PNG)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-limits = { path = "../specular-limits" }
+specular-log = { path = "../specular-log" }
+specular-core = { path = "../specular-core" }
+specular-color = { path = "../specular-color" }
+specular-jpeg = { path = "../formats/specular-jpeg" }
+specular-hwdec = { path = "../specular-hwdec" }  # opt-in hardware JPEG decode (hw_jpeg.rs)
+specular-bitmap = { path = "../formats/specular-bitmap" }
+specular-png = { path = "../formats/specular-png" }
+specular-webp = { path = "../formats/specular-webp" }
+specular-avif = { path = "../formats/specular-avif" }
+specular-jxl = { path = "../formats/specular-jxl" }
+specular-brotli = { path = "../formats/specular-brotli" }
+specular-jp2 = { path = "../formats/specular-jp2" }
+specular-jpegls = { path = "../formats/specular-jpegls" }
+specular-jxr = { path = "../formats/specular-jxr" }
+specular-tiff = { path = "../formats/specular-tiff" }
+specular-texture = { path = "../formats/specular-texture" }
+specular-raw = { path = "../formats/specular-raw" }
+specular-fileops = { path = "../specular-fileops" }  # RAW rotations saved in XMP sidecars
+specular-psd = { path = "../formats/specular-psd" }
+specular-xcf = { path = "../formats/specular-xcf" }
+specular-pdn = { path = "../formats/specular-pdn" }  # Paint.NET
+specular-cdr = { path = "../formats/specular-cdr" }  # CorelDRAW previews
+specular-drawpage = { path = "../formats/specular-drawpage" }  # office/design drawing pages
+specular-visio = { path = "../formats/specular-visio" }  # Visio
+specular-wpg = { path = "../formats/specular-wpg" }  # WordPerfect Graphics
+specular-diagram = { path = "../formats/specular-diagram" }  # draw.io, Excalidraw
+specular-lottie = { path = "../formats/specular-lottie" }  # Lottie animations
+specular-swf = { path = "../formats/specular-swf" }  # Flash first frames
+specular-sketch = { path = "../formats/specular-sketch" }  # Sketch pages, Figma thumbnails
+specular-odf = { path = "../formats/specular-odf" }  # OpenDocument drawings, thumbnails
+specular-office = { path = "../formats/specular-office" }  # Office and iWork previews, properties
+specular-playlist = { path = "../specular-playlist" }  # Playlists (M3U, PLS, XSPF), read for their facts
+specular-clip = { path = "../formats/specular-clip" }  # Clip Studio Paint merged canvas
+specular-bpg = { path = "../formats/specular-bpg" }  # BPG over the in-tree HEVC decoder
+specular-psp = { path = "../formats/specular-psp" }  # PaintShop Pro
+specular-flif = { path = "../formats/specular-flif" }  # FLIF
+specular-legacy = { path = "../formats/specular-legacy" }
+specular-legacy2 = { path = "../formats/specular-legacy2" }  # XWD, MIFF, PlayStation TIM
+specular-retro = { path = "../formats/specular-retro" }  # Sixel, X cursors, Atari/C64/Spectrum screens, RLA, Utah RLE, BLP…
+specular-dvi = { path = "../formats/specular-dvi" }  # TeX DVI pages and TFM metrics
+specular-retro2 = { path = "../formats/specular-retro2" }  # CPC, MSX, Apple II, BBC, Atari 8-bit screens, Photo CD
+specular-film = { path = "../formats/specular-film" }  # DPX and Cineon
+specular-wsq = { path = "../formats/specular-wsq" }  # FBI WSQ fingerprints
+specular-jbig = { path = "../formats/specular-jbig" }  # JBIG (T.82)
+specular-jbig2 = { path = "../formats/specular-jbig2" }  # standalone JBIG2 (T.88)
+specular-jpegxs = { path = "../formats/specular-jpegxs" }  # JPEG XS (ISO/IEC 21122)
+specular-icns = { path = "../formats/specular-icns" }
+specular-ora = { path = "../formats/specular-ora" }
+# OLE compound files: FlashPix.
+specular-cfb = { path = "../formats/specular-cfb" }
+specular-iff = { path = "../formats/specular-iff" }
+specular-pict = { path = "../formats/specular-pict" }
+specular-exr = { path = "../formats/specular-exr" }
+specular-radiance = { path = "../formats/specular-radiance" }
+specular-dicom = { path = "../formats/specular-dicom" }
+specular-fits = { path = "../formats/specular-fits" }
+specular-ser = { path = "../formats/specular-ser" }
+specular-xisf = { path = "../formats/specular-xisf" }
+specular-astro = { path = "../specular-astro" }  # subframe star metrics and header facts
+specular-planetary = { path = "../formats/specular-planetary" }  # VICAR, PDS3, PDS4
+specular-asdf = { path = "../formats/specular-asdf" }  # ASDF (Roman, JWST)
+specular-root = { path = "../formats/specular-root" }  # CERN ROOT
+specular-fcs = { path = "../formats/specular-fcs" }  # Flow Cytometry Standard
+specular-casa = { path = "../formats/specular-casa" }  # CASA image tables
+specular-hdf5 = { path = "../formats/specular-hdf5" }
+specular-netcdf = { path = "../formats/specular-netcdf" }
+specular-ugrid = { path = "../formats/specular-ugrid" }  # UGRID, ICON and MPAS meshes
+specular-em = { path = "../formats/specular-em" }
+specular-arrays = { path = "../formats/specular-arrays" }  # NumPy, MATLAB levels 4/5, Zarr
+specular-tdms = { path = "../formats/specular-tdms" }  # NI TDMS
+specular-vtk = { path = "../formats/specular-vtk" }  # VTK legacy and XML
+specular-xtal = { path = "../formats/specular-xtal" }
+specular-ebsd = { path = "../formats/specular-ebsd" }
+specular-spm = { path = "../formats/specular-spm" }
+specular-surf = { path = "../formats/specular-surf" }
+specular-micro = { path = "../formats/specular-micro" }  # Leica LIF / LOF, Nikon ND2
+specular-cad = { path = "../formats/specular-cad" }
+specular-gds = { path = "../formats/specular-gds" }  # GDSII layouts
+specular-pcb = { path = "../formats/specular-pcb" }  # Gerber, Excellon, board sets, ODB++, IPC-2581
+specular-landxml = { path = "../formats/specular-landxml" }  # LandXML surfaces and alignments
+specular-kicad = { path = "../formats/specular-kicad" }  # KiCad boards and schematics
+specular-spectra = { path = "../formats/specular-spectra" }  # spectra model and chart sheets
+specular-jcamp = { path = "../formats/specular-jcamp" }  # JCAMP-DX and SPC
+specular-mzml = { path = "../formats/specular-mzml" }  # mzML and mzXML
+specular-nmr = { path = "../formats/specular-nmr" }  # Bruker NMR
+specular-vector = { path = "../specular-vector" }
+specular-gis = { path = "../formats/specular-gis" }  # GeoTIFF keys, CRSs, vector maps
+specular-grib = { path = "../formats/specular-grib" }  # GRIB 1 and 2
+specular-hdf4 = { path = "../formats/specular-hdf4" }  # HDF4 and HDF-EOS2
+specular-mesh = { path = "../formats/specular-mesh" }
+specular-points = { path = "../formats/specular-points" }
+specular-tiles3d = { path = "../formats/specular-tiles3d" }
+specular-splat = { path = "../formats/specular-splat" }
+# Zstandard-compressed .blend files (their thumbnail): pure Rust, as TIFF and HDF5 use it.
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+specular-mol = { path = "../formats/specular-mol" }  # PDB, mmCIF, CIF, SDF, molecular XYZ
+specular-neuro = { path = "../formats/specular-neuro" }  # GIFTI, CIFTI-2, TrackVis, MRtrix tracks
+specular-medvol = { path = "../formats/specular-medvol" }
+specular-segy = { path = "../formats/specular-segy" }  # SEG-Y and Seismic Unix
+specular-imzml = { path = "../formats/specular-imzml" }  # imaging mass spectrometry
+specular-fmt-thermal = { path = "../formats/specular-fmt-thermal" }  # FLIR, InfiRay and InfraTec thermal stills
+specular-inspect = { path = "../specular-inspect" }  # colour maps of mass spectrometry images
+specular-rti = { path = "../formats/specular-rti" }  # PTM, HSH RTI and Relight
+specular-wsi = { path = "../formats/specular-wsi" }
+specular-heic = { path = "../formats/specular-heic" }  # HEIC in-process (pure Rust; VA-API through specular-hwdec)
+specular-measure = { path = "../specular-measure" }  # drawing scales: calibrations, number formats
+specular-pdf = { path = "../formats/specular-pdf" }  # PDF / Illustrator through hayro; EPS previews
+specular-djvu = { path = "../formats/specular-djvu" }  # DjVu (own decoders)
+specular-xps = { path = "../formats/specular-xps" }  # XPS / OpenXPS (vello_cpu)
+specular-cgm = { path = "../formats/specular-cgm" }  # CGM (vello_cpu)
+specular-font = { path = "../formats/specular-font" }  # TTF/OTF/TTC/WOFF/WOFF2 (own parsing)
+specular-epub = { path = "../formats/specular-epub" }  # EPUB 2/3 (own layout)
+specular-subs = { path = "../specular-subs" }  # standalone subtitle files
+specular-textdoc = { path = "../formats/specular-textdoc" }  # text, Markdown, CSV, RTF
+#  # PDF / Illustrator through hayro; EPS previews
+specular-sandbox = { path = "../specular-sandbox" }  # HEIC fallback: libheif in the sandboxed host
+# SVG (+ gzip SVGZ). Text: system fonts (loaded once, only for SVGs with text) plus the bundled
+# UI fonts. Embedded rasters are decoded by our own decoders through the vendored resvg's hook
+# (third_party/resvg): no third-party image decoders.
+resvg = { version = "0.48", default-features = false, features = ["svgz", "text", "system-fonts", "memmap-fonts"] }
+specular-theme = { path = "../specular-theme" }  # bundled fonts: the SVG text fallback
+memchr = "2"  # SVG pre-scans (text, CSS custom properties)
+thiserror = "2"
+serde_json = "1"  # Zarr attributes
+parking_lot = "0.12"
+rayon = "1.11"  # PSD CMYK composites converted in parallel rows (colour.rs)
+
+[features]
+# rav1d's hand-written x86/ARM assembly for AVIF decode (needs `nasm` at build time on x86_64).
+asm = ["specular-avif/asm"]
+
+[dev-dependencies]
+# The MBTiles fixture is written with SQLite (only tests; the readers query the decode host).
+specular-gis = { path = "../formats/specular-gis", features = ["sqlite-fixtures"] }
+flate2 = "1"  # SVGZ test fixtures
+specular-remote = { path = "../specular-remote" }  # remote Zarr against a loopback server
+jpeg-encoder = "0.7"  # synthetic Ultra HDR fixtures (gain-map tests)
+specular-hdf5 = { path = "../formats/specular-hdf5", features = ["writer"] }  # synthetic HDF5 files
+specular-h264enc = { path = "../formats/specular-h264enc" }  # DICOM video fixtures
+specular-wsi = { path = "../formats/specular-wsi", features = ["fixtures"] }  # synthetic slides
+sha2 = "0.10"  # CZI planes against the oracles
+zip = { version = "9.5", default-features = false }  # zipped IFC fixtures
+
+[lints]
+workspace = true

@@ -1,0 +1,26 @@
+[package]
+name = "specular-micro"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Vendor microscopy and spectroscopy readers for Specular: Olympus FluoView OIR, Princeton Instruments SPE, Andor SIF, Leica LIF / LOF (the UTF-16 XML header, every image series, X/Y/Z/T/tile and wavelength dimensions, channel LUTs and calibration) and Nikon ND2 (the chunk-mapped layout with CLX Lite or XML metadata, zlib frames, and the legacy JPEG 2000 layout), planes as f32"
+
+[dependencies]
+thiserror = "2"
+# Planes sized by the header reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+# The XML reader the slide crate already carries (LIF headers, ND2 XML metadata).
+specular-wsi = { path = "../specular-wsi" }
+# Own inflate (zlib ND2 frames and compressed CLX Lite records).
+specular-png = { path = "../specular-png" }
+# Own JPEG 2000 (legacy ND2 frames).
+specular-jp2 = { path = "../specular-jp2" }
+# Unix compress (LZW) for ICS data written that way.
+specular-xtal = { path = "../specular-xtal" }
+
+[dev-dependencies]
+serde_json = "1"
+
+[lints]
+workspace = true

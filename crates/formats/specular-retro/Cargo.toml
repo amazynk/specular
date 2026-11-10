@@ -1,0 +1,12 @@
+[package]
+name = "specular-retro"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoders for retro, game and terminal raster formats: Sixel, X cursors, AVS, MacPaint, GEM IMG, Atari ST, C64 Koala, ZX Spectrum, Dr. Halo, Softimage PIC, Alias PIX, RLA/RPF, Utah RLE, Quake 2 WAL, Blizzard BLP"
+
+[dependencies]
+
+[lints]
+workspace = true

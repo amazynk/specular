@@ -1,0 +1,1197 @@
+{
+  "schema": 1,
+  "provisional": false,
+  "note": "blessed from an idle run",
+  "env": {
+    "adapter": "AMD Radeon 860M Graphics (RADV KRACKAN1) (Vulkan)",
+    "class": "gpu",
+    "profile": "dev",
+    "timestamps": true,
+    "load_start": [
+      1.63,
+      2.8,
+      8.27
+    ],
+    "load_end": [
+      7.0,
+      3.92,
+      7.7
+    ],
+    "cores": 16,
+    "unix_time": 1793620370
+  },
+  "cases": {
+    "ai/denoise/tile-512": {
+      "family": "ai",
+      "wall": {
+        "p50": 219.8724665,
+        "p95": 223.13729575000002,
+        "best": 216.47202099999998,
+        "n": 6
+      },
+      "gpu": {
+        "p50": 214.26997560711476,
+        "p95": 221.98967312800312,
+        "best": 213.0461904000663,
+        "n": 6
+      },
+      "gated": "gpu",
+      "rounds": 3,
+      "note": "random f16 weights at the real size"
+    },
+    "ai/depth/photo-3x2": {
+      "family": "ai",
+      "wall": {
+        "p50": 344.250441,
+        "p95": 349.97344740000005,
+        "best": 339.096613,
+        "n": 3
+      },
+      "gpu": {
+        "p50": 337.80775892527777,
+        "p95": 342.3530069528172,
+        "best": 337.0495984109115,
+        "n": 3
+      },
+      "gated": "gpu",
+      "rounds": 3,
+      "note": "random f16 weights at the real size"
+    },
+    "ai/remove/crop-384": {
+      "family": "ai",
+      "wall": {
+        "p50": 612.1669880000001,
+        "p95": 619.0718816,
+        "best": 611.394808,
+        "n": 3
+      },
+      "gpu": {
+        "p50": 599.0274796294891,
+        "p95": 600.240861069251,
+        "best": 598.7475878316076,
+        "n": 3
+      },
+      "gated": "gpu",
+      "rounds": 3,
+      "note": "random f16 weights at the real size"
+    },
+    "diffuse/Bloom/draft": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 14.7021905,
+        "p95": 14.81466395,
+        "best": 14.42137,
+        "n": 10
+      },
+      "gpu": {
+        "p50": 12.831124295057773,
+        "p95": 12.941112273579026,
+        "best": 12.789219675762174,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Bloom/refined": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 81.543801,
+        "p95": 83.44920259999999,
+        "best": 80.78142000000001,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 76.97237847230244,
+        "p95": 79.1695992189308,
+        "best": 76.64590817469406,
+        "n": 5
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Deblur/draft": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 20.971005499999997,
+        "p95": 21.43864885,
+        "best": 20.871537999999997,
+        "n": 10
+      },
+      "gpu": {
+        "p50": 19.560905963567734,
+        "p95": 20.01371831263847,
+        "best": 19.42983693078232,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Deblur/refined": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 175.924459,
+        "p95": 180.437896,
+        "best": 174.43761899999998,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 169.32167327605822,
+        "p95": 173.6126822462402,
+        "best": 167.17134763070302,
+        "n": 5
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/InpaintHighlights/draft": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 13.810586,
+        "p95": 14.900162199999999,
+        "best": 13.425699,
+        "n": 10
+      },
+      "gpu": {
+        "p50": 11.215329264490128,
+        "p95": 11.413988719915581,
+        "best": 11.056166853939052,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/InpaintHighlights/refined": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 104.318704,
+        "p95": 104.55308099999999,
+        "best": 103.70515499999999,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 83.0609368085403,
+        "p95": 84.06310494040146,
+        "best": 82.80705442887499,
+        "n": 5
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/LocalContrast/draft": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 11.8246635,
+        "p95": 12.00047375,
+        "best": 11.690620000000001,
+        "n": 10
+      },
+      "gpu": {
+        "p50": 10.547580533632278,
+        "p95": 10.639501184006308,
+        "best": 10.459473128471373,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/LocalContrast/refined": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 57.45294,
+        "p95": 57.601091800000006,
+        "best": 57.218568,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 54.733855002313625,
+        "p95": 54.883094559320064,
+        "best": 54.551398332381225,
+        "n": 5
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Sharpen/draft": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 19.644503999999998,
+        "p95": 28.961662149999995,
+        "best": 18.936421,
+        "n": 10
+      },
+      "gpu": {
+        "p50": 18.147760970581054,
+        "p95": 26.861018267347518,
+        "best": 17.661757558078765,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Sharpen/refined": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 101.532171,
+        "p95": 101.6471262,
+        "best": 101.14798499999999,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 97.46490452557754,
+        "p95": 97.5547231821373,
+        "best": 97.40771586641696,
+        "n": 5
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Smooth/draft": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 15.7594725,
+        "p95": 16.11710785,
+        "best": 15.542568,
+        "n": 10
+      },
+      "gpu": {
+        "p50": 14.60214425491333,
+        "p95": 14.904136043050576,
+        "best": 14.467167797973632,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "diffuse/Smooth/refined": {
+      "family": "diffuse",
+      "wall": {
+        "p50": 76.939019,
+        "p95": 78.5596,
+        "best": 76.670713,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 73.68945086920166,
+        "p95": 75.02418688415909,
+        "best": 73.3576404252491,
+        "n": 5
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "f16, checkpoints off"
+    },
+    "export/100mp-bayer": {
+      "family": "export",
+      "wall": {
+        "p50": 3641.6716025,
+        "p95": 3642.05301395,
+        "best": 3641.247812,
+        "n": 2
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 4000.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "one image: read, decode, render, JPEG q90, write"
+    },
+    "export/24mp-bayer": {
+      "family": "export",
+      "wall": {
+        "p50": 921.980229,
+        "p95": 940.2290277,
+        "best": 917.758501,
+        "n": 3
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 1000.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "one image: read, decode, render, JPEG q90, write"
+    },
+    "export/24mp-xtrans": {
+      "family": "export",
+      "wall": {
+        "p50": 1046.8418450000001,
+        "p95": 1052.8155887,
+        "best": 1046.770644,
+        "n": 3
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 1000.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "one image: read, decode, render, JPEG q90, write"
+    },
+    "export/45mp-bayer": {
+      "family": "export",
+      "wall": {
+        "p50": 1725.8213475,
+        "p95": 1726.18160805,
+        "best": 1725.421058,
+        "n": 2
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 1800.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "one image: read, decode, render, JPEG q90, write"
+    },
+    "export/batch/24mp-bayer": {
+      "family": "export",
+      "wall": {
+        "p50": 785.53955775,
+        "p95": 785.53955775,
+        "best": 785.53955775,
+        "n": 1
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 666.6666666666666,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "ms per image of a batch of 4, overlapped"
+    },
+    "mask/brush-dab": {
+      "family": "mask",
+      "wall": {
+        "p50": 8.1591275,
+        "p95": 9.121393249999999,
+        "best": 7.549646,
+        "n": 60
+      },
+      "gpu": {
+        "p50": 4.472678143861771,
+        "p95": 4.730628753213931,
+        "best": 4.375072692295075,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0
+      },
+      "rounds": 3,
+      "note": "stamp one dab, render + present (masked module in focus)"
+    },
+    "mask/brush-dab/engine": {
+      "family": "mask",
+      "wall": {
+        "p50": 25.638541,
+        "p95": 26.2934662,
+        "best": 24.953250999999998,
+        "n": 60
+      },
+      "gpu": {
+        "p50": 22.028013498435975,
+        "p95": 22.528119205472525,
+        "best": 21.653101160350797,
+        "n": 60
+      },
+      "gated": "gpu",
+      "rounds": 3,
+      "note": "stamp one dab, build the graph, render at full scale on the engine"
+    },
+    "open/enter/24mp-bayer": {
+      "family": "open",
+      "wall": {
+        "p50": 99.970975,
+        "p95": 102.40533,
+        "best": 99.124305,
+        "n": 5
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 150.0,
+        "p95": 250.0
+      },
+      "rounds": 3,
+      "note": "sensor decode + front end + render + present"
+    },
+    "open/enter/24mp-xtrans": {
+      "family": "open",
+      "wall": {
+        "p50": 124.772008,
+        "p95": 133.28927240000002,
+        "best": 120.429222,
+        "n": 5
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 150.0,
+        "p95": 250.0
+      },
+      "rounds": 3,
+      "note": "sensor decode + front end + render + present"
+    },
+    "open/next-prefetched/24mp-bayer": {
+      "family": "open",
+      "wall": {
+        "p50": 18.626526000000002,
+        "p95": 19.277236,
+        "best": 18.17312,
+        "n": 5
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 100.0,
+        "p95": 200.0
+      },
+      "rounds": 3,
+      "note": "developed ahead (decode, upload, noise fit, front end): render + present"
+    },
+    "open/next-prefetched/24mp-xtrans": {
+      "family": "open",
+      "wall": {
+        "p50": 19.95149,
+        "p95": 20.537569400000002,
+        "best": 19.658616,
+        "n": 5
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 100.0,
+        "p95": 200.0
+      },
+      "rounds": 3,
+      "note": "developed ahead (decode, upload, noise fit, front end): render + present"
+    },
+    "open/refine/24mp-bayer": {
+      "family": "open",
+      "wall": {
+        "p50": 154.47340300000002,
+        "p95": 157.8022538,
+        "best": 148.446034,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 74.13974643635558,
+        "p95": 76.5413735576271,
+        "best": 73.0353681038475,
+        "n": 5
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "binned first picture → full demosaic reduced + render + present"
+    },
+    "open/refine/24mp-xtrans": {
+      "family": "open",
+      "wall": {
+        "p50": 250.052265,
+        "p95": 253.38184239999998,
+        "best": 246.783859,
+        "n": 5
+      },
+      "gpu": {
+        "p50": 170.6716783023262,
+        "p95": 171.77644136582794,
+        "best": 169.67718875988007,
+        "n": 5
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "binned first picture → full demosaic reduced + render + present"
+    },
+    "pan-1to1/tile-512": {
+      "family": "pan",
+      "wall": {
+        "p50": 6.4105735,
+        "p95": 7.291230399999999,
+        "best": 5.934905,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 4.975914298788071,
+        "p95": 5.717162679891587,
+        "best": 4.543312349727631,
+        "n": 40
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0
+      },
+      "rounds": 3,
+      "note": "a tile not rendered before (the view pans by one tile)"
+    },
+    "retouch/drag/draft": {
+      "family": "retouch",
+      "wall": {
+        "p50": 3.982716,
+        "p95": 4.63673415,
+        "best": 3.495345,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 2.8078349211215974,
+        "p95": 3.521220362294197,
+        "best": 2.709948936538696,
+        "n": 40
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0
+      },
+      "rounds": 3,
+      "note": "one spot moved, nine kept; budget of the brush row (draft) or heavy refined"
+    },
+    "retouch/drag/refined": {
+      "family": "retouch",
+      "wall": {
+        "p50": 1.564371,
+        "p95": 1.6535726499999999,
+        "best": 1.413491,
+        "n": 12
+      },
+      "gpu": {
+        "p50": 0.9231540040397643,
+        "p95": 0.9491393765693664,
+        "best": 0.9142570998115539,
+        "n": 12
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "one spot moved, nine kept; budget of the brush row (draft) or heavy refined"
+    },
+    "scopes/2560": {
+      "family": "scopes",
+      "wall": {
+        "p50": 1.2781905,
+        "p95": 1.37994035,
+        "best": 1.229584,
+        "n": 30
+      },
+      "gpu": {
+        "p50": 0.8307584513454437,
+        "p95": 0.8555876270868301,
+        "best": 0.8169922954788208,
+        "n": 30
+      },
+      "gated": "gpu",
+      "rounds": 3,
+      "note": "waveform, parade and vectorscope bins"
+    },
+    "slider/heavy/dehaze/draft": {
+      "family": "heavy",
+      "wall": {
+        "p50": 7.7864640000000005,
+        "p95": 8.85562445,
+        "best": 7.262593000000001,
+        "n": 20
+      },
+      "gpu": {
+        "p50": 4.097124587453843,
+        "p95": 4.587208753438282,
+        "best": 4.008576344696045,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/heavy/dehaze/refined": {
+      "family": "heavy",
+      "wall": {
+        "p50": 20.6213215,
+        "p95": 20.923284600000002,
+        "best": 20.462606,
+        "n": 8
+      },
+      "gpu": {
+        "p50": 17.444805346189497,
+        "p95": 17.708350585407686,
+        "best": 17.41144195533371,
+        "n": 4
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/heavy/denoise/draft": {
+      "family": "heavy",
+      "wall": {
+        "p50": 7.918357500000001,
+        "p95": 8.209488649999999,
+        "best": 7.670374,
+        "n": 20
+      },
+      "gpu": {
+        "p50": 4.586815005311966,
+        "p95": 4.796890150689697,
+        "best": 4.5019537679100035,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/heavy/denoise/refined": {
+      "family": "heavy",
+      "wall": {
+        "p50": 64.0433275,
+        "p95": 64.89409825,
+        "best": 62.735347,
+        "n": 8
+      },
+      "gpu": {
+        "p50": 18.774391576492313,
+        "p95": 19.13835711552372,
+        "best": 18.497866174804688,
+        "n": 4
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/heavy/highlight-inpaint/draft": {
+      "family": "heavy",
+      "wall": {
+        "p50": 22.674366,
+        "p95": 24.078778650000007,
+        "best": 21.455813,
+        "n": 20
+      },
+      "gpu": {
+        "p50": 19.073279467185976,
+        "p95": 19.44607578480606,
+        "best": 18.407173858280185,
+        "n": 10
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 50.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/heavy/highlight-inpaint/refined": {
+      "family": "heavy",
+      "wall": {
+        "p50": 39.093050500000004,
+        "p95": 108.36937384999995,
+        "best": 36.19773,
+        "n": 8
+      },
+      "gpu": {
+        "p50": 34.376355501159665,
+        "p95": 36.69980808985118,
+        "best": 31.607013717475883,
+        "n": 4
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 300.0,
+        "p95": 500.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/neighbourhood/colour-equalizer/draft": {
+      "family": "neighbourhood",
+      "wall": {
+        "p50": 4.5207575,
+        "p95": 4.9501994499999995,
+        "best": 4.2067689999999995,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 1.5007514463329314,
+        "p95": 1.5480813737812045,
+        "best": 1.4800120412063598,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 33.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/neighbourhood/colour-equalizer/refined": {
+      "family": "neighbourhood",
+      "wall": {
+        "p50": 8.446075,
+        "p95": 8.828255299999999,
+        "best": 8.272151000000001,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 6.199799696199417,
+        "p95": 6.251115196285058,
+        "best": 6.1445948062248235,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 33.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/neighbourhood/local-contrast/draft": {
+      "family": "neighbourhood",
+      "wall": {
+        "p50": 6.9844930000000005,
+        "p95": 7.318364799999999,
+        "best": 6.769582,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 3.700050141088485,
+        "p95": 3.8124251550065518,
+        "best": 3.674341293960571,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 33.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/neighbourhood/local-contrast/refined": {
+      "family": "neighbourhood",
+      "wall": {
+        "p50": 18.970307,
+        "p95": 19.962809,
+        "best": 18.665792,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 16.060715558452607,
+        "p95": 16.30845526696672,
+        "best": 15.972147277622224,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 33.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/neighbourhood/tone-equalizer/draft": {
+      "family": "neighbourhood",
+      "wall": {
+        "p50": 7.922671,
+        "p95": 8.31264545,
+        "best": 6.926178,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 3.9423505147991174,
+        "p95": 4.219418948253823,
+        "best": 3.8036269382858277,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 33.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/neighbourhood/tone-equalizer/refined": {
+      "family": "neighbourhood",
+      "wall": {
+        "p50": 20.0589845,
+        "p95": 20.5673174,
+        "best": 19.728450000000002,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 17.06812965771675,
+        "p95": 17.5894271293685,
+        "best": 16.920629405410768,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 33.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/point/colour-balance/draft": {
+      "family": "point",
+      "wall": {
+        "p50": 4.586266500000001,
+        "p95": 5.157714299999999,
+        "best": 4.2550110000000005,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 1.5323715248737335,
+        "p95": 1.5641499041879656,
+        "best": 1.50157300730896,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/point/colour-balance/refined": {
+      "family": "point",
+      "wall": {
+        "p50": 8.591575,
+        "p95": 9.2658439,
+        "best": 8.196308,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 6.183949580783843,
+        "p95": 6.348721649755383,
+        "best": 6.145757014434814,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/point/curves/draft": {
+      "family": "point",
+      "wall": {
+        "p50": 4.6676855,
+        "p95": 4.7819015,
+        "best": 4.2948960000000005,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 1.5002104183731078,
+        "p95": 1.5455886375514982,
+        "best": 1.4766055688667294,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/point/curves/refined": {
+      "family": "point",
+      "wall": {
+        "p50": 8.512922,
+        "p95": 8.9380155,
+        "best": 8.386427,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 6.265103774757385,
+        "p95": 6.828998181112576,
+        "best": 6.186193844913483,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/point/exposure/draft": {
+      "family": "point",
+      "wall": {
+        "p50": 7.883272,
+        "p95": 8.51720955,
+        "best": 6.984779,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 4.166696775472642,
+        "p95": 4.295281087257385,
+        "best": 4.078789751037597,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/point/exposure/refined": {
+      "family": "point",
+      "wall": {
+        "p50": 21.514626,
+        "p95": 22.342819499999997,
+        "best": 20.789044999999998,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 18.03362410913086,
+        "p95": 18.33454235752931,
+        "best": 17.919928085277554,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/point/view-transform/draft": {
+      "family": "point",
+      "wall": {
+        "p50": 3.060984,
+        "p95": 3.30628345,
+        "best": 2.73572,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 0.932812355026245,
+        "p95": 0.9565915357641219,
+        "best": 0.9144174043922424,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/point/view-transform/refined": {
+      "family": "point",
+      "wall": {
+        "p50": 3.1309865,
+        "p95": 3.3233543499999993,
+        "best": 2.701766,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 0.9309087381305694,
+        "p95": 0.9978178663026812,
+        "best": 0.9186253996353149,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "slider/point/white-balance/draft": {
+      "family": "point",
+      "wall": {
+        "p50": 7.627409,
+        "p95": 8.50717855,
+        "best": 7.377851000000001,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 4.311211354963303,
+        "p95": 4.449173484718322,
+        "best": 4.229115371578216,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present of the module in focus"
+    },
+    "slider/point/white-balance/refined": {
+      "family": "point",
+      "wall": {
+        "p50": 21.266206,
+        "p95": 22.142352949999996,
+        "best": 20.919050000000002,
+        "n": 40
+      },
+      "gpu": {
+        "p50": 18.15219439414072,
+        "p95": 18.240416016315365,
+        "best": 17.972588140033718,
+        "n": 20
+      },
+      "gated": "gpu",
+      "budget": {
+        "p50": 16.0,
+        "p95": 33.0,
+        "gpu_p50": 8.0
+      },
+      "rounds": 3,
+      "note": "render + present after release"
+    },
+    "thumbnail/512/24mp-bayer": {
+      "family": "thumbnail",
+      "wall": {
+        "p50": 92.9115655,
+        "p95": 101.92590100000001,
+        "best": 91.089833,
+        "n": 6
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 150.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "read + decode + develop + read back"
+    },
+    "thumbnail/512/24mp-xtrans": {
+      "family": "thumbnail",
+      "wall": {
+        "p50": 85.9491295,
+        "p95": 91.49843999999999,
+        "best": 82.828303,
+        "n": 6
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 150.0,
+        "p95": null
+      },
+      "rounds": 3,
+      "note": "read + decode + develop + read back"
+    },
+    "undo-redo": {
+      "family": "undo",
+      "wall": {
+        "p50": 2.7774735,
+        "p95": 3.060001599999999,
+        "best": 2.6957940000000002,
+        "n": 40
+      },
+      "gated": "wall",
+      "budget": {
+        "p50": 16.0,
+        "p95": 50.0
+      },
+      "rounds": 3,
+      "note": "colour balance back and forth, refined, checkpoints cached"
+    }
+  }
+}

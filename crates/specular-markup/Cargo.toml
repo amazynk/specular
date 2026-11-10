@@ -1,0 +1,32 @@
+[package]
+name = "specular-markup"
+description = "Markup on drawings and images for Specular: clouds, text, arrows, stamps, measurements and photo pins kept in a sidecar (XFDF for PDFs, JSON otherwise) with undo; marked-up PDF export as real annotations; sheet compare with alignment, overlay colours and changed regions (independent of the UI)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# The sidecar of a PDF is XFDF (ISO 19444-1), read with the XML parser the app already uses.
+roxmltree = "0.21"
+# The sidecar of other files is JSON (written by hand, read with serde_json).
+serde_json = "1.0.149"
+# The image of a sheet that is not a PDF, compressed into its exported PDF.
+miniz_oxide = "0.8"
+# Phase correlation for sheet alignment.
+specular-fft = { path = "../specular-fft" }
+# The incremental update that adds the markup to a PDF page as annotations.
+specular-pdf = { path = "../formats/specular-pdf" }
+# Local time for the date a markup is placed (stamps show the local day).
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+# The inspection report as DOCX: the package (the build the app already uses) and its PNGs.
+zip = { version = "9.5", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+specular-png = { path = "../formats/specular-png" }
+
+[dev-dependencies]
+# Real glyph outlines (the bundled Hebrew UI font) for the export test of text Helvetica
+# cannot write.
+specular-font = { path = "../formats/specular-font" }
+
+[lints]
+workspace = true

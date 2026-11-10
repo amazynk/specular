@@ -1,0 +1,13 @@
+[package]
+name = "specular-apv"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own APV decoder (Advanced Professional Video, IETF draft-lim-apv): 4:0:0, 4:2:2, 4:4:4 and 4:4:4:4 at 10-16 bits, tiles in parallel"
+
+[dependencies]
+rayon = "1.11"
+
+[lints]
+workspace = true

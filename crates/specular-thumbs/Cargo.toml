@@ -1,0 +1,32 @@
+[package]
+name = "specular-thumbs"
+description = "Thumbnail engine for Specular: streamed listing, content-keyed disk cache, prioritised generation, grid layout"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-log = { path = "../specular-log" }
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-jpeg = { path = "../formats/specular-jpeg" }
+specular-png = { path = "../formats/specular-png" }
+specular-video = { path = "../specular-video" }  # Motion Photo / Live Photo badge (detection only)
+specular-query = { path = "../specular-query" }  # the Exif tags search names
+parking_lot = "0.12"
+notify = "8.2"
+
+[dev-dependencies]
+specular-astro = { path = "../specular-astro" }  # synthetic subframes
+specular-dicom = { path = "../formats/specular-dicom" }  # tests/dcmobj.rs: DICOM video / document fixtures
+specular-pdf = { path = "../formats/specular-pdf" }  # tests/dcmobj.rs
+specular-h264enc = { path = "../formats/specular-h264enc" }  # tests/dcmobj.rs
+specular-wsi = { path = "../formats/specular-wsi", features = ["fixtures"] }  # synthetic slides
+specular-hdf5 = { path = "../formats/specular-hdf5", features = ["writer"] }  # synthetic science arrays
+flate2 = "1"  # their deflated chunks
+specular-planetary = { path = "../formats/specular-planetary" }  # tests/science.rs: VICAR / PDS3 fixtures
+
+[lints]
+workspace = true

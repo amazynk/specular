@@ -1,0 +1,24 @@
+[package]
+name = "specular-render-volume"
+description = "Volumes on the GPU: a series' modality values in one 3D texture (R16Sint, R16Uint or R32Float, uploaded in slice runs as they load) and multiplanar reformatting (axial, sagittal, coronal and oblique planes; thin or thick slabs as MIP, MinIP or average) with the VOI window applied in the shader; ray-marched volume rendering (transfer function presets, shaded, cinematic, MIP and MinIP, clipping, empty-space skipping) and isosurfaces for STL export"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-gfx = { path = "../specular-gfx" }
+specular-render = { path = "../specular-render" }
+specular-core = { path = "../specular-core" }
+specular-thread = { path = "../specular-thread" }
+specular-dicom = { path = "../formats/specular-dicom" }
+bytemuck = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+# Validates the shader variants without a GPU (the version wgpu uses).
+naga = { version = "30", features = ["wgsl-in"] }
+# Renders planes on the software rasteriser for the sampling tests.
+specular-shots = { path = "../specular-shots" }
+
+[lints]
+workspace = true

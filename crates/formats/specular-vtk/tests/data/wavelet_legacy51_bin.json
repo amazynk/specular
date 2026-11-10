@@ -1,0 +1,28 @@
+{
+"point_data": [
+{
+"name": "RTData",
+"components": 1,
+"tuples": 60,
+"offset": 0
+}
+],
+"cell_data": [],
+"field_data": [],
+"kind": "grid",
+"dims": [
+5,
+4,
+3
+],
+"origin": [
+-1.0,
+3.0,
+0.5
+],
+"spacing": [
+0.5,
+0.25,
+2.0
+]
+}

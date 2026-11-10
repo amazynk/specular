@@ -1,0 +1,103 @@
+specular-hevc: in-tree fork of the HEVC decoding core of heic-rs
+================================================================
+
+Upstream:  heic-rs 0.1.1, https://crates.io/crates/heic-rs
+           repository https://github.com/tbraun96/heic-rs
+Archive:   heic-rs-0.1.1.crate
+           sha256 adf9dde634bb6d5b718bacd01bef80192f2334306b2f785519a0136cca7b9618
+Licence:   MIT OR Apache-2.0, Copyright (c) 2026 Thomas Braun
+           (LICENSE-MIT and LICENSE-APACHE in this directory, unchanged)
+Taken:     src/hevc/** only (the HEVC still-picture intra decoder). The HEIF
+           container, grid, colour, upsampling and I/O layers of heic-rs are not
+           part of this fork; Specular uses its own container (specular-heif).
+
+Upstream NOTICE (verbatim, the part relevant to the code taken):
+
+  heic-rs is an independent implementation of ISO/IEC 23008-12 (HEIF) and of the
+  decoding process described in Recommendation ITU-T H.265 | ISO/IEC 23008-2
+  (High Efficiency Video Coding).
+
+  No code was taken from any GPL, LGPL or AGPL licensed decoder. The algorithms
+  are written from the published specification text. Permissively licensed Rust
+  projects were consulted for cross-checking header syntax only, with no code
+  copied:
+
+    * rust_h265    (MIT OR Apache-2.0)  https://github.com/roticv/rust_h265
+    * scuffle-h265 (MIT OR Apache-2.0)  NAL and parameter set header parsing
+
+  This crate does not grant any patent licence to the HEVC standard itself.
+
+Modifications by the Specular project (2026-10), under the same licence terms
+(MIT OR Apache-2.0). No code from other decoders (libde265, ffmpeg, HM,
+oxideav) was copied; they were used as test oracles and for behaviour only.
+
+  * Layout: `src/hevc/` became this crate's `src/`; `crate::hevc::` paths,
+    the `no_std` attribute, the `bench` feature and the seam into the
+    heic-rs container error type were removed. `std` is used (threads,
+    cancellation). `#![forbid(unsafe_code)]` kept.
+  * Chroma fixes: `cbf_cb`/`cbf_cr` are parsed for 4x4 transform units in
+    4:4:4 (7.3.8.8); Table 8-3 (4:2:2 chroma mode mapping) corrected; the
+    4:2:2 parent chroma cbf is the OR of both sub-block flags. The frame
+    reports the chroma bit depth separately (`Frame::bit_depth_chroma`).
+  * Deblocking: the chroma QP offset used for chroma edges is the PPS offset
+    only (8.7.2.5.5, cQpPicOffset), not PPS + slice.
+  * Multilayer: NAL units with nuh_layer_id > 0 are ignored and the
+    SPS/PPS multilayer extension flags are tolerated (base layer decoded).
+    `explicit_rdpcm_enabled_flag` (inter-only syntax) is accepted.
+  * Slice-data driver rewritten (`decode/mod.rs`, `decode/slice_data.rs`):
+    dependent slice segments (header inheritance, context, StatCoeff and
+    QP carry-over); context initialisation per 9.3.1 with WPP storage keyed
+    by CTB so slices that start or end mid-row (WPP_D) decode; StatCoeff
+    synchronised with the WPP contexts (9.3.2.4); substreams bounded by
+    their entry points.
+  * Error tolerance and concealment (`decode/conceal.rs`): parameter sets
+    that fail to parse are dropped, not fatal; non-IRAP and undecodable
+    slice headers are skipped; a slice segment that fails is cut at the
+    failing CTU and every CTU it no longer covers is concealed from the
+    sample row above / column to the left (else mid-grey), with the
+    in-loop filters disabled on it. The picture is returned with a count
+    of concealed CTUs instead of failing; only a picture with no decoded
+    CTU is an error.
+  * Wavefront-parallel decode (`decode/wpp.rs`) under a thread budget:
+    workers claim CTU rows, decode into row bands with a one-row halo,
+    wait on the row above (two-CTU lag) through a mutex/condvar progress
+    table, and merge into the picture. Deblocking runs on row bands cut
+    at an 8k + 4 row above each CTB row (luma and chroma as separate
+    jobs, filtering in place through disjoint row slices); SAO runs per
+    component and CTB row from a snapshot of the deblocked picture. New
+    `PlaneMut` row views and `Plane::split_rows` in picture.rs, and
+    `loop_filters` in filter/mod.rs. Cancellation (`Error::Cancelled`)
+    is polled per CTU in the parallel path and per CTU row in the serial
+    one. Output is identical for every thread count, including on
+    damaged streams.
+  * New `hvcc` module: hvcC record parsing and length-prefixed NAL
+    splitting (tolerant of truncation); `Options`/`Decoded` API with the
+    VUI video_signal_type (`Signal`) returned to the caller.
+  * Removed unused helpers (`Cabac::restart_at`, `Plane::new/row/row_mut`).
+  * Range extensions (H.265 7.3.8.12, 8.6, 9.3), written from the spec
+    text: cross-component prediction (log2_res_scale_abs_plus1 /
+    res_scale_sign_flag, 8.6.6); implicit RDPCM for intra transform-skip
+    and transquant-bypass blocks (8.6.5/8.6.8) with sign hiding and the
+    intra boundary filter disabled as specified; transform-skip rotation
+    limited to 4x4 blocks and applied to bypass residuals; persistent
+    Rice adaptation without the cap of 4 and with the spec sbType;
+    cabac_bypass_alignment (escapeDataPresent, ivlCurrRange = 256 before
+    the bypass bins); extended_precision_processing (CoeffMin/Max from
+    log2TransformRange, dequant and transform bdShift, 64-bit inverse
+    transform and transform skip, limited k-th order Exp-Golomb
+    binarisation 9.3.3.4); bit depths up to 16. log2_sao_offset_scale is
+    validated against the bit depth. Chroma intra mode lookup in 4:4:4
+    NxN CUs uses the prediction block that contains the chroma TU.
+    Remaining refusals (Error::Unsupported): separate colour planes,
+    3D/SCC extensions, pictures using more than one PPS; inter slices and
+    non-IRAP pictures only through `VideoDecoder` (below), not as stills.
+  * Inter decoding (H.265 7.3.8.6, 8.3, 8.5, 9.3), written from the spec
+    text: RPS (short- and long-term, inter-RPS prediction), POC, DPB with
+    output bumping, merge and AMVP candidates with TMVP and MV scaling,
+    8-tap luma / 4-tap chroma interpolation, default and explicit
+    weighted (bi-)prediction, the P/B CABAC context tables, boundary
+    strength 1/2 for inter edges, deblocking and SAO on inter pictures.
+    `VideoDecoder` decodes an access-unit sequence in output order.
+  * Worker threads are named per Specular's scheme (specular-thread):
+    `dec-hevc-N` (frame pool), `dec-hevc-wf-N` (wavefront rows),
+    `dec-hevc-lf-N` (loop filters).

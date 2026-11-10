@@ -1,0 +1,17 @@
+[package]
+name = "specular-tdms"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "NI TDMS reader for Specular: segments, raw data indexes, interleaved and non-interleaved data in either byte order, DAQmx raw data with linear and polynomial scaling, properties"
+
+[dependencies]
+thiserror = "2"
+
+[dev-dependencies]
+specular-thread = { path = "../../specular-thread" }
+serde_json = { version = "1", features = ["float_roundtrip"] }
+
+[lints]
+workspace = true

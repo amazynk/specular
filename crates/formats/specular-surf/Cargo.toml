@@ -1,0 +1,18 @@
+[package]
+name = "specular-surf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Areal surface topography readers for Specular: ISO 25178-72 X3P, Zygo MetroPro .dat and Mx .datx, Keyence .vk4, Sensofar .plu, Alicona .al3d and Digital Surf .sur/.pro; height maps in metres as specular-em datasets"
+
+[dependencies]
+specular-em = { path = "../specular-em" }
+specular-hdf5 = { path = "../specular-hdf5" }
+specular-ora = { path = "../specular-ora" }
+specular-png = { path = "../specular-png" }
+quick-xml = "0.41"
+thiserror = "2"
+
+[lints]
+workspace = true

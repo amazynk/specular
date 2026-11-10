@@ -1,0 +1,12 @@
+[package]
+name = "specular-icns"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Apple icon (ICNS) container for Specular: icon list, legacy RLE / ARGB / 1-bit icons with masks; PNG and JPEG 2000 payloads are located for the PNG and JP2 decoders"
+
+[dependencies]
+
+[lints]
+workspace = true

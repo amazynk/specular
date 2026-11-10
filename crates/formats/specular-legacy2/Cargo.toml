@@ -1,0 +1,18 @@
+[package]
+name = "specular-legacy2"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoders for X Window Dump (X10/X11), PlayStation TIM and ImageMagick MIFF"
+
+[dependencies]
+rayon = "1.11"
+specular-blend = { path = "../specular-blend" }  # Aseprite layer blend modes
+specular-core = { path = "../../specular-core" }  # memory budget for decoded MIFF pixels
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+# Its public bzip2 decompressor (our own, in-tree) for MIFF BZip2 images.
+specular-xcf = { path = "../specular-xcf" }
+
+[lints]
+workspace = true

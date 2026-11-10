@@ -1,0 +1,14 @@
+[package]
+name = "specular-prores"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own Apple ProRes decoder (SMPTE RDD 36): 422 Proxy/LT/422/HQ, 4444 and 4444 XQ with alpha, interlaced frames, slices in parallel"
+
+[dependencies]
+rayon = "1.11"
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

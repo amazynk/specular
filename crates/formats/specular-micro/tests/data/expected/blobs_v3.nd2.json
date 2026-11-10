@@ -1,0 +1,113 @@
+{
+ "kind": "nd2",
+ "version": [
+  3,
+  0
+ ],
+ "width": 48,
+ "height": 36,
+ "components": 8,
+ "bits": 16,
+ "frames": 1,
+ "loops": [],
+ "channels": [
+  {
+   "name": "DAPI",
+   "colour": [
+    0,
+    0,
+    255
+   ],
+   "components": 1,
+   "emission": 461.0
+  },
+  {
+   "name": "FITC",
+   "colour": [
+    0,
+    255,
+    0
+   ],
+   "components": 1,
+   "emission": 519.0
+  },
+  {
+   "name": "TRITC",
+   "colour": [
+    255,
+    0,
+    0
+   ],
+   "components": 1,
+   "emission": 576.0
+  },
+  {
+   "name": "Cy5",
+   "colour": [
+    255,
+    0,
+    255
+   ],
+   "components": 1,
+   "emission": 670.0
+  },
+  {
+   "name": "CFP",
+   "colour": [
+    0,
+    255,
+    255
+   ],
+   "components": 1,
+   "emission": null
+  },
+  {
+   "name": "YFP",
+   "colour": [
+    255,
+    255,
+    0
+   ],
+   "components": 1,
+   "emission": null
+  },
+  {
+   "name": "mCherry",
+   "colour": [
+    255,
+    128,
+    0
+   ],
+   "components": 1,
+   "emission": 610.0
+  },
+  {
+   "name": "BF",
+   "colour": [
+    255,
+    255,
+    255
+   ],
+   "components": 1,
+   "emission": null
+  }
+ ],
+ "calibration": 0.5,
+ "text": {
+  "description": "Synthetic 8-channel spots",
+  "capturing": "Camera: synthetic\r\nExposure: 10 ms",
+  "date": "11/10/2026  10:00:00",
+  "optics": "Plan Apo 20x",
+  "appVersion": "NIS-Elements AR 5.42.00"
+ },
+ "planes": {
+  "0:0": "789d55f32dbac5f7",
+  "0:1": "512b1e0e51eb97ef",
+  "0:2": "4679f5cdfe9d5075",
+  "0:3": "752bca90c9a63047",
+  "0:4": "265c5e541895148e",
+  "0:5": "43dc4d7e4191b613",
+  "0:6": "bdd224695f7c9f6f",
+  "0:7": "47151212126d6e23"
+ }
+}

@@ -1,0 +1,71 @@
+# Specular — 現像：カメラプロファイルと、カラーチャートから作るカメラプロファイル。
+
+develop-input-profile = カメラプロファイル
+develop-input-profile-auto = カメラ標準
+develop-input-profile-matrix = マトリクスのみ
+develop-input-profile-file = プロファイルファイル…
+develop-input-profile-named = ファイル：{ $name }
+develop-input-profile-in-use = { $name } を使用中です。
+develop-input-profile-changed = { $name } を使用中です。選んだ後にファイルが変わりました。
+develop-input-profile-missing = プロファイルファイルがありません。カメラのマトリクスを使います。
+develop-input-profile-unusable = プロファイルファイルを使えません：{ $reason }。カメラのマトリクスを使います。
+develop-input-profile-dialog = カメラプロファイルを選ぶ
+develop-input-profile-kind = DNG カメラプロファイル
+
+develop-chart-start = チャートからプロファイルを作成…
+develop-chart-title = チャートからのプロファイル
+develop-chart-kind = チャート
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = 基準値
+develop-chart-ref-load = ファイルを読み込む…
+develop-chart-hint-xrite = チャートの基準値ファイル（CGATS テキスト）を読み込みます。チャートに付属するか、X-Rite のサイトでチャートの版ごとに入手できます。
+develop-chart-hint-it8 = お使いのターゲットの基準値ファイルを読み込みます。ロットごとにメーカーのファイルがあります。
+develop-chart-spyder = SpyderCHECKR には対応していません：色の値は Datacolor のものです。
+develop-chart-step-reference = チャートを選び、その基準値ファイルを読み込みます。
+develop-chart-step-corner = { $name } の中心をクリックします（{ $number }/4）。
+develop-chart-measuring = チャートを測定中…
+develop-chart-step-save = プロファイルを保存するか、角を指定し直します。
+develop-chart-corner-dark-skin = ダークスキン（左上）
+develop-chart-corner-bluish-green = ブルーイッシュグリーン（右上）
+develop-chart-corner-black = ブラック（右下）
+develop-chart-corner-white = ホワイト（左下）
+
+develop-chart-ref-too-large = 基準値ファイルとしては大きすぎます。
+develop-chart-ref-not-cgats = CGATS の基準値ファイルではありません。
+develop-chart-ref-no-ids = ファイルにパッチ名がありません。
+develop-chart-ref-no-colour = ファイルに L*a*b* も XYZ の値もありません。
+develop-chart-ref-bad-row = ファイルの { $row } 行目が壊れています。
+develop-chart-ref-count = ファイルには { $declared } パッチとありますが、{ $found } パッチです。
+develop-chart-ref-duplicate = パッチ { $id } がファイルに 2 回あります。
+develop-chart-ref-illuminant = 値は { $name } 光用です。D50 か D65 が必要です。
+develop-chart-ref-wrong-chart = ファイルは { $found } パッチです。このチャートは { $expected } パッチです。
+develop-chart-ref-names = パッチ名がこのチャートと合いません。
+develop-chart-ref-corner = 角のパッチ { $id } がファイルにありません。
+develop-chart-ref-unreadable = ファイルを読めません：{ $reason }
+develop-chart-ref-dialog = チャートの基準値ファイルを選ぶ
+develop-chart-ref-kind = チャートの基準値ファイル
+
+develop-chart-not-found = そこにチャートが見つかりません。角を指定し直してください。
+develop-chart-too-few = 使えるパッチは { $count } 個だけです。チャートを均一に照らし、反射を避けてください。
+develop-chart-no-greys = 使えるグレーのパッチがありません。グレーが白飛びしないよう露出してください。
+develop-chart-degenerate = パッチが似すぎていてプロファイルを作れません。
+
+develop-chart-report-after = プロファイル適用の ΔE2000：平均 { $mean }、中央値 { $median }、最大 { $max }
+develop-chart-report-before = 適用前：平均 { $mean }、中央値 { $median }、最大 { $max }
+develop-chart-report-cv = 当てはめから外したパッチでの確認：平均 { $mean }
+develop-chart-left-out = 除外：{ $id }（{ $why }）
+develop-chart-left-clipped = 白飛び
+develop-chart-left-uneven = 反射またはほこり
+develop-chart-left-outside = 写真の外
+develop-chart-uneven-light = グレーが { PERCENT($percent) } ばらついています：照明が均一でない可能性があります。
+develop-chart-use-camera = { $camera } の写真に使う
+develop-chart-again = 指定し直す
+develop-chart-save = 保存…
+develop-chart-close = 閉じる
+develop-chart-save-title = カメラプロファイルを保存
+develop-chart-default-name = { $camera } チャートプロファイル
+develop-chart-saved = { $name } を { $file } に保存しました。
+develop-chart-save-failed = プロファイルを保存できません：{ $reason }

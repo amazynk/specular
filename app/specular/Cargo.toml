@@ -1,0 +1,175 @@
+[package]
+name = "specular"
+description = "Specular Preview: the fastest JPEG viewer"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[[bin]]
+name = "specular"
+path = "src/main.rs"
+
+[dependencies]
+specular-thread = { path = "../../crates/specular-thread", features = ["rayon"] }
+specular-limits = { path = "../../crates/specular-limits" }
+specular-core = { path = "../../crates/specular-core" }
+# Synthetic Bayer sensors: `--show pano-timings` (src/app/develop/pano_show.rs) and the
+# every-control-acts test (src/app/develop/acts.rs).
+specular-raw = { path = "../../crates/formats/specular-raw" }
+specular-decode = { path = "../../crates/specular-decode" }
+specular-fft = { path = "../../crates/specular-fft" }  # science mode's power spectrum view
+specular-render = { path = "../../crates/specular-render" }
+specular-ocio = { path = "../../crates/specular-ocio" }
+specular-color = { path = "../../crates/specular-color" }
+specular-hwdec = { path = "../../crates/specular-hwdec" }
+specular-gfx = { path = "../../crates/specular-gfx" }
+specular-theme = { path = "../../crates/specular-theme" }
+specular-input = { path = "../../crates/specular-input" }
+specular-devices = { path = "../../crates/specular-devices" }
+specular-codes = { path = "../../crates/specular-codes" }
+specular-widgets = { path = "../../crates/specular-widgets" }
+specular-i18n = { path = "../../crates/specular-i18n" }
+specular-settings = { path = "../../crates/specular-settings" }
+specular-metadata = { path = "../../crates/specular-metadata" }
+specular-anim = { path = "../../crates/specular-anim" }
+specular-video = { path = "../../crates/specular-video" }
+# Subtitles: own decoders (SRT, WebVTT, ASS/SSA, PGS, VobSub, MP4 timed text).
+specular-subs = { path = "../../crates/specular-subs" }
+specular-playlist = { path = "../../crates/specular-playlist" }
+specular-cast = { path = "../../crates/specular-cast" }
+# A subtitle file's character set chosen by the user.
+encoding_rs = "0.8"
+# Subtitle and sound track languages named in the interface language.
+unic-langid = "0.9"
+# Movies' sound: the default output device (ALSA, PulseAudio/PipeWire through ALSA,
+# CoreAudio, WASAPI).
+cpal = "0.17.3"
+specular-inspect = { path = "../../crates/specular-inspect" }
+specular-measure = { path = "../../crates/specular-measure" }
+specular-pathology = { path = "../../crates/specular-pathology" }
+specular-labelmap = { path = "../../crates/specular-labelmap" }
+# Markup sidecars, marked-up PDF export and sheet compare; the PDF crate for page maps and
+# rendering the export to PNG.
+specular-markup = { path = "../../crates/specular-markup" }
+specular-pdf = { path = "../../crates/formats/specular-pdf" }
+specular-archive = { path = "../../crates/specular-archive" }
+zeroize = "1.8"
+specular-thumbs = { path = "../../crates/specular-thumbs" }
+# Develop (DESIGN §6.10): the edit model and its history.
+specular-develop = { path = "../../crates/specular-develop" }
+# Lensfun profiles: the database loads ahead while a raw is read (Phase 3 item 11).
+specular-lensfun = { path = "../../crates/specular-lensfun" }
+# Local times in Develop's sidecar conflict question.
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+specular-similar = { path = "../../crates/specular-similar" }
+specular-query = { path = "../../crates/specular-query" }
+specular-library = { path = "../../crates/specular-library" }
+specular-map = { path = "../../crates/specular-map" }
+specular-geodesy = { path = "../../crates/specular-geodesy" }
+specular-ai = { path = "../../crates/specular-ai" }
+# Local AI downloads over HTTPS (src/app/ai/https.rs) and DICOMweb.
+specular-remote = { path = "../../crates/specular-remote" }
+specular-stream = { path = "../../crates/specular-stream" }
+# DS9 regions, plate solutions and HiPS (science mode), with their FITS headers.
+specular-astro = { path = "../../crates/specular-astro" }
+specular-fits = { path = "../../crates/formats/specular-fits" }
+# SAMP: astronomy applications on this computer.
+specular-samp = { path = "../../crates/specular-samp" }
+specular-dicomweb = { path = "../../crates/specular-dicomweb" }
+specular-dimse = { path = "../../crates/specular-dimse" }
+specular-omero = { path = "../../crates/specular-omero" }
+specular-infer = { path = "../../crates/specular-infer" }
+# keymap.toml is watched for edits made by hand (app/keys.rs), as settings.toml is.
+notify = "8.2"
+specular-print = { path = "../../crates/specular-print" }
+# Client galleries: the static web page folder and the client picks.
+specular-webgallery = { path = "../../crates/specular-webgallery" }
+specular-figure = { path = "../../crates/specular-figure" }
+specular-convert = { path = "../../crates/specular-convert" }
+specular-fileops = { path = "../../crates/specular-fileops" }
+# Export slideshow as video: the in-tree H.264 encoder (src/app/video_export).
+specular-h264enc = { path = "../../crates/formats/specular-h264enc" }
+# Its RGB to Y'CbCr conversion runs on the encoder's pool.
+rayon = "1"
+mimalloc = { version = "0.1", default-features = false, optional = true }
+crossbeam-channel = "0.5"
+parking_lot = "0.12"
+specular-log = { path = "../../crates/specular-log" }
+specular-diag = { path = "../../crates/specular-diag" }
+specular-help = { path = "../../crates/specular-help" }
+specular-platform = { path = "../../crates/specular-platform" }
+# The IPC protocol's request types and encoding, shared with the client crate (src/remote).
+specular-client = { path = "../../crates/specular-client" }
+specular-import = { path = "../../crates/specular-import" }
+# Tethered capture: our own PTP (ISO 15740) over USB.
+specular-ptp = { path = "../../crates/specular-ptp" }
+specular-png = { path = "../../crates/formats/specular-png" }
+# DICOM series assembly and the tag browser read headers here (app/series.rs).
+specular-dicom = { path = "../../crates/formats/specular-dicom" }
+# Series as volumes on the GPU and multiplanar reformatting (app/mpr.rs).
+specular-render-volume = { path = "../../crates/specular-render-volume" }
+specular-render-3d = { path = "../../crates/specular-render-3d" }
+specular-bim = { path = "../../crates/specular-bim" }
+arboard = { version = "3", features = ["wayland-data-control"] }
+trash = "5"
+rfd = "0.17"
+accesskit_winit = "0.34"
+# Ctrl+C / SIGTERM end the viewer through the event loop (quit_signal.rs). Locked at 3.5.1: it
+# shares nix 0.30 with specular-core (3.5.2 moved to nix 0.31).
+ctrlc = { version = "3.5.1", features = ["termination"] }
+# The IPC socket's line-delimited JSON protocol (remote/protocol.rs): untyped values only,
+# the version the tools already lock.
+serde_json = "1.0.149"
+# KMZ files of photos on the map and of inspection reports (src/app/gallery/drone.rs);
+# also the teaching-file decks the tests open back (src/app/figure/tests.rs). The build
+# specular-measure uses.
+zip = { version = "9.5", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+roxmltree = "0.21"  # GPS track times (GPX, TCX) for the map's time slider and geotagging
+
+# macOS: the global rayon pool is built at start-up so its threads get a QoS class (main.rs).
+[target.'cfg(target_os = "macos")'.dependencies]
+rayon = "1"
+
+[dev-dependencies]
+# Oracle reader for the thumbnailer tests (src/thumbnail.rs); the app writes PNG with specular-png.
+png = "0.18"
+# A made-up German catalogue for the generated-name test (src/app/cad.rs); already in the
+# tree through specular-i18n.
+fluent-bundle = "0.16"
+# Screenshot tests of the gallery (src/app/gallery/shots.rs).
+specular-shots = { path = "../../crates/specular-shots" }
+# Finds (and if need be builds) the decode host for the MBTiles base-map tests (src/test_host.rs).
+specular-sandbox = { path = "../../crates/specular-sandbox" }
+# SER videos for the raw colour frame goldens (src/app/science/shots.rs).
+specular-ser = { path = "../../crates/formats/specular-ser" }
+# Synthetic FCS datasets and Hamamatsu VMS slides for the cytometry goldens (same file).
+specular-fcs = { path = "../../crates/formats/specular-fcs" }
+specular-wsi = { path = "../../crates/formats/specular-wsi", features = ["fixtures"] }
+# The MBTiles fixture of the map goldens (src/app/gallery/shots/map_shots.rs) is written with SQLite.
+specular-gis = { path = "../../crates/formats/specular-gis", features = ["sqlite-fixtures"] }
+# A private D-Bus daemon and the search provider's client for the desktop search test
+# (src/desktop_search.rs).
+specular-platform = { path = "../../crates/specular-platform", features = ["test-support"] }
+# Solid 7z test archives (ComicInfo the thumbnails come across, src/archive_thumbs.rs).
+sevenz-rust2 = { version = "0.23", default-features = false, features = ["compress", "util", "ppmd", "deflate"] }
+# Another writer holding the catalogue (src/app/gallery/library.rs: no frame waits for it).
+rusqlite = { version = "0.39", features = ["bundled"] }
+# The NumPy reader checks the arrays the IPC server writes (src/remote/arrays.rs).
+specular-arrays = { path = "../../crates/formats/specular-arrays" }
+
+[features]
+default = ["mimalloc"]
+# Global allocator (A/B: build with --no-default-features for the system allocator).
+mimalloc = ["dep:mimalloc"]
+# Hand-written x86/ARM assembly in rav1d for AVIF decode and in rav1e for batch-convert AVIF
+# output (about 2.5x faster). Needs `nasm` at build time on x86_64; ./build.sh turns it on for
+# release builds.
+asm = ["specular-convert/asm", "specular-decode/asm"]
+
+[build-dependencies]
+# Windows: the icon and version information compiled into the executable (build.rs).
+embed-resource = "3.0.11"
+
+[lints]
+workspace = true

@@ -1,0 +1,30 @@
+[package]
+name = "specular-ai"
+description = "Specular's Local AI pack infrastructure: model manifest and opt-in downloads (resumable, hash-verified, atomic install), the runtime trait, background indexing from cached thumbnails, and exact GPU/CPU vector search"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-infer = { path = "../specular-infer" }
+specular-library = { path = "../specular-library" }
+specular-log = { path = "../specular-log" }
+specular-platform = { path = "../specular-platform" }
+specular-thumbs = { path = "../specular-thumbs" }
+rusqlite = { version = "0.39", features = ["bundled"] }
+toml_edit = "0.25"
+sha2 = "0.10"
+half = "2"
+wgpu = "30"
+bytemuck = "1"
+parking_lot = "0.12"
+
+[dev-dependencies]
+specular-decode = { path = "../specular-decode" }
+specular-gfx = { path = "../specular-gfx" }
+
+[lints]
+workspace = true

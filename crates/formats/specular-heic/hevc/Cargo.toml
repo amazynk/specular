@@ -1,0 +1,23 @@
+# In-tree fork of the HEVC decoding core of heic-rs 0.1.1 (crates.io; MIT OR Apache-2.0,
+# Copyright (c) 2026 Thomas Braun, see LICENSE-MIT / LICENSE-APACHE and NOTICE). Only
+# `src/hevc` of heic-rs is taken; its HEIF container, colour, grid and I/O layers are not.
+# Changes for Specular are listed in NOTICE.
+[package]
+name = "specular-hevc"
+version = "0.1.1"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+description = "Fork of the heic-rs 0.1.1 HEVC core: H.265 decoder for HEIC stills and Main / Main 10 video"
+
+[lib]
+name = "hevc"
+doctest = false
+
+[dependencies]
+specular-thread = { path = "../../../specular-thread" }
+# Each picture of the decoded picture buffer is reserved from the memory budget.
+specular-core = { path = "../../../specular-core" }
+
+[lints]
+workspace = true

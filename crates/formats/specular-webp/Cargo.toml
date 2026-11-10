@@ -1,0 +1,22 @@
+[package]
+name = "specular-webp"
+version.workspace = true
+edition.workspace = true
+# Fork of image-webp 0.2.4 (MIT OR Apache-2.0); see NOTICE. Upstream files keep their licence.
+license.workspace = true
+publish = false
+description = "WebP decoder for Specular (fork of image-webp): scaled YCbCr output, parallel colour conversion"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-thread = { path = "../../specular-thread" }
+byteorder-lite = "0.1"
+quick-error = "2.0.1"
+rayon = "1.11"
+
+[dev-dependencies]
+# Oracle for differential tests and the reference side of the benchmark.
+image-webp = "0.2.4"
+
+[lints]
+workspace = true

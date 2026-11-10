@@ -1,0 +1,126 @@
+Specular patch to jpegxl-src 0.12.0 (src/lib.rs): building libjxl natively on Windows.
+
+What it changes
+  1. Ninja and clang-cl. Upstream always configures libjxl on Windows with the Visual Studio
+     generator and `-T ClangCL`. When the cmake generator is Ninja (`CMAKE_GENERATOR=Ninja`, or
+     one of the target-specific variants the cmake crate reads), the toolset is not requested
+     and CMAKE_C_COMPILER / CMAKE_CXX_COMPILER are set to the clang-cl.exe found on PATH;
+     without that, the cmake crate would set them to cl.exe. The generator variables are also
+     declared as rerun-if-env-changed. With no Ninja generator, the generator and toolset are
+     upstream's.
+  2. C runtime. Upstream sets CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded (static CRT, /MT) on
+     every Windows build. Rust links the dynamic CRT (/MD) unless `+crt-static`, so the runtime
+     now follows the target's crt-static feature: MultiThreadedDLL by default.
+  3. Stale build folders. A CMake build folder configured (or left half-configured) by the
+     other Windows generator is removed before the build.
+
+Why
+  1. `-T ClangCL` needs Visual Studio's optional "MSBuild support for LLVM (clang-cl) toolset"
+     component; a standalone LLVM install does not provide it, and the configure step fails with
+     MSB8020. With Ninja only clang-cl and ninja are needed.
+  2. `/Zl` drops the default-library directives, but MSVC's STL headers still record the runtime
+     in every C++ object (`#pragma detect_mismatch`), so linking libjxl's /MT objects with the
+     /MD C code of other crates (mimalloc, libwebp, UnRAR) fails with LNK2038 'RuntimeLibrary'.
+  3. The cmake crate skips configuring whenever CMakeCache.txt exists, so after switching
+     generators (or after a failed Visual Studio configure, then installing clang-cl and Ninja)
+     the old folder would be reused and fail again until `cargo clean -p gamut-jxl-sys`.
+
+The `src/` directory is the published crate's with this patch applied; it is kept here as the
+record of the change.
+
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -30,6 +30,53 @@
+     )
+ }
+ 
++/// Specular: the generator the cmake crate will use, looked up in its order:
++/// `CMAKE_GENERATOR_<target>`, the same with underscores, `HOST_`/`TARGET_CMAKE_GENERATOR`, then
++/// `CMAKE_GENERATOR`.
++fn cmake_generator() -> Option<String> {
++    let target = env::var("TARGET").unwrap_or_default();
++    let host = env::var("HOST").unwrap_or_default();
++    let kind = if target == host { "HOST" } else { "TARGET" };
++    let vars = [
++        format!("CMAKE_GENERATOR_{target}"),
++        format!("CMAKE_GENERATOR_{}", target.replace('-', "_")),
++        format!("{kind}_CMAKE_GENERATOR"),
++        "CMAKE_GENERATOR".to_owned(),
++    ];
++    // The cmake crate does not ask for a rerun when these change; switching generators must.
++    for v in &vars {
++        println!("cargo:rerun-if-env-changed={v}");
++    }
++    vars.iter().find_map(|v| env::var(v).ok())
++}
++
++/// Specular: absolute path of `exe` on PATH, with forward slashes (CMake misreads `\` in compiler
++/// paths, and a bare name makes it think the compiler changed on every reconfigure).
++fn find_on_path(exe: &str) -> Option<String> {
++    env::split_paths(&env::var_os("PATH")?)
++        .map(|dir| dir.join(exe))
++        .find(|p| p.is_file())
++        .map(|p| p.to_string_lossy().replace('\\', "/"))
++}
++
++/// Specular: the cmake crate skips configuring whenever `CMakeCache.txt` exists, so a build
++/// folder left by the other Windows generator (Ninja or Visual Studio, configured or failed)
++/// would be reused and fail the same way again. Such a folder is removed to start afresh.
++fn clear_other_generator(ninja: bool) {
++    let Some(out) = env::var_os("OUT_DIR") else {
++        return;
++    };
++    let dir = Path::new(&out).join("build");
++    let cached = std::fs::read_to_string(dir.join("CMakeCache.txt")).ok().and_then(|c| {
++        c.lines()
++            .find_map(|l| l.strip_prefix("CMAKE_GENERATOR:INTERNAL="))
++            .map(str::to_owned)
++    });
++    if cached.is_some_and(|g| g.contains("Ninja") != ninja) {
++        let _ = std::fs::remove_dir_all(&dir);
++    }
++}
++
+ #[cfg_attr(coverage_nightly, coverage(off))]
+ /// Builds the JPEG XL library.
+ ///
+@@ -89,13 +136,33 @@
+             );
+         }
+ 
++        let ninja = cmake_generator().is_some_and(|g| g.contains("Ninja"));
++        clear_other_generator(ninja);
++        if ninja {
++            // Specular: Ninja runs clang-cl itself, so Visual Studio's optional ClangCL MSBuild
++            // toolset is not needed. Without explicit compilers the cmake crate would pick cl.exe.
++            let clang_cl = find_on_path("clang-cl.exe").expect(
++                "CMAKE_GENERATOR=Ninja builds libjxl with clang-cl: put LLVM's bin directory on PATH",
++            );
++            config
++                .define("CMAKE_C_COMPILER", &clang_cl)
++                .define("CMAKE_CXX_COMPILER", &clang_cl);
++        } else {
++            config
++                .generator_toolset("ClangCL")
++                .define(
++                    "CMAKE_VS_GLOBALS",
++                    "UseMultiToolTask=true;EnforceProcessCountAcrossBuilds=true",
++                ); // Enable parallel builds
++        }
++        // Specular: the C runtime must be the one Rust links (/MD unless +crt-static). /Zl drops
++        // the default-library directives, but the STL headers still stamp the runtime into every
++        // C++ object, and link.exe refuses a mix with the other C code (LNK2038).
++        let crt_static = env::var("CARGO_CFG_TARGET_FEATURE")
++            .is_ok_and(|f| f.split(',').any(|f| f == "crt-static"));
++        let runtime = if crt_static { "MultiThreaded" } else { "MultiThreadedDLL" };
+         config
+-            .generator_toolset("ClangCL")
+-            .define(
+-                "CMAKE_VS_GLOBALS",
+-                "UseMultiToolTask=true;EnforceProcessCountAcrossBuilds=true",
+-            ) // Enable parallel builds
+-            .define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
++            .define("CMAKE_MSVC_RUNTIME_LIBRARY", runtime)
+             .define("CMAKE_EXE_LINKER_FLAGS", exeflags)
+             .cflag("/Zl");
+     }

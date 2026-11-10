@@ -1,0 +1,168 @@
+# cargo-deny policy (DESIGN.md §14 "Dependency rules").
+#
+#   tools/ci/deny.sh                   # everything, offline, on the local advisory snapshot
+#   tools/ci/deny.sh --fetch           # refresh the advisory snapshot first (network)
+#   tools/ci/deny.sh licenses          # one section
+#
+# Specular is distributed under MIT OR Apache-2.0 as a single statically linked binary.
+# Every dependency licence must therefore allow redistribution in binary form inside a
+# permissively licensed product, commercial use included, with notices shipped
+# (packaging/THIRD-PARTY.md).
+# Copyleft that would reach Specular's own code (GPL, AGPL, statically linked LGPL, SSPL, EUPL…)
+# is rejected simply by not being on the allow list. For crates offered under a choice
+# ("MIT OR Apache-2.0", "Apache-2.0 OR GPL-2.0-only"), one allowed option is enough.
+#
+# No GPL anywhere in the shipped graph. LGPL is allowed only for the dynamically loaded libraries
+# of the sandbox host (OpenCASCADE for STEP/IGES, libCZI for Zeiss CZI, libheif): they are C/C++
+# libraries loaded at run time, not Rust crates, so cargo-deny never sees them; their notices are
+# in packaging/THIRD-PARTY.md. No crate may bring LGPL code in statically: "LGPL-*" is therefore
+# not on the allow list (r-efi offers it only as a third option beside MIT and Apache-2.0).
+
+[graph]
+# Release targets. Platform-only dependencies of other targets are ignored.
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "aarch64-unknown-linux-gnu",
+    "x86_64-pc-windows-msvc",
+    "aarch64-pc-windows-msvc",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+]
+all-features = true
+
+[output]
+feature-depth = 1
+
+[advisories]
+version = 2
+# RustSec advisory DB snapshot. It lives under the build tree, never in ~/.cargo or ~/.cache:
+# target/advisory-dbs by default (relative to the repo root, where tools/ci/deny.sh runs), or
+# wherever SPECULAR_ADVISORY_DB points (each build directory uses its own CARGO_TARGET_DIR/advisory-dbs).
+# `tools/ci/deny.sh --fetch` refreshes it; without the flag the check runs offline on the snapshot.
+db-path = "${SPECULAR_ADVISORY_DB:-target/advisory-dbs}"
+db-urls = ["https://github.com/rustsec/advisory-db"]
+# Unmaintained crates are reported for direct and transitive workspace dependencies alike; they
+# fail the check, so each one has to be reviewed and either replaced or listed in `ignore` with a
+# reason.
+unmaintained = "all"
+yanked = "deny"
+ignore = [
+    # { id = "RUSTSEC-0000-0000", reason = "why it does not affect Specular, and until when" },
+    { id = "RUSTSEC-2026-0192", reason = "ttf-parser (unmaintained, no successor release) comes only from winit -> sctk-adwaita, which draws Wayland client-side title bars from installed system fonts (trusted input). Revisit when sctk-adwaita moves to skrifa." },
+    # paste is a proc-macro (build time only, no code in the binary), from rav1e (AVIF encoding in
+    # specular-convert). Goes away when rav1e moves to pastey.
+    { id = "RUSTSEC-2024-0436", reason = "paste (unmaintained) is a compile-time proc-macro of rav1e; nothing of it ships." },
+    # zvariant, zvariant_derive and zbus_names were folded into zbus 6. They come from zbus 5 via
+    # accesskit_unix/atspi (screen readers) and specular-platform (portals, D-Bus on the session
+    # bus). Revisit when accesskit moves to zbus 6; specular-platform should move with it so zbus
+    # exists once.
+    { id = "RUSTSEC-2026-0370", reason = "zvariant (unmaintained, merged into zbus 6) via zbus 5 from accesskit_unix and specular-platform; session-bus peers only." },
+    { id = "RUSTSEC-2026-0371", reason = "zbus_names (unmaintained, merged into zbus 6) via zbus 5; see RUSTSEC-2026-0370." },
+    { id = "RUSTSEC-2026-0372", reason = "zvariant_derive (unmaintained proc-macro, merged into zbus 6) via zbus 5; see RUSTSEC-2026-0370." },
+]
+
+[licenses]
+version = 2
+# The list is the inventory of what the graph uses today (2026-10-23, all release targets,
+# dev and build dependencies included), each within DESIGN.md §14's policy. A crate under any
+# other licence fails the check and needs a decision by the user, even one the policy would
+# allow (OFL-1.1 font data, Unicode-DFS-2016): add it here with the crates that need it.
+# Counts are crates whose licence expression names it. packaging/about/about.toml (which only
+# renders the notices) may accept more; this list is the gate.
+allow = [
+    "MIT",                            # ~530
+    "Apache-2.0",                     # ~410
+    "Unicode-3.0",                    # 46: ICU4X data and unicode-ident
+    "Zlib",                           # 26
+    "BSD-3-Clause",                   # 17
+    "BSD-2-Clause",                   # 12: rav1e, the rav1d fork, zerocopy, kamadak-exif…
+    "Unlicense",                      # 10: memchr, aho-corasick, csv, walkdir… (all also MIT)
+    "ISC",                            # 8: rustls, ring, libloading, inotify
+    "CC0-1.0",                        # 6: notify, to_method, imgref, blake3…
+    "Apache-2.0 WITH LLVM-exception", # 5: rustix, linux-raw-sys, blake3
+    "BSL-1.0",                        # 3: clipboard-win, error-code, ryu
+    "MIT-0",                          # 2: constant_time_eq, ppmd-rust
+    "0BSD",                           # 1: adler2 (also MIT)
+    # MPL-2.0 is file-level copyleft: fine as long as MPL-covered files are used unmodified (or
+    # modifications to those files are published). DESIGN.md §14 allows it.
+    "MPL-2.0",                        # 1: option-ext (dirs)
+    # Mozilla's root certificate list as data (update check over rustls).
+    "CDLA-Permissive-2.0",            # 2: webpki-roots, webpki-root-certs
+]
+# Dual-licensed crates where a rejected option is offered too (the allowed one is taken):
+#   self_cell   "Apache-2.0 OR GPL-2.0-only"          -> Apache-2.0 (fluent-bundle)
+#   r-efi       "MIT OR Apache-2.0 OR LGPL-2.1+"      -> MIT (getrandom, UEFI only)
+#   pcx         "MIT OR Apache-2.0 OR WTFPL"          -> MIT (oracle, dev only)
+# C/C++ code compiled into crates, which cargo-deny judges by the crate's own declaration only
+# (notices in packaging/THIRD-PARTY.md): libwebp (BSD-3-Clause) in libwebp-sys, libjxl and
+# Highway (BSD-3-Clause) in gamut-jxl-sys, mimalloc (MIT) in libmimalloc-sys, SQLite (public
+# domain) in libsqlite3-sys, UnRAR (below) in unrar_sys, BoringSSL-derived code (ISC) in ring.
+confidence-threshold = 0.9
+unused-allowed-license = "warn"
+
+# Specular's own crates (MIT OR Apache-2.0) are all `publish = false`, so
+# `private.ignore` below covers them and they need no exceptions. A crate that is ever published
+# needs an `[[licenses.exceptions]]` entry for that licence.
+
+# unrar_sys declares "MIT OR Apache-2.0" for its bindings but vendors the UnRAR C++ source, which
+# is under the UnRAR licence: free to use and redistribute for extracting RAR archives, but it
+# must not be used to build a RAR-compatible archiver or to re-create the RAR compression
+# algorithm, and its paragraph 2 must be kept in the licence/documentation and in source comments
+# of a package that distributes modified UnRAR source (packaging/THIRD-PARTY.md). Only
+# `specular-decode-host` (the sandboxed decode host, DESIGN.md §13) links it, for listing and
+# extracting only. It is built from third_party/unrar_sys ([patch.crates-io]), a copy of 0.5.8
+# with Specular's patches (handle I/O, passwords, no user32 on Windows) applied at build time (so
+# it is modified UnRAR source).
+[[licenses.clarify]]
+crate = "unrar_sys"
+expression = "(MIT OR Apache-2.0) AND LicenseRef-UnRAR"
+license-files = [{ path = "vendor/unrar/license.txt", hash = 0x46456911 }]
+[[licenses.exceptions]]
+allow = ["LicenseRef-UnRAR"]
+crate = "unrar_sys"
+
+# jpeg-encoder 0.7.1 declares "(MIT OR Apache-2.0) AND IJG": parts are derived from libjpeg. The
+# IJG licence is permissive (redistribution in binary form allowed; the documentation must say
+# the software is based in part on the work of the Independent JPEG Group). It is not on the
+# allow list because nothing shipped uses it: jpeg-encoder is a dev-dependency (test fixtures) and
+# a dependency of the specular-bench tool only, neither of which is distributed (cargo-about,
+# which renders packaging/THIRD-PARTY.md for the shipped binaries, does not see it). If a shipped
+# crate ever links it, add the IJG notice to THIRD-PARTY.md and move "IJG" to the allow list.
+[[licenses.exceptions]]
+allow = ["IJG"]
+crate = "jpeg-encoder"
+
+[licenses.private]
+ignore = true
+registries = []
+
+[bans]
+# Two versions of the same crate cost build time and binary size; warn, don't fail, because many
+# come from the GPU/windowing ecosystem moving at different speeds.
+multiple-versions = "warn"
+wildcards = "deny"
+allow-wildcard-paths = true
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+deny = [
+    # OpenSSL: use rustls if networking is ever needed (DESIGN.md §5, M7).
+    { crate = "openssl-sys", reason = "C dependency; use rustls" },
+    # The `image` crate pulls in every codec; Specular has its own decoders.
+    # Remove this line if a later stage adopts it deliberately.
+    # arboard needs it to put images on the clipboard (copy image).
+    # hayro 0.8 (PDF/AI, specular-pdf) lists it as a dependency but never uses it (png only, a
+    # build already present for arboard); no Specular code calls it.
+    { crate = "image", reason = "heavy catch-all codec crate; use format crates directly", wrappers = ["arboard", "hayro"] },
+]
+# Heavy crates that should exist only once in the tree. Duplicates of these are worth fixing
+# (each copy is hundreds of KB of code and minutes of build time), so they are listed here and
+# kept at "warn" through `multiple-versions`; CI prints them.
+skip = []
+skip-tree = []
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

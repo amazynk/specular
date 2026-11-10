@@ -1,0 +1,30 @@
+[package]
+name = "specular-core"
+description = "Core types for Specular: memory-mapped sources, documents, planar rasters, prioritised cancellable jobs and hardware profile"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread", features = ["rayon"] }
+specular-log = { path = "../specular-log" }
+specular-platform = { path = "../specular-platform" }
+memmap2 = "0.9"
+parking_lot = "0.12"
+# Row bands of the CPU YCbCr conversion (yuv.rs); the decoders' global pool is built before
+# any worker pins itself (placement.rs).
+rayon = "1"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+# sched_setaffinity for P/E-core placement (placement.rs); getrusage, gettid and thread CPU
+# clocks for path timings (paths.rs, paths/cpu.rs); safe API, already in the lockfile.
+nix = { version = "0.30", default-features = false, features = ["sched", "resource", "process", "time"] }
+
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+sysinfo = { version = "0.39", default-features = false, features = ["system"] }
+
+[dev-dependencies]
+
+[lints]
+workspace = true

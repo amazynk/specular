@@ -1,0 +1,71 @@
+# Specular — Ontwikkelen: cameraprofiel, en cameraprofielen gemaakt met een kleurenkaart.
+
+develop-input-profile = Cameraprofiel
+develop-input-profile-auto = Camerastandaard
+develop-input-profile-matrix = Alleen matrix
+develop-input-profile-file = Profielbestand…
+develop-input-profile-named = Bestand: { $name }
+develop-input-profile-in-use = { $name } wordt gebruikt.
+develop-input-profile-changed = { $name } wordt gebruikt. Het bestand is veranderd sinds het gekozen is.
+develop-input-profile-missing = Het profielbestand ontbreekt. De cameramatrix wordt gebruikt.
+develop-input-profile-unusable = Het profielbestand is niet bruikbaar: { $reason }. De cameramatrix wordt gebruikt.
+develop-input-profile-dialog = Kies een cameraprofiel
+develop-input-profile-kind = DNG-cameraprofielen
+
+develop-chart-start = Profiel maken met kleurenkaart…
+develop-chart-title = Profiel met kleurenkaart
+develop-chart-kind = Kaart
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Referentie
+develop-chart-ref-load = Bestand laden…
+develop-chart-hint-xrite = Laad het referentiebestand van de kaart (CGATS-tekst). Het hoort bij de kaart, of staat op de website van X-Rite voor jouw editie van de kaart.
+develop-chart-hint-it8 = Laad het referentiebestand van je target. Elke batch heeft een eigen bestand, van de maker.
+develop-chart-spyder = SpyderCHECKR wordt niet ondersteund: de kleurwaarden zijn van Datacolor.
+develop-chart-step-reference = Kies de kaart en laad het referentiebestand.
+develop-chart-step-corner = Klik in het midden van { $name } ({ $number } van 4).
+develop-chart-measuring = De kaart wordt gemeten…
+develop-chart-step-save = Bewaar het profiel, of markeer de hoeken opnieuw.
+develop-chart-corner-dark-skin = donkere huid (linksboven)
+develop-chart-corner-bluish-green = blauwgroen (rechtsboven)
+develop-chart-corner-black = zwart (rechtsonder)
+develop-chart-corner-white = wit (linksonder)
+
+develop-chart-ref-too-large = Het bestand is te groot voor een referentiebestand.
+develop-chart-ref-not-cgats = Geen CGATS-referentiebestand.
+develop-chart-ref-no-ids = Het bestand heeft geen veldnamen.
+develop-chart-ref-no-colour = Het bestand heeft geen L*a*b*- of XYZ-waarden.
+develop-chart-ref-bad-row = Rij { $row } van het bestand is beschadigd.
+develop-chart-ref-count = Het bestand noemt { $declared } velden maar bevat er { $found }.
+develop-chart-ref-duplicate = Veld { $id } staat twee keer in het bestand.
+develop-chart-ref-illuminant = De waarden zijn voor licht { $name }. D50 of D65 is nodig.
+develop-chart-ref-wrong-chart = Het bestand heeft { $found } velden. Deze kaart heeft er { $expected }.
+develop-chart-ref-names = De veldnamen passen niet bij deze kaart.
+develop-chart-ref-corner = Hoekveld { $id } ontbreekt in het bestand.
+develop-chart-ref-unreadable = Het bestand is niet leesbaar: { $reason }
+develop-chart-ref-dialog = Kies het referentiebestand van de kaart
+develop-chart-ref-kind = Referentiebestanden voor kleurenkaarten
+
+develop-chart-not-found = Daar is geen kaart gevonden. Markeer de hoeken opnieuw.
+develop-chart-too-few = Maar { $count } velden zijn bruikbaar. Belicht de kaart gelijkmatig en vermijd reflecties.
+develop-chart-no-greys = Geen grijs veld is bruikbaar. Belicht zo dat de grijzen niet uitbijten.
+develop-chart-degenerate = De velden lijken te veel op elkaar voor een profiel.
+
+develop-chart-report-after = ΔE2000 met het profiel: gemiddeld { $mean }, mediaan { $median }, max { $max }
+develop-chart-report-before = Ervoor: gemiddeld { $mean }, mediaan { $median }, max { $max }
+develop-chart-report-cv = Gecontroleerd op velden buiten de aanpassing: gemiddeld { $mean }
+develop-chart-left-out = Weggelaten: { $id } ({ $why })
+develop-chart-left-clipped = uitgebeten
+develop-chart-left-uneven = reflectie of stof
+develop-chart-left-outside = buiten de foto
+develop-chart-uneven-light = De grijzen verschillen { PERCENT($percent) }: het licht is misschien ongelijk.
+develop-chart-use-camera = Gebruiken voor foto’s van { $camera }
+develop-chart-again = Opnieuw markeren
+develop-chart-save = Bewaren…
+develop-chart-close = Sluiten
+develop-chart-save-title = Cameraprofiel bewaren
+develop-chart-default-name = Kaartprofiel { $camera }
+develop-chart-saved = { $name } bewaard als { $file }.
+develop-chart-save-failed = Het profiel kan niet worden bewaard: { $reason }

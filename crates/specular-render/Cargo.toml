@@ -1,0 +1,49 @@
+[package]
+name = "specular-render"
+description = "Image rendering: YCbCr planes to linear light on the GPU, ICC via specular-color (curves + matrix or 3D LUT), tiled pyramid with resident overview, Lanczos resampling, and the view model (zoom, pan, springs, navigator, loupe)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-gfx = { path = "../specular-gfx" }
+specular-theme = { path = "../specular-theme" }
+specular-color = { path = "../specular-color" }
+bytemuck = { version = "1", features = ["derive"] }
+specular-log = { path = "../specular-log" }
+specular-inspect = { path = "../specular-inspect" }
+# Reflectance transformation images: coefficients and the per-light maps the relight shader
+# evaluates (renderer/relight.rs).
+specular-rti = { path = "../formats/specular-rti" }
+# Drawings (DXF): vector scenes rendered on the GPU at the exact zoom by vello, which is
+# built on the same wgpu (30) as the rest of the renderer (DESIGN.md: vello for document
+# vector content).
+specular-vector = { path = "../specular-vector" }
+vello = { version = "0.11", default-features = false, features = ["wgpu"] }
+
+[dev-dependencies]
+# Test oracle for ICC profiles (encodes reference sRGB / P3 profiles).
+moxcms = "0.8"
+# Validates the inspection shaders without a GPU (the version wgpu uses).
+naga = { version = "30", features = ["wgsl-in"] }
+# End-to-end colour test (tests/colour_e2e.rs): the decoders as the app runs them, Little CMS
+# and jxl-oxide as reference implementations, and encoders for the synthetic test images.
+specular-decode = { path = "../specular-decode" }
+# GSDF maths for the medical display test (the app computes the JND indices with it).
+specular-dicom = { path = "../formats/specular-dicom" }
+# The CPU reference of OCIO display views (renderer/ocio_tests.rs).
+specular-ocio = { path = "../specular-ocio" }
+# The CPU reference of stain separation (renderer/stain_tests.rs).
+specular-pathology = { path = "../specular-pathology" }
+# The bundled Little CMS (2.19) on every platform, never a system library found through
+# pkg-config, so every platform checks against the same reference.
+lcms2 = { version = "6", features = ["static"] }
+jxl-oxide = "0.12.6"
+jpeg-encoder = "0.7"
+miniz_oxide = "0.8"
+
+[lints]
+workspace = true

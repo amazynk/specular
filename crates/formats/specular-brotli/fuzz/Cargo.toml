@@ -1,0 +1,31 @@
+[package]
+name = "specular-brotli-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-brotli = { path = ".." }
+# The upstream decoder, as the oracle of the differential target.
+brotli-decompressor = "5"
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "decompress"
+path = "fuzz_targets/decompress.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "differential"
+path = "fuzz_targets/differential.rs"
+test = false
+doc = false
+bench = false

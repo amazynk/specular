@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galerie	the thumbnail grid of one folder	
+Library	Library	Bibliothèque	the catalogue of indexed folders	
+Folder	Folder	Dossier	a file-system folder	
+Remove	Remove	Retirer	take an item out of a list; files stay	
+Delete	Delete	Supprimer	destroy data or files	
+Forget	Forget	Oublier	drop a remembered choice or record	
+Move to trash	Move to trash	Mettre à la corbeille	send files to the system trash	
+Export	Export	Exporter	write a copy in another form	
+Import	Import	Importation	copy photos in from a card or device	
+Settings	Settings	Paramètres	the Settings window, also in paths: Settings › Section	Paramètres, also in paths (Paramètres › Section); not Réglages.
+Undo	Undo	Annuler	reverse the last action (never the word for Cancel)	
+Redo	Redo	Rétablir		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Page	a page of a document or multi-page file	
+Layer	Layers	Calques	drawing and map layers (circuit boards: their own word)	Couche; CAD drawing layers are Calques (AutoCAD).
+Channel	Channels	Canaux	colour or audio channels	
+Series	Series	Série	a DICOM series	
+Study	Study	Étude	a DICOM study	Étude, as in DICOM viewers. Examen only for the acquisition itself.
+Slice	Slice	Coupe	one cross-sectional image of a volume	
+Frame	Frames	Trames	one image of a video, animation or sequence (not a picture frame)	Trame for a frame of a sequence or multi-frame file (as in DICOM multi-trame); Cadre is a picture frame; Pose is an astro exposure.
+Track	Track	Piste	a numbered piece of an album	
+Subtitle	Subtitles	Sous-titres	text over a video	
+Loudness	Loudness	Sonie	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Modèle	a local AI model	
+Download	Download	Télécharger	fetch from the network	
+Cull mode	Cull mode	Mode tri	the mode for picking and rejecting photos	
+Pick	Pick	Retenir	a cull mark	
+Reject	Reject	Rejeter	a cull mark	
+Rating	Rating	Note	stars	
+Local AI	Local AI	IA locale	the Settings section and the feature set	
+Metadata	Metadata	Métadonnées		
+Thumbnail	Thumbnail	Vignette		
+Slideshow	Slideshow	Diaporama		
+Compare	Compare	Comparer		
+Print	Print	Imprimer		
+Search	Search	Rechercher		
+Filter	Filter	Filtre	narrow what is shown (not an optical filter)	
+Rename	Rename	Renommer		

@@ -1,0 +1,62 @@
+file	path	relationship	value_type	concept	value
+study/sr_basic.dcm			CONTAINER	11528-7|LN|Radiology Report	SEPARATE|
+study/sr_basic.dcm	1	HAS CONCEPT MOD	CODE	121049|DCM|Language of Content Item and Descendants	en-US|RFC5646|English (United States)
+study/sr_basic.dcm	2	HAS OBS CONTEXT	PNAME	121008|DCM|Person Observer Name	Curie^Marie^^Dr
+study/sr_basic.dcm	3	HAS OBS CONTEXT	DATE	111060|DCM|Study Date	20260101
+study/sr_basic.dcm	4	HAS OBS CONTEXT	TIME	111061|DCM|Study Time	120000
+study/sr_basic.dcm	5	HAS OBS CONTEXT	DATETIME	111526|DCM|DateTime Started	20260101120000
+study/sr_basic.dcm	6	HAS OBS CONTEXT	UIDREF	110180|DCM|Study Instance UID	2.25.53208703180758804097569786699300216232
+study/sr_basic.dcm	7	CONTAINS	CONTAINER	121070|DCM|Findings	SEPARATE|
+study/sr_basic.dcm	7.1	CONTAINS	TEXT	121071|DCM|Finding	Round lesion in the mid abdomen, 30 mm. Größe stabil.
+study/sr_basic.dcm	8	CONTAINS	CONTAINER	121076|DCM|Conclusions	SEPARATE|
+study/sr_basic.dcm	8.1	CONTAINS	CODE	121077|DCM|Conclusion	108369006|SCT|Neoplasm
+study/sr_comprehensive.dcm			CONTAINER	18748-4|LN|Diagnostic Imaging Report	SEPARATE|
+study/sr_comprehensive.dcm	1	CONTAINS	CONTAINER	121070|DCM|Findings	SEPARATE|
+study/sr_comprehensive.dcm	1.1	CONTAINS	CODE	121071|DCM|Finding	4147007|SCT|Mass
+study/sr_comprehensive.dcm	1.1.1	HAS PROPERTIES	NUM	410668003|SCT|Length	30.5|mm|UCUM|millimeter|
+study/sr_comprehensive.dcm	1.2	CONTAINS	NUM	103339001|SCT|Long axis	||114006|DCM|Measurement failure
+study/sr_comprehensive.dcm	1.3	CONTAINS	SCOORD	111030|DCM|Image Region	POLYLINE|10.5000,12.0000,20.2500,12.0000,20.2500,19.5000,10.5000,19.5000,10.5000,12.0000
+study/sr_comprehensive.dcm	1.3.1	SELECTED FROM	IMAGE		1.2.840.10008.5.1.4.1.1.2|2.25.297401217513536444169646805726585390791|
+study/sr_comprehensive.dcm	2	CONTAINS	CONTAINER	121076|DCM|Conclusions	SEPARATE|
+study/sr_comprehensive.dcm	2.1	CONTAINS	CODE	121077|DCM|Conclusion	108369006|SCT|Neoplasm
+study/sr_comprehensive.dcm	2.1.1	INFERRED FROM			ref|1.1.1
+study/sr_enhanced.dcm			CONTAINER	18748-4|LN|Diagnostic Imaging Report	SEPARATE|
+study/sr_enhanced.dcm	1	CONTAINS	CONTAINER	121070|DCM|Findings	SEPARATE|
+study/sr_enhanced.dcm	1.1	CONTAINS	NUM	410668003|SCT|Length	30.5|mm|UCUM|millimeter|
+study/sr_enhanced.dcm	1.2	CONTAINS	NUM	42798000|SCT|Area	706.86|mm2|UCUM|square millimeter|
+study/sr_enhanced.dcm	1.3	CONTAINS	NUM	112031|DCM|Attenuation Coefficient	60|[hnsf'U]|UCUM|Hounsfield unit|
+study/sr_enhanced.dcm	1.4	CONTAINS	NUM	C0205160|UMLS|Ratio	0.75|1|UCUM|no units|
+study/sr_enhanced.dcm	1.5	CONTAINS	SCOORD	111030|DCM|Image Region	POLYLINE|10.5000,12.0000,20.2500,12.0000,20.2500,19.5000,10.5000,19.5000,10.5000,12.0000
+study/sr_enhanced.dcm	1.5.1	SELECTED FROM	IMAGE		1.2.840.10008.5.1.4.1.1.2|2.25.297401217513536444169646805726585390791|
+study/sr_enhanced.dcm	1.6	CONTAINS	SCOORD	111010|DCM|Center	POINT|16.0000,15.5000
+study/sr_enhanced.dcm	1.6.1	SELECTED FROM	IMAGE		1.2.840.10008.5.1.4.1.1.2|2.25.119042399759030574711391759432448348541|
+study/sr_enhanced.dcm	1.7	CONTAINS	TCOORD	122142|DCM|Acquisition Time	SEGMENT|100,350
+study/sr_enhanced.dcm	1.7.1	SELECTED FROM	WAVEFORM		1.2.840.10008.5.1.4.1.1.9.1.1|2.25.174082382632784551573097712606025269529|
+study/sr_enhanced.dcm	1.8	CONTAINS	IMAGE		1.2.840.10008.5.1.4.1.1.2|2.25.297401217513536444169646805726585390791|
+study/sr_tid1500.dcm			CONTAINER	126000|DCM|Imaging Measurement Report	CONTINUOUS|1500
+study/sr_tid1500.dcm	1	HAS CONCEPT MOD	CODE	121049|DCM|Language of Content Item and Descendants	en-US|RFC5646|English (United States)
+study/sr_tid1500.dcm	2	HAS OBS CONTEXT	CODE	121005|DCM|Observer Type	121006|DCM|Person
+study/sr_tid1500.dcm	3	HAS OBS CONTEXT	PNAME	121008|DCM|Person Observer Name	Doe^Jane
+study/sr_tid1500.dcm	4	HAS CONCEPT MOD	CODE	121058|DCM|Procedure reported	77477000|SCT|Computerized tomography
+study/sr_tid1500.dcm	5	CONTAINS	CONTAINER	126010|DCM|Imaging Measurements	CONTINUOUS|
+study/sr_tid1500.dcm	5.1	CONTAINS	CONTAINER	125007|DCM|Measurement Group	CONTINUOUS|1410
+study/sr_tid1500.dcm	5.1.1	HAS OBS CONTEXT	TEXT	112039|DCM|Tracking Identifier	Lesion 1
+study/sr_tid1500.dcm	5.1.2	HAS OBS CONTEXT	UIDREF	112040|DCM|Tracking Unique Identifier	2.25.226205580542843216218349579031190125812
+study/sr_tid1500.dcm	5.1.3	CONTAINS	CODE	121071|DCM|Finding	108369006|SCT|Neoplasm
+study/sr_tid1500.dcm	5.1.4	HAS CONCEPT MOD	CODE	363698007|SCT|Finding Site	818981001|SCT|Abdomen
+study/sr_tid1500.dcm	5.1.5	CONTAINS	NUM	410668003|SCT|Length	30.5|mm|UCUM|mm|
+study/sr_tid1500.dcm	5.1.6	CONTAINS	NUM	42798000|SCT|Area	706.86|mm2|UCUM|square millimeter|
+study/sr_tid1500.dcm	5.1.7	CONTAINS	SCOORD	111030|DCM|Image Region	POLYLINE|10.5000,12.0000,20.2500,12.0000,20.2500,19.5000,10.5000,19.5000,10.5000,12.0000
+study/sr_tid1500.dcm	5.1.7.1	SELECTED FROM	IMAGE	260753009|SCT|Source	1.2.840.10008.5.1.4.1.1.2|2.25.297401217513536444169646805726585390791|
+study/sr_tid1500_3d.dcm			CONTAINER	126000|DCM|Imaging Measurement Report	CONTINUOUS|1500
+study/sr_tid1500_3d.dcm	1	HAS CONCEPT MOD	CODE	121049|DCM|Language of Content Item and Descendants	en-US|RFC5646|English (United States)
+study/sr_tid1500_3d.dcm	2	HAS OBS CONTEXT	CODE	121005|DCM|Observer Type	121006|DCM|Person
+study/sr_tid1500_3d.dcm	3	HAS OBS CONTEXT	PNAME	121008|DCM|Person Observer Name	Doe^Jane
+study/sr_tid1500_3d.dcm	4	HAS CONCEPT MOD	CODE	121058|DCM|Procedure reported	77477000|SCT|Computerized tomography
+study/sr_tid1500_3d.dcm	5	CONTAINS	CONTAINER	126010|DCM|Imaging Measurements	CONTINUOUS|
+study/sr_tid1500_3d.dcm	5.1	CONTAINS	CONTAINER	125007|DCM|Measurement Group	CONTINUOUS|1410
+study/sr_tid1500_3d.dcm	5.1.1	HAS OBS CONTEXT	TEXT	112039|DCM|Tracking Identifier	Lesion 2
+study/sr_tid1500_3d.dcm	5.1.2	HAS OBS CONTEXT	UIDREF	112040|DCM|Tracking Unique Identifier	2.25.27724066504766092680459875780030998678
+study/sr_tid1500_3d.dcm	5.1.3	CONTAINS	CODE	121071|DCM|Finding	108369006|SCT|Neoplasm
+study/sr_tid1500_3d.dcm	5.1.4	CONTAINS	NUM	42798000|SCT|Area	1600.0|mm2|UCUM|square millimeter|
+study/sr_tid1500_3d.dcm	5.1.5	CONTAINS	SCOORD3D	111030|DCM|Image Region	POLYGON|2.25.285914222877001827866024937233041011941|-20.0000,-20.0000,20.0000,20.0000,-20.0000,20.0000,20.0000,20.0000,20.0000,-20.0000,20.0000,20.0000,-20.0000,-20.0000,20.0000

@@ -1,0 +1,64 @@
+Specular patch to UnRAR 7.1.0 (vendor/unrar in unrar_sys 0.5.8): no user32.dll on Windows.
+Applied after specular-password.patch.
+
+What it changes
+  os.hpp includes specular/specular_k32.hpp (copied next to the sources by build.rs) after
+  the Windows headers. Its macros send CharLowerW, CharUpperW, OemToCharA, OemToCharBuffA,
+  CharToOemA and CharToOemBuffW to kernel32 versions (LCMapStringW, MultiByteToWideChar,
+  WideCharToMultiByte) in specular/specular_k32.cpp. isnt.cpp no longer asks WMI whether a
+  Windows 11 build number is really Windows 10: IsWindows11OrGreater goes by the version
+  alone, as UnRAR does when built by other compilers. It only decides whether a name like
+  aux.txt is renamed when extracting to disk, which the decode host never does.
+
+Why
+  The sandboxed decode host disables Win32k system calls once started, and Windows refuses
+  that (ERROR_WRITE_PROTECT) for a process that has loaded user32.dll, which these imports
+  and COM's ole32/oleaut32 load at start-up. Without them the host runs with Win32k off;
+  delay-loading them instead would end the process at UnRAR's first case comparison.
+
+UnRAR source code may be used in any software to handle
+RAR archives without limitations free of charge, but cannot be
+used to develop RAR (WinRAR) compatible archiver and to
+re-create RAR compression algorithm, which is proprietary.
+Distribution of modified UnRAR source code in separate form
+or as a part of other software is permitted, provided that
+full text of this paragraph, starting from "UnRAR source code"
+words, is included in license, or in documentation if license
+is not available, and in source code comments of resulting package.
+
+--- a/vendor/unrar/os.hpp
++++ b/vendor/unrar/os.hpp
+@@ -61,7 +61,20 @@
+ // For WMI requests.
+ #include <comdef.h>
+ #include <Wbemidl.h>
+ #pragma comment(lib, "wbemuuid.lib")
++// Specular (specular-no-win32k.patch): kernel32 stand-ins for UnRAR's user32 calls, after
++// every Windows header (which declare the originals).
++//
++// UnRAR source code may be used in any software to handle
++// RAR archives without limitations free of charge, but cannot be
++// used to develop RAR (WinRAR) compatible archiver and to
++// re-create RAR compression algorithm, which is proprietary.
++// Distribution of modified UnRAR source code in separate form
++// or as a part of other software is permitted, provided that
++// full text of this paragraph, starting from "UnRAR source code"
++// words, is included in license, or in documentation if license
++// is not available, and in source code comments of resulting package.
++#include "specular_k32.hpp"
+
+
+ #include <sys/types.h>
+--- a/vendor/unrar/isnt.cpp
++++ b/vendor/unrar/isnt.cpp
+@@ -22,7 +22,9 @@
+   return Result;
+ }
+
+-#ifdef _MSC_VER
++// Specular (specular-no-win32k.patch): no WMI, whose COM loads user32.dll; the version
++// check below decides alone, as in builds by other compilers.
++#if 0 // _MSC_VER
+
+ // Replace it with documented Windows 11 check when available.
+ #include <comdef.h>

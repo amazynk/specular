@@ -1,0 +1,16 @@
+[package]
+name = "specular-nmr"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own Bruker NMR reader: experiment folders (fid/ser, acqus, procs, pdata 1r/1i/2rr) on the ppm axis; FIDs processed here (exponential window, zero fill, own f64 FFT, digital filter group delay, automatic ACME phase)"
+
+[dependencies]
+specular-spectra = { path = "../specular-spectra" }
+
+[dev-dependencies]
+serde_json = "1"  # the oracle's metadata
+
+[lints]
+workspace = true

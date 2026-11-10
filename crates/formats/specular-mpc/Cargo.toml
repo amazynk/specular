@@ -1,0 +1,10 @@
+[package]
+name = "specular-mpc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own Musepack (SV7 and SV8) decoder for Specular's sound files"
+
+[lints]
+workspace = true

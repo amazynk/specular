@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:darktable="http://darktable.sf.net/"
+   xmp:Rating="1"
+   darktable:xmp_version="1"
+   darktable:raw_params="0">
+   <darktable:history_modversion>
+    <rdf:Seq>
+     <rdf:li>2</rdf:li>
+     <rdf:li>1</rdf:li>
+     <rdf:li>3</rdf:li>
+    </rdf:Seq>
+   </darktable:history_modversion>
+   <darktable:history_enabled>
+    <rdf:Seq>
+     <rdf:li>1</rdf:li>
+     <rdf:li>0</rdf:li>
+     <rdf:li>1</rdf:li>
+    </rdf:Seq>
+   </darktable:history_enabled>
+   <darktable:history_operation>
+    <rdf:Seq>
+     <rdf:li>exposure</rdf:li>
+     <rdf:li>sharpen</rdf:li>
+     <rdf:li>tonecurve</rdf:li>
+    </rdf:Seq>
+   </darktable:history_operation>
+   <darktable:history_params>
+    <rdf:Seq>
+     <rdf:li>00000000</rdf:li>
+     <rdf:li>00000000</rdf:li>
+     <rdf:li>00000000</rdf:li>
+    </rdf:Seq>
+   </darktable:history_params>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>

@@ -1,0 +1,80 @@
+[package]
+name = "specular-platform"
+description = "Operating-system hooks that affect speed: thread QoS / core clusters, file read-ahead advice, memory-pressure and thermal and battery signals, batched read-ahead (io_uring), App Nap, display refresh and EDR facts"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[features]
+# Test helpers for other crates' tests: a private D-Bus daemon (`test_bus`) and the desktop
+# search provider's client (`integration::linux::search::client`).
+test-support = []
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-log = { path = "../specular-log" }
+# Window handles for drag-out (the version winit 0.30 uses).
+raw-window-handle = "0.6"
+# The IPC socket's key (ipc.rs, Windows' peer check): the version specular-cast already uses.
+getrandom = "0.3"
+
+# Drag-out (drag/): XDND over x11rb, and wl_data_device on winit's own Wayland connection.
+# Same versions winit already pulls in.
+[target.'cfg(all(unix, not(target_os = "macos")))'.dependencies]
+x11rb = { version = "0.13", default-features = false, features = ["xinput"] }
+# Touchpad pinch (gesture/): zwp_pointer_gestures_v1, the version winit already pulls in.
+wayland-protocols = { version = "0.32", features = ["client", "unstable"] }
+wayland-client = { version = "0.31", features = ["system"] }
+wayland-backend = { version = "0.3", features = ["client_system"] }
+# Display profile lookup (display_profile/linux.rs): colord over D-Bus, blocking API on the
+# same zbus 5 accesskit already pulls in.
+zbus = { version = "5.19", default-features = false, features = ["async-io", "blocking-api"] }
+
+# Background worker priority (lower_thread_priority): setpriority, the rustix the decode host
+# already uses; `fs` for posix_fadvise read-ahead (readahead/); `event` for poll() on PSI
+# triggers and cgroup memory.events (pressure/linux.rs).
+[target.'cfg(target_os = "linux")'.dependencies]
+rustix = { version = "1.1", default-features = false, features = ["std", "process", "fs", "event"] }
+# Batched neighbour read-ahead (readahead/uring.rs). Its only unsafe call is the SQE push.
+io-uring = { version = "0.7", default-features = false }
+
+# The IPC socket's owner checks (ipc.rs) elsewhere on Unix: getuid only.
+# Free space before an import (volumes/): statvfs.
+[target.'cfg(all(unix, not(target_os = "linux")))'.dependencies]
+rustix = { version = "1.1", default-features = false, features = ["std", "process", "fs"] }
+
+# Same objc2 0.6 family as wgpu-hal's Metal backend, so nothing is duplicated.
+[target.'cfg(target_os = "macos")'.dependencies]
+libc = "0.2"
+objc2 = "0.6"
+# Page swipes (gesture/swipe.rs): AppKit event monitor and swipe-tracking blocks.
+block2 = "0.6"
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSProcessInfo", "NSString", "NSObject", "NSURL", "NSArray", "NSEnumerator", "NSData", "NSDictionary", "NSError", "NSGeometry"] }
+# Share, email and wallpaper (share/macos.rs): NSSharingService(Picker), NSView, NSWorkspace.
+# Handing files to another app's Service (share/macos.rs): NSPasteboard, NSPerformService
+# (NSApplication), NSRunningApplication. The title bar in the content's colour (title_bar.rs):
+# NSWindow, NSColor.
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSScreen", "NSColorSpace", "NSWorkspace", "NSEvent", "block2", "objc2-core-foundation", "NSSharingService", "NSView", "NSResponder", "NSApplication", "NSPasteboard", "NSRunningApplication", "NSWindow", "NSColor"] }
+dispatch2 = { version = "0.3", default-features = false, features = ["std", "objc2"] }
+
+# "Open with…" (open_with/windows.rs): the same windows-rs version `trash` already uses.
+# Power status and EcoQoS (power/windows.rs): Win32_System_Power, Win32_System_Threading.
+# Memory resource notifications (pressure/windows.rs): Win32_System_Memory.
+[target.'cfg(windows)'.dependencies]
+# Share and wallpaper (share/windows.rs): the Share flyout's WinRT types and
+# IDataTransferManagerInterop, IDesktopWallpaper and SystemParametersInfoW. The terminal's
+# console for the command-line modes of the GUI-subsystem viewer (console.rs).
+windows = { version = "0.62", features = ["Win32_UI_Shell", "Win32_System_Com", "Win32_Graphics_Gdi", "Win32_UI_ColorSystem", "Win32_System_Threading", "Win32_System_Power", "Win32_System_Memory", "Win32_Foundation", "Win32_UI_WindowsAndMessaging", "Win32_System_Console", "ApplicationModel_DataTransfer", "Foundation", "Foundation_Collections", "Storage", "Storage_Streams", "System_Display", "Media", "Media_Playback"] }
+# The Share flyout's list of files (IIterable from a Vec); the version windows 0.62 uses.
+windows-collections = "0.3"
+# Free space before an import (volumes/), and the CPU's brand and physical cores for the
+# hardware report (cpu_brand, physical_cores), and the Windows build (windows_build), without
+# new unsafe: the sysinfo specular-core uses.
+sysinfo = { version = "0.39", default-features = false, features = ["disk", "system"] }
+# The Pictures known folder (user_pictures_dir), without new unsafe: the directories
+# specular-settings uses.
+directories = "6"
+
+[lints]
+workspace = true

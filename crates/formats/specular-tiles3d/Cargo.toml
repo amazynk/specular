@@ -1,0 +1,15 @@
+[package]
+name = "specular-tiles3d"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own reader for Cesium 3D Tiles 1.0 and 1.1 tilesets (b3dm, i3dm, pnts, cmpt, glTF, implicit tiling) with screen-space level of detail"
+
+[dependencies]
+specular-mesh = { path = "../specular-mesh" }
+serde_json = "1"
+thiserror = "2"
+
+[lints]
+workspace = true

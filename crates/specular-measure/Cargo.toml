@@ -1,0 +1,20 @@
+[package]
+name = "specular-measure"
+description = "Measurement geometry and statistics for Specular: calibrated lengths, angles and areas, ROI statistics with documented pixel coverage, line profiles, and CSV / GeoJSON / ImageJ ROI exchange (independent of the UI)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+# The file hash in export provenance (the same build of blake3 the similarity index uses).
+blake3 = { version = "1.8", features = ["pure"] }
+# Reading GeoJSON (QuPath and others write it); the writer is our own.
+serde_json = "1.0.149"
+# ImageJ ROI sets (.zip of .roi files), the build specular-archive already uses.
+zip = { version = "9.5", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+# Large regions' statistics in parallel on the global pool (named by specular-thread).
+rayon = "1.11"
+
+[lints]
+workspace = true

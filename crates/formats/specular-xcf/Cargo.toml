@@ -1,0 +1,18 @@
+[package]
+name = "specular-xcf"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "GIMP XCF reader for Specular: versions 0 to 3.x, 32/64-bit offsets, RLE/zlib tiles, 8/16/32-bit integer, half, float and double, RGB/grey/indexed; composites the visible layer stack (all GIMP layer modes, groups, pass-through, masks) in parallel bands; .xcf.gz/.xcf.bz2/.xcf.xz"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-blend = { path = "../specular-blend" }  # blend modes shared with the other layered formats
+rayon = "1.11"
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+# Raw LZMA2 for .xcf.xz; the xz container is parsed here (no sha2).
+lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+
+[lints]
+workspace = true

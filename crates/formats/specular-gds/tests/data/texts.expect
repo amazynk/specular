@@ -1,0 +1,7 @@
+cells	1
+cell	TOP
+top	TOP
+count	TOP	1	0	1
+bbox	TOP	0.000	0.000	50000.000	20000.000
+polys	TOP	1
+poly	TOP	1	0	0.00,0.00;50000.00,0.00;50000.00,20000.00;0.00,20000.00

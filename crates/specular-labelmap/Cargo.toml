@@ -1,0 +1,14 @@
+[package]
+name = "specular-labelmap"
+description = "Label volumes (NIfTI, MGH and the other research formats) over DICOM series and any volume for Specular: world-affine placement with the RAS/LPS flip, sform/qform precedence and oblique or sheared grids, ITK-SNAP and FreeSurfer colour tables, generated palettes"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-dicom = { path = "../formats/specular-dicom" }
+specular-medvol = { path = "../formats/specular-medvol" }
+
+[lints]
+workspace = true

@@ -1,0 +1,58 @@
+{
+ "kind": "lif",
+ "images": [
+  {
+   "path": "single",
+   "name": "single",
+   "dims": [
+    {
+     "code": "X",
+     "count": 14,
+     "origin": 0.0,
+     "length": 1.95e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Y",
+     "count": 10,
+     "origin": 2e-06,
+     "length": 1.35e-06,
+     "unit": "m"
+    },
+    {
+     "code": "Z",
+     "count": 2,
+     "origin": 0.0,
+     "length": 5e-07,
+     "unit": "m"
+    }
+   ],
+   "channels": [
+    {
+     "lut": "Red",
+     "bits": 16,
+     "float": false,
+     "name": "Ch0"
+    },
+    {
+     "lut": "Green",
+     "bits": 16,
+     "float": false,
+     "name": "Ch1"
+    }
+   ],
+   "planes": {
+    "0:0": "1a32747ca9c0eb97",
+    "0:1": "4f42eca466e02ea9",
+    "1:0": "de699600e63d5db0",
+    "1:1": "8dce2890e3d12115"
+   }
+  }
+ ],
+ "lof": true,
+ "version": 2,
+ "readlif": {
+  "agree": 0,
+  "total": 0
+ }
+}

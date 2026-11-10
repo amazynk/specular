@@ -1,0 +1,16 @@
+[package]
+name = "specular-clip"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Clip Studio Paint .clip reader for Specular: the CSFCHUNK container, an own read-only SQLite table reader, the canvas facts, layer list and the merged canvas preview"
+
+[dependencies]
+thiserror = "2"
+
+[dev-dependencies]
+rusqlite = { version = "0.39", features = ["bundled"] }  # builds synthetic documents' databases (oracle)
+
+[lints]
+workspace = true

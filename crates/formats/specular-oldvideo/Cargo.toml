@@ -1,0 +1,15 @@
+[package]
+name = "specular-oldvideo"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own decoders for old palette, RGB and vector video codecs: QuickTime Animation (RLE), Cinepak, Microsoft Video 1, Microsoft RLE, Apple SMC, Apple Video (RPZA) and Flash Screen Video 1 and 2"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+# Flash Screen Video blocks: zlib, and raw DEFLATE against a preset dictionary.
+specular-png = { path = "../specular-png" }
+
+[lints]
+workspace = true

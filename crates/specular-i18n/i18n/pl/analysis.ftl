@@ -1,0 +1,80 @@
+# Specular — Medical analysis: segmentations, SUV, fusion, TMTV, time-intensity curves. Polski. machine-drafted, needs native review
+
+palette-segments = Pokaż lub ukryj segmentacje
+palette-segment-opacity = Następne krycie wypełnienia segmentacji
+palette-fusion = Fuzja serii o tym samym układzie odniesienia
+palette-fusion-colormap = Następna mapa kolorów fuzji
+palette-fusion-blend = Następne krycie fuzji
+palette-fusion-nudge = Przesuń ręcznie serię fuzji
+palette-tmtv = Narzędzie TMTV (kula, prostopadłościan, wył.)
+palette-tmtv-threshold = Próg TMTV (SUV { NUMBER(2.5) } lub { PERCENT(41) } SUVmax)
+palette-time-curve = Krzywa czas–intensywność ostatniego obszaru
+palette-export-curve = Zapisz krzywą czas–intensywność jako CSV
+
+analysis-searching = Nadal szukam segmentacji i serii do fuzji
+segments-none = Nie znaleziono segmentacji tego układu odniesienia
+segments-shown = Segmentacje pokazane
+segments-hidden = Segmentacje ukryte
+segments-fill = Wypełnienie segmentacji { PERCENT($percent) }
+segments-failed = Nie pokazano segmentacji: { $reason }
+segment-entry = { $name } · { $ml } mL
+
+suv-value = SUVbw { $value }
+suv-factor = Współczynnik SUVbw { $factor }, { $minutes } min po wstrzyknięciu
+suv-refused = Brak SUV: { $reason }
+suv-preset = SUV 0–{ $upper }
+suv-refused-not-pet = to nie jest obraz PET
+suv-refused-units = jednostki pikseli to nie Bq/mL
+suv-refused-corrected = brak korekcji pochłaniania i rozpadu
+suv-refused-decay = nieobsługiwana korekcja rozpadu
+suv-refused-weight = brak masy ciała pacjenta
+suv-refused-dose = brak podanej dawki
+suv-refused-half-life = brak okresu półtrwania radionuklidu
+suv-refused-injection = brak czasu wstrzyknięcia
+suv-refused-scan-time = brak czasu akwizycji
+suv-refused-delay = wstrzyknięcie jest po badaniu
+suv-refused-scale = brak współczynnika skali SUV Philips
+suv-refused-height = brak wzrostu pacjenta
+suv-refused-sex = brak płci pacjenta
+suv-refused-lbm = beztłuszczowa masa ciała poza zakresem
+
+colormap-hot-iron = Rozgrzane żelazo
+colormap-rainbow = Tęcza
+colormap-viridis = Viridis
+fusion-none = Brak serii PET, SPECT, CT ani MR tego układu odniesienia do fuzji
+fusion-needed = Najpierw wykonaj fuzję serii (Shift+U)
+fusion-opening = Fuzja { $modality }
+fusion-off = Fuzja wyłączona
+fusion-refused = Nie można wykonać fuzji: { $reason }
+fusion-on = Fuzja { $modality }: { $colormap }, { PERCENT($blend) }
+fusion-hidden = Fuzja { $modality } ukryta
+fusion-window-suv = Okno fuzji SUV { $low }–{ $high }
+fusion-value = { $modality } { $value }
+fusion-value-suv = { $modality } SUVbw { $value }
+fusion-blend-toast = Krycie fuzji { PERCENT($percent) }
+fusion-moved = Przesunięto ręcznie: { $x }, { $y }, { $z } mm, { $degrees }°
+fusion-nudge-hint = Strzałki przesuwają serię fuzji o 1 mm, Shift+Up/Down wzdłuż widoku, [ i ] obracają ją
+fusion-nudge-off = Seria fuzji unieruchomiona
+
+tmtv-hint-sphere = TMTV: przeciągnij kulę od jej środka
+tmtv-hint-box = TMTV: przeciągnij prostopadłościan
+tmtv-off = TMTV wyłączone
+tmtv-threshold-suv = Próg SUV { $suv }
+tmtv-threshold-share = Próg { PERCENT($share) } SUVmax
+tmtv-result = TMTV { $ml } mL w obszarach: { $count }
+tmtv-stats = SUVmax { $max }, SUVmean { $mean }, TLG { $tlg }
+tmtv-outside = Obszar leży poza objętością
+tmtv-no-pet = TMTV wymaga objętości PET z SUV
+
+analysis-mpr-only = Fuzja i TMTV działają w MPR (Shift+R)
+curve-not-dynamic = To nie jest obraz wieloklatkowy ani seria dynamiczna
+curve-not-mpr = Krzywe czas–intensywność rysuje się na obrazie, poza MPR
+curve-no-roi = Najpierw narysuj elipsę lub prostokąt
+curve-loading = Odczyt punktów czasowych: { $count }…
+curve-title = Krzywa czas–intensywność
+curve-mean = Średnia
+curve-max = Maks.
+curve-seconds = s
+curve-saved = Krzywą zapisano
+curve-none = Brak krzywej do zapisania
+curve-failed = Nie utworzono krzywej: { $reason }

@@ -1,0 +1,20 @@
+[package]
+name = "specular-devices"
+description = "Navigation devices for Specular: gamepads and 3Dconnexion SpaceMouse (joydev/evdev and spacenavd on Linux, Windows.Gaming.Input on Windows)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-input = { path = "../specular-input" }
+specular-thread = { path = "../specular-thread" }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+notify = "8.2"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Foundation", "Foundation_Collections", "Gaming_Input"] }
+
+[lints]
+workspace = true

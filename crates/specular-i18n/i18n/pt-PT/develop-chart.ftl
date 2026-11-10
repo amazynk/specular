@@ -1,0 +1,71 @@
+# Specular — Revelação: perfil da câmara e perfis feitos com uma carta de cores.
+
+develop-input-profile = Perfil da câmara
+develop-input-profile-auto = Padrão da câmara
+develop-input-profile-matrix = Só matriz
+develop-input-profile-file = Ficheiro de perfil…
+develop-input-profile-named = Ficheiro: { $name }
+develop-input-profile-in-use = A usar { $name }.
+develop-input-profile-changed = A usar { $name }. O ficheiro mudou desde que foi escolhido.
+develop-input-profile-missing = O ficheiro de perfil não existe. É usada a matriz da câmara.
+develop-input-profile-unusable = O ficheiro de perfil não pode ser usado: { $reason }. É usada a matriz da câmara.
+develop-input-profile-dialog = Escolher um perfil de câmara
+develop-input-profile-kind = Perfis de câmara DNG
+
+develop-chart-start = Criar perfil com uma carta…
+develop-chart-title = Perfil com uma carta
+develop-chart-kind = Carta
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = Referência
+develop-chart-ref-load = Carregar ficheiro…
+develop-chart-hint-xrite = Carregue o ficheiro de referência da carta (texto CGATS). Vem com a carta, ou no site da X-Rite para a edição da sua carta.
+develop-chart-hint-it8 = Carregue o ficheiro de referência do seu alvo. Cada lote tem o seu, do fabricante do alvo.
+develop-chart-spyder = O SpyderCHECKR não é suportado: os valores de cor são da Datacolor.
+develop-chart-step-reference = Escolha a carta e carregue o ficheiro de referência.
+develop-chart-step-corner = Clique no centro de { $name } ({ $number } de 4).
+develop-chart-measuring = A medir a carta…
+develop-chart-step-save = Guarde o perfil ou marque os cantos de novo.
+develop-chart-corner-dark-skin = pele escura (em cima à esquerda)
+develop-chart-corner-bluish-green = verde-azulado (em cima à direita)
+develop-chart-corner-black = preto (em baixo à direita)
+develop-chart-corner-white = branco (em baixo à esquerda)
+
+develop-chart-ref-too-large = O ficheiro é demasiado grande para um ficheiro de referência.
+develop-chart-ref-not-cgats = Não é um ficheiro de referência CGATS.
+develop-chart-ref-no-ids = O ficheiro não tem nomes de amostras.
+develop-chart-ref-no-colour = O ficheiro não tem valores L*a*b* nem XYZ.
+develop-chart-ref-bad-row = A linha { $row } do ficheiro está danificada.
+develop-chart-ref-count = O ficheiro indica { $declared } amostras, mas tem { $found }.
+develop-chart-ref-duplicate = A amostra { $id } aparece duas vezes no ficheiro.
+develop-chart-ref-illuminant = Os valores são para luz { $name }. É necessário D50 ou D65.
+develop-chart-ref-wrong-chart = O ficheiro tem { $found } amostras. Esta carta tem { $expected }.
+develop-chart-ref-names = Os nomes das amostras não correspondem a esta carta.
+develop-chart-ref-corner = Falta no ficheiro a amostra de canto { $id }.
+develop-chart-ref-unreadable = Não é possível ler o ficheiro: { $reason }
+develop-chart-ref-dialog = Escolher o ficheiro de referência da carta
+develop-chart-ref-kind = Ficheiros de referência de cartas
+
+develop-chart-not-found = A carta não foi encontrada ali. Marque os cantos de novo.
+develop-chart-too-few = Só { $count } amostras podem ser usadas. Ilumine a carta de forma uniforme e evite reflexos.
+develop-chart-no-greys = Nenhuma amostra cinzenta pode ser usada. Exponha sem queimar os cinzentos.
+develop-chart-degenerate = As amostras são demasiado parecidas para fazer um perfil.
+
+develop-chart-report-after = ΔE2000 com o perfil: média { $mean }, mediana { $median }, máx. { $max }
+develop-chart-report-before = Antes: média { $mean }, mediana { $median }, máx. { $max }
+develop-chart-report-cv = Verificado em amostras fora do ajuste: média { $mean }
+develop-chart-left-out = Excluída: { $id } ({ $why })
+develop-chart-left-clipped = queimada
+develop-chart-left-uneven = reflexo ou pó
+develop-chart-left-outside = fora da fotografia
+develop-chart-uneven-light = Os cinzentos variam { PERCENT($percent) }: a luz pode não ser uniforme.
+develop-chart-use-camera = Usar nas fotografias da { $camera }
+develop-chart-again = Marcar de novo
+develop-chart-save = Guardar…
+develop-chart-close = Fechar
+develop-chart-save-title = Guardar perfil de câmara
+develop-chart-default-name = Perfil de carta { $camera }
+develop-chart-saved = { $name } guardado como { $file }.
+develop-chart-save-failed = Não é possível guardar o perfil: { $reason }

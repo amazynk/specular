@@ -1,0 +1,16 @@
+[package]
+name = "specular-lensfun"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Lens corrections from Lensfun's lens database (its CC BY-SA 3.0 XML data files only, read by our own parser): cameras, lenses, calibrations, name matching, interpolation and the ptlens/poly3/poly5, pa and linear/poly3 TCA models"
+
+[dependencies]
+# The bundled database is zstd-compressed (the pure Rust decoder specular-decode uses).
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+roxmltree = "0.21"
+specular-thread = { path = "../specular-thread" }
+
+[lints]
+workspace = true

@@ -1,0 +1,29 @@
+[package]
+name = "specular-bitmap-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-bitmap = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "decode"
+path = "fuzz_targets/decode.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "gif_anim"
+path = "fuzz_targets/gif_anim.rs"
+test = false
+doc = false
+bench = false

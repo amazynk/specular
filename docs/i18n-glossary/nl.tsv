@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galerij	the thumbnail grid of one folder	
+Library	Library	Bibliotheek	the catalogue of indexed folders	
+Folder	Folder	Map	a file-system folder	
+Remove	Remove	Verwijderen	take an item out of a list; files stay	
+Delete	Delete	Verwijderen	destroy data or files	
+Forget	Forget	Vergeten	drop a remembered choice or record	
+Move to trash	Move to trash	Naar prullenbak verplaatsen	send files to the system trash	
+Export	Export	Exporteren	write a copy in another form	
+Import	Import	Importeren	copy photos in from a card or device	
+Settings	Settings	Instellingen	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Ongedaan maken	reverse the last action (never the word for Cancel)	
+Redo	Redo	Opnieuw		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Pagina	a page of a document or multi-page file	
+Layer	Layers	Lagen	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Kanalen	colour or audio channels	
+Series	Series	Serie	a DICOM series	
+Study	Study	Onderzoek	a DICOM study	
+Slice	Slice	Plak	one cross-sectional image of a volume	
+Frame	Frames	Frames	one image of a video, animation or sequence (not a picture frame)	Frame; Kader is a picture frame.
+Track	Track	Nummer	a numbered piece of an album	
+Subtitle	Subtitles	Ondertitels	text over a video	
+Loudness	Loudness	Luidheid	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Model	a local AI model	
+Download	Download	Downloaden	fetch from the network	
+Cull mode	Cull mode	Selectiemodus	the mode for picking and rejecting photos	
+Pick	Pick	Kiezen	a cull mark	
+Reject	Reject	Afwijzen	a cull mark	
+Rating	Rating	Beoordeling	stars	
+Local AI	Local AI	Lokale AI	the Settings section and the feature set	
+Metadata	Metadata	Metagegevens		
+Thumbnail	Thumbnail	Miniatuur		
+Slideshow	Slideshow	Diavoorstelling		
+Compare	Compare	Vergelijken		
+Print	Print	Afdrukken		
+Search	Search	Zoeken		
+Filter	Filter	Filter	narrow what is shown (not an optical filter)	
+Rename	Rename	Naam wijzigen		Naam wijzigen, not Hernoemen.

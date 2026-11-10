@@ -1,0 +1,71 @@
+# Specular — 冲印：相机配置文件，以及用色卡制作的相机配置文件。
+
+develop-input-profile = 相机配置文件
+develop-input-profile-auto = 相机标准
+develop-input-profile-matrix = 仅矩阵
+develop-input-profile-file = 配置文件…
+develop-input-profile-named = 文件：{ $name }
+develop-input-profile-in-use = 正在使用 { $name }。
+develop-input-profile-changed = 正在使用 { $name }。文件在选择后已更改。
+develop-input-profile-missing = 配置文件不存在。改用相机矩阵。
+develop-input-profile-unusable = 配置文件无法使用：{ $reason }。改用相机矩阵。
+develop-input-profile-dialog = 选择相机配置文件
+develop-input-profile-kind = DNG 相机配置文件
+
+develop-chart-start = 用色卡制作配置文件…
+develop-chart-title = 用色卡制作配置文件
+develop-chart-kind = 色卡
+develop-chart-kind-cc24 = ColorChecker 24
+develop-chart-kind-sg = ColorChecker SG
+develop-chart-kind-it8 = IT8.7/2
+develop-chart-kind-spyder = SpyderCHECKR
+develop-chart-ref = 参考值
+develop-chart-ref-load = 载入文件…
+develop-chart-hint-xrite = 载入色卡的参考文件（CGATS 文本）。它随色卡提供，或可在 X-Rite 网站上按色卡版本获取。
+develop-chart-hint-it8 = 载入你的标板的参考文件。每个批次都有制造商提供的专属文件。
+develop-chart-spyder = 不支持 SpyderCHECKR：其颜色值属于 Datacolor。
+develop-chart-step-reference = 选择色卡并载入其参考文件。
+develop-chart-step-corner = 点击 { $name } 的中心（第 { $number } 个，共 4 个）。
+develop-chart-measuring = 正在测量色卡…
+develop-chart-step-save = 保存配置文件，或重新标记四角。
+develop-chart-corner-dark-skin = 深肤色（左上）
+develop-chart-corner-bluish-green = 蓝绿色（右上）
+develop-chart-corner-black = 黑色（右下）
+develop-chart-corner-white = 白色（左下）
+
+develop-chart-ref-too-large = 文件太大，不像参考文件。
+develop-chart-ref-not-cgats = 不是 CGATS 参考文件。
+develop-chart-ref-no-ids = 文件没有色块名称。
+develop-chart-ref-no-colour = 文件没有 L*a*b* 或 XYZ 值。
+develop-chart-ref-bad-row = 文件第 { $row } 行已损坏。
+develop-chart-ref-count = 文件声明 { $declared } 个色块，实际有 { $found } 个。
+develop-chart-ref-duplicate = 色块 { $id } 在文件中出现两次。
+develop-chart-ref-illuminant = 这些值对应 { $name } 光源。需要 D50 或 D65。
+develop-chart-ref-wrong-chart = 文件有 { $found } 个色块。此色卡有 { $expected } 个。
+develop-chart-ref-names = 色块名称与此色卡不符。
+develop-chart-ref-corner = 文件中缺少角色块 { $id }。
+develop-chart-ref-unreadable = 无法读取文件：{ $reason }
+develop-chart-ref-dialog = 选择色卡的参考文件
+develop-chart-ref-kind = 色卡参考文件
+
+develop-chart-not-found = 那里没有找到色卡。请重新标记四角。
+develop-chart-too-few = 只有 { $count } 个色块可用。请均匀照亮色卡并避免反光。
+develop-chart-no-greys = 没有可用的灰色色块。曝光时不要让灰色过曝。
+develop-chart-degenerate = 色块过于相似，无法制作配置文件。
+
+develop-chart-report-after = 使用配置文件的 ΔE2000：平均 { $mean }，中位数 { $median }，最大 { $max }
+develop-chart-report-before = 之前：平均 { $mean }，中位数 { $median }，最大 { $max }
+develop-chart-report-cv = 在拟合之外的色块上检验：平均 { $mean }
+develop-chart-left-out = 已排除：{ $id }（{ $why }）
+develop-chart-left-clipped = 过曝
+develop-chart-left-uneven = 反光或灰尘
+develop-chart-left-outside = 在照片之外
+develop-chart-uneven-light = 灰色相差 { PERCENT($percent) }：光线可能不均匀。
+develop-chart-use-camera = 用于 { $camera } 的照片
+develop-chart-again = 重新标记
+develop-chart-save = 保存…
+develop-chart-close = 关闭
+develop-chart-save-title = 保存相机配置文件
+develop-chart-default-name = { $camera } 色卡配置文件
+develop-chart-saved = 已将 { $name } 保存为 { $file }。
+develop-chart-save-failed = 无法保存配置文件：{ $reason }

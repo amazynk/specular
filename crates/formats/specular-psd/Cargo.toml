@@ -1,0 +1,21 @@
+[package]
+name = "specular-psd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Photoshop PSD/PSB reader for Specular: merged composite (raw, PackBits, ZIP, ZIP+prediction; 1/8/16/32-bit; all colour modes), row-parallel decode, thumbnail/ICC/XMP/EXIF resources, layer list and per-layer pixels (masks, opacity, lazy per-channel decode)"
+
+[dependencies]
+rayon = "1.11"
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+specular-blend = { path = "../specular-blend" }
+
+[dev-dependencies]
+# Differential-test and benchmark oracle only; never linked into Specular.
+psd = "0.3"
+# Fixture writer.
+miniz_oxide = "0.8"
+
+[lints]
+workspace = true

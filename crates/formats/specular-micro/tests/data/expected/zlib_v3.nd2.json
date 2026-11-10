@@ -1,0 +1,61 @@
+{
+ "kind": "nd2",
+ "version": [
+  3,
+  0
+ ],
+ "width": 21,
+ "height": 10,
+ "components": 2,
+ "bits": 8,
+ "frames": 6,
+ "loops": [
+  {
+   "kind": "time",
+   "count": 2
+  },
+  {
+   "kind": "z",
+   "count": 3,
+   "step": 1.0
+  }
+ ],
+ "channels": [
+  {
+   "name": "GFP",
+   "colour": [
+    0,
+    255,
+    0
+   ],
+   "components": 1,
+   "emission": 509.0
+  },
+  {
+   "name": "mCherry",
+   "colour": [
+    255,
+    0,
+    0
+   ],
+   "components": 1,
+   "emission": 610.0
+  }
+ ],
+ "calibration": 0.1625,
+ "text": {},
+ "planes": {
+  "0:0": "f062470ffe6a6863",
+  "0:1": "016cda74de2ab939",
+  "1:0": "1c5b5d36f677c737",
+  "1:1": "430f7f65a54e365f",
+  "2:0": "0285455df4c776ba",
+  "2:1": "66c75e739af6a32e",
+  "3:0": "835f5023f8a09214",
+  "3:1": "3a416b71c0aade6f",
+  "4:0": "7f834c239727cbc7",
+  "4:1": "4bd0a8f10a4dcfe1",
+  "5:0": "eaa18d53d6fa33a7",
+  "5:1": "fbf39329153f228b"
+ }
+}

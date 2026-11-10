@@ -1,0 +1,18 @@
+[package]
+name = "specular-film"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoders for Specular's film and VFX formats: DPX (SMPTE 268M v1/v2) and Kodak Cineon"
+
+[dependencies]
+rayon = "1.11"
+specular-core = { path = "../../specular-core" }
+
+[dev-dependencies]
+# Reads the corpus oracles' gzipped PAM files.
+flate2 = "1"
+
+[lints]
+workspace = true

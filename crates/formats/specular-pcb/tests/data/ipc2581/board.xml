@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IPC-2581 revision="C" xmlns="http://webstds.ipc.org/2581">
+  <Content roleRef="Owner">
+    <FunctionMode mode="FABRICATION"/>
+    <StepRef name="board"/>
+    <DictionaryStandard units="MILLIMETER">
+      <EntryStandard id="RECT_1"><RectCenter width="1.0" height="0.5"/></EntryStandard>
+      <EntryStandard id="CIRCLE_1"><Circle diameter="0.6"/></EntryStandard>
+      <EntryStandard id="DONUT_1"><Donut shape="ROUND" outerDiameter="1.0" innerDiameter="0.5"/></EntryStandard>
+    </DictionaryStandard>
+    <DictionaryUser units="MILLIMETER">
+      <EntryUser id="FID"><UserSpecial><Features><Circle diameter="1.0"/></Features></UserSpecial></EntryUser>
+    </DictionaryUser>
+    <DictionaryLineDesc units="MILLIMETER">
+      <EntryLineDesc id="LINE_1"><LineDesc lineEnd="ROUND" lineWidth="0.2"/></EntryLineDesc>
+    </DictionaryLineDesc>
+  </Content>
+  <HistoryRecord number="1" origination="2026-10-25T00:00:00" software="Test">
+    <FileRevision fileRevisionId="1"><SoftwarePackage name="TestCAD" revision="1.2" vendor="Us"/></FileRevision>
+  </HistoryRecord>
+  <Ecad name="demo">
+    <CadHeader units="MILLIMETER"/>
+    <CadData>
+      <Layer name="TOP" layerFunction="CONDUCTOR" side="TOP" polarity="POSITIVE"/>
+      <Layer name="IN1" layerFunction="PLANE" side="INTERNAL" polarity="POSITIVE"/>
+      <Layer name="BOTTOM" layerFunction="CONDUCTOR" side="BOTTOM" polarity="POSITIVE"/>
+      <Layer name="SMT" layerFunction="SOLDERMASK" side="TOP" polarity="POSITIVE"/>
+      <Layer name="SST" layerFunction="SILKSCREEN" side="TOP" polarity="POSITIVE"/>
+      <Layer name="DRILL_1_4" layerFunction="DRILL" side="ALL" polarity="POSITIVE"/>
+      <Stackup name="s" overallThickness="1.6"/>
+      <Step name="board">
+        <Datum x="0" y="0"/>
+        <Profile>
+          <Polygon>
+            <PolyBegin x="0" y="0"/><PolyStepSegment x="40" y="0"/>
+            <PolyStepCurve x="40" y="20" centerX="40" centerY="10" clockwise="false"/>
+            <PolyStepSegment x="0" y="20"/><PolyStepSegment x="0" y="0"/>
+          </Polygon>
+          <Cutout><PolyBegin x="10" y="8"/><PolyStepSegment x="12" y="8"/><PolyStepSegment x="12" y="10"/><PolyStepSegment x="10" y="10"/><PolyStepSegment x="10" y="8"/></Cutout>
+        </Profile>
+        <PadStackDef name="VIA">
+          <PadstackHoleDef name="h" diameter="0.3" platingStatus="VIA" plusTol="0" minusTol="0" x="0" y="0"/>
+          <PadstackPadDef layerRef="TOP" padUse="REGULAR"><Location x="0" y="0"/><StandardPrimitiveRef id="CIRCLE_1"/></PadstackPadDef>
+        </PadStackDef>
+        <Package name="R0603" type="RESISTOR">
+          <Outline><Polygon><PolyBegin x="-0.8" y="-0.4"/><PolyStepSegment x="0.8" y="-0.4"/><PolyStepSegment x="0.8" y="0.4"/><PolyStepSegment x="-0.8" y="0.4"/><PolyStepSegment x="-0.8" y="-0.4"/></Polygon><LineDesc lineWidth="0.1"/></Outline>
+        </Package>
+        <Component refDes="R1" packageRef="R0603" layerRef="TOP" part="RES"><Xform rotation="90"/><Location x="20" y="10"/></Component>
+        <Component refDes="U2" packageRef="NOPE" layerRef="BOTTOM" part="IC"><Location x="30" y="5"/></Component>
+        <LogicalNet name="GND"/><LogicalNet name="VCC"/><LogicalNet name="N1"/>
+        <LayerFeature layerRef="TOP">
+          <Set net="GND">
+            <Pad><Xform rotation="90"/><Location x="5" y="5"/><StandardPrimitiveRef id="RECT_1"/></Pad>
+            <Pad padstackDefRef="VIA"><Location x="6" y="6"/></Pad>
+            <Pad><Location x="7" y="7"/><UserPrimitiveRef id="FID"/></Pad>
+          </Set>
+          <Set net="VCC">
+            <Features><Line startX="5" startY="5" endX="15" endY="5"><LineDescRef id="LINE_1"/></Line></Features>
+            <Features><Arc startX="15" startY="5" endX="17" endY="7" centerX="15" centerY="7" clockwise="false"><LineDescRef id="LINE_1"/></Arc></Features>
+            <Features><Polyline><PolyBegin x="1" y="1"/><PolyStepSegment x="2" y="1"/><PolyStepSegment x="2" y="2"/><LineDesc lineWidth="0.1" lineEnd="SQUARE"/></Polyline></Features>
+            <Features><Contour><Polygon><PolyBegin x="20" y="15"/><PolyStepSegment x="24" y="15"/><PolyStepSegment x="24" y="18"/><PolyStepSegment x="20" y="18"/><PolyStepSegment x="20" y="15"/></Polygon></Contour></Features>
+            <Features><Text textString="X"/></Features>
+          </Set>
+        </LayerFeature>
+        <LayerFeature layerRef="BOTTOM">
+          <Set><Features><Location x="10" y="10"/><StandardPrimitiveRef id="DONUT_1"/></Features></Set>
+        </LayerFeature>
+        <LayerFeature layerRef="DRILL_1_4">
+          <Set><Hole name="H1" diameter="0.3" platingStatus="VIA" plusTol="0" minusTol="0" x="6" y="6"/>
+          <Hole name="H2" diameter="1.0" platingStatus="PLATED" plusTol="0" minusTol="0" x="30" y="15"/></Set>
+        </LayerFeature>
+      </Step>
+    </CadData>
+  </Ecad>
+</IPC-2581>

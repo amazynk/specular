@@ -1,0 +1,19 @@
+[package]
+name = "specular-mol"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Molecular structures for Specular: PDB, PDBx/mmCIF (own bounded CIF/STAR tokenizer), small-molecule CIF with symmetry expansion into the unit cell, MDL SDF/MOL (V2000 and V3000) and molecular XYZ, plain or gzip-compressed; bonds from a residue table and by distance, DSSP-like secondary structure, cartoon meshes and a CPU preview"
+
+[dependencies]
+# The inflated text is held against the memory budget while it is parsed.
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+specular-inspect = { path = "../../specular-inspect" }
+specular-mesh = { path = "../specular-mesh" }
+specular-png = { path = "../specular-png" }
+thiserror = "2"
+
+[lints]
+workspace = true

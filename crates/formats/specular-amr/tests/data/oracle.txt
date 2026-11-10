@@ -1,0 +1,22 @@
+# name frames fnv1a64-of-reference-decode (3GPP TS 26.073/26.173 reference decoder)
+nb-475.amr 60 9323f3bd0dab8e6b
+nb-515.amr 60 50777fcb3c8b1c1c
+nb-59.amr 60 592051c59f476529
+nb-67.amr 60 7bda99b29ec9e8c3
+nb-74.amr 60 3e3c0be3d2544692
+nb-795.amr 60 6c35c1c884a3a20f
+nb-102.amr 60 407671111bdf34f7
+nb-122.amr 60 35598c375c531eec
+nb-switch-dtx.amr 60 90585b3ee2ba7619
+nb-lost.amr 60 2fa570a59c8dbaa6
+wb-660.awb 60 983abdc2422c8eca
+wb-885.awb 60 2beef791579ab09a
+wb-1265.awb 60 ce9dd18e820cdcc4
+wb-1425.awb 60 e68c5036330d8cc6
+wb-1585.awb 60 2624d356cbb5a3c6
+wb-1825.awb 60 eb330c378212d1fd
+wb-1985.awb 60 61a7cbfdf05dae36
+wb-2305.awb 60 1304368bec5e42b1
+wb-2385.awb 60 dd7dca5a763e5616
+wb-switch-dtx.awb 60 fe254a29e6f09b34
+wb-lost.awb 60 934a1f07591a223a

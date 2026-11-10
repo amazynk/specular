@@ -1,0 +1,14 @@
+[package]
+name = "specular-gds"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own GDSII stream reader for Specular: library, units, cells, boundaries, paths (all pathtypes), boxes, nodes, texts, SREF/AREF hierarchy with reflection, magnification and rotation, properties; top cells, cycle detection, exact bounding boxes and bounded flattening; into a specular-vector scene with per-cell geometry and instances"
+
+[dependencies]
+specular-vector = { path = "../../specular-vector" }
+thiserror = "2"
+
+[lints]
+workspace = true

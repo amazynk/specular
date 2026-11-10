@@ -1,0 +1,14 @@
+[package]
+name = "specular-inspect"
+description = "Inspection tools for Specular: histogram maths, clipping statistics and pixel samples (the GPU passes live in specular-render)"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-color = { path = "../specular-color" }
+specular-core = { path = "../specular-core" }
+
+[lints]
+workspace = true

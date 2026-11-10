@@ -1,0 +1,31 @@
+{
+"point_data": [
+{
+"name": "elevation",
+"components": 1,
+"tuples": 26,
+"offset": 0
+},
+{
+"name": "Normals",
+"components": 3,
+"tuples": 26,
+"offset": 26
+}
+],
+"cell_data": [
+{
+"name": "cid",
+"components": 1,
+"tuples": 10,
+"offset": 104
+}
+],
+"field_data": [],
+"kind": "mesh",
+"points": 26,
+"cells": 10,
+"triangles": 48,
+"area": 2.724617317368035,
+"tri_offset": 114
+}

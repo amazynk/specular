@@ -1,0 +1,36 @@
+[package]
+name = "specular-heic-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-heic = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+[[bin]]
+name = "decode"
+path = "fuzz_targets/decode.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "decode_video"
+path = "fuzz_targets/decode_video.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "decode_heic_rs"
+path = "fuzz_targets/decode_heic_rs.rs"
+test = false
+doc = false
+bench = false

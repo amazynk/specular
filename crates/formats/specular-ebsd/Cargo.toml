@@ -1,0 +1,16 @@
+[package]
+name = "specular-ebsd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "EBSD orientation map readers for Specular: EDAX/TSL .ang (square and hexagonal grids, phases, IQ / CI / fit) and Oxford HKL .ctf (phases by Laue group, band contrast / slope, MAD); hexagonal grids resampled to square, IPF colouring (TSL-style key) for all Laue groups with a triangular standard sector, Euler angles per pixel"
+
+[dependencies]
+rayon = "1.11"
+specular-core = { path = "../../specular-core" }
+specular-em = { path = "../specular-em" }
+thiserror = "2"
+
+[lints]
+workspace = true

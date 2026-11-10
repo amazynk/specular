@@ -1,0 +1,35 @@
+nde	diconde-ct.dcm	modality	CT
+nde	diconde-ct.dcm	component_shape	OTHER
+nde	diconde-ct.dcm	component_manufacturer	Acme Aero
+nde	diconde-ct.dcm	material_grade	Inconel 718
+nde	diconde-ct.dcm	material_thickness	4.5
+nde	diconde-ct.dcm	environment	21 C, dry
+nde	diconde-ct.dcm	iqi	WIRE (NICKEL)
+nde	diconde-ct.dcm	indications	2
+nde	diconde-ct.dcm	kvp	225.0
+kw	00140028	ComponentManufacturer
+kw	00140030	MaterialThickness
+kw	00140042	MaterialGrade
+kw	00140050	ComponentShape
+kw	00141040	EnvironmentalConditions
+kw	00142002	EvaluatorSequence
+kw	00142004	EvaluatorNumber
+kw	00142006	EvaluatorName
+kw	00142012	IndicationSequence
+kw	00142014	IndicationNumber
+kw	00142016	IndicationLabel
+kw	0014201A	IndicationType
+kw	00142014	IndicationNumber
+kw	00142016	IndicationLabel
+kw	0014201A	IndicationType
+kw	001440A0	ImageQualityIndicatorType
+kw	001440A1	ImageQualityIndicatorMaterial
+nde	diconde-ec.dcm	modality	EC
+nde	diconde-ec.dcm	component_shape	
+nde	diconde-ec.dcm	component_manufacturer	
+nde	diconde-ec.dcm	material_grade	
+nde	diconde-ec.dcm	material_thickness	
+nde	diconde-ec.dcm	environment	
+nde	diconde-ec.dcm	iqi	
+nde	diconde-ec.dcm	indications	0
+nde	diconde-ec.dcm	kvp	

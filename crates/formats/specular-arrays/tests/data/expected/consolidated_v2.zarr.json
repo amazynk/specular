@@ -1,0 +1,26 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "grp/x",
+   "offset": 0,
+   "shape": [
+    6,
+    8
+   ]
+  },
+  {
+   "complex": false,
+   "name": "rgb",
+   "offset": 48,
+   "shape": [
+    4,
+    5,
+    3
+   ]
+  }
+ ],
+ "kind": "zarr",
+ "refused": [],
+ "texts": {}
+}

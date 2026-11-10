@@ -1,0 +1,9 @@
+# Every thread Specular starts is named per the scheme in crates/specular-thread (≤ 15 bytes,
+# kebab-case, `area-role[-N]`). Tests, examples and benches may use the originals
+# (`#[allow(clippy::disallowed_methods)]`).
+disallowed-methods = [
+    { path = "std::thread::spawn", reason = "unnamed thread: use specular_thread::spawn(name, f)" },
+    { path = "std::thread::Builder::new", reason = "use specular_thread::builder(name), which names the thread per the scheme" },
+    { path = "std::thread::Scope::spawn", reason = "unnamed thread: use specular_thread::spawn_scoped(scope, name, f)" },
+    { path = "rayon::ThreadPoolBuilder::new", reason = "unnamed pool threads: use specular_thread::rayon_pool(prefix)", allow-invalid = true },
+]

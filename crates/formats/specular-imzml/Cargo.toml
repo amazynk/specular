@@ -1,0 +1,15 @@
+[package]
+name = "specular-imzml"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Imaging mass spectrometry for Specular: imzML 1.1 (the .imzML XML with mzML cvParams and referenceable parameter groups, and the .ibd binary), continuous and processed modes, 32/64-bit float and integer arrays, read lazily; TIC and ion images in parallel"
+
+[dependencies]
+quick-xml = "0.41"
+specular-thread = { path = "../../specular-thread" }
+thiserror = "2"
+
+[lints]
+workspace = true

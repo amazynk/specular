@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mzXML xmlns="http://sashimi.sourceforge.net/schema_revision/mzXML_3.2">
+<msRun scanCount="3" startTime="PT60S" endTime="PT2M">
+<parentFile fileName="file:///data/sample02.RAW" fileType="RAWData" fileSha1="0"/>
+<msInstrument msInstrumentID="1"><msManufacturer category="msManufacturer" value="Thermo Scientific"/><msModel category="msModel" value="LTQ Orbitrap"/><msIonisation category="msIonisation" value="ESI"/><msMassAnalyzer category="msMassAnalyzer" value="FTMS"/><msDetector category="msDetector" value="unknown"/><software type="acquisition" name="Xcalibur" version="2.0"/></msInstrument>
+<dataProcessing centroided="0"><software type="conversion" name="gen_fixtures" version="1.0"/></dataProcessing>
+<scan num="1" scanType="Full" centroided="0" msLevel="1" peaksCount="40" polarity="+" retentionTime="PT60.5S" lowMz="400" highMz="420" basePeakMz="402.05128205128204" basePeakIntensity="4973.7" totIonCurrent="94931.5">
+<peaks precision="64" byteOrder="network" pairOrder="m/z-int" compressionType="zlib" compressedLen="418">eJwtUU8ow2EYdhoOhEm4mBw0NX8ySSs9k8NElHIxKTuoiciBfr9x0Eo2xUrGaP4u/6bYb6s5aClz2nZRxEFO4zKXKdpFvt/3vW/f5el93ud93ueDlMcLm2tJVilIBUanxeiErpUXpBK7xmPPh6dZ8KRKv+vF70awjrDusYg9hKfCgq9ndI0HV7+k12LShkzl2GkjvY5pb256C73jvCCZA9XsYcVLuOeFLdjD2R3ND6rytQg3UH+YD+D6s0/0bXP17GG/jPgTF6yCGEsSnn03ZN8bsaTQvIPZ0YZwYiE/6rUWI5TYh+ivLkQTCzcIRap8Pt8OpA2VbsJRIfF30zFrOoaZZ9Lj9rswf+gT/Mv+eKb/AcdxyifCF0AxEL5l8tEElFHax9jxzAAC66SX4oHCUUV6T0NqYVJP+I3F73rFYSdhbmcEoXny+5VVD4aSpn0/ajw2nJaS/z9Gt37AeS+wzL/LDuuB4MvF3BD8y4QrcuzDZnB9IPKWa5i64Rvhbupz+TmcO0XecpNXHYA7K+6R29VzF2F+FX5liLntKMf/8bgRxA==</peaks>
+<scan num="2" scanType="Full" centroided="1" msLevel="2" peaksCount="3" polarity="+" retentionTime="PT61S" totIonCurrent="60">
+<precursorMz precursorIntensity="100" precursorCharge="2" activationMethod="CID">410.5</precursorMz>
+<peaks precision="64" byteOrder="network" pairOrder="m/z-int" compressionType="zlib" compressedLen="37">eJxzSDpsDAIOKgxg4JDvlgYCDnZQfumTM0Bw1sEEwgcAITUMRA==</peaks>
+</scan>
+</scan>
+<scan num="3" centroided="0" msLevel="1" peaksCount="40" polarity="-" retentionTime="PT1M5S">
+<peaks precision="64" byteOrder="network" pairOrder="m/z-int" compressionType="zlib" compressedLen="416">eJwtUU8og3EYdhoOhEm4mBxEzZ9M0krP5DDRlHIxKQ5qInKwvuGgr+RPsZJhGsPyb4p9n5qDljKncVHEQU7jMpcpcpHfn/fpd3m+93mf93nfD0qGADaimwx+KFkW1W5RYXshnucyeF2ZWEwPcUApDiw8BxZxrN4x3EMxPeSwB71N+ihVTG7w4jzYKev1VmPEWojAHNWbx3y/Y+twBonbQqXsQb1p4IDS/swGbOMwn3g3ty+HliR9r2hAxF0i8w1OVrKH3RbKO3zCEMZIFfGJN3P6rQZTJcSnWBxjBKEV2odva7dA63+XfGk6mpi+hGameatcbsV+nPhWMuZMxuDeJT8RvxXjT+R36oinHLfYy6b8F2IAIheU94rZRxPQYjSPqeOpLhzYSX8vDopZjfweezgwcEf3fmXnX3jBTgFxEacP5x907880Xxh6NfV/8/MM4uia9H9M7nzHvE/WPeJ3udAxRDxXBIK/UebxFP2yHzaOsx/Z7ylj7uYv6KO6rAv7SYQr5H08tT7eAG8d8Sa+7gxMDeQH+X1tWfj9A4k4EcQ=</peaks>
+</scan>
+</msRun>
+</mzXML>

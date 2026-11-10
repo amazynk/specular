@@ -1,0 +1,6 @@
+points 1200
+stride 1
+kept 1200
+phase -1 - not_indexed
+phase 1 m-3m Nickel
+phase 2 6/mmm Magnesium

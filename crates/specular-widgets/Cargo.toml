@@ -1,0 +1,29 @@
+[package]
+name = "specular-widgets"
+description = "Specular's chrome: toolbar, readouts, info panel, command palette, cheat sheet, toasts, HUD and the settings window, drawn with specular-gfx"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-log = { path = "../specular-log" }
+specular-gfx = { path = "../specular-gfx" }
+specular-theme = { path = "../specular-theme" }
+specular-input = { path = "../specular-input" }
+specular-i18n = { path = "../specular-i18n" }
+specular-settings = { path = "../specular-settings" }
+specular-metadata = { path = "../specular-metadata" }
+specular-inspect = { path = "../specular-inspect" }
+specular-help = { path = "../specular-help" }
+# Subtitle cues drawn over movies (subtitles.rs).
+specular-subs = { path = "../specular-subs" }
+accesskit = "0.25"
+
+[dev-dependencies]
+# Replays consecutive trees the way the screen-reader adapters apply them.
+accesskit_consumer = "0.39"
+specular-shots = { path = "../specular-shots" }
+
+[lints]
+workspace = true

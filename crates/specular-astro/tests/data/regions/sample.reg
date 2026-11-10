@@ -1,0 +1,24 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+circle(150.0012,2.2003,12.5") # color=red text={A}
+ellipse(150.0,2.2,20",10",30) # width=2
+box(149.995,2.205,30",15",45) # dash=1
+polygon(149.99,2.19,150.0,2.21,150.01,2.195)
+point(150.003,2.198) # point=cross
+line(149.99,2.20,150.01,2.20) # line=1 0
+-circle(10:00:00.5,+02:12:00,5")
+annulus(150.0,2.2,5",10")
+# text(150.002,2.203) text={Label}
+icrs
+ellipse(10:00:00.2,+02:12:01.5,0.5',0.25',-15)
+galactic
+circle(236.7363629,42.0234181,8")
+ellipse(236.7363629,42.0234181,16",6",40)
+image
+circle(100,75,10)
+ellipse(50.5,60.25,8,4,20)
+box(120,30,16,8,-10)
+polygon(10,10,30,10,20,25)
+point(80,90) # point=x 9
+line(20,20,60,40)

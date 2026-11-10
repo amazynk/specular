@@ -1,0 +1,24 @@
+[package]
+name = "specular-sandbox"
+description = "Client side of the sandboxed decode host (DESIGN.md §13): versioned IPC protocol, host process pool with restart/timeout, shared-memory payloads"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-log = { path = "../specular-log" }
+thiserror = "2"
+parking_lot = "0.12"
+# Passwords of encrypted RAR archives, and the frames that carry them, are wiped after use.
+zeroize = "1.8"
+
+[target.'cfg(unix)'.dependencies]
+rustix = { version = "1.1", default-features = false, features = ["std", "net", "fs"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_Security_Isolation", "Win32_System_JobObjects", "Win32_System_Threading"] }
+
+[lints]
+workspace = true

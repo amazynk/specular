@@ -1,0 +1,15 @@
+[package]
+name = "specular-jpegls"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "JPEG-LS (ITU-T T.87 / ISO 14495-1) decoder for Specular: lossless and near-lossless, 2-16 bit, 1-4 components in every interleave mode, presets, mapping tables, restart markers and HP colour transforms"
+
+[dependencies]
+# Decoded planes reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+thiserror = "2"
+
+[lints]
+workspace = true

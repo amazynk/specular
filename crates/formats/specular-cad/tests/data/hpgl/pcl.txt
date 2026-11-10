@@ -1,0 +1,8 @@
+format HP-GL/2 units 4 pcl true pens [1, 2] paper Some((253.99999999999997, 177.79999999999998)) name None lwdisplay true
+layer "Pen 1" fg lw 35 items 1
+layer "Pen 2" #ff0000 lw 35 items 1
+counts IN=2 PA=2 PD=2 SP=2
+sheet "Page 1" extents 0 0 25 25
+  L0 fg stroke w35 M0,0 L25,0 L25,25
+sheet "Page 2" extents 0 0 12.5 12.5
+  L1 #ff0000 stroke w35 M0,0 L12.5,12.5

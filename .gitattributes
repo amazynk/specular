@@ -1,0 +1,5 @@
+# Keep vendored and generated files out of GitHub's language stats and diffs.
+third_party/** linguist-vendored
+packaging/THIRD-PARTY.md linguist-generated
+Cargo.lock linguist-generated
+**/tests/shots/*.png binary

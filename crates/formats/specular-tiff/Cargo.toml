@@ -1,0 +1,38 @@
+[package]
+name = "specular-tiff"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "TIFF decoder for Specular: classic and BigTIFF, strips and tiles, every common compression (CCITT, old and new JPEG, LZW, Deflate, Zstandard, LZMA, LERC, WebP, JPEG XL, JPEG 2000), parallel region and pyramid-level decode to 8-bit, 16-bit or half-float HDR"
+
+[dependencies]
+rayon = "1.11"
+thiserror = "2"
+specular-jpeg = { path = "../specular-jpeg" }
+specular-webp = { path = "../specular-webp" }
+specular-jxl = { path = "../specular-jxl" }
+specular-jp2 = { path = "../specular-jp2" }
+specular-jbig = { path = "../specular-jbig" }
+# Zstandard (50000, LERC+Zstd): pure Rust; the C libzstd binding is not allowed.
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+# LZMA (34925): the xz container is parsed here, LZMA2 blocks by lzma-rust2 (pure Rust,
+# faster than lzma-rs and already in the tree for 7z / XCF).
+lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+
+[dev-dependencies]
+# Differential oracle and fixture writer (MIT).
+tiff = { version = "0.11", default-features = false, features = ["lzw", "deflate"] }
+weezl = "0.1"
+miniz_oxide = "0.9"
+jpeg-encoder = "0.7"
+# Colour-managed CMYK / L*a*b* hooks in tests and benches, as specular-decode installs them.
+specular-color = { path = "../../specular-color" }
+# L*a*b* oracle (tests only).
+# The bundled Little CMS (2.19) on every platform, never a system library found through
+# pkg-config, so every platform checks against the same reference.
+lcms2 = { version = "6", features = ["static"] }
+
+[lints]
+workspace = true

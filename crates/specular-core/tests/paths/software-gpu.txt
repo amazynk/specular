@@ -1,0 +1,8 @@
+# Specular path timings (DESIGN.md §12.3.1), version 1
+# Replay fixture for the Settings snapshot: a virtual machine with a software rasteriser
+# (llvmpipe), no hardware decoder, 4 threads; nothing measured yet but our JPEG decoder.
+fingerprint llvmpipe (LLVM 19.1.1, 256 bits)|Mesa 25.0.7|Intel Xeon Processor (Icelake)|0.1.0
+machine gpu=software threads=4
+calibrated false
+# cell task engine variant bucket load samples wall_us_per_mpx cpu_samples cpu_us_per_mpx
+cell jpeg_decode cpu 0 3 idle 3 4100.0 3 15500.0

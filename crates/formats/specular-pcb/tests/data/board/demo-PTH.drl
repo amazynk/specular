@@ -1,0 +1,17 @@
+M48
+; DRILL file {KiCad 8.0.4}
+; #@! TF.FileFunction,Plated,1,2,PTH
+METRIC
+T1C0.800
+T2C0.300
+%
+G90
+G05
+T1
+X5.0Y5.0
+X10.0Y5.0
+X5.0Y15.0
+X10.0Y15.0
+T2
+X15.0Y15.0
+M30

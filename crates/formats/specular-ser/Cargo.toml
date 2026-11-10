@@ -1,0 +1,13 @@
+[package]
+name = "specular-ser"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "SER planetary and lunar video reader for Specular (the LUCAM-RECORDER format of FireCapture, SharpCap and friends): mono, Bayer and CMY colour filter IDs, RGB and BGR frames, 8 to 16 bits in either byte order (with the LittleEndian flag's common inversion settled from the data), and the trailing UTC frame timestamps"
+
+[dependencies]
+thiserror = "2"
+
+[lints]
+workspace = true

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "specular"
+version = "3.0.0"
+description = "Control a running Specular viewer: open, view, arrays, overlays, measurements, screenshots"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT OR Apache-2.0" }
+dependencies = []
+
+[project.optional-dependencies]
+numpy = ["numpy"]
+
+[tool.setuptools]
+packages = ["specular"]
+
+[project.urls]
+Homepage = "https://amazynk.com/specular"
+Source = "https://github.com/amazynk/specular/tree/main/clients/python"
+Documentation = "https://github.com/amazynk/specular/blob/main/docs/ipc.md"

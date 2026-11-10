@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<VTKFile type="RectilinearGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32">
+  <RectilinearGrid WholeExtent="0 3 0 2 0 1">
+  <Piece Extent="0 3 0 2 0 1">
+    <PointData Scalars="density">
+      <DataArray type="Float32" Name="density" format="ascii" RangeMin="0.017714522778987885" RangeMax="0.9430112838745117">
+        0.14301473 0.8589759 0.68280995 0.3320333 0.024816198 0.042202916
+        0.3895825 0.9430113 0.91861206 0.31472698 0.37222096 0.26674974
+        0.14187396 0.5915185 0.4630796 0.8353303 0.49543396 0.017714523
+        0.4378947 0.13403842 0.33240098 0.5013027 0.5433687 0.6948489
+      </DataArray>
+    </PointData>
+    <CellData>
+    </CellData>
+    <Coordinates>
+      <DataArray type="Float64" Name="c" format="ascii" RangeMin="0.8234640804720514" RangeMax="2.5478745340099596">
+        0.8234640804720514 1.189414954094683 2.269784531575448 2.5478745340099596
+      </DataArray>
+      <DataArray type="Float64" Name="c" format="ascii" RangeMin="0.14691841858884372" RangeMax="1.2115633443849134">
+        0.14691841858884372 0.7410342270261121 1.2115633443849134
+      </DataArray>
+      <DataArray type="Float64" Name="c" format="ascii" RangeMin="0.7555742562392315" RangeMax="0.855620384826961">
+        0.7555742562392315 0.855620384826961
+      </DataArray>
+    </Coordinates>
+  </Piece>
+  </RectilinearGrid>
+</VTKFile>

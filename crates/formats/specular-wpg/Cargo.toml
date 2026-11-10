@@ -1,0 +1,16 @@
+[package]
+name = "specular-wpg"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "WordPerfect Graphics (.wpg) versions 1 and 2 for Specular: vector records and embedded bitmaps parsed into a page display list (specular-drawpage)"
+
+[dependencies]
+# Unpacked and converted bitmaps reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+specular-drawpage = { path = "../specular-drawpage" }
+thiserror = "2"
+
+[lints]
+workspace = true

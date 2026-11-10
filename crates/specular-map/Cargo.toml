@@ -1,0 +1,21 @@
+[package]
+name = "specular-map"
+description = "Specular's map view: Web Mercator camera, hierarchical grid clustering of photo positions, and an offline vector base map (Natural Earth) drawn on the GPU"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-limits = { path = "../specular-limits" }
+specular-gfx = { path = "../specular-gfx" }
+bytemuck = { version = "1", features = ["derive"] }
+roxmltree = "0.21"
+serde_json = "1"
+
+[dev-dependencies]
+specular-thread = { path = "../specular-thread" }
+
+
+[lints]
+workspace = true

@@ -1,0 +1,23 @@
+name: Feature request
+description: An idea for Specular
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For open-ended ideas, start a [discussion](https://github.com/amazynk/specular/discussions/new?category=ideas) instead. Use this form for a concrete change.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you'd like
+  - type: textarea
+    id: other
+    attributes:
+      label: How other tools do it

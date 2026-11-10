@@ -1,0 +1,29 @@
+[package]
+name = "specular-jxr-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+specular-jxr = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+
+# JPEG XR reconstruction wraps (see the main workspace's profile.dev.package.specular-jxr):
+# keep cargo-fuzz's debug assertions but not its overflow checks, or every corrupt coefficient
+# large enough to wrap is a crash.
+[profile.release.package.specular-jxr]
+debug-assertions = true
+overflow-checks = false
+
+[[bin]]
+name = "decode"
+path = "fuzz_targets/decode.rs"
+test = false
+doc = false
+bench = false

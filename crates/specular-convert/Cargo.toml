@@ -1,0 +1,47 @@
+[package]
+name = "specular-convert"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Batch convert for Specular: decode through the registry, resize in linear light, encode to new files with chosen metadata"
+
+[dependencies]
+specular-thread = { path = "../specular-thread", features = ["rayon"] }
+specular-core = { path = "../specular-core" }
+specular-decode = { path = "../specular-decode" }
+specular-color = { path = "../specular-color" }
+specular-metadata = { path = "../specular-metadata" }
+specular-jpeg = { path = "../formats/specular-jpeg" }
+specular-png = { path = "../formats/specular-png" }
+zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
+# Encoders only, where the tree has none: the fastest measured per format and mode.
+# WebP lossless (VP8L): MIT OR Apache-2.0.
+image-webp = "0.2.4"
+# WebP lossy (VP8): libwebp built from vendored C by libwebp-sys (BSD-3-Clause via MIT crate).
+webp = { version = "0.3.1", default-features = false }
+# JPEG XL lossless and lossy: libjxl 0.12 built from vendored C++ with cmake (BSD-3-Clause),
+# behind a safe wrapper (MIT OR Apache-2.0).
+gamut-jxl = { version = "0.4", default-features = false, features = ["encode"] }
+gamut-core = "2.0.1"
+# AVIF: rav1e (BSD-2-Clause, pure Rust) through ravif (BSD-3-Clause). Its assembly (feature
+# `asm`, needs nasm like specular-avif's) is several times faster.
+ravif = { version = "0.13", default-features = false, features = ["threading"] }
+rgb = "0.8.50"
+imgref = "1.11"
+rayon = "1.11"
+# f32 → half for EXR output.
+half = "2"
+
+[dev-dependencies]
+# The review_decode example opens movies as the viewer does (`specular_video::install`).
+specular-video = { path = "../specular-video" }
+# Float output read back by our own EXR decoder.
+specular-exr = { path = "../formats/specular-exr" }
+
+[features]
+# rav1e's hand-written x86/ARM assembly for AVIF output (needs `nasm` at build time).
+asm = ["ravif/asm"]
+
+[lints]
+workspace = true

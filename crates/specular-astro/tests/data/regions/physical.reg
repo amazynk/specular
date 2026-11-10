@@ -1,0 +1,8 @@
+# Region file format: DS9 version 4.1
+physical
+circle(30,20,6)
+ellipse(25.5,12.25,4,2,20)
+box(40,5,8,4,-10)
+polygon(-5,-10,5,-10,0,-2)
+point(15,25) # point=x 9
+line(-5,-5,15,5)

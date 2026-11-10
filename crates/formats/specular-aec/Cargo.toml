@@ -1,0 +1,13 @@
+[package]
+name = "specular-aec"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Adaptive Entropy Coding (CCSDS 121.0-B, the Rice coder of libaec and SZIP) decoder for Specular: zero-block, second-extension, split-sample and uncompressed options, the unit-delay predictor's inverse mapping for signed and unsigned samples, restricted IDs, padded RSIs and the SZIP compatibility layer HDF5's filter 4 uses; GRIB2 template 5.42 rides on it"
+
+[dependencies]
+thiserror = "2"
+
+[lints]
+workspace = true

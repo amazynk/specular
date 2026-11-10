@@ -1,0 +1,21 @@
+[package]
+name = "specular-jpegxs"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoder for JPEG XS (ISO/IEC 21122) codestreams and .jxs image files"
+
+[dependencies]
+# Coefficient planes reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+# The HEIF container of `jxs1` items (in-tree fork, parse side only).
+heif = { package = "specular-heif", path = "../specular-heic/heif" }
+
+[dev-dependencies]
+# SHA-256 of the reference decoder's samples in the corpus manifests (tests only).
+sha2 = "0.10"
+
+[lints]
+workspace = true

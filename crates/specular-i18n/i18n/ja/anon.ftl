@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = 匿名化したコピーをエクスポート…
+palette-export-patient-disc = 患者ディスクフォルダーをエクスポート…
+palette-mask-burned-in-text = 焼き込みテキストをマスク
+anon-title = 匿名化したコピーをエクスポート
+anon-disc-title = 患者ディスクフォルダーをエクスポート
+anon-images = 画像
+anon-images-current = この画像
+anon-images-series = このシリーズ ({ $count } ファイル)
+anon-images-study = この検査 ({ $count } ファイル)
+anon-images-reading = フォルダーを読み込み中…
+anon-anonymise = 匿名化
+anon-dates = 日付と時刻
+anon-dates-remove = 削除
+anon-dates-keep = 保持
+anon-dates-shift = ずらす
+anon-patient = 患者の特性
+anon-device = 装置の識別情報
+anon-institution = 施設の識別情報
+anon-descriptions = 説明
+anon-descriptions-remove = 削除
+anon-descriptions-clean = クリーン
+anon-structured = レポートの内容
+anon-uids = UID
+anon-uids-replace = 置換
+anon-uids-keep = 保持
+anon-overlays = オーバーレイとカーブ
+anon-keep = 保持
+anon-remove = 削除
+anon-on = オン
+anon-off = オフ
+anon-burned-in = 焼き込みテキスト
+anon-masks = { $count } 個の領域をマスク
+anon-masks-none = マスクなし
+anon-folder = フォルダー
+anon-folder-choose = 選択…
+anon-export = エクスポート
+anon-risk-present = これらの画像は患者情報のテキストを含むと記録されています。エクスポート前にマスクしてください。
+anon-risk-possible = この種の画像には患者情報のテキストが含まれることがよくあります。エクスポート前に確認してください。
+anon-progress = { $done } / { $total } をエクスポート中…
+anon-stopping = 停止中…
+anon-mask-title = 焼き込みテキストをマスク
+anon-mask-hint = テキストの上をドラッグしてマスクします。マスクした領域はすべてのフレームで黒くなります。
+anon-mask-suggest = 候補を表示
+anon-mask-remove = 削除
+anon-mask-clear = クリア
+anon-mask-done = 完了
+anon-mask-area = 領域 { $n }、{ $width } × { $height } ピクセル
+anon-mask-suggested = { $count ->
+    [0] 端の近くにテキストは見つかりませんでした
+   *[other] { $count } 個のテキスト領域を提案
+}
+anon-done = { $count } 個の匿名化ファイルを { $folder } に書き込みました
+anon-disc-done = { $count } 枚の画像を含む患者ディスクフォルダーを { $folder } に書き込みました
+anon-skipped-burned-in = マスクのない焼き込みテキストを含む { $count } 個のファイルをスキップしました
+anon-skipped-failed = { $count } 個のファイルをエクスポートできませんでした
+anon-stopped = エクスポートを停止しました
+anon-failed = エクスポートできませんでした: { $reason }
+anon-not-empty = このフォルダーにはすでに患者ディスクがあります

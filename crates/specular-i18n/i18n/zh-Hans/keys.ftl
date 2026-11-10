@@ -1,0 +1,104 @@
+# Specular — Settings → Keys, the key binding editor (DESIGN.md §11). machine-drafted, needs native review
+# Key names inside messages ($keys) are never translated.
+
+settings-keys-sequence-timeout = 等待下一个键
+settings-keys-sequence-timeout-help = 按键序列（如 G G）等待下一个键的时长。同时也是更长序列开头的键会在此停顿后执行。
+settings-keys-bindings = 键位绑定
+settings-keys-bindings-help = 选择一个操作，然后按下要绑定的键。每种模式都有自己的键；筛选模式和医学图像在未绑定时使用查看器的键。要绑定 Esc，轻按即可；按住则取消。绑定保存在 keymap.toml 中。
+palette-customise-keys = 自定义按键…
+keys-mode-viewer = 查看器
+keys-mode-cull = 筛选模式
+keys-mode-medical = 医学图像
+keys-modes = 模式
+keys-presets = 预设
+keys-preset-default = 默认
+keys-preset-vim = Vim
+keys-preset-culling = Lightroom 风格筛选
+keys-preset-photo-mechanic = Photo Mechanic 风格
+action-pan-left = 向左平移
+action-pan-right = 向右平移
+action-pan-up = 向上平移
+action-pan-down = 向下平移
+action-pan-page-left = 向左平移一屏
+action-pan-page-right = 向右平移一屏
+action-pan-page-up = 向上平移一屏
+action-pan-page-down = 向下平移一屏
+action-reload = 重新加载图像
+keys-action-cull-pick = 选中
+keys-action-cull-reject = 排除
+keys-action-cull-unflag = 清除旗标
+keys-action-cull-rate = { $stars ->
+    [0] 清除评分
+   *[other] 评为 { $stars } 星
+}
+keys-action-cull-label = 颜色标签：{ $label }
+keys-action-cull-copy-to = 复制到文件夹 { $slot }
+keys-action-cull-move-to = 移动到文件夹 { $slot }
+keys-import = 导入…
+keys-export = 导出…
+keys-export-mode = 导出{ $mode }…
+keys-reset-mode = 重置{ $mode }
+keys-reset-all = 重置所有按键
+keys-add = 为 { $action } 添加按键
+keys-change = 更改 { $keys }
+keys-remove = 移除 { $keys }
+keys-reset-action = 重置 { $action }
+keys-none = 无按键
+keys-changed = 已更改
+keys-press = 请按键…
+keys-recording-hint = 按住 Esc 取消
+keys-cancel-recording = 取消
+keys-no-match = 没有与“{ $query }”匹配的操作或按键。
+keys-list = 操作及其按键
+keys-confirm-preset = 使用预设 { $preset }？它将替换你的所有键位绑定。
+keys-confirm-reset-mode = 将{ $mode }的所有按键重置为预设？
+keys-confirm-reset-all = 将所有模式的所有按键重置为预设？
+keys-confirm-ok = 替换
+keys-confirm-reset = 重置
+keys-confirm-cancel = 取消
+keys-conflict-same = { $keys } 已执行“{ $other }”。
+keys-conflict-prefix = { $keys } 与 { $sequence }（“{ $other }”）开头相同：较短的那个仅在停顿后执行。
+keys-conflict-shadow = { $keys } 在{ $mode }中执行“{ $other }”。
+keys-conflict-reserved = { $keys } 可能永远无法到达 Specular：{ $reason }
+keys-choice-replace = 替换
+keys-choice-swap = 交换
+keys-choice-keep = 保留两者
+keys-choice-anyway = 仍然绑定
+keys-choice-cancel = 取消
+keys-reserved-switch = 它用于切换窗口。
+keys-reserved-close = 它会关闭窗口。
+keys-reserved-secure = 系统会占用它。
+keys-reserved-desktop = Super 快捷键属于桌面环境。
+keys-reserved-workspaces = 它用于切换终端或工作区。
+keys-reserved-input = 它用于切换输入法或键盘布局。
+keys-reserved-macos = macOS 会占用它。
+keys-announce-recording = 正在为 { $action } 录制按键。请按键，或按住 Esc 取消。
+keys-announce-key = { $keys }
+keys-announce-bound = { $keys } 现在执行 { $action }。
+keys-announce-already = { $keys } 已执行 { $action }。
+keys-announce-cancelled = 已取消录制。
+keys-announce-removed = 已从 { $action } 移除 { $keys }。
+keys-announce-reset-action = { $action } 已恢复预设按键。
+keys-announce-reset-mode = { $mode }的按键已重置。
+keys-announce-reset-all = 所有按键已重置。
+keys-announce-preset = 正在使用预设 { $preset }。
+keys-toast-imported = 已导入键位绑定
+keys-toast-exported = 已导出键位绑定
+keys-toast-reloaded = keymap.toml 已更改：已重新加载键位绑定
+keys-toast-error = 无法读取键位绑定：{ $error }
+keys-toast-write-error = 无法保存 keymap.toml：{ $error }
+keys-pending = { $keys } …  { $next }
+keys-problem-syntax = 无法读取 keymap.toml：{ $error }
+keys-problem-key = 已忽略未知按键“{ $key }”。
+keys-problem-action = “{ $key }”指定了未知操作“{ $action }”；已忽略。
+keys-problem-mode = 表 [{ $mode }] 不是模式；已忽略。
+keys-problem-duplicate = { $keys } 在{ $mode }中出现两次；使用第二个。
+keys-problem-prefix = { $keys } 在{ $mode }中是 { $longer } 的开头，因此仅在停顿后执行。
+keys-problem-preset = 未知预设“{ $preset }”；使用默认按键。
+
+## keymap.toml editor (machine-drafted, needs native review)
+
+keys-edit-file = 编辑 keymap.toml
+keys-problem-action-suggestion = “{ $key }”指定了未知操作“{ $action }”；已忽略。您是指“{ $suggestion }”吗？
+keys-problem-mode-suggestion = 表 [{ $mode }] 不是模式；已忽略。您是指 [{ $suggestion }] 吗？
+keys-problem-preset-suggestion = 未知预设“{ $preset }”；使用默认按键。您是指“{ $suggestion }”吗？

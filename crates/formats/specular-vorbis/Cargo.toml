@@ -1,0 +1,10 @@
+[package]
+name = "specular-vorbis"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own Vorbis I audio decoder for the sound of Specular's Matroska, WebM and Ogg movies"
+
+[lints]
+workspace = true

@@ -1,0 +1,14 @@
+[package]
+name = "specular-ffv1"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own FFV1 decoder (RFC 9043): versions 0, 1 and 3, range and Golomb-Rice coding, 8-16 bits, YCbCr, RGB and alpha, slices in parallel, CRCs"
+
+[dependencies]
+rayon = "1.11"
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

@@ -1,0 +1,12 @@
+[package]
+name = "specular-blend"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Layer blend modes shared by Specular's layered-image readers (PSD, PaintShop Pro, GIMP XCF, Krita, OpenRaster): the W3C separable and non-separable modes, the common extras, HSL modes, unclamped float variants and Porter-Duff operators"
+
+[dependencies]
+
+[lints]
+workspace = true

@@ -1,0 +1,15 @@
+[package]
+name = "specular-wsq"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Decoder for FBI WSQ grey-scale fingerprint images (wavelet / scalar quantisation)"
+
+[dependencies]
+# Decode buffers reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+rayon = "1.11"
+
+[lints]
+workspace = true

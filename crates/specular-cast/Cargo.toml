@@ -1,0 +1,32 @@
+[package]
+name = "specular-cast"
+description = "Playing on TVs and speakers: DLNA/UPnP renderers found by SSDP, driven by AVTransport and RenderingControl, fed by a one-file local HTTP server"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+specular-thread = { path = "../specular-thread" }
+roxmltree = "0.21"
+# The served file's path token.
+getrandom = "0.3"
+parking_lot = "0.12"
+
+# The interface each search leaves by (IP_MULTICAST_IF; Unix and Windows): a safe API,
+# already in the lockfile.
+rustix = { version = "1.1", default-features = false, features = ["std", "net"] }
+
+[target.'cfg(unix)'.dependencies]
+# The interfaces searched from (getifaddrs): a safe API, already in the lockfile.
+nix = { version = "0.30", default-features = false, features = ["net"] }
+
+[target.'cfg(windows)'.dependencies]
+# The interfaces searched from on Windows (the adapters' addresses), without new unsafe:
+# the sysinfo specular-core uses, with its network list.
+sysinfo = { version = "0.39", default-features = false, features = ["network"] }
+
+[lints]
+workspace = true

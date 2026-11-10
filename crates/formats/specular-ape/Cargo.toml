@@ -1,0 +1,10 @@
+[package]
+name = "specular-ape"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own Monkey's Audio (APE) decoder for Specular's sound files"
+
+[lints]
+workspace = true

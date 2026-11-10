@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<VTKFile type="ImageData" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkLZMADataCompressor">
+  <ImageData WholeExtent="0 4 0 3 0 2" Origin="-1 3 0.5" Spacing="0.5 0.25 2" Direction="1 0 0 0 1 0 0 0 1">
+  <Piece Extent="0 4 0 3 0 2">
+    <PointData Scalars="RTData">
+      <DataArray type="Float32" Name="RTData" format="binary" RangeMin="-23.670671463012695" RangeMax="260">
+        AQAAAAAEAADwAAAALAEAAA==/Td6WFoAAAFpIt42A8D0AfABIQEWAAAA0ejAfgEA7wAAgkOpiF9Dr4spQwCOnkIDPCpC/fpaQx18PEPdhBRDoSWRQrflNUIezbpCsCiVQuMgeEKsemFBZLC5QCYuZULK8jpC4GJWQuvVy0F6BvRBq7QcQ3kHBEPAddNCtPkuQlop0EHZrQdDbz/lQs2owUKBHy5CJSL9QdPEREIm3wxCJTcIQhaOEMCGTy/A0AYjQppa/kGfmilCR+SQQaSlzUENaPlBVfGkQYPR20FqyiO/8UiMQLxdCEKWu8JBJ2UEQg9x3UAa7lNBe4+ywPb/W8GAHKS/iV29wcTKbMGD9phBXBlBQc1N2UHNoO5AYAqRQQBtyqOWAAGIAvABAACYbdLMPjANiwIAAAAAAVla
+      </DataArray>
+    </PointData>
+    <CellData>
+    </CellData>
+  </Piece>
+  </ImageData>
+</VTKFile>

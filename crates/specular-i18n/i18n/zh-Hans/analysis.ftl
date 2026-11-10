@@ -1,0 +1,80 @@
+# Specular — Medical analysis: segmentations, SUV, fusion, TMTV, time-intensity curves. 简体中文. machine-drafted, needs native review
+
+palette-segments = 显示或隐藏分割
+palette-segment-opacity = 下一个分割填充不透明度
+palette-fusion = 融合同一参考坐标系的序列
+palette-fusion-colormap = 下一个融合色图
+palette-fusion-blend = 下一个融合不透明度
+palette-fusion-nudge = 手动移动融合序列
+palette-tmtv = TMTV 工具（球体、长方体、关闭）
+palette-tmtv-threshold = TMTV 阈值（SUV { NUMBER(2.5) } 或 SUVmax 的 { PERCENT(41) }）
+palette-time-curve = 最后一个区域的时间-强度曲线
+palette-export-curve = 将时间-强度曲线保存为 CSV
+
+analysis-searching = 仍在查找分割和可融合的序列
+segments-none = 未找到此参考坐标系的分割
+segments-shown = 已显示分割
+segments-hidden = 已隐藏分割
+segments-fill = 分割填充 { PERCENT($percent) }
+segments-failed = 分割未显示：{ $reason }
+segment-entry = { $name } · { $ml } mL
+
+suv-value = SUVbw { $value }
+suv-factor = SUVbw 系数 { $factor }，注射后 { $minutes } min
+suv-refused = 无 SUV：{ $reason }
+suv-preset = SUV 0–{ $upper }
+suv-refused-not-pet = 不是 PET 图像
+suv-refused-units = 像素单位不是 Bq/mL
+suv-refused-corrected = 未做衰减和衰变校正
+suv-refused-decay = 不支持的衰变校正
+suv-refused-weight = 无患者体重
+suv-refused-dose = 无注射剂量
+suv-refused-half-life = 无放射性核素半衰期
+suv-refused-injection = 无注射时间
+suv-refused-scan-time = 无采集时间
+suv-refused-delay = 注射时间晚于扫描
+suv-refused-scale = 无 Philips SUV 比例因子
+suv-refused-height = 无患者身高
+suv-refused-sex = 无患者性别
+suv-refused-lbm = 瘦体重超出范围
+
+colormap-hot-iron = 热铁
+colormap-rainbow = 彩虹
+colormap-viridis = Viridis
+fusion-none = 此参考坐标系没有可融合的 PET、SPECT、CT 或 MR 序列
+fusion-needed = 请先融合一个序列 (Shift+U)
+fusion-opening = 正在融合 { $modality }
+fusion-off = 融合已关闭
+fusion-refused = 无法融合：{ $reason }
+fusion-on = 已融合 { $modality }：{ $colormap }，{ PERCENT($blend) }
+fusion-hidden = 已隐藏融合的 { $modality }
+fusion-window-suv = 融合窗 SUV { $low }–{ $high }
+fusion-value = { $modality } { $value }
+fusion-value-suv = { $modality } SUVbw { $value }
+fusion-blend-toast = 融合不透明度 { PERCENT($percent) }
+fusion-moved = 已手动移动：{ $x }, { $y }, { $z } mm，{ $degrees }°
+fusion-nudge-hint = 方向键将融合序列移动 1 mm，Shift+Up/Down 沿视图方向，[ 和 ] 旋转
+fusion-nudge-off = 融合序列已固定
+
+tmtv-hint-sphere = TMTV：从中心拖出球体
+tmtv-hint-box = TMTV：拖出长方体
+tmtv-off = TMTV 已关闭
+tmtv-threshold-suv = 阈值 SUV { $suv }
+tmtv-threshold-share = 阈值 SUVmax 的 { PERCENT($share) }
+tmtv-result = TMTV { $ml } mL，共 { $count } 个区域
+tmtv-stats = SUVmax { $max }，SUVmean { $mean }，TLG { $tlg }
+tmtv-outside = 区域在容积之外
+tmtv-no-pet = TMTV 需要带 SUV 的 PET 容积
+
+analysis-mpr-only = 融合和 TMTV 在 MPR 中可用 (Shift+R)
+curve-not-dynamic = 不是多帧图像或动态序列
+curve-not-mpr = 时间-强度曲线在图像上绘制，不在 MPR 中
+curve-no-roi = 请先绘制椭圆或矩形
+curve-loading = 正在读取 { $count } 个时间点…
+curve-title = 时间-强度曲线
+curve-mean = 平均值
+curve-max = 最大值
+curve-seconds = s
+curve-saved = 曲线已保存
+curve-none = 没有可保存的曲线
+curve-failed = 未生成曲线：{ $reason }

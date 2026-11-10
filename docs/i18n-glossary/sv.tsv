@@ -1,0 +1,39 @@
+concept	english	term	meaning	notes
+Gallery	Gallery	Galleri	the thumbnail grid of one folder	
+Library	Library	Bibliotek	the catalogue of indexed folders	
+Folder	Folder	Mapp	a file-system folder	
+Remove	Remove	Ta bort	take an item out of a list; files stay	
+Delete	Delete	Ta bort	destroy data or files	
+Forget	Forget	Glöm	drop a remembered choice or record	
+Move to trash	Move to trash	Flytta till papperskorgen	send files to the system trash	
+Export	Export	Exportera	write a copy in another form	
+Import	Import	Import	copy photos in from a card or device	
+Settings	Settings	Inställningar	the Settings window, also in paths: Settings › Section	
+Undo	Undo	Ångra	reverse the last action (never the word for Cancel)	
+Redo	Redo	Gör om		
+Zoom	Zoom	Zoom	image magnification	
+Page	Page	Sida	a page of a document or multi-page file	
+Layer	Layers	Lager	drawing and map layers (circuit boards: their own word)	
+Channel	Channels	Kanaler	colour or audio channels	
+Series	Series	Serie	a DICOM series	
+Study	Study	Undersökning	a DICOM study	
+Slice	Slice	Snitt	one cross-sectional image of a volume	
+Frame	Frames	Bildrutor	one image of a video, animation or sequence (not a picture frame)	
+Track	Track	Spår	a numbered piece of an album	
+Subtitle	Subtitles	Undertexter	text over a video	
+Loudness	Loudness	Ljudstyrka	measured loudness (LUFS); the EQ preset is a separate word	
+Model	Model	Modell	a local AI model	
+Download	Download	Hämta	fetch from the network	Hämta on buttons; ladda ned in sentences (not ladda ner).
+Cull mode	Cull mode	Gallringsläge	the mode for picking and rejecting photos	
+Pick	Pick	Välj	a cull mark	
+Reject	Reject	Avvisa	a cull mark	
+Rating	Rating	Betyg	stars	
+Local AI	Local AI	Lokal AI	the Settings section and the feature set	
+Metadata	Metadata	Metadata		
+Thumbnail	Thumbnail	Miniatyr		
+Slideshow	Slideshow	Bildspel		
+Compare	Compare	Jämför		
+Print	Print	Skriv ut		
+Search	Search	Sök		
+Filter	Filter	Filter	narrow what is shown (not an optical filter)	
+Rename	Rename	Byt namn		

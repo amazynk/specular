@@ -1,0 +1,82 @@
+[Desktop Entry]
+Type=Application
+Name=Specular
+GenericName=Image Viewer
+GenericName[ar]=عارض الصور
+GenericName[cs]=Prohlížeč obrázků
+GenericName[da]=Billedfremviser
+GenericName[de]=Bildbetrachter
+GenericName[es]=Visor de imágenes
+GenericName[fi]=Kuvankatselin
+GenericName[fr]=Visionneuse d’images
+GenericName[he]=מציג תמונות
+GenericName[it]=Visualizzatore di immagini
+GenericName[ja]=画像ビューア
+GenericName[nl]=Afbeeldingsviewer
+GenericName[pl]=Przeglądarka obrazów
+GenericName[pt_BR]=Visualizador de imagens
+GenericName[pt_PT]=Visualizador de Imagens
+GenericName[sv]=Bildvisare
+GenericName[tr]=Görüntü Görüntüleyici
+GenericName[uk]=Переглядач зображень
+GenericName[zh_CN]=图像查看器
+Comment=Open and flip through large photos instantly
+Comment[ar]=افتح الصور الكبيرة وتصفّحها فورًا
+Comment[cs]=Okamžité otevírání a procházení velkých fotografií
+Comment[da]=Åbn og bladr gennem store fotos med det samme
+Comment[de]=Große Fotos sofort öffnen und durchblättern
+Comment[es]=Abra y recorra fotos grandes al instante
+Comment[fi]=Avaa ja selaa suuria valokuvia viiveettä
+Comment[fr]=Ouvrir et parcourir instantanément de grandes photos
+Comment[he]=פתיחה ודפדוף מיידיים בתמונות גדולות
+Comment[it]=Apri e sfoglia all’istante foto di grandi dimensioni
+Comment[ja]=大きな写真もすぐに開いてめくれます
+Comment[nl]=Grote foto’s direct openen en doorbladeren
+Comment[pl]=Błyskawicznie otwieraj i przeglądaj duże zdjęcia
+Comment[pt_BR]=Abra e folheie fotos grandes instantaneamente
+Comment[pt_PT]=Abra e percorra fotografias grandes instantaneamente
+Comment[sv]=Öppna och bläddra snabbt bland stora foton
+Comment[tr]=Büyük fotoğrafları anında açın ve göz atın
+Comment[uk]=Миттєво відкривайте й гортайте великі фотографії
+Comment[zh_CN]=即刻打开并浏览大尺寸照片
+Exec=specular %f
+TryExec=specular
+Icon=app.specular.Specular
+Terminal=false
+Categories=Graphics;Viewer;2DGraphics;RasterGraphics;
+MimeType=video/x-flir-seq;application/x-flir-fff;application/x-infratec-irb;application/x-infiray-irg;application/x-fluke-is2;application/x-testo-bmt;application/vnd.isac.fcs;image/jls;image/vnd.fpx;image/jpeg;image/x-mpo;image/png;image/apng;image/webp;image/avif;image/jxl;image/x-nikon-nd2;image/jp2;image/x-jp2-codestream;image/jpx;image/jph;image/jphc;image/jpm;image/heic;image/heif;image/heic-sequence;image/bpg;image/flif;image/gif;image/bmp;image/vnd.microsoft.icon;image/x-win-bitmap;application/x-navi-animation;image/qoi;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-portable-arbitrarymap;image/x-tga;image/svg+xml;image/svg+xml-compressed;application/dicom;image/jxr;image/x-marccd;application/x-jpk;image/x-aperio-svs;image/x-hamamatsu-ndpi;image/x-leica-scn;image/x-ome-tiff;video/x-braw;video/x-canon-crm;video/quicktime;image/x-adobe-dng;image/x-canon-cr2;image/x-canon-cr3;image/x-nikon-nef;image/x-nikon-nrw;image/x-sony-arw;image/x-sony-srf;image/x-sony-sr2;image/x-fuji-raf;image/x-olympus-orf;image/x-panasonic-rw2;image/x-leica-rwl;image/x-pentax-pef;image/x-samsung-srw;image/x-canon-crw;image/x-minolta-mrw;image/x-sigma-x3f;image/x-hasselblad-3fr;image/x-phaseone-iiq;image/x-leaf-mos;image/x-mamiya-mef;image/x-kodak-dcr;image/x-kodak-kdc;image/x-epson-erf;image/x-arri-ari;image/x-gopro-gpr;image/x-sinar-sti;image/x-kodak-k25;image/x-quicktake;image/x-minolta-mdc;image/x-ricoh-j6i;image/x-lytro-lfp;image/x-phaseone-eip;image/tiff;image/x-zeiss-lsm;image/x-metamorph-stk;image/x-dds;image/ktx2;image/ktx;image/x-pvr;image/x-vtf;image/astc;image/x-basis;image/x-pkm;image/x-firaxis-texture;image/vnd.adobe.photoshop;video/x-mng;image/x-jng;image/wmf;image/x-wmz;image/emf;image/x-emz;image/x-icns;application/x-x3p;application/x-procreate;application/x-affinity-photo;application/x-affinity-designer;application/x-affinity-publisher;application/x-blender;application/vnd.sketchup.skp;image/x-paintnet;image/x-paintshoppro;application/vnd.corel-draw;application/x-clip-studio;application/x-npz;image/openraster;application/x-krita;image/x-mirax;image/x-hamamatsu-vms;image/x-hamamatsu-vmu;image/x-xcf;image/x-compressed-xcf;application/pdf;application/illustrator;image/x-eps;image/dpx;image/x-cineon;image/x-miff;image/x-jbig2;image/jxs;image/jxsi;image/x-wsq;image/vnd.djvu;application/vnd.ms-xpsdocument;application/oxps;image/cgm;application/vnd.ms-visio.drawing.main+xml;application/vnd.ms-visio.drawing.macroEnabled.main+xml;application/vnd.ms-visio.template.main+xml;application/vnd.ms-visio.template.macroEnabled.main+xml;application/vnd.ms-visio.stencil.main+xml;application/vnd.ms-visio.stencil.macroEnabled.main+xml;application/vnd.visio;application/x-wpg;application/x-sketch;application/x-figma;application/vnd.oasis.opendocument.graphics;application/vnd.oasis.opendocument.graphics-template;application/vnd.oasis.opendocument.graphics-flat-xml;application/vnd.oasis.opendocument.presentation;application/vnd.oasis.opendocument.presentation-template;application/vnd.oasis.opendocument.presentation-flat-xml;application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.spreadsheet-template;application/vnd.oasis.opendocument.text;application/vnd.oasis.opendocument.text-template;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.ms-word.document.macroEnabled.12;application/vnd.openxmlformats-officedocument.wordprocessingml.template;application/vnd.ms-word.template.macroEnabled.12;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.openxmlformats-officedocument.spreadsheetml.template;application/vnd.ms-excel.template.macroEnabled.12;application/vnd.ms-excel.sheet.binary.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.ms-powerpoint.presentation.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.ms-powerpoint.template.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/vnd.ms-powerpoint.slideshow.macroEnabled.12;application/msword;application/vnd.ms-excel;application/vnd.ms-powerpoint;application/vnd.apple.pages;application/vnd.apple.numbers;application/vnd.apple.keynote;application/epub+zip;application/x-mobipocket-ebook;application/vnd.amazon.ebook;application/vnd.amazon.mobi8-ebook;application/x-fictionbook+xml;application/x-zip-compressed-fb2;font/otf;font/collection;font/woff;font/woff2;application/x-font-type1;application/x-font-pcf;application/x-font-bdf;application/x-font-winfon;application/x-font-linux-psf;application/x-ipynb+json;application/vnd.jgraph.mxfile;application/vnd.excalidraw+json;application/zip+dotlottie;application/vnd.adobe.flash.movie;application/x-dvi;font/ttf;image/x-ilbm;video/x-anim;image/x-pict;image/x-farbfeld;image/x-cmu-raster;image/x-sun-raster;image/x-sgi;image/x-rgb;video/x-flic;image/x-dcx;image/vnd.zbrush.pcx;image/x-xpixmap;image/x-xbitmap;image/vnd.wap.wbmp;image/x-sixel;image/rle;image/x-blp;image/x-quicktime;image/x-avs;image/x-macpaint;image/x-degas;image/x-neochrome;image/x-koala;image/x-halo-cut;image/x-alias-pix;image/x-rla;image/x-quake2-wal;image/x-msx-screen;text/x-scc;image/x-apple-ii-hires;image/x-apple-ii-double-hires;image/x-bbc-micro-screen;image/x-atari-micropainter;image/x-atari-graphics8;image/x-atari-graphics9;model/x-pcd;image/x-photo-cd;image/x-xwindowdump;image/x-gimp-gpl;image/x-aseprite;image/x-adobe-ase;image/x-gimp-ggr;application/vnd.gerber;image/x-gimp-gbr;image/x-gimp-gih;image/x-gimp-pat;image/x-msp;image/x-gd;image/x-gd2;image/x-pixar;image/x-labeye-im;image/x-pgx;image/x-cals;image/x-exr;image/vnd.radiance;image/x-portable-floatmap;application/x-cifti;application/x-gifti;application/x-trackvis;application/x-mrtrix-tracks;application/x-nifti;application/x-nrrd;application/x-metaimage;application/x-freesurfer-mgh;application/x-minc;application/x-mrtrix-image;application/x-philips-parrec;application/x-amira-mesh;application/x-xtek-ct;application/x-vgstudio-vgi;application/x-xradia-txm;image/x-fpack;image/fits;application/vnd.ant.fit;image/x-vicar;application/x-pds;image/x-xisf;application/x-asdf;application/x-root;video/x-ser;application/x-fei-emi;application/x-zygo-datx;application/x-npy;application/x-matlab-data;application/x-tdms;application/x-vtk;application/x-vtk-image-data;application/x-vtk-rectilinear-grid;application/x-vtk-structured-grid;application/x-vtk-unstructured-grid;application/x-vtk-polydata;application/x-hdf;application/x-emd;application/x-netcdf;application/x-nexus;application/x-imaris;application/x-gwyddion;image/x-mrc;image/x-gatan-dm;application/x-igor-binary-wave;image/x-spider;application/x-bruker-bcf;application/x-ntmdt;application/x-keyence-vk4;application/x-alicona-al3d;application/x-digitalsurf-sur;application/x-nanonis-sxm;application/x-nanoscope;application/x-edax-ang;application/x-oxford-ctf;image/x-leica-lif;image/x-olympus-oir;image/x-zeiss-czi;image/x-princeton-spe;application/x-srtm-hgt;image/x-cbf;image/x-bruker-sfrm;image/x-rigaku-raxis;chemical/x-pdb;chemical/x-mmcif;chemical/x-cif;chemical/x-mdl-sdfile;chemical/x-mdl-molfile;chemical/x-mol2;chemical/x-gromacs-gro;application/x-dted;application/x-usgs-dem;application/x-ermapper;application/x-saga-grid;application/x-bsb-chart;application/x-gdal-vrt;application/x-grib;audio/mp4;audio/x-m4b;video/mp4;video/x-m4v;video/x-f4v;video/3gpp;video/3gpp2;video/x-matroska;audio/x-matroska;video/webm;video/mp2t;video/vnd.dlna.mpeg-tts;video/mpeg;video/x-ms-vob;audio/x-mod;video/x-msvideo;video/ogg;video/x-ogm+ogg;video/x-ivf;application/mxf;video/x-flv;video/x-ms-wmv;application/vnd.ms-asf;video/x-ms-dvr;video/wtv;video/dv;video/x-yuv4mpeg;video/x-cdg;video/x-h264;video/x-h265;video/x-av1;video/x-motion-jpeg;video/x-apv;video/x-psx-str;audio/x-wav;audio/x-rf64;audio/x-bw64;audio/x-aiff;audio/x-aifc;audio/ogg;audio/x-opus+ogg;audio/x-speex;audio/flac;audio/vnd.dts;audio/ac3;audio/eac3;audio/AMR;audio/AMR-WB;audio/qcelp;audio/x-wavpack;audio/x-ape;audio/x-musepack;audio/basic;audio/x-caf;audio/x-w64;audio/x-voc;audio/x-8svx;audio/x-avr;audio/x-nist-sphere;audio/x-ircam;audio/x-tta;application/x-shorten;audio/x-dsf;audio/x-dff;audio/x-s3m;audio/x-xm;audio/x-it;audio/aac;audio/mpeg;audio/mp2;audio/midi;audio/mid;audio/x-soundfont;audio/dls;audio/x-xi;audio/x-sfz;audio/x-htk;audio/x-gsm;audio/x-qoa;audio/x-sln;application/x-segy;application/x-seismic-unix;application/x-imzml;image/x-ptm;image/x-rti;image/vnd.dxf;application/vnd.hp-hpgl;application/vnd.gds;application/x-kicad-pcb;application/x-kicad-schematic;application/x-excellon;application/x-ipc2581;chemical/x-jcamp-dx;application/x-mzml;application/x-mzxml;model/x-ply;model/gltf-binary;model/stl;model/obj;model/gltf+json;model/3mf;model/x-usd;model/vnd.usda;model/x-fbx;model/vnd.usdz+zip;model/vnd.collada+xml;model/x-collada-zae;model/x-3ds;model/x-lwo;model/vrml;model/x3d-vrml;model/x-3dm;model/x3d+xml;model/x-amf;model/x-off;model/x-md2;model/x-ms3d;model/x-magicavoxel;model/x-ac3d;model/x-directx;model/x-bvh;model/x-alembic;model/x-ifc;model/x-ifczip;model/step;model/iges;image/vnd.dwg;application/vnd.las;application/vnd.laszip;model/e57;model/x-xyz;chemical/x-xyz;model/x-pts;model/x-ptx;model/x-spz;model/x-gaussian-splat;application/x-shapefile;application/geopackage+sqlite3;application/flatgeobuf;application/vnd.apache.parquet;application/vnd.apache.arrow.file;application/vnd.apache.arrow.stream;application/x-osm-pbf;application/vnd.nitf;application/x-mbtiles;application/vnd.pmtiles;application/vnd.google-earth.kmz;application/vnd.google-earth.kml+xml;application/gpx+xml;application/x-mapinfo-tab;application/vnd.garmin.tcx+xml;application/vnd.openstreetmap.data+xml;application/gml+xml;application/x-igc;application/x-nmea;application/x-topojson;application/geo+json;image/x-sony-tim;image/x-adobe-aco;image/x-adobe-act;image/x-imt;image/x-mcidas-area;image/x-jbig;application/x-sensofar-plu;audio/x-mpegurl;application/xspf+xml;application/rtf;text/vtt;text/x-ssa;application/x-pgs;application/ttml+xml;application/x-subrip;text/x-microdvd;text/x-lrc;text/csv;text/tab-separated-values;text/markdown;text/x-nfo;text/plain;text/x-log;image/x-esrf-edf;image/x-smv;chemical/x-gaussian-cube;image/x-olympus-vsi;image/x-andor-sif;image/x-ics;application/x-landxml+xml;image/x-xcursor;image/x-softimage-pic;image/x-gem;application/x-esri-ascii-grid;
+Keywords=image;photo;picture;viewer;jpeg;png;
+Keywords[ar]=صورة;صور;فوتو;عارض;jpeg;png;
+Keywords[cs]=obrázek;fotografie;fotka;prohlížeč;jpeg;png;
+Keywords[da]=billede;foto;fotografi;fremviser;jpeg;png;
+Keywords[de]=Bild;Foto;Fotografie;Betrachter;jpeg;png;
+Keywords[es]=imagen;foto;fotografía;visor;jpeg;png;
+Keywords[fi]=kuva;valokuva;kuvankatselin;katselin;jpeg;png;
+Keywords[fr]=image;photo;photographie;visionneuse;jpeg;png;
+Keywords[he]=תמונה;צילום;תצלום;מציג;jpeg;png;
+Keywords[it]=immagine;foto;fotografia;visualizzatore;jpeg;png;
+Keywords[ja]=画像;写真;イメージ;ビューア;jpeg;png;
+Keywords[nl]=afbeelding;foto;plaatje;viewer;jpeg;png;
+Keywords[pl]=obraz;zdjęcie;fotografia;przeglądarka;jpeg;png;
+Keywords[pt_BR]=imagem;foto;fotografia;visualizador;jpeg;png;
+Keywords[pt_PT]=imagem;foto;fotografia;visualizador;jpeg;png;
+Keywords[sv]=bild;foto;fotografi;bildvisare;jpeg;png;
+Keywords[tr]=görüntü;fotoğraf;resim;görüntüleyici;jpeg;png;
+Keywords[uk]=зображення;фото;фотографія;переглядач;jpeg;png;
+Keywords[zh_CN]=图像;照片;图片;查看器;jpeg;png;
+StartupNotify=true
+StartupWMClass=app.specular.Specular
+SingleMainWindow=false
+Actions=new-window;library;slideshow;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=specular --new-window
+
+[Desktop Action library]
+Name=Library
+Exec=specular --library
+
+[Desktop Action slideshow]
+Name=Slideshow of Pictures
+Exec=specular --slideshow

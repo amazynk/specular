@@ -1,0 +1,16 @@
+[package]
+name = "specular-cad"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own DXF reader for Specular (ASCII and binary): header, layers, linetypes, text styles, blocks with nested and arrayed inserts and attributes, entities, layouts and viewports, into a specular-vector scene"
+
+[dependencies]
+specular-vector = { path = "../../specular-vector" }
+kurbo = "0.13"
+# Pre-2007 files store text in the drawing's ANSI code page ($DWGCODEPAGE).
+encoding_rs = "0.8"
+
+[lints]
+workspace = true

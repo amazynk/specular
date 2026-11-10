@@ -1,0 +1,18 @@
+[package]
+name = "specular-djvu"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "DjVu for Specular: IFF85 container, bundled and indirect DJVM documents, IW44 wavelet images, JB2 bitonal masks with shared dictionaries, FGbz palettes, layer compositing, rotation, the hidden text layer and outline (own decoders)"
+
+[dependencies]
+thiserror = "2"
+# IW44 layers reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+png = "0.18"  # oracle: DjVuLibre reference renders in fixtures/ref

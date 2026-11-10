@@ -1,0 +1,59 @@
+{
+ "kind": "nd2",
+ "version": [
+  1,
+  0
+ ],
+ "width": 16,
+ "height": 12,
+ "components": 2,
+ "bits": 12,
+ "frames": 4,
+ "loops": [
+  {
+   "kind": "time",
+   "count": 2
+  },
+  {
+   "kind": "z",
+   "count": 2,
+   "step": 1.5
+  }
+ ],
+ "channels": [
+  {
+   "name": "DAPI",
+   "colour": [
+    0,
+    0,
+    255
+   ],
+   "components": 1,
+   "emission": null
+  },
+  {
+   "name": "Cy3",
+   "colour": [
+    255,
+    0,
+    0
+   ],
+   "components": 1,
+   "emission": null
+  }
+ ],
+ "calibration": 0.645,
+ "text": {
+  "description": "Metadata:\r\nDimensions: T(2) x λ(2) x Z(2)\r\nCamera Name: synthetic\r\n"
+ },
+ "planes": {
+  "0:0": "5e466c07dac25af7",
+  "0:1": "7772865555e580da",
+  "1:0": "c1378500cc012b07",
+  "1:1": "8fb86b2a9ea69931",
+  "2:0": "acba5c7875bc0ad7",
+  "2:1": "e5ad698dd92293c0",
+  "3:0": "1fbfaba64116d613",
+  "3:1": "d9f9301d74df621c"
+ }
+}

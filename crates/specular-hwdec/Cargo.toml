@@ -1,0 +1,38 @@
+[package]
+name = "specular-hwdec"
+description = "Optional hardware image decode: VA-API (Linux, libva loaded at run time), D3D12 Video (Windows) and VideoToolbox / ImageIO (macOS, stubbed) behind cfg; always with a software fallback"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-log = { path = "../specular-log" }
+parking_lot = "0.12"
+# HEIC: the HEVC-core boundary (VaapiCore) and the parameter-set / slice-header parsers.
+specular-heic = { path = "../formats/specular-heic" }
+rayon = "1.11"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+# libva is a system library: loaded with dlopen at run time, no build-time C dependency.
+libloading = "0.8"
+
+[target.'cfg(windows)'.dependencies]
+# D3D12 Video Decode (src/d3d12): the GPU's HEVC and H.264 decoders through the API Windows
+# ships, no build-time C. The DXVA parameter structs it takes are declared in src/d3d12/dxva.rs.
+# Media Foundation (src/mf_enc): the GPU driver's H.264 encoder MFT for the slideshow export.
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_Security", "Win32_System_Threading", "Win32_System_Com", "Win32_System_Ole", "Win32_System_Variant", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D12", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Media_MediaFoundation"] }
+
+[dev-dependencies]
+specular-jpeg = { path = "../formats/specular-jpeg" }
+# The hardware encoder's output is decoded by our decoder when ffmpeg is not there.
+specular-h264 = { path = "../formats/specular-h264" }
+
+[target.'cfg(windows)'.dev-dependencies]
+# CPU time of the heicbench example (Linux reads /proc): the sysinfo specular-core uses.
+sysinfo = { version = "0.39", default-features = false, features = ["system"] }
+
+[lints]
+workspace = true

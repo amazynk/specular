@@ -1,0 +1,17 @@
+[package]
+name = "specular-xtal"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Diffraction detector images for Specular: CBF/miniCBF (byte offset), ESRF EDF (multi-frame and Dim_3 volumes, every data type, gzip/zlib/bzip2/byte-offset blocks), SMV (ADSC, Rigaku d*TREK/Saturn), Bruker SFRM (v86 and v100 overflow tables), MarCCD and Rigaku R-AXIS, also compressed whole (gzip, bzip2, xz, Unix compress .Z); one detector geometry (wavelength, distance, beam centre, pixel size, angles) with q, d and 2θ and resolution rings"
+
+[dependencies]
+# Unpacked `.Z` streams reserve from the memory budget.
+specular-core = { path = "../../specular-core" }
+specular-png = { path = "../specular-png" }
+specular-xcf = { path = "../specular-xcf" }
+thiserror = "2"
+
+[lints]
+workspace = true

@@ -1,0 +1,50 @@
+# === DATA DESCRIPTION FILE ======================================================
+#
+# CLINICAL TRYOUT             Research image export tool     V4.1
+#
+# === GENERAL INFORMATION ========================================================
+#
+.    Patient name                       :   sample
+.    Examination name                   :   specular
+.    Protocol name                      :   par_sag
+.    Examination date/time              :   2020.03.04 / 10:11:12
+.    Series Type                        :   Image   MRSERIES
+.    Acquisition nr                     :   1
+.    Reconstruction nr                  :   1
+.    Scan Duration [sec]                :   10
+.    Max. number of cardiac phases      :   1
+.    Max. number of echoes              :   1
+.    Max. number of slices/locations    :   4
+.    Max. number of dynamics            :   1
+.    Max. number of mixes               :   1
+.    Patient position                   :   Head First Supine
+.    Preparation direction              :   Anterior-Posterior
+.    Technique                          :   FEEPI
+.    Scan resolution  (x, y)            :   4  6
+.    Scan mode                          :   MS
+.    Repetition time [ms]               :   2000.000
+.    FOV (ap,fh,rl) [mm]                :   240.000  70.000  240.000
+.    Water Fat shift [pixels]           :   11.050
+.    Angulation midslice(ap,fh,rl)[degr]:   0.000  0.000  7.500
+.    Off Centre midslice(ap,fh,rl) [mm] :   0.000  -3.000  12.000
+.    Flow compensation <0=no 1=yes> ?   :   0
+.    Presaturation     <0=no 1=yes> ?   :   0
+.    Phase encoding velocity [cm/sec]   :   0.000000  0.000000  0.000000
+.    MTC               <0=no 1=yes> ?   :   0
+.    SPIR              <0=no 1=yes> ?   :   1
+.    EPI factor        <0,1=no EPI>     :   39
+.    Dynamic scan      <0=no 1=yes> ?   :   0
+.    Diffusion         <0=no 1=yes> ?   :   0
+.    Diffusion echo time [ms]           :   0.0000
+.    Max. number of diffusion values    :   1
+.    Max. number of gradient orients    :   1
+#
+# === IMAGE INFORMATION ==========================================================
+#
+
+3 1 1 1 0 2 0 8 100 4 6 -10.0 2.0 0.004 1070 1860 0.0 0.0 0.0 0.0 0.0 0.0 3.0 0.0 0 2 0 2 1.25 1.25 30.0 0.0 0.0 0.0 1 90.0 0 0 0 39 0.0 1 1 0 0 0.0 0.0 0.0
+1 1 1 1 0 2 1 8 100 4 6 -10.0 2.0 0.004 1070 1860 0.0 0.0 0.0 0.0 0.0 0.0 3.0 0.0 0 2 0 2 1.25 1.25 30.0 0.0 0.0 0.0 1 90.0 0 0 0 39 0.0 1 1 0 0 0.0 0.0 0.0
+2 1 1 1 0 2 2 8 100 4 6 -10.0 2.0 0.004 1070 1860 0.0 0.0 0.0 0.0 0.0 0.0 3.0 0.0 0 2 0 2 1.25 1.25 30.0 0.0 0.0 0.0 1 90.0 0 0 0 39 0.0 1 1 0 0 0.0 0.0 0.0
+4 1 1 1 0 2 3 8 100 4 6 -10.0 2.0 0.004 1070 1860 0.0 0.0 0.0 0.0 0.0 0.0 3.0 0.0 0 2 0 2 1.25 1.25 30.0 0.0 0.0 0.0 1 90.0 0 0 0 39 0.0 1 1 0 0 0.0 0.0 0.0
+
+# === END OF DATA DESCRIPTION FILE ===============================================

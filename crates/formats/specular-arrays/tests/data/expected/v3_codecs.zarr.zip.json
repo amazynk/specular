@@ -1,0 +1,154 @@
+{
+ "arrays": [
+  {
+   "complex": false,
+   "name": "k0",
+   "offset": 0,
+   "shape": [
+    14,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "k1",
+   "offset": 154,
+   "shape": [
+    14,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "k2",
+   "offset": 308,
+   "shape": [
+    14,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "k3",
+   "offset": 462,
+   "shape": [
+    14,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "k4",
+   "offset": 616,
+   "shape": [
+    14,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "k5",
+   "offset": 770,
+   "shape": [
+    14,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "shard0",
+   "offset": 924,
+   "shape": [
+    10,
+    12
+   ]
+  },
+  {
+   "complex": false,
+   "name": "shard1",
+   "offset": 1044,
+   "shape": [
+    3,
+    9,
+    11
+   ]
+  },
+  {
+   "complex": false,
+   "name": "g/missing",
+   "offset": 1341,
+   "shape": [
+    8,
+    8
+   ]
+  },
+  {
+   "complex": false,
+   "name": "nanfill",
+   "offset": 1405,
+   "shape": [
+    5,
+    5
+   ]
+  },
+  {
+   "complex": false,
+   "name": "t_bool",
+   "offset": 1430,
+   "shape": [
+    6,
+    7
+   ]
+  },
+  {
+   "complex": false,
+   "name": "t_float16",
+   "offset": 1472,
+   "shape": [
+    6,
+    7
+   ]
+  },
+  {
+   "complex": true,
+   "name": "t_complex64",
+   "offset": 1514,
+   "re_offset": 1556,
+   "shape": [
+    6,
+    7
+   ]
+  },
+  {
+   "complex": true,
+   "name": "t_complex128",
+   "offset": 1598,
+   "re_offset": 1640,
+   "shape": [
+    6,
+    7
+   ]
+  },
+  {
+   "complex": false,
+   "name": "t_uint64",
+   "offset": 1682,
+   "shape": [
+    6,
+    7
+   ]
+  },
+  {
+   "complex": false,
+   "name": "t_int8",
+   "offset": 1724,
+   "shape": [
+    6,
+    7
+   ]
+  }
+ ],
+ "kind": "zarr",
+ "refused": [],
+ "texts": {}
+}

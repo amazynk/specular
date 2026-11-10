@@ -1,0 +1,40 @@
+# Vendored copy of resvg 0.48.1 (crates.io; upstream https://github.com/linebender/resvg,
+# crates/resvg). `src/` is the published crate's `src/` (without the `main.rs` CLI) with
+# `patches/specular-raster-hook.patch` and `patches/specular-morphology.patch` applied; see
+# their headers. Specular's other
+# change is this manifest: no CLI, no `raster-images` feature (and so no gif, image-webp or
+# zune-jpeg), and tiny-skia without its PNG codec. Wired in by `[patch.crates-io]` in the
+# workspace manifest.
+
+[package]
+edition = "2024"
+rust-version = "1.85.0"
+name = "resvg"
+version = "0.48.1"
+description = "An SVG rendering library (Specular's vendored copy: raster images are decoded by the embedding application)."
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/linebender/resvg"
+publish = false
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+
+[lib]
+name = "resvg"
+path = "src/lib.rs"
+
+[dependencies]
+bytemuck = "1.16"
+log = "0.4"
+rgb = "0.8"
+svgtypes = "0.16.1"
+tiny-skia = { version = "0.12.0", default-features = false, features = ["std", "simd"] }
+usvg = { version = "0.48.1", default-features = false }
+
+[features]
+default = ["svgz", "text", "system-fonts", "memmap-fonts"]
+svgz = ["usvg/svgz"]
+text = ["usvg/text"]
+system-fonts = ["usvg/system-fonts"]
+memmap-fonts = ["usvg/memmap-fonts"]

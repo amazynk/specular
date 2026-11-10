@@ -1,0 +1,18 @@
+# In-tree fork of oxideav-h265 0.0.14 (git 66097811d122959efcc9e07e20810d46ee18e3e2; MIT,
+# see LICENSE). Changes: decoder only — the encoder and the oxideav-core registry decoder
+# are removed (no oxideav-core dependency); reduced to intra-only single-layer decoding
+# for HEIC still images, plus robustness fixes and named worker threads for Specular.
+[package]
+name = "specular-h265"
+version = "0.0.14"
+edition = "2021"
+license = "MIT"
+publish = false
+description = "Fork of oxideav-h265 0.0.14: intra-only H.265/HEVC decoder for HEIC stills"
+
+[lib]
+name = "h265"
+doctest = false
+
+[dependencies]
+specular-thread = { path = "../../../specular-thread" }

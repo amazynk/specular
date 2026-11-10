@@ -1,0 +1,60 @@
+# DICOM export: anonymised copies, patient disc folders and burned-in text masks.
+
+palette-export-anonymised = 导出匿名化副本…
+palette-export-patient-disc = 导出患者光盘文件夹…
+palette-mask-burned-in-text = 遮盖烧录文字
+anon-title = 导出匿名化副本
+anon-disc-title = 导出患者光盘文件夹
+anon-images = 图像
+anon-images-current = 此图像
+anon-images-series = 此序列（{ $count } 个文件）
+anon-images-study = 此检查（{ $count } 个文件）
+anon-images-reading = 正在读取文件夹…
+anon-anonymise = 匿名化
+anon-dates = 日期和时间
+anon-dates-remove = 删除
+anon-dates-keep = 保留
+anon-dates-shift = 偏移
+anon-patient = 患者特征
+anon-device = 设备标识
+anon-institution = 机构标识
+anon-descriptions = 描述
+anon-descriptions-remove = 删除
+anon-descriptions-clean = 清理
+anon-structured = 报告内容
+anon-uids = UID
+anon-uids-replace = 替换
+anon-uids-keep = 保留
+anon-overlays = 叠加层和曲线
+anon-keep = 保留
+anon-remove = 删除
+anon-on = 开
+anon-off = 关
+anon-burned-in = 烧录文字
+anon-masks = 已遮盖 { $count } 个区域
+anon-masks-none = 无遮罩
+anon-folder = 文件夹
+anon-folder-choose = 选择…
+anon-export = 导出
+anon-risk-present = 这些图像声明含有患者文字：请在导出前将其遮盖。
+anon-risk-possible = 此类图像常含有患者文字：请在导出前检查。
+anon-progress = 正在导出 { $done } / { $total }…
+anon-stopping = 正在停止…
+anon-mask-title = 遮盖烧录文字
+anon-mask-hint = 在文字上拖动即可遮盖。遮盖区域在每一帧中都会变黑。
+anon-mask-suggest = 建议
+anon-mask-remove = 删除
+anon-mask-clear = 清除
+anon-mask-done = 完成
+anon-mask-area = 区域 { $n }，{ $width } × { $height } 像素
+anon-mask-suggested = { $count ->
+    [0] 边缘附近未发现文字
+   *[other] 建议了 { $count } 个文字区域
+}
+anon-done = 已将 { $count } 个匿名化文件写入 { $folder }
+anon-disc-done = 已将含 { $count } 张图像的患者光盘文件夹写入 { $folder }
+anon-skipped-burned-in = 已跳过 { $count } 个含烧录文字且无遮罩的文件
+anon-skipped-failed = { $count } 个文件无法导出
+anon-stopped = 导出已停止
+anon-failed = 无法导出：{ $reason }
+anon-not-empty = 该文件夹已包含患者光盘

@@ -1,0 +1,21 @@
+[package]
+name = "specular-psp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "PaintShop Pro .psp/.pspimage/.tub reader for Specular: block structure of versions 5 to 2023, RLE/LZ77/JPEG channels, masks, blend modes, composite and thumbnail"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+specular-png = { path = "../specular-png" }  # zlib inflate (LZ77 channels)
+specular-jpeg = { path = "../specular-jpeg" }  # JPEG composites and thumbnails
+specular-blend = { path = "../specular-blend" }  # blend modes shared with the other layered formats
+rayon = "1.11"  # layer compositing in parallel rows
+kurbo = "0.13"  # vector layer paths: curve flattening and strokes
+
+[dev-dependencies]
+flate2 = "1"  # LZ77 channels of synthetic files
+
+[lints]
+workspace = true

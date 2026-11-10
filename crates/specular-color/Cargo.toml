@@ -1,0 +1,18 @@
+[package]
+name = "specular-color"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Colour management: ICC parsing, transforms, display and GPU LUTs"
+
+[lints]
+workspace = true
+
+[dependencies]
+
+[dev-dependencies]
+moxcms = "0.8"
+# The bundled Little CMS (2.19) on every platform, never a system library found through
+# pkg-config, so every platform checks against the same reference.
+lcms2 = { version = "6", features = ["static"] }

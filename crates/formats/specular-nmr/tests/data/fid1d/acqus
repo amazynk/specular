@@ -1,0 +1,35 @@
+##TITLE= Parameter file, TOPSPIN		Version 4.1.4
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= fixture
+$$ 2026-10-19 12:00:00.000 +0200  fixture@specular
+$$ /opt/data/fixture
+##$TD= 4096
+##$SW_h= 5000.0
+##$SW= 12.495938819883538
+##$SFO1= 400.1319
+##$BF1= 400.13
+##$O1= 1900.0
+##$NUC1= <1H>
+##$PULPROG= <zg30>
+##$SOLVENT= <CDCl3>
+##$DATE= 1760875200
+##$INSTRUM= <fixture>
+##$PROBHD= <5 mm test probe>
+##$NS= 16
+##$DS= 2
+##$RG= 101
+##$TE= 298.0
+##$AQ_mod= 3
+##$DIGMOD= 1
+##$DSPFVS= 20
+##$DECIM= 1666
+##$GRPDLY= 67.9856
+##$BYTORDA= 0
+##$DTYPA= 0
+##$D= (0..3)
+0 1.0 0 0
+##$P= (0..2)
+0 10.0 0
+##END=

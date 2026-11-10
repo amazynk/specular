@@ -1,0 +1,50 @@
+[package]
+name = "specular-archive"
+description = "Archives (ZIP/CBZ, 7z/CB7, TAR/CBT; RAR/CBR via the sandboxed decode host) as ordered image sets with ComicInfo reading-mode metadata"
+version.workspace = true
+edition.workspace = true
+publish = false
+license.workspace = true
+
+[dependencies]
+specular-thread = { path = "../specular-thread" }
+specular-core = { path = "../specular-core" }
+specular-i18n = { path = "../specular-i18n" }
+# RAR/CBR: UnRAR runs only in the sandboxed decode host.
+specular-sandbox = { path = "../specular-sandbox" }
+thiserror = "2"
+parking_lot = "0.12"
+crc32fast = "1.5"
+quick-xml = "0.41"
+# Raw-deflate backend for ZIP entries, behind `inflate::Inflater` so our own inflater can replace it.
+zlib-rs = { version = "0.6", default-features = false, features = ["std"] }
+# 7z/CB7: LZMA, LZMA2, PPMd, Deflate, BCJ/Delta filters, AES-256 + SHA-256 (encrypted data and
+# headers). No writer, no bzip2 (libbz2-rs-sys carries the bzip2-1.0.6 licence, not on the
+# deny.toml allow list).
+sevenz-rust2 = { version = "0.23", default-features = false, features = ["ppmd", "deflate", "aes256"] }
+# Encrypted ZIP entries (WinZip AES: AES-CTR, PBKDF2 and HMAC over SHA-1; `zip_crypto`). The
+# ciphers, hashes and key derivation are RustCrypto's; ZipCrypto and the AE-x framing are ours.
+aes = "0.9"
+ctr = "0.10"
+hmac = "0.13"
+pbkdf2 = { version = "0.13", default-features = false, features = ["hmac"] }
+sha1 = { version = "0.11", default-features = false }
+# Passwords are wiped from memory when dropped.
+zeroize = "1.8"
+# The LZMA2 decoder and BCJ/Delta filters sevenz-rust2 uses, driven unit by unit for solid
+# blocks (`lzma2mt`).
+lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+
+[dev-dependencies]
+zip = { version = "9.5", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+tar = { version = "0.4", default-features = false }
+sevenz-rust2 = { version = "0.23", default-features = false, features = ["compress", "util", "ppmd", "deflate"] }
+# Oracles for the own decoders (tests and the speed report only): reference bzip2, liblzma and
+# libzstd encode the test streams and decode them for comparison.
+bzip2 = "0.5"
+xz2 = "0.1"
+zstd = { version = "0.13", default-features = false }
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
+
+[lints]
+workspace = true

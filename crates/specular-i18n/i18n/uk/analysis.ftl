@@ -1,0 +1,80 @@
+# Specular — Medical analysis: segmentations, SUV, fusion, TMTV, time-intensity curves. Українська. machine-drafted, needs native review
+
+palette-segments = Показати або сховати сегментації
+palette-segment-opacity = Наступна непрозорість заливки сегментацій
+palette-fusion = Сумістити серію з тієї самої системи координат
+palette-fusion-colormap = Наступна колірна карта суміщення
+palette-fusion-blend = Наступна непрозорість суміщення
+palette-fusion-nudge = Зсунути суміщену серію вручну
+palette-tmtv = Інструмент TMTV (сфера, паралелепіпед, вимк.)
+palette-tmtv-threshold = Поріг TMTV (SUV { NUMBER(2.5) } або { PERCENT(41) } від SUVmax)
+palette-time-curve = Крива «час — інтенсивність» останньої ділянки
+palette-export-curve = Зберегти криву «час — інтенсивність» як CSV
+
+analysis-searching = Ще шукаємо сегментації та серії для суміщення
+segments-none = Сегментацій для цієї системи координат не знайдено
+segments-shown = Сегментації показано
+segments-hidden = Сегментації сховано
+segments-fill = Заливка сегментацій { PERCENT($percent) }
+segments-failed = Сегментацію не показано: { $reason }
+segment-entry = { $name } · { $ml } mL
+
+suv-value = SUVbw { $value }
+suv-factor = Коефіцієнт SUVbw { $factor }, через { $minutes } min після ін’єкції
+suv-refused = Немає SUV: { $reason }
+suv-preset = SUV 0–{ $upper }
+suv-refused-not-pet = не зображення PET
+suv-refused-units = одиниці пікселів не Bq/mL
+suv-refused-corrected = немає корекції ослаблення та розпаду
+suv-refused-decay = непідтримувана корекція розпаду
+suv-refused-weight = немає ваги пацієнта
+suv-refused-dose = немає введеної дози
+suv-refused-half-life = немає періоду напіврозпаду радіонукліда
+suv-refused-injection = немає часу ін’єкції
+suv-refused-scan-time = немає часу знімання
+suv-refused-delay = ін’єкція пізніше за знімання
+suv-refused-scale = немає коефіцієнта масштабу SUV Philips
+suv-refused-height = немає зросту пацієнта
+suv-refused-sex = немає статі пацієнта
+suv-refused-lbm = безжирова маса тіла поза діапазоном
+
+colormap-hot-iron = Розпечене залізо
+colormap-rainbow = Веселка
+colormap-viridis = Viridis
+fusion-none = Немає серії PET, SPECT, CT або MR цієї системи координат для суміщення
+fusion-needed = Спершу сумістіть серію (Shift+U)
+fusion-opening = Суміщення { $modality }
+fusion-off = Суміщення вимкнено
+fusion-refused = Не вдається сумістити: { $reason }
+fusion-on = Суміщено { $modality }: { $colormap }, { PERCENT($blend) }
+fusion-hidden = Суміщене { $modality } сховано
+fusion-window-suv = Вікно суміщення SUV { $low }–{ $high }
+fusion-value = { $modality } { $value }
+fusion-value-suv = { $modality } SUVbw { $value }
+fusion-blend-toast = Непрозорість суміщення { PERCENT($percent) }
+fusion-moved = Зсунуто вручну: { $x }, { $y }, { $z } мм, { $degrees }°
+fusion-nudge-hint = Стрілки зсувають суміщену серію на 1 мм, Shift+Up/Down — уздовж виду, [ і ] — обертають
+fusion-nudge-off = Суміщену серію зафіксовано
+
+tmtv-hint-sphere = TMTV: тягніть сферу від її центру
+tmtv-hint-box = TMTV: тягніть паралелепіпед
+tmtv-off = TMTV вимкнено
+tmtv-threshold-suv = Поріг SUV { $suv }
+tmtv-threshold-share = Поріг { PERCENT($share) } від SUVmax
+tmtv-result = TMTV { $ml } mL; ділянок: { $count }
+tmtv-stats = SUVmax { $max }, SUVmean { $mean }, TLG { $tlg }
+tmtv-outside = Ділянка поза об’ємом
+tmtv-no-pet = Для TMTV потрібен об’єм PET із SUV
+
+analysis-mpr-only = Суміщення і TMTV працюють у MPR (Shift+R)
+curve-not-dynamic = Не багатокадрове зображення і не динамічна серія
+curve-not-mpr = Криві «час — інтенсивність» малюються на зображенні, поза MPR
+curve-no-roi = Спершу намалюйте еліпс або прямокутник
+curve-loading = Читання часових точок: { $count }…
+curve-title = Крива «час — інтенсивність»
+curve-mean = Середнє
+curve-max = Макс.
+curve-seconds = s
+curve-saved = Криву збережено
+curve-none = Немає кривої для збереження
+curve-failed = Криву не побудовано: { $reason }

@@ -1,0 +1,25 @@
+{
+"point_data": [
+{
+"name": "pid",
+"components": 1,
+"tuples": 483,
+"offset": 0
+}
+],
+"cell_data": [
+{
+"name": "cell",
+"components": 1,
+"tuples": 66,
+"offset": 483
+}
+],
+"field_data": [],
+"kind": "mesh",
+"points": 483,
+"cells": 66,
+"triangles": 405,
+"area": 221.2857080074153,
+"tri_offset": 549
+}

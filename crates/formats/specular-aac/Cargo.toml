@@ -1,0 +1,13 @@
+[package]
+name = "specular-aac"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own MPEG-4 AAC decoder for Specular's video playback: AAC-LC (TNS, PNS, intensity and M/S stereo, pulse data, coupling channels, all window sequences, any layout), AAC Main (prediction), AAC-LTP, 960-sample frames, HE-AAC (SBR, also downsampled) and HE-AAC v2 (parametric stereo, 20 and 34 bands, IPD/OPD), from an AudioSpecificConfig, ADTS or LOAS/LATM, to interleaved f32 as mono, stereo or 5.1, or downmixed to stereo"
+
+[dependencies]
+thiserror = "2"
+
+[lints]
+workspace = true

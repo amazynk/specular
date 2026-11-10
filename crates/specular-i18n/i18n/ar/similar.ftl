@@ -1,0 +1,92 @@
+# machine-drafted, needs native review
+# Specular — الصور المكررة واللقطات المتشابهة (فئات المعرض). العربية.
+
+similar-duplicates = الصور المكررة
+similar-similar = لقطات متشابهة
+similar-menu-entry = { $name } — المجموعات: { $groups }، يمكن تحرير { $size }
+similar-menu-scanning = { $name } — جارٍ البحث ({ PERCENT($percent) })
+similar-menu-none = { $name } — لم يُعثر على شيء
+similar-summary = مجموعات للمراجعة: { $groups }، ملفات للاستبعاد: { $files }، يمكن تحرير { $size }
+similar-progress = اكتمل { $resolved } من { $total }
+similar-skipped = المتخطاة: { $count }
+similar-scanning = جارٍ البحث عن المكررات واللقطات المتشابهة… { $done } من { $total }
+# machine-drafted, needs native review
+similar-checking-sharpness = جارٍ فحص الحدّة… { $done } من { $total }
+# machine-drafted, needs native review
+# القائمة أثناء الفحص الأول (يظهر تقدمه في الترويسة أعلاه).
+similar-waiting = تظهر المجموعات هنا عند انتهاء الفحص.
+# machine-drafted, needs native review
+similar-stopped = توقف الفحص: لم يُجمَّع شيء
+similar-stopped-sharpness = توقف فحص الحدّة: أُختيرت الأفضل من الصور المصغّرة
+similar-stopped-empty = أُوقف الفحص. يُحتفظ بما قاسه: يتابع «فحص مجددًا» من هناك.
+similar-scan-again = فحص مجددًا
+similar-empty-duplicates = لا توجد صور مكررة في هذا المجلد.
+similar-empty-similar = لا توجد لقطات متشابهة في هذا المجلد.
+similar-all-done = رُوجعت كل المجموعات.
+similar-sensitivity = الحساسية
+similar-sensitivity-strict = صارمة
+similar-sensitivity-loose = متساهلة
+similar-accept-all = قبول كل الاقتراحات
+similar-show-skipped = إظهار المجموعات المتخطاة
+similar-discard-with = الاستبعاد: { $action }
+similar-action-trash = نقل إلى سلة المهملات
+similar-action-move = نقل إلى مجلد…
+similar-action-move-to = نقل إلى «{ $folder }»
+similar-action-reject = وسم كمرفوضة فقط
+similar-choose-folder = اختيار مجلد للملفات المستبعدة…
+similar-confirm = قبول اقتراحات المجموعات ({ $groups })؟ الملفات: { $files } ({ $size }): { $action }.
+similar-confirm-yes = قبول واستبعاد الملفات ({ $files })
+similar-cancel = إلغاء
+similar-group-title = المجموعة { $index } من { $total }
+similar-group-photos = الصور: { $count }
+similar-to-free = يمكن تحرير { $size }
+similar-keep = إبقاء
+similar-discard = استبعاد
+similar-undecided = غير محسوم
+similar-accept-next = قبول والتالي
+similar-not-similar = غير متشابهة
+similar-skip = تخطٍّ
+similar-compare = مقارنة
+similar-zoom = { PERCENT(100) }
+similar-back = رجوع
+similar-done = تم
+similar-suggested-keep = مقترح: إبقاء
+similar-suggested-discard = مقترح: استبعاد
+similar-toast-accepted = قُبلت المجموعات: { $count }
+similar-toast-rejected = وُسمت ملفات كمرفوضة: { $count }
+similar-toast-protected = تُبقى دائمًا الصور المقيّمة أو الموسومة أو الملوّنة أو ذات الكلمات المفتاحية أو المعدّلة.
+# machine-drafted, needs native review
+similar-zoom-already = هذه الصورة معروضة بالفعل بنسبة { PERCENT(100) } أو أكبر
+similar-a11y-member = { $name }: { $state }، { $reason }
+similar-hint-list = ↑↓ اختيار · Enter مراجعة · A قبول الكل · Tab تبديل · Esc إغلاق
+similar-reason-rated = مقيّمة
+similar-reason-flagged = موسومة كمختارة
+similar-reason-labelled = لها تسمية لونية
+similar-reason-tagged = لها كلمات مفتاحية
+similar-reason-edited = لها تعديلات
+similar-reason-original = الأصل
+similar-reason-raw-original = أصل RAW
+similar-reason-highest-resolution = أعلى دقة
+similar-reason-deeper-colour = عمق ألوان أكبر
+similar-reason-least-compressed = الأقل ضغطًا
+similar-reason-has-metadata = تحتفظ ببياناتها الوصفية
+similar-reason-oldest = أقدم نسخة
+similar-reason-sharpest = الأوضح
+similar-reason-steadiest = الأقل اهتزازًا
+similar-reason-best-exposure = أفضل تعريض
+similar-reason-least-noise = الأقل تشويشًا
+similar-reason-also-good = جيدة أيضًا
+similar-reason-same-file = ملف مطابق
+similar-reason-derivative = نسخة مشتقة
+similar-reason-rendering-of-raw = معالجة لملف RAW
+similar-reason-smaller-copy = نسخة أصغر
+similar-reason-shallower-colour = عمق ألوان أقل
+similar-reason-more-compressed = ضغط أكبر
+similar-reason-no-metadata = بيانات وصفية محذوفة
+similar-reason-newer-copy = نسخة أحدث
+similar-reason-blurrier = أكثر ضبابية
+similar-reason-motion-blur = ضبابية حركة
+similar-reason-overexposed = تعريض زائد
+similar-reason-underexposed = تعريض ناقص
+similar-reason-noisier = تشويش أكثر
+similar-reason-lower-resolution = دقة أقل

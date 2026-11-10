@@ -1,0 +1,18 @@
+[package]
+name = "specular-cgm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Computer Graphics Metafile (ISO/IEC 8632 binary and clear text, WebCGM) pictures as pages, drawn with vello_cpu, for Specular"
+
+[dependencies]
+# The CPU rasteriser hayro (PDF) already brings in, with the same features.
+vello_cpu = { version = "0.3", default-features = false, features = ["std", "png", "u8_pipeline"] }
+kurbo = "0.13"
+# Text: the drawing stack's fonts (system fonts with metric twins, bundled Inter fallback).
+specular-vector = { path = "../../specular-vector" }
+thiserror = "2"
+
+[lints]
+workspace = true

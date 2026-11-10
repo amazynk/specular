@@ -1,0 +1,281 @@
+# file	status	version	counts	extents (ezdxf 1.4.4)
+bjnortier/test/resources/1x1rectangle.dxf	ok	AC1018	POLYLINE=1	0.0 0.0 10.0 10.0
+bjnortier/test/resources/Ceco.NET-Architecture-Tm-53.dxf	ok	AC1015	ARC=14,CIRCLE=18,DIMENSION=6,HATCH=6,INSERT=40,LINE=2358,LWPOLYLINE=2,MTEXT=18,POINT=21	0.0 0.0 43.10000000000002 32.5999999999999
+bjnortier/test/resources/accumulatortest.dxf	ok	AC1021	CIRCLE=2,INSERT=1,LINE=4	0.0 0.0 70.0 70.0
+bjnortier/test/resources/alu-profile.dxf	ok	AC1032	DIMENSION=7,HATCH=2,LINE=46,LWPOLYLINE=10,MTEXT=14,POINT=42,SOLID=28	-10.8496983796449 -8.009105376671865 81.66266662062843 83.9159238677066
+bjnortier/test/resources/arc15.dxf	ok	AC1021	ARC=1	-10.401676865889314 34.42756425916292 44.44327281701652 54.94839241477807
+bjnortier/test/resources/arc16.dxf	ok	AC1021	ARC=1	-14.42036831977866 -46.67058379582776 48.41855413640535 16.1708846478416
+bjnortier/test/resources/arc17.dxf	ok	AC1021	ARC=1	-48.50000000000003 -31.25000000000007 46.25 23.660984714434726
+bjnortier/test/resources/array-rotated.dxf	ok	AC1021	CIRCLE=1,INSERT=2	-
+bjnortier/test/resources/arrayed-holes.dxf	ok	AC1021	ARC=3,CIRCLE=1,INSERT=2,LINE=6	-
+bjnortier/test/resources/attribute.dxf	ok	AC1032	ATTDEF=2,INSERT=2,LINE=2,MTEXT=1,VIEWPORT=2	2387.640445100144 5110.360486708116 3680.292457489297 5114.819000570104
+bjnortier/test/resources/blocks1.dxf	ok	AC1021	CIRCLE=1,INSERT=2,LINE=4	-11.213203435596423 14.835639164941085 132.64142522944434 117.78174593052023
+bjnortier/test/resources/blocks2.dxf	ok	AC1021	ARC=1,ELLIPSE=1,INSERT=3,LINE=8,LWPOLYLINE=1,MTEXT=3	-
+bjnortier/test/resources/circlesellipsesarcs.dxf	ok	AC1021	ARC=2,CIRCLE=1,ELLIPSE=2	-20.0 -10.0 192.75003216363694 261.51207090636046
+bjnortier/test/resources/closedlwpolylinebug.dxf	ok	AC1015	INSERT=1,LWPOLYLINE=1	30.0 40.0 50.0 70.0
+bjnortier/test/resources/dimension-vertical.dxf	ok	AC1027	ARC=105,CIRCLE=20,DIMENSION=1,INSERT=1,LINE=510,LWPOLYLINE=2,MTEXT=16,SOLID=1,VIEWPORT=2	-
+bjnortier/test/resources/dimensions.dxf	ok	AC1021	CIRCLE=1,DIMENSION=2,LINE=8,MTEXT=2,SOLID=3	10.0 0.0 90.0 100.0
+bjnortier/test/resources/elliptical-arc1.dxf	ok	AC1021	ELLIPSE=1	-3.552713678800501e-15 0.0 10.0 5.0
+bjnortier/test/resources/elliptical-arc10.dxf	ok	AC1021	ELLIPSE=1	-120.6536698429277 -114.35188472959534 -49.34376970263449 -16.143433534543103
+bjnortier/test/resources/elliptical-arc11.dxf	ok	AC1021	ELLIPSE=1	-10.0 -10.0 0.0 10.0
+bjnortier/test/resources/elliptical-arc12.dxf	ok	AC1021	ELLIPSE=1	-10.0 1.7763568394002505e-15 10.0 10.0
+bjnortier/test/resources/elliptical-arc13.dxf	ok	AC1021	ELLIPSE=1	-1.7634731483107764 -8.911361417397213 4.411047670150018 -1.598471594725676
+bjnortier/test/resources/elliptical-arc14.dxf	ok	AC1021	ELLIPSE=1	-12.423265245480493 -109.78359323630583 292.9345460604516 183.83824901758035
+bjnortier/test/resources/elliptical-arc2.dxf	ok	AC1021	ELLIPSE=1	4.999999999999997 2.4999999999999996 8.660254037844387 4.3301270189221945
+bjnortier/test/resources/elliptical-arc3.dxf	ok	AC1021	ELLIPSE=1	-10.000397540435007 -2.8678821817552307 7.0710678118654755 5.000023462481383
+bjnortier/test/resources/elliptical-arc4.dxf	ok	AC1021	ELLIPSE=1	1.7763568394002505e-15 -6.123233995736766e-16 10.0 5.0
+bjnortier/test/resources/elliptical-arc5.dxf	ok	AC1021	ELLIPSE=1	-3.5355339059327395 3.535533905932735 6.999999999999999 7.84220126871093
+bjnortier/test/resources/elliptical-arc6.dxf	ok	AC1021	ELLIPSE=1	-6.156255350726644 -8.132011647342743 6.156255350726644 6.6858457603474335
+bjnortier/test/resources/elliptical-arc7.dxf	ok	AC1021	ELLIPSE=1	-167.8980406738463 -60.547373515358515 152.04578988935765 129.3696150896402
+bjnortier/test/resources/elliptical-arc8.dxf	ok	AC1021	ELLIPSE=1	3.478106094446092 33.97960829997987 58.636821651654536 49.00917468567695
+bjnortier/test/resources/elliptical-arc9.dxf	ok	AC1021	ELLIPSE=1	-118.07395417897287 4.431856441328385 98.82825511522925 17.676045821027287
+bjnortier/test/resources/ellipticalarcs.dxf	ok	AC1021	ELLIPSE=9	-100.0 -50.0 520.004719447837 270.0023597239185
+bjnortier/test/resources/ellipticalarcs2.dxf	ok	AC1021	ELLIPSE=4	-204.96512418569506 -203.99049765893864 528.0650473856796 703.9662453849324
+bjnortier/test/resources/empty.dxf	ok	AC1027	ARC=14,CIRCLE=9,DIMENSION=44,ELLIPSE=3,HATCH=2,INSERT=2,LEADER=3,LINE=12,LWPOLYLINE=3,MTEXT=3,POINT=20,SPLINE=6,VIEWPORT=2	-
+bjnortier/test/resources/entities.dxf	ok	AC1024	ARC=22,CIRCLE=9,DIMENSION=44,ELLIPSE=3,HATCH=2,INSERT=31,LEADER=3,LINE=154,LWPOLYLINE=32,MTEXT=76,POINT=152,SOLID=68,SPLINE=6	15.0 15.0 735.0 1005.0
+bjnortier/test/resources/floorplan.dxf	ok	AC1018	ARC=80,ATTDEF=2,CIRCLE=32,DIMENSION=126,HATCH=26,INSERT=285,LEADER=12,LINE=1989,LWPOLYLINE=402,MTEXT=144,POINT=378,TEXT=169,VIEWPORT=3	-723.3400129070387 -276.8243480186759 237.6921341438751 414.6401266742915
+bjnortier/test/resources/hatches.dxf	ok	AC1021	HATCH=1,LINE=4	0.0 0.0 100.0 100.0
+bjnortier/test/resources/issue21.dxf	ok	AC1021	LWPOLYLINE=3	463.4857177734375 -151.6342163085938 803.9474487304688 163.0783081054688
+bjnortier/test/resources/issue27a.dxf	ok	AC1018	SPLINE=1	77.80956681638004 438.2383842286806 411.9505154552479 792.4694097182921
+bjnortier/test/resources/issue27b.dxf	ok	AC1018	SPLINE=2	137.2270654725729 198.86618575225765 264.3617697491769 283.5531482243246
+bjnortier/test/resources/issue27c.dxf	ok	AC1018	SPLINE=1	2.0 0.9999999999999997 11.999996122117413 8.499965466887042
+bjnortier/test/resources/issue28.dxf	ok	AC1018	ARC=4,INSERT=74,LINE=134,MTEXT=42,POINT=120,SPLINE=1	-1474.835381364233 375.5569485928427 -1179.221072185651 415.9551663966194
+bjnortier/test/resources/issue29.dxf	ok	AC1009	POLYLINE=29	0.0 0.0 571.5 317.5
+bjnortier/test/resources/issue39.dxf	ok	AC1018	INSERT=1,LWPOLYLINE=15,MTEXT=1	2911.513068867986 3180.387644564151 2930.533265618455 3187.855410538238
+bjnortier/test/resources/issue42.dxf	ok	AC1009	ARC=6,CIRCLE=8,DIMENSION=13,INSERT=5,LINE=13,POLYLINE=1	-178.8542017396276 -211.9085616826003 105.1457982603728 -3.908561682600143
+bjnortier/test/resources/issue50.dxf	ok	AC1021	SPLINE=1,VIEWPORT=1	35.05494488188977 -3.589783464566929 35.91164206585921 -2.207055118110236
+bjnortier/test/resources/issue52.dxf	ok	AC1018	CIRCLE=2,INSERT=6,LWPOLYLINE=50	3438.221360870707 1725.69606299841 3683.914074877762 1917.684969769888
+bjnortier/test/resources/issue53.dxf	ok	AC1015	SPLINE=121	-24.23901387455109 -6.888144665398731 -20.270309327500264 -5.938312647652943
+bjnortier/test/resources/layers.dxf	ok	AC1021	CIRCLE=1,LINE=8	0.0 0.0 100.0 100.0
+bjnortier/test/resources/lines.dxf	ok	AC1021	LINE=11	0.0 0.0 100.0 99.2820323027551
+bjnortier/test/resources/lwpolyline_flip_test.dxf	ok	AC1015	LWPOLYLINE=2	0.0 0.0 90.0 30.0
+bjnortier/test/resources/lwpolylines.dxf	ok	AC1021	LWPOLYLINE=2	0.0 0.0 80.0 120.0
+bjnortier/test/resources/openscad_export.dxf	ok	AC1009	LINE=452	-13.0 -9.0 27.0 31.0
+bjnortier/test/resources/points.dxf	ok	AC1021	POINT=2	10.0 10.0 30.0 20.0
+bjnortier/test/resources/polyfacemesh.dxf	ok	AC1015	POLYLINE=2	0.5752088585545608 1.403981252993389 135.594208858553 136.9879812529941
+bjnortier/test/resources/polylines.dxf	ok	AC1018	POLYLINE=2	0.0 0.0 300.0 300.0
+bjnortier/test/resources/splineA.dxf	ok	AC1021	SPLINE=1	0.0 -11.203751287260832 200.0 117.06091797930203
+bjnortier/test/resources/splines.dxf	ok	AC1021	SPLINE=2	10.0 10.0 90.0 94.14213538169861
+bjnortier/test/resources/squareandcircle.dxf	ok	AC1018	CIRCLE=1,POLYLINE=1	0.0 0.0 10.0 10.0
+bjnortier/test/resources/squircle2.dxf	ok	AC1018	SPLINE=1	-0.7560000000000002 -0.756000000000002 0.7560000000000002 0.7559999999999985
+bjnortier/test/resources/supported_entities.dxf	ok	AC1015	ARC=2,CIRCLE=1,ELLIPSE=3,INSERT=15,LINE=21,LWPOLYLINE=14,MTEXT=16,SPLINE=6	15.0 15.0 735.0 1005.0
+bjnortier/test/resources/testHatch.dxf	ok	AC1032	CIRCLE=1,HATCH=1,LINE=2,LWPOLYLINE=1	306.2493227293204 -215.9280510586818 314.741195876921 -131.318898119132
+bjnortier/test/resources/testModelPaperSpace.dxf	ok	AC1032	CIRCLE=1,LINE=6,VIEWPORT=2	0.0 0.0 10.01577475132223 9.999987557853295
+bjnortier/test/resources/testOle2Frame.dxf	ok	AC1015	OLE2FRAME=1	-
+bjnortier/test/resources/texts-in-block.dxf	ok	AC1021	ARC=60,CIRCLE=14,ELLIPSE=5,HATCH=31,INSERT=1,LINE=516,LWPOLYLINE=51,POINT=33,TEXT=3,VIEWPORT=1	9899.729205473326 3232.378531318507 22939.429126751784 4226.793032476853
+bjnortier/test/resources/texts.dxf	ok	AC1021	MTEXT=2	-
+bjnortier/test/resources/threeDFaces.dxf	ok	AC1009	3DFACE=12	-10.0 -10.0 10.0 10.0
+ezdxf/docs/source/tutorials/src/geo/Graz_10km_3m.dxf	ok	AC1027	IMAGE=8	-4999.999999953667 -4999.999997691251 4999.9999999532 5000.00000199955
+ezdxf/examples/edgeminer/3_us_main.dxf	ok	AC1027	LINE=10052,TEXT=1	-20.698937692276 4.444560187888 -3.394990385203 15.254443321137
+ezdxf/examples_dxf/3dface.dxf	ok	AC1032	3DFACE=46,LWPOLYLINE=6,MTEXT=16,TEXT=6	606.008932738754 163.4994741574337 5154.250845718525 4199.536162098836
+ezdxf/examples_dxf/Minimal_DXF_AC1006.dxf	ok	AC1009	3DFACE=2,LINE=1	-0.5 -0.5 0.5 0.5
+ezdxf/examples_dxf/Minimal_DXF_AC1009.dxf	ok	AC1009	-	-
+ezdxf/examples_dxf/Minimal_DXF_AC1021.dxf	ok	AC1021	-	-
+ezdxf/examples_dxf/VP4.dxf	ok	AC1027	LINE=16,LWPOLYLINE=2,TEXT=4,VIEWPORT=5	191.4 195.0 406.82375315685954 435.897672557949
+ezdxf/examples_dxf/acad_table_simple.dxf	ok	AC1027	ACAD_TABLE=1,LINE=8,MTEXT=7	105.0 116.0 561.0 145.0
+ezdxf/examples_dxf/acad_table_with_blk_ref.dxf	ok	AC1032	ACAD_TABLE=1,CIRCLE=1,INSERT=1,LINE=31,MTEXT=27	746.478536000632 47.550762406015 946.478536000632 139.550762406015
+ezdxf/examples_dxf/caret_encoding.dxf	ok	AC1027	MTEXT=61	-
+ezdxf/examples_dxf/circle_radius_le_0.dxf	ok	AC1027	CIRCLE=2	0.0 -1.0 2.0 1.0
+ezdxf/examples_dxf/clockwise_arcs_hatch.dxf	ok	AC1027	HATCH=1	-292.646754981846 536.6831868166427 -236.6467529817549 606.6831868166429
+ezdxf/examples_dxf/colors.dxf	ok	AC1032	CIRCLE=10,INSERT=4,LWPOLYLINE=13,MTEXT=18	40.00963798797525 63.38701564828525 174.9930874833025 125.3941871536353
+ezdxf/examples_dxf/columns_R2007.dxf	ok	AC1021	LWPOLYLINE=34,MTEXT=44	49.456500869708 99.310308205136 331.645923703728 261.039465342453
+ezdxf/examples_dxf/columns_R2018.dxf	ok	AC1032	LWPOLYLINE=34,MTEXT=25	49.45650086970807 99.31030820513627 331.6459237037285 261.0394653424527
+ezdxf/examples_dxf/dimension_in_block.dxf	ok	AC1027	DIMENSION=2,INSERT=2,LINE=8,MTEXT=2,POINT=6,SOLID=4	0.0 0.0 30.0 29.501885880683336
+ezdxf/examples_dxf/dimension_in_nested_blocks.dxf	ok	AC1027	DIMENSION=1,INSERT=7,LINE=9,LWPOLYLINE=3,MTEXT=3,POINT=9,SOLID=6,TEXT=3	30.0 30.0 246.5685424949238 223.1370849898476
+ezdxf/examples_dxf/hatch_issues.dxf	ok	AC1032	CIRCLE=8,HATCH=4	-4.0 -4.0 14.0 14.0
+ezdxf/examples_dxf/hatch_text_box_in_fill.dxf	ok	AC1027	HATCH=1,LWPOLYLINE=2,MTEXT=1	93.0 40.0 337.0 230.0
+ezdxf/examples_dxf/hatch_text_box_in_hole.dxf	ok	AC1027	HATCH=1,LWPOLYLINE=2,MTEXT=1	93.0 40.0 337.0 230.0
+ezdxf/examples_dxf/hatch_text_box_overlapping_fill_and_hole.dxf	ok	AC1027	HATCH=1,LWPOLYLINE=2,MTEXT=1	93.0 40.0 337.0 230.0
+ezdxf/examples_dxf/hatches_1.dxf	ok	AC1032	ARC=6,HATCH=10,LWPOLYLINE=16	4.10401974483959 19.80219826932511 163.4166188192255 36.12487660989109
+ezdxf/examples_dxf/hatches_2.dxf	ok	AC1032	ARC=1,ELLIPSE=1,HATCH=2,LWPOLYLINE=4,MTEXT=2,SPLINE=1	15.94617981131185 12.0362564511354 153.7936167695326 43.97094033685865
+ezdxf/examples_dxf/insert_bricscad_level_1.dxf	ok	AC1027	INSERT=15,LINE=6,LWPOLYLINE=6,TEXT=30	-1.864662308569 7.044442957905 15.703369896543 18.45615292011
+ezdxf/examples_dxf/mtext_columns_R2000.dxf	ok	AC1015	MTEXT=9	-
+ezdxf/examples_dxf/mtext_columns_R2007.dxf	ok	AC1021	MTEXT=9	-
+ezdxf/examples_dxf/mtext_columns_R2018.dxf	ok	AC1032	MTEXT=3	-
+ezdxf/examples_dxf/mtext_complex_inline_codes.dxf	ok	AC1027	LINE=4,MTEXT=8	50.430705862098 25.433691854621 867.879568525528 588.888307768772
+ezdxf/examples_dxf/multi_insert_with_attribs.dxf	ok	AC1027	ATTDEF=3,CIRCLE=1,INSERT=1,POLYLINE=1	-11.646857029613429 -0.4 41.72427922141144 53.819423987108905
+ezdxf/examples_dxf/text.dxf	ok	AC1032	ATTDEF=8,INSERT=1,LINE=47,LWPOLYLINE=79,MTEXT=30,TEXT=62,VIEWPORT=4	30.48636351745881 -129.663731401742 8401.702132138707 2818.300263310312
+ezdxf/examples_dxf/text_alignments.dxf	ok	AC1018	CIRCLE=32,LINE=10,TEXT=16	-0.1 -1.6 35.075 15.1
+ezdxf/examples_dxf/text_fonts.dxf	ok	AC1027	CIRCLE=704,LINE=256,TEXT=384	-0.1 -51.249173408365 62.559631642976 2.1234872851430002
+ezdxf/examples_dxf/text_in_viewports.dxf	ok	AC1027	ELLIPSE=1,LWPOLYLINE=3,TEXT=14,VIEWPORT=7	-
+ezdxf/examples_dxf/text_mirror_shx_font.dxf	ok	AC1027	CIRCLE=352,LINE=128,TEXT=192	-0.1 -21.452786522369 75.05509876756699 2.1234872851430002
+ezdxf/examples_dxf/text_mirror_true_type_font.dxf	ok	AC1027	CIRCLE=352,LINE=128,TEXT=192	-0.1 -21.452786522369 75.05509876756699 2.1234872851430002
+ezdxf/examples_dxf/text_negative_extrusion.dxf	ok	AC1032	ATTDEF=8,INSERT=1,LINE=47,LWPOLYLINE=79,MTEXT=30,TEXT=62,VIEWPORT=4	-8447.080393804448 -59.96392043627512 6971.13995550185 3785.469120628381
+ezdxf/examples_dxf/text_oblique_rotate.dxf	ok	AC1027	CIRCLE=168,LINE=56,TEXT=93	-0.1 -13.535416364498 40.045354050283 3.929911004593
+ezdxf/examples_dxf/text_stacked_shx_font.dxf	ok	AC1027	CIRCLE=224,LINE=84,TEXT=131	-0.1 43.37779602162 100.18178984891499 58.572390317414005
+ezdxf/examples_dxf/text_stacked_true_type_font.dxf	ok	AC1027	CIRCLE=224,LINE=84,TEXT=131	-0.1 43.37779602162 100.18178984891499 58.572390317414005
+ezdxf/examples_dxf/transform_hatch_pattern.dxf	ok	AC1027	HATCH=16,INSERT=2,LWPOLYLINE=9,MTEXT=3	-64.0 0.0 155.4256258422041 288.0
+ezdxf/examples_dxf/uncommon.dxf	ok	AC1032	3DSOLID=2,ARC=14,ARC_DIMENSION=1,ATTDEF=1,CIRCLE=1,DIMENSION=13,INSERT=1,LARGE_RADIAL_DIMENSION=2,LINE=93,LWPOLYLINE=9,MESH=1,MTEXT=47,MULTILEADER=2,POINT=94,POLYLINE=2,RAY=3,SOLID=35,SPLINE=1,VIEWPORT=2,XLINE=2	0.0 0.0 91.88948375119709 80.30990104645679
+ezdxf/examples_dxf/valid_lineweights.dxf	ok	AC1027	LINE=25,TEXT=25	0.0 0.0 10.0 24.0
+ezdxf/examples_dxf/viewport_frozen_layers.dxf	ok	AC1027	TEXT=7,VIEWPORT=4	-
+ezdxf/examples_dxf/visibility.dxf	ok	AC1032	INSERT=2,MTEXT=4,TEXT=2	-
+ezdxf/examples_dxf/wipeout_door.dxf	ok	AC1032	ARC=3,CIRCLE=3,INSERT=2,LINE=202,LWPOLYLINE=2,MTEXT=4,WIPEOUT=2	9383.646297471289 3721.8370553053865 13032.5189727314 6780.017880143414
+ezdxf/examples_dxf/wipeout_random.dxf	ok	AC1027	LINE=30,WIPEOUT=1	2.386459498131621 1.0247231152808678 96.9922067861407 99.81831566669436
+ezdxf/examples_dxf/xclip.dxf	ok	AC1027	CIRCLE=1,INSERT=9,LINE=2,LWPOLYLINE=1,MTEXT=9,VIEWPORT=9	5.0 -2.896936162253 42.502931650755 28.351800431413444
+ezdxf/integration_tests/data/AC1003_LINE_Example.dxf	recovered	AC1009	ARC=9,LINE=13	0.0 -0.0 3.625 1.625
+ezdxf/integration_tests/data/ASCII_R12.dxf	ok	AC1009	INSERT=1,LINE=2,TEXT=1	10.51059003162321 12.75848940242496 17.42860800332437 19.6164955962701
+ezdxf/integration_tests/data/Leica_Disto_S910.dxf	ok	AC1009	LINE=10,POINT=11,TEXT=11	-0.116359 -0.827625 1.080163 0.066894
+ezdxf/integration_tests/data/MODEL.dxf	ok	AC1027	POINT=1	0.0 0.0 0.0 0.0
+ezdxf/integration_tests/data/R12_with_trash_beyond_EOF.dxf	ok	AC1009	CIRCLE=1	-1.5 -1.5 1.5 1.5
+ezdxf/integration_tests/data/acad_table_with_blk_ref.dxf	ok	AC1032	ACAD_TABLE=1,CIRCLE=1,INSERT=1,LINE=31,MTEXT=27	746.478536000632 47.550762406015 946.478536000632 139.550762406015
+ezdxf/integration_tests/data/bin_dxf_r12.dxf	ok	AC1009	LINE=3	335.7175512218761 304.2703520470918 595.8780802828901 439.7706275997033
+ezdxf/integration_tests/data/bin_dxf_r13.dxf	ok	AC1015	LINE=3	335.7175512218761 304.2703520470918 595.8780802828901 439.7706275997033
+ezdxf/integration_tests/data/bin_dxf_r14.dxf	ok	AC1015	LINE=3	335.7175512218761 304.2703520470918 595.8780802828901 439.7706275997033
+ezdxf/integration_tests/data/bin_dxf_r2000.dxf	ok	AC1015	TEXT=1	-
+ezdxf/integration_tests/data/cc_dxflib.dxf	ok	AC1009	POLYLINE=1	0.1021933555603027 -1.5794757604599 1.2507928609848022 -0.3619300723075867
+ezdxf/integration_tests/data/custom_blocks.dxf	ok	AC1024	CIRCLE=2,INSERT=3,LWPOLYLINE=2	-0.4142135623730949 -0.4142135623730949 11.49777516797268 11.155586934136483
+ezdxf/integration_tests/data/duplicate_handles.dxf	ok	AC1015	DIMENSION=7,ELLIPSE=8,LINE=111,TEXT=19	-170.9962 -99.75 170.9962 99.75
+ezdxf/integration_tests/data/dxf_unicode.dxf	ok	AC1027	-	-
+ezdxf/integration_tests/data/empty_handles.dxf	recovered	AC1009	LINE=8	0.0 0.0 165.0 340.0
+ezdxf/integration_tests/data/groups.dxf	ok	AC1027	LINE=13	115.536253636194 175.298841059603 317.879796682552 233.567880794702
+ezdxf/integration_tests/data/issue1106.dxf	recovered	AC1009	ARC=2,CIRCLE=3,LINE=5	-119.98 -985.0 1005.0000000000001 1885.02
+ezdxf/integration_tests/data/issue_1359_1.dxf	ok	AC1032	ATTDEF=2,CIRCLE=2,INSERT=1,LINE=1,LWPOLYLINE=2	279.8351795443208 159.78955910990317 443.5524625792975 323.5068421448799
+ezdxf/integration_tests/data/issue_1359_2.dxf	ok	AC1032	ATTDEF=2,CIRCLE=2,INSERT=1,LINE=1,LWPOLYLINE=2	233.26306402028325 198.1666422489791 528.5093084532236 441.7962915750202
+ezdxf/integration_tests/data/layout_broken_links.dxf	ok	AC1027	-	-
+ezdxf/integration_tests/data/layout_broken_links_2.dxf	ok	AC1027	-	-
+ezdxf/integration_tests/data/layout_missing_block_definition.dxf	ok	AC1027	-	-
+ezdxf/integration_tests/data/layout_missing_block_record.dxf	ok	AC1027	-	-
+ezdxf/integration_tests/data/mtext_columns_R2007.dxf	ok	AC1021	MTEXT=9	-
+ezdxf/integration_tests/data/mtext_columns_R2018.dxf	ok	AC1032	MTEXT=3	-
+ezdxf/integration_tests/data/mtext_framed_columns.dxf	ok	AC1027	LWPOLYLINE=6,MTEXT=6	-
+ezdxf/integration_tests/data/mtext_text_frame.dxf	ok	AC1027	LWPOLYLINE=3,MTEXT=1,SOLID=1	-
+ezdxf/integration_tests/data/no_layouts.dxf	ok	AC1021	SPLINE=2	-142.79779000000005 41.66467999999998 -122.79772 61.66474000000002
+ezdxf/integration_tests/data/r12_blocks_with_no_names.dxf	ok	AC1009	-	-
+ezdxf/integration_tests/data/r2000_blocks_with_no_name_and_no_block_record.dxf	ok	AC1015	-	-
+ezdxf/integration_tests/data/r2000_blocks_with_no_names.dxf	ok	AC1015	-	-
+ezdxf/integration_tests/data/recover01.dxf	error:DXFStructureError	-	-	-
+ezdxf/integration_tests/data/recover02.dxf	recovered	AC1032	LINE=35,LWPOLYLINE=1,TEXT=59,VIEWPORT=4	0.0 0.0 8.0 10.5
+ezdxf/integration_tests/data/small_r13.dxf	ok	AC1015	POLYLINE=16	-0.1749972 -0.0108330000000001 1.424999599999999 2.589161799999999
+ezdxf/integration_tests/data/small_r14.dxf	ok	AC1015	-	-
+fess/files/cad/autocad_2000.dxf	ok	AC1015	ATTDEF=3,LINE=4,LWPOLYLINE=15,MTEXT=1,TEXT=10,VIEWPORT=1	0.0 0.0 34.5 23.0
+fess/files/cad/autocad_2004.dxf	ok	AC1018	ATTDEF=3,LINE=4,LWPOLYLINE=15,MTEXT=1,TEXT=10,VIEWPORT=1	0.0 0.0 34.5 23.0
+fess/files/cad/autocad_2007.dxf	ok	AC1021	ATTDEF=3,LINE=4,LWPOLYLINE=15,MTEXT=1,TEXT=10,VIEWPORT=1	0.0 0.0 34.5 23.0
+fess/files/cad/autocad_2010.dxf	ok	AC1021	ATTDEF=3,LINE=4,LWPOLYLINE=15,MTEXT=1,TEXT=10,VIEWPORT=1	0.0 0.0 34.5 23.0
+fess/files/cad/autocad_2013.dxf	ok	AC1027	ATTDEF=3,LINE=4,LWPOLYLINE=15,MTEXT=1,TEXT=10,VIEWPORT=1	0.0 0.0 34.5 23.0
+fess/files/cad/autocad_2018.dxf	ok	AC18	CIRCLE=1,LINE=1,TEXT=4	0.0 0.0 10.0 7.5
+fess/files/cad/autocad_2021.dxf	ok	AC21	CIRCLE=1,LINE=1,TEXT=4	0.0 0.0 10.0 7.5
+fess/files/cad/autocad_2024.dxf	ok	AC24	CIRCLE=1,LINE=1,TEXT=4	0.0 0.0 10.0 7.5
+fess/files/cad/autocad_R12_LT2.dxf	ok	AC1009	ATTDEF=3,INSERT=1,LINE=4,POLYLINE=15,TEXT=19,VIEWPORT=1	0.0 0.0 34.5 23.0
+gdal/autotest/ogr/data/dxf/3d.dxf	ok	AC1027	3DSOLID=2,CIRCLE=1,INSERT=3,POLYLINE=1	0.0 -5.99999999999998e-17 2.799999999999999 1.0
+gdal/autotest/ogr/data/dxf/3dface.dxf	ok	AC1009	3DFACE=2	10.0 20.0 13.0 23.0
+gdal/autotest/ogr/data/dxf/BINARY_wipeout.dxf	ok	AC1032	INSERT=2,LINE=3,VIEWPORT=1,WIPEOUT=2	448380.5389543074 6913930.732825023 448381.5389543074 6913933.6020638
+gdal/autotest/ogr/data/dxf/LWPOLYLINE-OCS.dxf	ok	AC1027	LWPOLYLINE=7,POLYLINE=6	597867.678 3139150.565 611415.4598196555 3153107.77
+gdal/autotest/ogr/data/dxf/additional-entities.dxf	ok	AC1027	ATTDEF=1,HATCH=2,HELIX=1,INSERT=1,LWPOLYLINE=1,MLINE=3,SPLINE=1,TRACE=1	-
+gdal/autotest/ogr/data/dxf/assorted.dxf	recovered	AC1015	ARC=1,DIMENSION=3,ELLIPSE=2,INSERT=1,LINE=7,MTEXT=3,POINT=1	32.58791260363811 91.23762218781107 116.8156871363146 160.0
+gdal/autotest/ogr/data/dxf/attrib-nested.dxf	ok	AC1009	ATTDEF=1,INSERT=2	-
+gdal/autotest/ogr/data/dxf/attrib.dxf	ok	AC1009	ATTDEF=3,CIRCLE=1,INSERT=2	-40.0 -60.0 160.0 70.0
+gdal/autotest/ogr/data/dxf/bin_dxf_r12.dxf	ok	AC1009	LINE=3	335.7175512218761 304.2703520470918 595.8780802828901 439.7706275997033
+gdal/autotest/ogr/data/dxf/bin_dxf_r2000.dxf	ok	AC1015	TEXT=1	-
+gdal/autotest/ogr/data/dxf/block-basepoint.dxf	ok	AC1009	INSERT=2,LINE=2	290.0 140.0 310.0 160.0
+gdal/autotest/ogr/data/dxf/block-hidden-entities.dxf	ok	AC1009	INSERT=4,LINE=2	2.5 2.5 20.0 5.0
+gdal/autotest/ogr/data/dxf/block-insert-order.dxf	ok	AC1009	CIRCLE=2,INSERT=6	-7.635323945564513 -6.15690425700733 4.0 3.3750778438197093
+gdal/autotest/ogr/data/dxf/byblock-bylayer-new.dxf	ok	AC1009	INSERT=18,LINE=26,POLYLINE=1	-90.00000000000003 -90.0 190.0 190.0
+gdal/autotest/ogr/data/dxf/byblock-bylayer.dxf	ok	AC1027	CIRCLE=1,DIMENSION=1,INSERT=7,LINE=8,LWPOLYLINE=2,MTEXT=1,POINT=3,SOLID=2	316827.9499553386 5814529.905368025 316838.3334775944 5814535.914351539
+gdal/autotest/ogr/data/dxf/circle.dxf	ok	AC1009	ARC=1,CIRCLE=1	-3.0 -2.0 5200.0 274.49748351250486
+gdal/autotest/ogr/data/dxf/closed_polyline_with_bulge.dxf	ok	AC1009	LWPOLYLINE=1	40585252.16981492 3433885.8979057204 40585366.70650577 3434017.686781913
+gdal/autotest/ogr/data/dxf/clusterfuzz-testcase-minimized-dxf_fuzzer-5400376672124928.dxf	error:DXFStructureError	-	-	-
+gdal/autotest/ogr/data/dxf/clusterfuzz-testcase-minimized-shape_fuzzer-6126814756995072.dxf	error:DXFStructureError	-	-	-
+gdal/autotest/ogr/data/dxf/dimension-entities-only.dxf	ok	AC1027	DIMENSION=3	-
+gdal/autotest/ogr/data/dxf/dimension.dxf	ok	AC1027	DIMENSION=3,INSERT=1,LINE=11,MTEXT=2,POINT=9,SOLID=5,TEXT=5	320000.0 5820001.0 320010.0 5820010.430872581
+gdal/autotest/ogr/data/dxf/ellipse_z_extrusion_minus_1.dxf	ok	AC1009	ELLIPSE=2	247.3795880680738 525.6775186530243 290.9886516143487 533.7677453998239
+gdal/autotest/ogr/data/dxf/elliptical-arc-hatch-min.dxf	error:IndexError	-	HATCH=2	-
+gdal/autotest/ogr/data/dxf/entities_only.dxf	ok	AC1009	POINT=2	672500.0 242000.0 672750.0 242000.0
+gdal/autotest/ogr/data/dxf/frozen-off.dxf	ok	AC1009	CIRCLE=1,INSERT=8,LINE=12,POLYLINE=1	-153.0368033557784 -93.36827665019706 108.1587062067244 95.49476111982437
+gdal/autotest/ogr/data/dxf/hatch.dxf	error:DXFStructureError	-	-	-
+gdal/autotest/ogr/data/dxf/hatch_as_multipolygon.dxf	ok	AC1032	HATCH=1	337.1477744116178 -3233.571434541214 492.4178694014063 -3109.05636151571
+gdal/autotest/ogr/data/dxf/hatch_pattern_generated_by_gdal.dxf	ok	AC1018	HATCH=7	-10.0 0.0 60.0 10.0
+gdal/autotest/ogr/data/dxf/header_extended.dxf	error:DXFStructureError	-	-	-
+gdal/autotest/ogr/data/dxf/insert-recursive-pair.dxf	ok	AC1009	INSERT=4,POINT=1	-
+gdal/autotest/ogr/data/dxf/insert-too-many-errors.dxf	error:DXFStructureError	-	-	-
+gdal/autotest/ogr/data/dxf/insert_only.dxf	ok	AC1009	INSERT=1,LINE=5	78.14063885583995 118.89259015094285 80.13911119048562 121.00365247627278
+gdal/autotest/ogr/data/dxf/insert_only_col_count_zero.dxf	ok	AC1009	INSERT=1,LINE=5	78.14063885583995 118.89259015094285 80.13911119048562 121.00365247627278
+gdal/autotest/ogr/data/dxf/leader-mleader.dxf	ok	AC1027	ATTDEF=1,HATCH=1,LEADER=7,LINE=1,MTEXT=2,MULTILEADER=9,SOLID=1	-
+gdal/autotest/ogr/data/dxf/linetypes.dxf	ok	AC1015	LINE=4	320000.0 5820090.0 320200.0 5820110.0
+gdal/autotest/ogr/data/dxf/lwpolyline_smooth.dxf	error:DXFStructureError	-	LWPOLYLINE=1	-
+gdal/autotest/ogr/data/dxf/mtext-ocs-reduced.dxf	ok	AC1027	MTEXT=3,TEXT=3	-
+gdal/autotest/ogr/data/dxf/ocs2wcs1.dxf	ok	AC1027	3DFACE=4,ARC=4,CIRCLE=4,ELLIPSE=4,HATCH=4,LINE=4,LWPOLYLINE=4,POINT=4,POLYLINE=4,SOLID=4,SPLINE=8,TEXT=4,VIEWPORT=2	-9.0 -9.0 9.0 9.0
+gdal/autotest/ogr/data/dxf/ocs2wcs2.dxf	ok	AC1027	3DFACE=4,ARC=4,CIRCLE=4,ELLIPSE=4,HATCH=4,LINE=20,LWPOLYLINE=4,POINT=4,POLYLINE=4,SOLID=4,SPLINE=8,TEXT=4,VIEWPORT=2	-4.499999999999998 -4.499999999999997 12.375000000000004 9.0
+gdal/autotest/ogr/data/dxf/ocs2wcs3.dxf	ok	AC1027	HATCH=2,INSERT=6,LWPOLYLINE=1,SOLID=2	-78.2842706474619 -53.39780675015359 70.0 92.42640627119285
+gdal/autotest/ogr/data/dxf/polyline_smooth.dxf	ok	AC1009	POLYLINE=1	251289.06443889916 412204.7849316558 251328.34964473417 412239.1717459193
+gdal/autotest/ogr/data/dxf/solid-less-than-4-vertices.dxf	ok	AC1009	SOLID=5	0.0 1.0 2.0 2.0
+gdal/autotest/ogr/data/dxf/solid-vertex-ordering.dxf	ok	AC1009	SOLID=2	-10.0 0.0 10.0 13.0
+gdal/autotest/ogr/data/dxf/solid.dxf	ok	AC1009	SOLID=1	2.393674 1.06881 4.714214 2.762514
+gdal/autotest/ogr/data/dxf/spline_closed.dxf	ok	AC1009	SPLINE=2	13.638755642267565 1.638755642267562 16.379595702015724 4.379595702015727
+gdal/autotest/ogr/data/dxf/spline_qcad.dxf	ok	AC1015	SPLINE=1	10.75 8.287551800409952 94.68748480081558 85.5
+gdal/autotest/ogr/data/dxf/spline_weight.dxf	ok	AC1009	SPLINE=3	2.0 2.0 6.0 4.333333333333332
+gdal/autotest/ogr/data/dxf/spline_with_very_close_neg_to_zero_knot.dxf	error:DXFStructureError	-	SPLINE=1	-
+gdal/autotest/ogr/data/dxf/text-block-transform.dxf	ok	AC1009	INSERT=2,TEXT=3	-
+gdal/autotest/ogr/data/dxf/text-fancy.dxf	ok	AC1027	INSERT=2,LWPOLYLINE=2,MTEXT=1,TEXT=3	309910.0 5819962.0 310090.0 5820030.0
+gdal/autotest/ogr/data/dxf/text.dxf	error:DXFStructureError	-	-	-
+gdal/autotest/ogr/data/dxf/transparency.dxf	ok	AC1018	LWPOLYLINE=1	97.0 132.25 108.5 159.5
+gdal/autotest/ogr/data/dxf/utf-8.dxf	ok	AC1018	POINT=1	1.0 2.0 1.0 2.0
+gdal/autotest/ogr/data/dxf/wipeout.dxf	ok	AC1032	INSERT=2,LINE=3,VIEWPORT=1,WIPEOUT=2	448380.5389543074 6913930.732825023 448381.5389543074 6913933.6020638
+jscad/dxf/autocad2017/2Darcs.dxf	ok	AC1027	ARC=3,ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dcircles.dxf	ok	AC1027	ATTDEF=3,CIRCLE=3,INSERT=2,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Ddonuts.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=9,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dellipses.dxf	ok	AC1027	ATTDEF=3,ELLIPSE=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dhatch.dxf	ok	AC1027	ATTDEF=3,HATCH=1,LINE=14,LWPOLYLINE=7,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dhelix.dxf	ok	AC1027	ATTDEF=3,HELIX=2,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dlines.dxf	ok	AC1027	ATTDEF=3,LINE=17,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dmlines.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=6,MLINE=2,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dpoints.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=6,POINT=4,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dpolylines.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=8,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Drectangles.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=9,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/2Dxlines.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1,XLINE=4	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/3Dboxes.dxf	ok	AC1027	3DSOLID=2,VIEWPORT=1	-
+jscad/dxf/autocad2017/3Ddraw.dxf	ok	AC1027	3DSOLID=7,VIEWPORT=1	-
+jscad/dxf/autocad2017/3Dhelix.dxf	ok	AC1027	HELIX=2,VIEWPORT=1	5.000074304678361 10.420123025543456 19.370389917293245 20.0
+jscad/dxf/autocad2017/3Dlines.dxf	ok	AC1027	3DSOLID=1,ARC=1,EXTRUDEDSURFACE=4,LINE=1,LWPOLYLINE=1,SPLINE=1,VIEWPORT=1	5.0 11.982233047033631 22.499999999999996 21.25
+jscad/dxf/autocad2017/3Dmesh01.dxf	ok	AC1027	MESH=2,VIEWPORT=1	10.5 12.5 24.0 20.0
+jscad/dxf/autocad2017/3Dshapes.dxf	ok	AC1027	3DSOLID=3,VIEWPORT=1	-
+jscad/dxf/autocad2017/empty2000.dxf	ok	AC1015	ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/empty2004.dxf	ok	AC1018	ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/empty2007.dxf	ok	AC1021	ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/empty2010.dxf	ok	AC1024	ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/empty2013.dxf	ok	AC1027	ATTDEF=3,LINE=14,LWPOLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/autocad2017/emptyR12.dxf	ok	AC1009	ATTDEF=3,LINE=14,POLYLINE=6,VIEWPORT=1	-0.01 -0.01 34.51 23.01
+jscad/dxf/bourke/3d-entities.dxf	ok	AC1009	3DFACE=2,LINE=1	-0.5 -0.5 0.5 0.5
+jscad/dxf/dxf-parser/accumulatortest.dxf	ok	AC1021	CIRCLE=2,INSERT=1,LINE=4	0.0 0.0 70.0 70.0
+jscad/dxf/dxf-parser/blocks1.dxf	ok	AC1021	CIRCLE=1,INSERT=2,LINE=4	-11.213203435596423 14.835639164941085 132.64142522944434 117.78174593052023
+jscad/dxf/dxf-parser/blocks2.dxf	ok	AC1021	ARC=1,ELLIPSE=1,INSERT=3,LINE=8,LWPOLYLINE=1,MTEXT=3	-
+jscad/dxf/dxf-parser/circlesellipsesarcs.dxf	ok	AC1021	ARC=2,CIRCLE=1,ELLIPSE=2	-20.0 -10.0 192.75003216363694 261.51207090636046
+jscad/dxf/dxf-parser/closedlwpolylinebug.dxf	ok	AC1015	INSERT=1,LWPOLYLINE=1	30.0 40.0 50.0 70.0
+jscad/dxf/dxf-parser/dimensions.dxf	ok	AC1021	CIRCLE=1,DIMENSION=2,LINE=8,MTEXT=2,SOLID=3	10.0 0.0 90.0 100.0
+jscad/dxf/dxf-parser/ellipticalarcs.dxf	ok	AC1021	ELLIPSE=9	-100.0 -50.0 520.004719447837 270.0023597239185
+jscad/dxf/dxf-parser/ellipticalarcs2.dxf	ok	AC1021	ELLIPSE=4	-204.96512418569506 -203.99049765893864 528.0650473856796 703.9662453849324
+jscad/dxf/dxf-parser/empty.dxf	ok	AC1027	ARC=14,CIRCLE=9,DIMENSION=44,ELLIPSE=3,HATCH=2,INSERT=2,LEADER=3,LINE=12,LWPOLYLINE=3,MTEXT=3,POINT=20,SPLINE=6,VIEWPORT=2	-
+jscad/dxf/dxf-parser/entities.dxf	ok	AC1024	ARC=22,CIRCLE=9,DIMENSION=44,ELLIPSE=3,HATCH=2,INSERT=31,LEADER=3,LINE=154,LWPOLYLINE=32,MTEXT=76,POINT=152,SOLID=68,SPLINE=6	15.0 15.0 735.0 1005.0
+jscad/dxf/dxf-parser/floorplan.dxf	ok	AC1018	ARC=80,ATTDEF=2,CIRCLE=32,DIMENSION=126,HATCH=26,INSERT=285,LEADER=12,LINE=1989,LWPOLYLINE=402,MTEXT=144,POINT=378,TEXT=169,VIEWPORT=3	-723.3400129070387 -276.8243480186759 237.6921341438751 414.6401266742915
+jscad/dxf/dxf-parser/hatches.dxf	ok	AC1021	HATCH=1,LINE=4	0.0 0.0 100.0 100.0
+jscad/dxf/dxf-parser/layers.dxf	ok	AC1021	CIRCLE=1,LINE=8	0.0 0.0 100.0 100.0
+jscad/dxf/dxf-parser/lines.dxf	ok	AC1021	LINE=11	0.0 0.0 100.0 99.2820323027551
+jscad/dxf/dxf-parser/lwpolylines.dxf	ok	AC1021	LWPOLYLINE=2	0.0 0.0 80.0 120.0
+jscad/dxf/dxf-parser/openscad_export.dxf	ok	AC1009	LINE=452	-13.0 -9.0 27.0 31.0
+jscad/dxf/dxf-parser/points.dxf	ok	AC1021	POINT=2	10.0 10.0 30.0 20.0
+jscad/dxf/dxf-parser/polylines.dxf	ok	AC1018	POLYLINE=2	0.0 0.0 300.0 300.0
+jscad/dxf/dxf-parser/rectangle.dxf	ok	AC1018	POLYLINE=1	0.0 0.0 10.0 10.0
+jscad/dxf/dxf-parser/splineA.dxf	ok	AC1021	SPLINE=1	0.0 -11.203751287260832 200.0 117.06091797930203
+jscad/dxf/dxf-parser/splines.dxf	ok	AC1021	SPLINE=2	10.0 10.0 90.0 94.14213538169861
+jscad/dxf/dxf-parser/squareandcircle.dxf	ok	AC1018	CIRCLE=1,POLYLINE=1	0.0 0.0 10.0 10.0
+jscad/dxf/dxf-parser/texts.dxf	ok	AC1021	MTEXT=2	-
+jscad/dxf/ezdxf/AC1027_mesh.dxf	ok	AC1027	LINE=3,LWPOLYLINE=1,MESH=1	0.0 0.0 1.0 1.0
+jscad/dxf/ezdxf/CustomBlocks.dxf	ok	AC1024	CIRCLE=2,INSERT=3,LWPOLYLINE=2	-0.4142135623730949 -0.4142135623730949 11.49777516797268 11.155586934136483
+jscad/dxf/ezdxf/Minimal_DXF_AC1009.dxf	ok	AC1009	CIRCLE=1	-1.5 -1.5 1.5 1.5
+jscad/dxf/ezdxf/Minimal_DXF_AC1021(1).dxf	ok	AC1021	-	-
+jscad/dxf/ezdxf/Minimal_DXF_AC1021.dxf	ok	AC1021	-	-
+jscad/dxf/ezdxf/Spline_R2000.dxf	ok	AC1015	SPLINE=1	50.0 50.0 600.0 259.474730025612
+jscad/dxf/ezdxf/ansi_pattern.dxf	ok	AC1027	HATCH=8,LWPOLYLINE=1	0.0 -10.0 40.0 10.0
+jscad/dxf/ezdxf/iso_pattern.dxf	ok	AC1021	HATCH=14,LWPOLYLINE=14	0.0 -20.0 60.0 10.0
+jscad/dxf/ezdxf/no_layouts.dxf	ok	AC1021	SPLINE=2	-142.79779000000005 41.66467999999998 -122.79772 61.66474000000002
+jscad/dxf/ezdxf/other_pattern.dxf	ok	AC1027	HATCH=49,LWPOLYLINE=49	0.0 -60.0 70.0 10.0
+jscad/dxf/ezdxf/small_r13.dxf	ok	AC1015	POLYLINE=16	-0.1749972 -0.0108330000000001 1.424999599999999 2.589161799999999
+jscad/dxf/ezdxf/small_r14.dxf	ok	AC1015	-	-
+jscad/dxf/jscad/circle10.dxf	error:DXFStructureError	-	LWPOLYLINE=1	-
+jscad/dxf/jscad/cube.dxf	ok	AC1009	3DFACE=12	-10.0 -10.0 10.0 10.0
+jscad/dxf/jscad/cylinder.dxf	ok	AC1009	3DFACE=128	-10.0 -10.0 10.0 10.0
+jscad/dxf/jscad/pyramid.dxf	ok	AC1009	3DFACE=8	0.0 0.0 25.400051 25.400051
+jscad/dxf/jscad/sphere.dxf	ok	AC1009	3DFACE=120	-10.0 -10.0 10.0 10.0
+jscad/dxf/jscad/square10x10.dxf	error:DXFStructureError	-	LWPOLYLINE=1	-
+jscad/dxf/others/heart.dxf	ok	AC1009	POLYLINE=1	1.4092 -0.7365 2.0087 0.7608
+jscad/dxf/others/pyramid-base.dxf	ok	AC1015	POLYLINE=60	-480.0 -720.0 480.0 720.0
+large/floorplan-tiled.dxf	ok	AC1018	ARC=2940,ATTDEF=2,CIRCLE=1319,DIMENSION=9135,HATCH=1885,INSERT=1715,LEADER=870,LINE=91221,LWPOLYLINE=18134,MTEXT=1431,POINT=378,TEXT=12896,VIEWPORT=432	-12132.29745878251 -276.8243480186759 11851.31152481168 11733.248562446737

@@ -1,0 +1,20 @@
+[package]
+name = "specular-jxl"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "JPEG XL decoding for Specular: an in-tree, unsafe-free fork of jxl-oxide with 8-bit sRGB, fused scaled output, DC previews and HDR tone mapping"
+
+[dependencies]
+specular-thread = { path = "../../specular-thread", features = ["rayon"] }
+rayon = "1.11"
+specular-brotli = { path = "../specular-brotli" }
+thiserror = "2"
+
+[dev-dependencies]
+# Upstream decoder, used only as a test/benchmark oracle.
+jxl-oxide = "0.12.6"
+
+[lints]
+workspace = true

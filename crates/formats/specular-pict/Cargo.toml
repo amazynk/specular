@@ -1,0 +1,21 @@
+[package]
+name = "specular-pict"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Apple QuickDraw PICT v1/v2 for Specular: bitmap opcodes (1-8-bit indexed, 16/32-bit direct with alpha, PackBits, region masks), QuickDraw vector drawing and text, and QuickTime JPEG, PNG, TIFF, BMP and raw images"
+
+[dependencies]
+specular-jpeg = { path = "../specular-jpeg" }
+# QuickTime PNG, TIFF and BMP images.
+specular-png = { path = "../specular-png" }
+specular-tiff = { path = "../specular-tiff" }
+specular-bitmap = { path = "../specular-bitmap" }
+# QuickTime Animation, Graphics, Apple Video and Cinepak pictures.
+specular-oldvideo = { path = "../specular-oldvideo" }
+# QuickDraw shapes and text: the shared display list, drawn with vello_cpu.
+specular-drawpage = { path = "../specular-drawpage" }
+
+[lints]
+workspace = true

@@ -1,0 +1,13 @@
+[package]
+name = "specular-vc1"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Own VC-1 video decoder (SMPTE ST 421: WMV3 Simple/Main, WVC1 Advanced) for Specular's WMV, ASF, Matroska and MP4 playback"
+
+[dependencies]
+specular-core = { path = "../../specular-core" }
+
+[lints]
+workspace = true

@@ -1,0 +1,12 @@
+%TF.GenerationSoftware,Specular,gen_fixtures,1*%
+%TF.ProjectId,fixture,1234,A*%
+%TF.FileFunction,Soldermask,Top*%
+%FSLAX46Y46*%
+%MOMM*%
+%ADD10R,1.7X1.7*%
+D10*
+X5000000Y5000000D03*
+X10000000Y5000000D03*
+X5000000Y15000000D03*
+X10000000Y15000000D03*
+M02*
