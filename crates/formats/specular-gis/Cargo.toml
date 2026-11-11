@@ -24,7 +24,7 @@ zip = { version = "8.6", default-features = false, features = ["deflate-flate2-z
 # query types (`specular_sandbox::sql`) are used here.
 specular-sandbox = { path = "../../specular-sandbox" }
 # Writes the MBTiles fixture for other crates' tests (feature `sqlite-fixtures`).
-rusqlite = { version = "0.39", features = ["bundled"], optional = true }
+rusqlite = { version = "0.41", features = ["bundled"], optional = true }
 # Deflated tiles of the synthetic GeoTIFF fixtures.
 flate2 = "1"
 # Parallel text parsing (ASCII grids) and block decoding (ERDAS IMAGINE).
@@ -38,7 +38,7 @@ sqlite-fixtures = ["dep:rusqlite"]
 
 [dev-dependencies]
 # The oracle: GeoPackage and MBTiles fixtures are written and read with SQLite in process.
-rusqlite = { version = "0.39", features = ["bundled"] }
+rusqlite = { version = "0.41", features = ["bundled"] }
 # The corpus test reads GeoTIFF tags the way the viewer does.
 specular-tiff = { path = "../specular-tiff" }
 specular-thread = { path = "../../specular-thread" }

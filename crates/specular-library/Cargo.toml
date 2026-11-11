@@ -10,7 +10,7 @@ license.workspace = true
 specular-thread = { path = "../specular-thread" }
 # SQLite (WAL, FTS5 with the trigram tokenizer). Bundled: one known SQLite on every platform,
 # compiled with FTS5, rather than whatever the system has.
-rusqlite = { version = "0.39", features = ["bundled"] }
+rusqlite = { version = "0.41", features = ["bundled"] }
 specular-query = { path = "../specular-query" }
 specular-thumbs = { path = "../specular-thumbs" }
 specular-decode = { path = "../specular-decode" }

@@ -10,7 +10,7 @@ description = "Clip Studio Paint .clip reader for Specular: the CSFCHUNK contain
 thiserror = "2"
 
 [dev-dependencies]
-rusqlite = { version = "0.39", features = ["bundled"] }  # builds synthetic documents' databases (oracle)
+rusqlite = { version = "0.41", features = ["bundled"] }  # builds synthetic documents' databases (oracle)
 
 [lints]
 workspace = true
