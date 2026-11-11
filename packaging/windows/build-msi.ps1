@@ -62,5 +62,7 @@ wix build packaging\windows\specular.wxs -arch x64 -ext $Ui `
     -d Version=$Version -d BinDir=$BinDir -d PackagingDir=packaging -o $Msi
 Check "wix build"
 Sign $Msi
-(Get-FileHash $Msi -Algorithm SHA256).Hash | Out-File "$Msi.sha256" -Encoding ascii
+# "<hash>  <file name>", as sha256sum writes it, so `sha256sum -c` checks it like the others.
+"{0}  {1}" -f (Get-FileHash $Msi -Algorithm SHA256).Hash.ToLower(), (Split-Path $Msi -Leaf) |
+    Out-File "$Msi.sha256" -Encoding ascii
 Write-Host "built $Msi"
