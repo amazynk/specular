@@ -1,0 +1,5 @@
+# LeakSanitizer suppressions for tools/fuzz/run.sh.
+#
+# fontconfig loads its configuration once per process and keeps it for good (by design, unless
+# FcFini is called); decoders that look fonts up for text reach it through specular-platform.
+leak:libfontconfig.so

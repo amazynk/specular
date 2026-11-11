@@ -24,6 +24,9 @@ shift $(($# >= 2 ? 2 : 1))
 rss=${FUZZ_RSS_MB:-2048}
 # Decoders use rayon; keep a fuzzer from taking every core.
 export RAYON_NUM_THREADS=${RAYON_NUM_THREADS:-2}
+# System libraries' process-lifetime allocations are not leaks (tools/fuzz/lsan.supp).
+supp="$(cd "$(dirname "$0")" && pwd)/lsan.supp"
+export LSAN_OPTIONS="suppressions=$supp${LSAN_OPTIONS:+:$LSAN_OPTIONS}"
 
 cd "$crate"
 here=$PWD
