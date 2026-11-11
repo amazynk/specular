@@ -144,10 +144,10 @@ fn hl_value(x: i32, y: i32) -> f32 {
             let s = ld(q);
             let k = ccolor(q.x, q.y);
             if (s.x >= t * s.y) {
-                cm[k] = max(cm[k], s.x);
+                cm = with3(cm, k, max(cm[k], s.x));
             } else {
-                um[k] += s.x;
-                un[k] += 1.0;
+                um = with3(um, k, um[k] + s.x);
+                un = with3(un, k, un[k] + 1.0);
             }
         }
     }

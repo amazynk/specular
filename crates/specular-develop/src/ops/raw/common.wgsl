@@ -6,6 +6,17 @@ fn ui(i: u32) -> i32 { return bitcast<i32>(uu(i)); }
 fn du(i: u32) -> u32 { return D[i]; }
 fn df(i: u32) -> f32 { return bitcast<f32>(D[i]); }
 
+// `v` with component `k` set to `x`. Shaders write a vector's component this way, not as
+// `v[k] = x`: with an index known only at run time, FXC (the Direct3D 12 shader compiler wgpu
+// uses by default) cannot compile that store ("not natively addressable") and the pipeline is
+// invalid on Windows. The result is the same, component for component.
+fn with3(v: vec3<f32>, k: u32, x: f32) -> vec3<f32> {
+    return select(v, vec3<f32>(x), vec3<u32>(0u, 1u, 2u) == vec3<u32>(k));
+}
+fn with4(v: vec4<f32>, k: u32, x: f32) -> vec4<f32> {
+    return select(v, vec4<f32>(x), vec4<u32>(0u, 1u, 2u, 3u) == vec4<u32>(k));
+}
+
 // Uniform words.
 const U_Y0: u32 = 0u;      // first row this dispatch computes (domain rows)
 const U_ROWS: u32 = 1u;    // rows it computes
