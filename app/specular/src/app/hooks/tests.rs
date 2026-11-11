@@ -1,5 +1,6 @@
 use std::path::Path;
 use std::sync::atomic::{AtomicUsize, Ordering};
+#[cfg(unix)]
 use std::time::Instant;
 
 use serde_json::json;
@@ -23,6 +24,7 @@ program = "/home/u/bin/upload"
 "#;
 
 /// A test folder of this process (the build's temporary folder).
+#[cfg_attr(not(unix), allow(dead_code))] // only the Unix tests use it
 fn dir(name: &str) -> PathBuf {
     let d = std::env::temp_dir().join(format!("specular-hooks-{name}-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&d);

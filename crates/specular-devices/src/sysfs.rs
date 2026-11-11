@@ -334,6 +334,7 @@ pub(crate) mod tests {
     }
 
     /// A fresh scratch folder under the crate's target dir (never /tmp).
+    #[cfg_attr(not(unix), allow(dead_code))] // only the Unix tests use it
     pub(crate) fn scratch(name: &str) -> PathBuf {
         let base = std::env::var_os("CARGO_TARGET_DIR")
             .map(PathBuf::from)

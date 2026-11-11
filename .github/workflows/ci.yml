@@ -40,8 +40,7 @@ jobs:
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev
       - uses: Swatinem/rust-cache@v2
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
@@ -54,8 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev xvfb mesa-vulkan-drivers libvulkan1
       - uses: Swatinem/rust-cache@v2
       - name: i18n tests (pseudo-locales, message ids)
@@ -90,8 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev mesa-vulkan-drivers libvulkan1
       - uses: Swatinem/rust-cache@v2
         with:
@@ -118,8 +115,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev mesa-vulkan-drivers libvulkan1
       - uses: Swatinem/rust-cache@v2
         with:
@@ -151,8 +147,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends desktop-file-utils appstream shellcheck
+          tools/ci/apt-install.sh desktop-file-utils appstream shellcheck
       - run: desktop-file-validate packaging/linux/app.specular.Specular.desktop
       - run: appstreamcli validate --no-net packaging/linux/app.specular.Specular.metainfo.xml
       - run: shellcheck build.sh tools/release/*.sh tools/bench/gate/*.sh packaging/linux/*.sh packaging/macos/*.sh tools/fuzz/*.sh tools/corpus/robust-corpus.sh
@@ -199,8 +194,7 @@ jobs:
       # Crates on specular-core link specular-platform (Wayland, fontconfig) through it.
       - name: Linux build dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev
       - id: name
         run: echo "name=$(basename '${{ matrix.crate }}')" >>"$GITHUB_OUTPUT"
@@ -243,8 +237,7 @@ jobs:
       - name: Corpus tools
         if: steps.corpus.outputs.cache-hit != 'true'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libjpeg-turbo-progs imagemagick \
+          tools/ci/apt-install.sh libjpeg-turbo-progs imagemagick \
             libimage-exiftool-perl
           # The seed generator calls ImageMagick 7's `magick`; Ubuntu ships IM6.
           if ! command -v magick >/dev/null; then
@@ -274,8 +267,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends valgrind
+          tools/ci/apt-install.sh valgrind
       - uses: Swatinem/rust-cache@v2
         with:
           key: perf-gate
@@ -302,8 +294,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev sway mesa-vulkan-drivers libvulkan1
       - uses: Swatinem/rust-cache@v2
         with:
@@ -333,8 +324,7 @@ jobs:
       - name: Vulkan (software adapter on hosted runners)
         if: ${{ !vars.DEVELOP_RUNNER }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends mesa-vulkan-drivers libvulkan1
+          tools/ci/apt-install.sh mesa-vulkan-drivers libvulkan1
       - uses: Swatinem/rust-cache@v2
         with:
           key: develop-gate
@@ -364,8 +354,7 @@ jobs:
       - name: Corpus tools
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libjpeg-turbo-progs imagemagick \
+          tools/ci/apt-install.sh libjpeg-turbo-progs imagemagick \
             python3-pil libimage-exiftool-perl icc-profiles-free
           # The corpus generator calls ImageMagick 7's `magick`; Ubuntu ships IM6.
           if ! command -v magick >/dev/null; then

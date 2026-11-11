@@ -1,3 +1,4 @@
+#[cfg(unix)]
 use std::sync::atomic::AtomicBool;
 
 use specular_astro::hips as ah;
@@ -7,6 +8,7 @@ use specular_shots::{Goldens, Harness};
 use super::*;
 
 /// A fresh folder under the target folder.
+#[cfg_attr(not(unix), allow(dead_code))] // only the Unix tests use it
 fn scratch(name: &str) -> PathBuf {
     let d = std::env::var_os("CARGO_TARGET_DIR")
         .map(PathBuf::from)

@@ -413,6 +413,7 @@ pub(super) fn load_labels(
 
 /// Reads GeoJSON shapes (as measurements are written) as overlay shapes.
 #[cfg(test)]
+#[cfg_attr(not(unix), allow(dead_code))] // only the Unix tests use it
 pub(super) fn load_geojson(path: &Path) -> Result<Vec<Shape>, String> {
     let m = std::fs::metadata(path).map_err(|e| e.to_string())?;
     if !m.is_file() || m.len() > MAX_GEOJSON {

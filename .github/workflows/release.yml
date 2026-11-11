@@ -28,8 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
             libxkbcommon-dev libwayland-dev desktop-file-utils appstream flatpak flatpak-builder \
             libjpeg-turbo-progs imagemagick python3-pil libimage-exiftool-perl icc-profiles-free \
             sway libfuse2 nasm

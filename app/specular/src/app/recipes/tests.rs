@@ -35,6 +35,7 @@ fn recipe(program: &str, args: &[&str], output: &str, load: Load) -> UserCommand
 }
 
 /// Runs a command line to its end (or its time limit), as the app does.
+#[cfg_attr(not(unix), allow(dead_code))] // only the Unix tests use it
 fn run(prog: OsString, args: Vec<OsString>, timeout: Duration) -> Result<(), String> {
     let (tx, rx) = crossbeam_channel::bounded(1);
     launch::spawn_with_timeout(

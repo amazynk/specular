@@ -284,6 +284,7 @@ fn hostile_requests_are_refused() {
     let server = Server::start_with(&dir, Arc::new(|| {}), Some(budget)).unwrap();
     let window = fake_window(server.calls.clone());
     let mut c = connect(&server);
+    #[cfg_attr(not(unix), allow(unused_variables))] // checked by the Unix part below
     let shared = PathBuf::from(
         c.hello().unwrap()["capabilities"]["shared_dir"]
             .as_str()
