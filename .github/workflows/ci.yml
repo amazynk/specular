@@ -69,7 +69,7 @@ jobs:
             xvfb-run -a -s "-screen 0 1920x1080x24" timeout 120 \
               target/release/specular --lang "$l" --size 1280x800 --screenshot "target/pseudo/$l.png"
           done
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: pseudo-locale-screenshots
@@ -101,7 +101,7 @@ jobs:
       - name: Gallery (grid with the filter bar; dark, light)
         if: success() || failure()
         run: cargo test --locked -p specular --bin specular gallery::shots -- --nocapture
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: screenshot-diffs
@@ -210,7 +210,7 @@ jobs:
       - run: command -v cargo-fuzz || cargo install --locked cargo-fuzz
       - name: Run every fuzz target for 60 s
         run: tools/fuzz/run.sh ${{ matrix.crate }} 60
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: fuzz-artifacts-${{ steps.name.outputs.name }}
@@ -277,7 +277,7 @@ jobs:
         run: |
           python3 -I tools/bench/perf-gate.py -j 4 --out perf-gate-results.json \
             --markdown "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: perf-gate-results
@@ -306,7 +306,7 @@ jobs:
         run: |
           python3 -I tools/bench/perf-gate.py --suite app --out app-gate-results.json \
             --markdown "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: app-gate-results
@@ -340,7 +340,7 @@ jobs:
       - name: Summary
         if: always()
         run: cat develop-gate.md >> "$GITHUB_STEP_SUMMARY" || true
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: develop-gate-results
@@ -396,7 +396,7 @@ jobs:
         with:
           path: bench-baseline.json
           key: bench-baseline-${{ runner.os }}-${{ github.sha }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: bench-json
           path: |

@@ -45,7 +45,7 @@ jobs:
         run: cargo run --locked --release -p specular-corpus -- --small --no-network
       - name: Build (PGO) and package
         run: ./build.sh release linux --package --pgo --out target/dist/release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: linux
           path: target/dist/release/linux/
@@ -73,7 +73,7 @@ jobs:
           sign=
           [ -n "$SPECULAR_SIGN_CERT_SHA1" ] && sign=--sign
           ./build.sh release windows --package $sign --out target/dist/release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: windows
           path: target/dist/release/windows/
@@ -112,7 +112,7 @@ jobs:
           sign=
           [ -n "$SPECULAR_SIGN_IDENTITY" ] && sign=--sign
           ./build.sh release macos --package $sign --out target/dist/release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: macos
           path: target/dist/release/macos/
