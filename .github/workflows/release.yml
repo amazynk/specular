@@ -40,6 +40,9 @@ jobs:
             chmod +x "$HOME/.local/bin/magick"
             echo "$HOME/.local/bin" >>"$GITHUB_PATH"
           fi
+          # Ubuntu's ImageMagick 6 caps memory, disk and image area (policy.xml) far below what
+          # the PGO corpus's large images need ("cache resources exhausted").
+          sudo sed -i '/domain="resource"/d' /etc/ImageMagick-6/policy.xml
       # The fat-LTO link of the app needs more than the runner's 16 GB of memory, and the two PGO
       # builds and the Flatpak more than its ~14 GB of free disk.
       - name: Swap and disk space
