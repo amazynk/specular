@@ -523,8 +523,8 @@ fn header_coder_memory(d: &[u8]) -> Option<u64> {
                 ins = ins.checked_add(sz_number(d, &mut p)?)?;
                 outs = outs.checked_add(sz_number(d, &mut p)?)?;
             } else {
-                ins += 1;
-                outs += 1;
+                ins = ins.checked_add(1)?;
+                outs = outs.checked_add(1)?;
             }
             let props: &[u8] = if flag & 0x20 != 0 {
                 let n = usize::try_from(sz_number(d, &mut p)?).ok()?;

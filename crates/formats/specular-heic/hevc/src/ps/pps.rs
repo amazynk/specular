@@ -171,7 +171,12 @@ pub fn parse(data: &[u8], v1_sps: impl Fn(u32) -> bool) -> Result<Pps> {
         p.scaling = Some(d);
     }
     p.lists_modification_present = r.u1()? != 0;
+    // log2_parallel_merge_level_minus2 is at most CtbLog2SizeY - 2 (7.4.3.3.1), and CTBs are at
+    // most 64: a larger value would shift positions past their width.
     p.log2_par_mrg_level = r.ue()?.saturating_add(2);
+    if p.log2_par_mrg_level > 6 {
+        return Err(Error::InvalidData("log2_parallel_merge_level_minus2 > 4"));
+    }
     p.slice_header_extension = r.u1()? != 0;
     // Version 1 streams may set pps_extension_flag with any data after it (7.4.3.3.1).
     if r.more_rbsp_data() && r.u1()? != 0 && !v1_sps(p.sps_id) {
