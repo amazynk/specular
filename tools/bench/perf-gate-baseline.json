@@ -1,161 +1,265 @@
 {
   "schema": 1,
   "env": {
-    "libc": "glibc 2.43",
-    "valgrind": "valgrind-3.26.0",
+    "libc": "glibc 2.39",
+    "valgrind": "valgrind-3.22.0",
     "rustc": "rustc 1.98.0-nightly (485ec3fbc 2026-06-10)",
-    "os": "Ubuntu 26.04.1 LTS",
-    "cpu": "AMD Ryzen AI 7 PRO 350 w/ Radeon 860M",
+    "os": "Ubuntu 24.04.5 LTS",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
     "profile": "release"
   },
   "cases": {
     "jpeg-420-3mp": {
-      "ir": 49834386,
-      "ir_own": 48154908,
-      "input": "jpeg-420.jpg",
+      "ir": 50861375,
+      "ir_own": 49180332,
+      "allocs": 35,
+      "input": "target/perfgate/inputs/jpeg-420.jpg",
       "input_sha256": "0ddea30b4e6ccf039026cfb615719939236feee3fdcbc4cb3caa0a2d8aab8809"
     },
     "jpeg-420-3mp-quarter": {
-      "ir": 38504924,
-      "ir_own": 38005182,
-      "input": "jpeg-420.jpg",
+      "ir": 39015847,
+      "ir_own": 38514540,
+      "allocs": 35,
+      "input": "target/perfgate/inputs/jpeg-420.jpg",
       "input_sha256": "0ddea30b4e6ccf039026cfb615719939236feee3fdcbc4cb3caa0a2d8aab8809"
     },
     "jpeg-444-progressive": {
-      "ir": 42954272,
-      "ir_own": 40179029,
-      "input": "jpeg-444-prog.jpg",
+      "ir": 42991607,
+      "ir_own": 40209732,
+      "allocs": 120,
+      "input": "target/perfgate/inputs/jpeg-444-prog.jpg",
       "input_sha256": "348d5a8f5c7b01a194b70bfb88c59a9def2fd91f1030f41e332aa663673eca71"
     },
+    "jpeg-arith-420": {
+      "ir": 58195769,
+      "ir_own": 56818866,
+      "allocs": 56,
+      "input": "tools/bench/gate/jpeg-arith-420.jpg",
+      "input_sha256": "0d4750ad5752f63a0defbe92d173064f878ccae2d6a0142436b2be6aff13c184"
+    },
     "png-rgb8-photo": {
-      "ir": 67284357,
-      "ir_own": 64969732,
+      "ir": 69386495,
+      "ir_own": 66998275,
+      "allocs": 39,
       "input": "target/perfgate/inputs/png-rgb8.png",
-      "input_sha256": "ac3452c5aa1cb1ec7a15c878a3eff590e9eed1f1a7357b0b2b9229c562ebff9c"
+      "input_sha256": "288ca1e2f069efe067a3692b92481dc599e99f3cc71952a2caf363d4c2b064b2"
     },
     "png-rgba8-graphic": {
-      "ir": 7907304,
-      "ir_own": 6909128,
-      "input": "png-rgba8.png",
-      "input_sha256": "98559a486b2aa7cd99b36cd0e5f8c3d9f6f267d965dce0e778b4158e2dc5bea7"
+      "ir": 8580446,
+      "ir_own": 7591502,
+      "allocs": 34,
+      "input": "target/perfgate/inputs/png-rgba8.png",
+      "input_sha256": "1faddcbde16fd2c336cc73c0a8ac12efe11aa664e000ae537c542316e67ec6cb"
+    },
+    "png-rgb16-photo": {
+      "ir": 173178741,
+      "ir_own": 169604604,
+      "allocs": 39,
+      "input": "target/perfgate/inputs/png-rgb16.png",
+      "input_sha256": "9d8d8fcc6128d398cd8ba957344c16a2292e2bf1cf51636729cc79eee088dc3b"
     },
     "webp-lossy": {
-      "ir": 39127393,
-      "ir_own": 36797167,
+      "ir": 38092097,
+      "ir_own": 35601830,
+      "allocs": 57,
       "input": "tools/bench/gate/webp-lossy.webp",
       "input_sha256": "192dab59c0182223a76c91d2503283172c4cdbbee841b2c5c2d81a4a3612310d"
     },
     "webp-lossless": {
-      "ir": 41037042,
-      "ir_own": 40981285,
+      "ir": 40356511,
+      "ir_own": 40281831,
+      "allocs": 98,
       "input": "tools/bench/gate/webp-lossless.webp",
       "input_sha256": "20536adf2877f8ea52db3708e861f87eca42dbe962a2d566147c3c39ccbbc7f3"
     },
     "avif-420": {
-      "ir": 328461569,
+      "ir": 328463383,
       "ir_own": 248502783,
       "allocs": 142,
       "input": "tools/bench/gate/avif-420.avif",
       "input_sha256": "3a425297462ba0a2fb791eb1112d24f29712730ebac742b2ac4423dcceb6509e"
     },
-    "heic-grid": {
-      "ir": 623703200,
-      "ir_own": 591276333,
-      "allocs": 944,
-      "input": "crates/specular-decode/data/heic-calibration.heic",
-      "input_sha256": "1b0eeb77381801eba728256957064c4b0927de1e716dd6de2d2eb04462bdb160"
-    },
-    "jxl-vardct": {
-      "ir": 159031244,
-      "ir_own": 127805892,
-      "input": "crates/formats/specular-jxl/tests/data/vardct_multigroup.jxl",
-      "input_sha256": "75fbed95a8ef83a95f0e43c5320f168801e55318d0019a30d9ccbcca157bd430"
-    },
-    "jxl-modular": {
-      "ir": 2244089,
-      "ir_own": 2166223,
-      "allocs": 192,
-      "input": "crates/formats/specular-jxl/tests/data/modular.jxl",
-      "input_sha256": "d9631b3b0026bb25b98fc3fcbd78e14578102c42de11c906cb5fd5c777979beb"
-    },
-    "gif-still": {
-      "ir": 7319781,
-      "ir_own": 7228792,
-      "input": "gif-still.gif",
-      "input_sha256": "f9f5331000f4a7dc9b6f76bdfa3e8e6fe01148663b64af3f7bf7d2d2713ccf0e"
-    },
-    "gif-anim": {
-      "ir": 4952057,
-      "ir_own": 4836320,
-      "input": "gif-anim.gif",
-      "input_sha256": "89c54c45397b32f66c602a61ae462cfc058a81b6ad63a985fc90396134095807"
-    },
-    "tiff-lzw": {
-      "ir": 109389512,
-      "ir_own": 107718027,
-      "allocs": 62,
-      "input": "tiff-lzw.tif",
-      "input_sha256": "d90f1a1302b15a77e7c0247c28129b9e3c117858e1adccfdedf336148ee43022"
-    },
-    "tiff-deflate": {
-      "ir": 68958139,
-      "ir_own": 67334210,
-      "allocs": 65,
-      "input": "tiff-deflate.tif",
-      "input_sha256": "9212a2f0f6a624375ff013c535d41b41301846126f4ce10a14387f9b568322b2"
-    },
-    "raw-dng-lj92": {
-      "ir": 916198699,
-      "ir_own": 900018175,
-      "input": "raw-lj92.dng",
-      "input_sha256": "4bc855adf14847c116230c5a2e7ff94d2da3cec53102e449d75bab46c8c4d67f"
-    },
-    "raw-arw-lj92": {
-      "ir": 919001067,
-      "ir_own": 902553460,
-      "input": "raw-lj92.arw",
-      "input_sha256": "a3b118e1a7d5cceebd3452f1726f9f34326e0233500b1b6cfa1469e09cf49a0b"
-    },
-    "jpeg-arith-420": {
-      "ir": 56790284,
-      "ir_own": 55416496,
-      "input": "tools/bench/gate/jpeg-arith-420.jpg",
-      "input_sha256": "0d4750ad5752f63a0defbe92d173064f878ccae2d6a0142436b2be6aff13c184"
-    },
-    "png-rgb16-photo": {
-      "ir": 173177996,
-      "ir_own": 169604601,
-      "allocs": 39,
-      "input": "png-rgb16.png",
-      "input_sha256": "9d8d8fcc6128d398cd8ba957344c16a2292e2bf1cf51636729cc79eee088dc3b"
-    },
-    "heic-grid-display": {
-      "ir": 623056624,
-      "ir_own": 591326094,
-      "allocs": 948,
-      "input": "crates/specular-decode/data/heic-calibration.heic",
-      "input_sha256": "1b0eeb77381801eba728256957064c4b0927de1e716dd6de2d2eb04462bdb160"
-    },
-    "heic-grid-rgb": {
-      "ir": 646193810,
-      "ir_own": 614417212,
-      "allocs": 959,
-      "input": "crates/specular-decode/data/heic-calibration.heic",
-      "input_sha256": "1b0eeb77381801eba728256957064c4b0927de1e716dd6de2d2eb04462bdb160"
-    },
     "avif-420-display": {
-      "ir": 289307912,
+      "ir": 289310395,
       "ir_own": 218388250,
       "allocs": 121,
       "input": "tools/bench/gate/avif-420.avif",
       "input_sha256": "3a425297462ba0a2fb791eb1112d24f29712730ebac742b2ac4423dcceb6509e"
     },
     "avif-420-rgb": {
-      "ir": 298297698,
+      "ir": 298301256,
       "ir_own": 227352256,
       "allocs": 132,
       "input": "tools/bench/gate/avif-420.avif",
       "input_sha256": "3a425297462ba0a2fb791eb1112d24f29712730ebac742b2ac4423dcceb6509e"
+    },
+    "heic-grid": {
+      "ir": 622730334,
+      "ir_own": 591277217,
+      "allocs": 944,
+      "input": "crates/specular-decode/data/heic-calibration.heic",
+      "input_sha256": "1b0eeb77381801eba728256957064c4b0927de1e716dd6de2d2eb04462bdb160"
+    },
+    "heic-grid-display": {
+      "ir": 624180213,
+      "ir_own": 591326832,
+      "allocs": 948,
+      "input": "crates/specular-decode/data/heic-calibration.heic",
+      "input_sha256": "1b0eeb77381801eba728256957064c4b0927de1e716dd6de2d2eb04462bdb160"
+    },
+    "heic-grid-rgb": {
+      "ir": 646270144,
+      "ir_own": 614418068,
+      "allocs": 959,
+      "input": "crates/specular-decode/data/heic-calibration.heic",
+      "input_sha256": "1b0eeb77381801eba728256957064c4b0927de1e716dd6de2d2eb04462bdb160"
+    },
+    "jxl-vardct": {
+      "ir": 160714102,
+      "ir_own": 129021858,
+      "allocs": 1189,
+      "input": "crates/formats/specular-jxl/tests/data/vardct_multigroup.jxl",
+      "input_sha256": "75fbed95a8ef83a95f0e43c5320f168801e55318d0019a30d9ccbcca157bd430"
+    },
+    "jxl-modular": {
+      "ir": 2255750,
+      "ir_own": 2166254,
+      "allocs": 192,
+      "input": "crates/formats/specular-jxl/tests/data/modular.jxl",
+      "input_sha256": "d9631b3b0026bb25b98fc3fcbd78e14578102c42de11c906cb5fd5c777979beb"
+    },
+    "gif-still": {
+      "ir": 6922553,
+      "ir_own": 6830415,
+      "allocs": 31,
+      "input": "target/perfgate/inputs/gif-still.gif",
+      "input_sha256": "f9f5331000f4a7dc9b6f76bdfa3e8e6fe01148663b64af3f7bf7d2d2713ccf0e"
+    },
+    "gif-anim": {
+      "ir": 4708558,
+      "ir_own": 4586091,
+      "allocs": 125,
+      "input": "target/perfgate/inputs/gif-anim.gif",
+      "input_sha256": "89c54c45397b32f66c602a61ae462cfc058a81b6ad63a985fc90396134095807"
+    },
+    "tiff-lzw": {
+      "ir": 112365756,
+      "ir_own": 107718016,
+      "allocs": 62,
+      "input": "target/perfgate/inputs/tiff-lzw.tif",
+      "input_sha256": "d90f1a1302b15a77e7c0247c28129b9e3c117858e1adccfdedf336148ee43022"
+    },
+    "tiff-deflate": {
+      "ir": 71935083,
+      "ir_own": 67334204,
+      "allocs": 65,
+      "input": "target/perfgate/inputs/tiff-deflate.tif",
+      "input_sha256": "9212a2f0f6a624375ff013c535d41b41301846126f4ce10a14387f9b568322b2"
+    },
+    "raw-dng-lj92": {
+      "ir": 903033317,
+      "ir_own": 886639143,
+      "allocs": 368,
+      "input": "target/perfgate/inputs/raw-lj92.dng",
+      "input_sha256": "4bc855adf14847c116230c5a2e7ff94d2da3cec53102e449d75bab46c8c4d67f"
+    },
+    "raw-arw-lj92": {
+      "ir": 898738385,
+      "ir_own": 882249493,
+      "allocs": 298,
+      "input": "target/perfgate/inputs/raw-lj92.arw",
+      "input_sha256": "a3b118e1a7d5cceebd3452f1726f9f34326e0233500b1b6cfa1469e09cf49a0b"
+    },
+    "first-pixels-24mp": {
+      "ir": 151684939,
+      "ir_own": 151380542,
+      "allocs": 35,
+      "input": "target/perfgate/inputs/first-pixels-24mp.jpg",
+      "input_sha256": "334717bb416f0ebcd68bda7962691b7517d49344da852cfde670628cc3930b88",
+      "budget_ms": 15.0,
+      "budget_cores": 4,
+      "budget_ir": 180000000,
+      "budget_for": "24 MP first pixels < 50 ms, less GPU start-up"
+    },
+    "tiff-100k-first-view": {
+      "ir": 291773383,
+      "ir_own": 268724187,
+      "allocs": 721,
+      "input": "target/perfgate/inputs/tiff-100k.tif",
+      "input_sha256": "9822e6f1a14b5081b04fc32283c665311eebe18fea3b6a7d46b347b833521e46",
+      "budget_ms": 300.0,
+      "budget_cores": 4,
+      "budget_ir": 3600000000,
+      "budget_for": "100k x 100k TIFF first view < 300 ms"
+    },
+    "ct-512-first-slice": {
+      "ir": 40870363,
+      "ir_own": 30908534,
+      "allocs": 24283,
+      "input": "target/perfgate/inputs/ct-512.pack",
+      "input_sha256": "fa68ad943a03440db08ee120d080579202bf2128f2a752e77445275cc8642dc5",
+      "budget_ms": 500.0,
+      "budget_cores": 1,
+      "budget_ir": 1500000000,
+      "budget_for": "512-slice CT series to first slice < 500 ms"
+    },
+    "ct-512-volume": {
+      "ir": 2389617509,
+      "ir_own": 2117534664,
+      "allocs": 26081,
+      "input": "target/perfgate/inputs/ct-512.pack",
+      "input_sha256": "fa68ad943a03440db08ee120d080579202bf2128f2a752e77445275cc8642dc5",
+      "budget_ms": 3000.0,
+      "budget_cores": 4,
+      "budget_ir": 36000000000,
+      "budget_for": "512-slice CT volume ready < 3 s"
+    },
+    "map-cluster-50k": {
+      "ir": 23789649,
+      "ir_own": 23654731,
+      "allocs": 18,
+      "input": "target/perfgate/inputs/map-50k.txt",
+      "input_sha256": "7abc1b5c31a38356b7b023374dd5e47a07edd6dfc8cbe50e8102fd4132d562df",
+      "budget_ms": 100.0,
+      "budget_cores": 1,
+      "budget_ir": 300000000,
+      "budget_for": "50k photo positions clustered within an instant (100 ms)"
+    },
+    "map-frame-50k": {
+      "ir": 17002239,
+      "ir_own": 16935479,
+      "allocs": 218,
+      "input": "target/perfgate/inputs/map-50k.txt",
+      "input_sha256": "7abc1b5c31a38356b7b023374dd5e47a07edd6dfc8cbe50e8102fd4132d562df",
+      "budget_ms": 166.66666666666666,
+      "budget_cores": 1,
+      "budget_ir": 500000000,
+      "budget_for": "10 map frames at 60 fps"
+    },
+    "library-grid-100k": {
+      "ir": 6950049,
+      "ir_own": 6821848,
+      "allocs": 20,
+      "input": "target/perfgate/inputs/library-100k.txt",
+      "input_sha256": "7520e282a24689004edee34fcea1778785740cfba09c747b95dfc8d43dfcfc25",
+      "budget_ms": 2016.6666666666667,
+      "budget_cores": 1,
+      "budget_ir": 6050000000,
+      "budget_for": "100k-item grid laid out and scrolled 120 frames at 60 fps"
+    },
+    "h264enc-720p": {
+      "ir": 676442874,
+      "ir_own": 646565270,
+      "allocs": 1017,
+      "input": "target/perfgate/inputs/h264enc-720p.yuv",
+      "input_sha256": "4fa02d122f2965a0ad0f6ccc1f3e235624994a47fe8b96c49704e3a38283be8b"
+    },
+    "dicom-anon-64": {
+      "ir": 20679157,
+      "ir_own": 10144501,
+      "allocs": 9228,
+      "input": "target/perfgate/inputs/ct-512.pack",
+      "input_sha256": "fa68ad943a03440db08ee120d080579202bf2128f2a752e77445275cc8642dc5"
     }
   }
 }
