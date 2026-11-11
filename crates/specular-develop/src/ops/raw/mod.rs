@@ -635,6 +635,9 @@ impl FrontEnd {
         let code = shaders::source(pass, key.1);
         let device = &self.device;
         let scope = device.push_error_scope(wgpu::ErrorFilter::Validation);
+        // A shader the backend's compiler rejects (FXC on Direct3D 12, for one) is an internal
+        // error, not a validation one: caught too, with the compiler's message.
+        let internal = device.push_error_scope(wgpu::ErrorFilter::Internal);
         let module = device.create_shader_module(wgpu::ShaderModuleDescriptor {
             label: Some(pass.name()),
             source: wgpu::ShaderSource::Wgsl(code.into()),
@@ -647,7 +650,8 @@ impl FrontEnd {
             compilation_options: Default::default(),
             cache: None,
         });
-        if let Some(e) = pollster::block_on(scope.pop()) {
+        let internal = pollster::block_on(internal.pop());
+        if let Some(e) = pollster::block_on(scope.pop()).or(internal) {
             return Err(Error::Gpu(format!("{} does not build: {e}", pass.name())));
         }
         self.pipelines_created += 1;
