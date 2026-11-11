@@ -860,7 +860,7 @@ mod tests {
         assert_eq!(
             ipc_cmd(&["apply-style", "Warm film", "/a.cr3"]),
             Cmd::Send(Request::ApplyStyle {
-                files: vec![PathBuf::from("/a.cr3")],
+                files: vec![std::path::absolute("/a.cr3").unwrap()],
                 style: "Warm film".into()
             })
         );

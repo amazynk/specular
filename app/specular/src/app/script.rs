@@ -881,14 +881,15 @@ mod tests {
         );
         let py = command_text(Lang::Python, file, &view);
         assert!(py.contains("import specular"), "{py}");
+        let literal = serde_json::to_string(&file.to_string_lossy()).unwrap();
         assert!(
-            py.contains(r#"viewer.open("/data/it's a scan.dcm", view={"#),
+            py.contains(&format!("viewer.open({literal}, view={{")),
             "{py}"
         );
         assert!(py.contains(r#""colormap":"viridis""#), "{py}");
         let plain = command_text(Lang::Python, file, &ViewSet::default());
         assert!(
-            plain.ends_with("viewer.open(\"/data/it's a scan.dcm\")\n"),
+            plain.ends_with(&format!("viewer.open({literal})\n")),
             "{plain}"
         );
     }

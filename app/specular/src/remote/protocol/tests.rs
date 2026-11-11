@@ -396,7 +396,8 @@ fn v3_round_trips() {
     let unique: std::collections::HashSet<_> = names.iter().collect();
     assert_eq!(unique.len(), names.len());
     // `null` clears, as `none` does.
-    let r = req(r#"{"v":3,"cmd":"mark","files":["/a"],"flag":null,"label":null}"#);
+    let line = json!({"v": 3, "cmd": "mark", "files": [crate::remote::test_abs("/a")], "flag": null, "label": null});
+    let r = req(&line.to_string());
     let Request::Mark { mark, .. } = r else {
         panic!()
     };

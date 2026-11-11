@@ -852,17 +852,10 @@ mod tests {
         })
     }
 
-    /// A line connection as a client makes it: where the server asks for its key (Windows),
-    /// the first line is a `hello` with it.
     fn raw(path: &Path) -> (BufReader<Stream>, Stream) {
         let s = ipc::connect(path, Duration::from_secs(10)).unwrap();
-        let mut w = s.try_clone().unwrap();
-        let mut r = BufReader::new(s);
-        if let (Some(key), _) = specular_client::protocol::introduction(path) {
-            let hello = specular_client::protocol::hello_line(3, 0, Some(&key), None);
-            assert_eq!(roundtrip(&mut r, &mut w, hello.as_bytes())["ok"], true);
-        }
-        (r, w)
+        let w = s.try_clone().unwrap();
+        (BufReader::new(s), w)
     }
 
     fn roundtrip(r: &mut BufReader<Stream>, w: &mut Stream, line: &[u8]) -> Value {
@@ -906,11 +899,16 @@ mod tests {
         let dir = test_dir("drive");
         let woken = Arc::new(AtomicUsize::new(0));
         let w2 = woken.clone();
-        let server = Server::start(
+        // Raw connections below talk the line protocol: no key (tests_v3 tests the key).
+        let server = Server::start_opts(
             &dir,
             Arc::new(move || {
                 w2.fetch_add(1, Ordering::Relaxed);
             }),
+            Options {
+                key: false,
+                ..Options::default()
+            },
         )
         .unwrap();
         let path = server.path().to_path_buf();

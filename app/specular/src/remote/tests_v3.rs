@@ -43,9 +43,11 @@ fn fake_window(calls: crossbeam_channel::Receiver<Call>) -> (std::thread::JoinHa
     (t, seen)
 }
 
+/// A server for these tests, which talk the line protocol on raw connections: without the
+/// key Windows asks for (`the_key_is_asked_for_where_the_server_wants_it` tests that).
 fn start(name: &str, o: Options) -> (PathBuf, Server, std::thread::JoinHandle<()>) {
     let dir = test_dir(name);
-    let server = Server::start_opts(&dir, Arc::new(|| {}), o).unwrap();
+    let server = Server::start_opts(&dir, Arc::new(|| {}), Options { key: false, ..o }).unwrap();
     let (w, _) = fake_window(server.calls.clone());
     (dir, server, w)
 }
@@ -53,6 +55,7 @@ fn start(name: &str, o: Options) -> (PathBuf, Server, std::thread::JoinHandle<()
 fn quick() -> Options {
     Options {
         ping: Duration::from_millis(150),
+        key: false,
         ..Options::default()
     }
 }
@@ -68,21 +71,7 @@ fn user() -> Map<String, Value> {
     m
 }
 
-/// A line connection as a client makes it: where the server asks for its key (Windows), the
-/// first line is a `hello` with it.
 fn raw(path: &Path) -> (BufReader<Stream>, Stream) {
-    let (mut r, mut w) = raw_without_key(path);
-    if let (Some(key), _) = specular_client::protocol::introduction(path) {
-        send(
-            &mut w,
-            &specular_client::protocol::hello_line(3, 0, Some(&key), None),
-        );
-        assert_eq!(read(&mut r)["ok"], true);
-    }
-    (r, w)
-}
-
-fn raw_without_key(path: &Path) -> (BufReader<Stream>, Stream) {
     let s = ipc::connect(path, Duration::from_secs(20)).unwrap();
     let w = s.try_clone().unwrap();
     (BufReader::new(s), w)
@@ -368,7 +357,7 @@ fn the_key_is_asked_for_where_the_server_wants_it() {
         assert_eq!(m & 0o777, 0o600);
     }
     // Without the key: nothing but a refusal, and the window hears nothing.
-    let (mut r, mut wr) = raw_without_key(server.path());
+    let (mut r, mut wr) = raw(server.path());
     send(&mut wr, r#"{"v":3,"id":1,"cmd":"state"}"#);
     assert_eq!(read(&mut r)["error"]["code"], "refused");
     send(&mut wr, r#"{"v":3,"id":2,"cmd":"hello","key":"wrong"}"#);
