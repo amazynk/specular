@@ -149,5 +149,6 @@ if [[ $NOTARIZE == 1 ]]; then
     xcrun stapler validate "$DMG"
     spctl --assess --type open --context context:primary-signature --verbose=2 "$DMG"
 fi
-shasum -a 256 "$DMG" >"$DMG.sha256"
+# The file name alone, so `shasum -c` works where the download lands.
+(cd "$(dirname "$DMG")" && shasum -a 256 "$(basename "$DMG")" >"$(basename "$DMG").sha256")
 log "built $DMG"
