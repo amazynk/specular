@@ -12,7 +12,7 @@ kamadak-exif = "0.6"
 reverse_geocoder = "4.1.1"
 quick-xml = "0.41"
 thiserror = "2"
-md-5 = { version = "0.10", default-features = false }
+md-5 = { version = "0.11", default-features = false }
 fluent-bundle = "0.16"
 unic-langid = { version = "0.9", features = ["unic-langid-macros"] }
 # ICU4X components (Unicode-3.0): locale-correct dates, numbers and country names.

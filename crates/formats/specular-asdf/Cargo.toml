@@ -15,7 +15,7 @@ specular-png = { path = "../specular-png" }
 specular-xcf = { path = "../specular-xcf" }
 specular-hdf5 = { path = "../specular-hdf5" }
 # Block checksums, verified on request only (RustCrypto).
-md-5 = { version = "0.10", default-features = false }
+md-5 = { version = "0.11", default-features = false }
 
 [lints]
 workspace = true
