@@ -59,8 +59,12 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: ${{ runner.os == 'Linux' && '. -> /mnt/target' || '. -> target' }}
+      # Every platform's crates, not only this one's: specular-help's licence test asks cargo
+      # about all of them, offline.
+      - run: cargo fetch --locked
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
-      - run: cargo test --workspace --locked
+      # Every test binary, so one failure does not hide the next.
+      - run: cargo test --workspace --locked --no-fail-fast
 
   # Pseudo-locales en-XA (long, accented) and ar-XB (forced RTL): the i18n unit and message-id
   # tests, then screenshots of the real UI in both, uploaded for review.
