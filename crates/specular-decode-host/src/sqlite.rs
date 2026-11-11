@@ -185,7 +185,7 @@ impl Sqlite {
         key: u64,
         file: File,
         wal: &mut dyn FnMut() -> Option<File>,
-    ) -> Result<&Db, Failure> {
+    ) -> Result<&mut Db, Failure> {
         if let Some(i) = self.open.iter().position(|(k, _)| *k == key) {
             // Already open: the new descriptor is the same file; it closes here.
             drop(file);
@@ -202,7 +202,7 @@ impl Sqlite {
             }
             self.open.push((key, db));
         }
-        Ok(&self.open.last().expect("just pushed").1)
+        Ok(&mut self.open.last_mut().expect("just pushed").1)
     }
 }
 
@@ -244,7 +244,7 @@ impl Db {
         let conn = Connection::open_with_flags_and_vfs("specular-db", flags, VFS);
         // Taken by `x_open`; drop it if the open failed before.
         PENDING.with(|p| p.borrow_mut().take());
-        let conn = conn.map_err(sql_err)?;
+        let mut conn = conn.map_err(sql_err)?;
         harden(&conn).map_err(sql_err)?;
         let views = Arc::new(AtomicBool::new(false));
         let checks = Arc::new(AtomicUsize::new(0));
@@ -269,8 +269,8 @@ impl Db {
         })
     }
 
-    fn run(&self, sql: &str, params: &[SqlValue], limits: &SqlLimits) -> Result<Rows, Failure> {
-        let c = &self.conn;
+    fn run(&mut self, sql: &str, params: &[SqlValue], limits: &SqlLimits) -> Result<Rows, Failure> {
+        let c = &mut self.conn;
         let max_value = i32::try_from(limits.max_value)
             .unwrap_or(i32::MAX)
             .clamp(1024, 1 << 30);

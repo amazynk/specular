@@ -30,18 +30,7 @@ fuzz_target!(|data: &[u8]| {
             height: Some(3000),
             ..FileFacts::default()
         },
-        medical: None,
-        science: None,
-        drawing: None,
-        mesh: None,
-        points: None,
-        splats: None,
-        rti: None,
-        structure: None,
-        font: None,
-        book: None,
-        volume: None,
-        geo: None,
+        ..MetadataInput::default()
     };
     common::report(&input, common::localizer(flags >> 4));
 });

@@ -79,7 +79,7 @@ jobs:
           path: target/dist/release/windows/
 
   macos:
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       # A step's own env is not visible to its `if:`; the job's is.
       HAS_MACOS_CERT: ${{ secrets.MACOS_CERT_P12 != '' }}

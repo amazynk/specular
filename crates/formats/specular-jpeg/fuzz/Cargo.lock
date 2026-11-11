@@ -85,12 +85,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "jpeg-decoder"
-version = "0.3.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "00810f1d8b74be64b13dbf3db89ac67740615d6c891f0e7b6179326533011a07"
-
-[[package]]
 name = "libc"
 version = "0.2.190"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -105,6 +99,12 @@ dependencies = [
  "arbitrary",
  "cc",
 ]
+
+[[package]]
+name = "log"
+version = "0.4.35"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d15f86d12da44cd8d4ec3c73984537eb7f4cadcb9776a575a0a8a05ca11005c"
 
 [[package]]
 name = "pin-project-lite"
@@ -166,8 +166,8 @@ checksum = "f8fadd59c855ef2080decdef8ff161eb6661b86933c9d82e5ba29dc602a55aba"
 name = "specular-jpeg"
 version = "0.1.0"
 dependencies = [
- "jpeg-decoder",
  "rayon",
+ "specular-thread",
  "thiserror",
  "tracing",
 ]
@@ -178,6 +178,14 @@ version = "0.0.0"
 dependencies = [
  "libfuzzer-sys",
  "specular-jpeg",
+]
+
+[[package]]
+name = "specular-thread"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "rayon",
 ]
 
 [[package]]

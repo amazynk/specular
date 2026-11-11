@@ -14,6 +14,10 @@ specular-decode = { path = ".." }
 # Not part of the main workspace.
 [workspace]
 
+# The main workspace's patches (they apply only to the workspace that declares them).
+[patch.crates-io]
+resvg = { path = "../../../third_party/resvg" }
+
 [[bin]]
 name = "locate"
 path = "fuzz_targets/locate.rs"

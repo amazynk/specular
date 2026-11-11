@@ -25,7 +25,7 @@ specular-thread = { path = "../specular-thread" }
 specular-sandbox = { path = "../specular-sandbox" }
 libloading = "0.8"
 # GeoPackage and MBTiles databases are read here, never in the viewer (src/sqlite.rs).
-rusqlite = { version = "0.39", features = ["bundled", "hooks", "limits"] }
+rusqlite = { version = "0.41", features = ["bundled", "hooks", "limits"] }
 # Built from third_party/unrar_sys (workspace `[patch.crates-io]`): UnRAR with Specular's
 # handle-I/O patch, so the host reads archives only through files the viewer passes.
 unrar = { version = "0.5.8", optional = true }

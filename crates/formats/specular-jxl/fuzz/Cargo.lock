@@ -101,6 +101,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "log"
+version = "0.4.35"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d15f86d12da44cd8d4ec3c73984537eb7f4cadcb9776a575a0a8a05ca11005c"
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.107"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -163,6 +169,7 @@ version = "0.1.0"
 dependencies = [
  "rayon",
  "specular-brotli",
+ "specular-thread",
  "thiserror",
 ]
 
@@ -172,6 +179,14 @@ version = "0.0.0"
 dependencies = [
  "libfuzzer-sys",
  "specular-jxl",
+]
+
+[[package]]
+name = "specular-thread"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "rayon",
 ]
 
 [[package]]

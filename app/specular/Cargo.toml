@@ -154,7 +154,7 @@ specular-platform = { path = "../../crates/specular-platform", features = ["test
 # Solid 7z test archives (ComicInfo the thumbnails come across, src/archive_thumbs.rs).
 sevenz-rust2 = { version = "0.23", default-features = false, features = ["compress", "util", "ppmd", "deflate"] }
 # Another writer holding the catalogue (src/app/gallery/library.rs: no frame waits for it).
-rusqlite = { version = "0.39", features = ["bundled"] }
+rusqlite = { version = "0.41", features = ["bundled"] }
 # The NumPy reader checks the arrays the IPC server writes (src/remote/arrays.rs).
 specular-arrays = { path = "../../crates/formats/specular-arrays" }
 

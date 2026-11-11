@@ -218,6 +218,7 @@ fn private_dir(cache: &Path) -> Result<WorkDir> {
         std::process::id(),
         N.fetch_add(1, Ordering::Relaxed)
     ));
+    #[cfg_attr(not(unix), allow(unused_mut))] // `mode` is Unix-only
     let mut b = std::fs::DirBuilder::new();
     #[cfg(unix)]
     {

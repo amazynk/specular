@@ -14,7 +14,7 @@ specular-library = { path = "../specular-library" }
 specular-log = { path = "../specular-log" }
 specular-platform = { path = "../specular-platform" }
 specular-thumbs = { path = "../specular-thumbs" }
-rusqlite = { version = "0.39", features = ["bundled"] }
+rusqlite = { version = "0.41", features = ["bundled"] }
 toml_edit = "0.25"
 sha2 = "0.10"
 half = "2"

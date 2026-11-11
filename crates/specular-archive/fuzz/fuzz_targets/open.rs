@@ -22,6 +22,9 @@ fuzz_target!(|data: &[u8]| {
         },
         verify_crc: true,
         solid_cache_bytes: 1 << 20,
+        // At most half the cache.
+        solid_read_ahead: 1 << 19,
+        ..Options::default()
     };
     let Ok(archive) = Archive::from_bytes(data.to_vec(), options) else {
         return;

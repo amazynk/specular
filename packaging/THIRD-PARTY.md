@@ -7496,7 +7496,7 @@ DEALINGS IN THE SOFTWARE.
 
 ### MIT License
 
-Used by: libsqlite3-sys 0.37.0, rusqlite 0.39.0
+Used by: libsqlite3-sys 0.39.1, rusqlite 0.41.1
 
 ```text
 Copyright (c) 2014 The rusqlite developers
@@ -12734,7 +12734,7 @@ DEALINGS IN THE SOFTWARE.
 
 ### MIT License
 
-Used by: adler2 2.0.1, anyhow 1.0.104, async-channel 2.5.0, async-executor 1.14.0, async-io 2.6.0, async-lock 3.4.2, async-process 2.5.0, async-signal 0.2.14, async-task 4.7.1, async-trait 0.1.92, atomic-waker 1.1.2, blocking 1.7.0, concurrent-queue 2.5.0, ctrlc 3.5.2, displaydoc 0.2.7, endi 1.1.1, event-listener-strategy 0.5.4, event-listener 5.4.2, fastrand 2.5.0, futures-lite 2.6.1, itoa 1.0.18, khronos-egl 6.0.0, lazy_static 1.5.1, linux-raw-sys 0.12.1, linux-raw-sys 0.4.15, nusb 0.2.8, once_cell 1.21.4, ordered-stream 0.2.0, parking 2.2.1, paste 1.0.15, pastey 0.1.1, pin-project-lite 0.2.17, piper 0.2.5, polling 3.11.0, proc-macro-crate 3.5.0, proc-macro2 1.0.107, quote 1.0.47, rustc-hash 1.1.0, rustix 0.38.44, rustix 1.1.6, rustversion 1.0.23, serde 1.0.229, serde_core 1.0.229, serde_derive 1.0.229, serde_json 1.0.154, serde_repr 0.1.21, smol_str 0.2.2, syn 2.0.119, syn 3.0.9, thiserror-impl 1.0.69, thiserror-impl 2.0.21, thiserror 1.0.69, thiserror 2.0.21, typed-path 0.13.0, unic-langid-impl 0.9.6, unic-langid-macros-impl 0.9.6, unic-langid-macros 0.9.6, unic-langid 0.9.6, unicode-ident 1.0.27, unrar 0.5.8, utf8-zero 0.8.1, x11-dl 2.21.0, zbus-lockstep-macros 0.5.2, zbus-lockstep 0.5.2, zerocopy 0.7.35, zmij 1.0.23, zvariant_utils 4.2.0
+Used by: adler2 2.0.1, anyhow 1.0.104, async-channel 2.5.0, async-executor 1.14.1, async-io 2.6.0, async-lock 3.4.2, async-process 2.5.0, async-signal 0.2.14, async-task 4.7.1, async-trait 0.1.92, atomic-waker 1.1.2, blocking 1.7.0, concurrent-queue 2.5.0, ctrlc 3.5.2, displaydoc 0.2.7, endi 1.1.1, event-listener-strategy 0.5.4, event-listener 5.4.2, fastrand 2.5.0, futures-lite 2.6.1, itoa 1.0.18, khronos-egl 6.0.0, lazy_static 1.5.1, linux-raw-sys 0.12.1, linux-raw-sys 0.4.15, nusb 0.2.8, once_cell 1.21.4, ordered-stream 0.2.0, parking 2.2.1, paste 1.0.15, pastey 0.1.1, pin-project-lite 0.2.17, piper 0.2.5, polling 3.11.0, proc-macro-crate 3.5.0, proc-macro2 1.0.107, quote 1.0.47, rustc-hash 1.1.0, rustix 0.38.44, rustix 1.1.6, rustversion 1.0.23, serde 1.0.229, serde_core 1.0.229, serde_derive 1.0.229, serde_json 1.0.154, serde_repr 0.1.21, smol_str 0.2.2, syn 2.0.119, syn 3.0.9, thiserror-impl 1.0.69, thiserror-impl 2.0.21, thiserror 1.0.69, thiserror 2.0.21, typed-path 0.13.0, unic-langid-impl 0.9.6, unic-langid-macros-impl 0.9.6, unic-langid-macros 0.9.6, unic-langid 0.9.6, unicode-ident 1.0.27, unrar 0.5.8, utf8-zero 0.8.1, x11-dl 2.21.0, zbus-lockstep-macros 0.5.2, zbus-lockstep 0.5.2, zerocopy 0.7.35, zmij 1.0.23, zvariant_utils 4.2.0
 
 ```text
 Permission is hereby granted, free of charge, to any
@@ -13737,7 +13737,7 @@ THE SOFTWARE.
 
 ### MIT License
 
-Used by: hashlink 0.11.1
+Used by: hashlink 0.12.2
 
 ```text
 This work is derived in part from the `linked-hash-map` crate, Copyright (c)
