@@ -39,7 +39,11 @@ pub(crate) fn parse(d: &[u8]) -> Result<Texture> {
     let (mut w, mut h) = (width, height);
     for _ in 0..mips.clamp(1, 16) {
         let Some(len) = u32le(d, p) else { break };
-        let need = (w.div_ceil(bw) as usize) * (h.div_ceil(bh) as usize) * bb;
+        // The size is the file's word: a forged one must not overflow.
+        let need = (w.div_ceil(bw) as usize)
+            .checked_mul(h.div_ceil(bh) as usize)
+            .and_then(|n| n.checked_mul(bb))
+            .ok_or(Error::TooLarge)?;
         let start = p + 4;
         if len as usize != need && !levels.is_empty() {
             break;

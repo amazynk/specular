@@ -36,3 +36,12 @@ fn dds_level_size_overflow() {
         }
     }
 }
+
+/// A Firaxis texture (FTEX) claiming 2^32−1 × 2^32−1 pixels: sizing its first level overflowed.
+#[test]
+fn ftex_level_size_overflow() {
+    let data = include_bytes!("../fuzz/seeds/ftex-size-overflow.ftex");
+    if let Ok(t) = Texture::open(data) {
+        let _ = t.decode(data, &DecodeOptions::default());
+    }
+}
