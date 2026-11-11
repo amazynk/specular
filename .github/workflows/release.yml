@@ -25,7 +25,7 @@ jobs:
   linux:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Dependencies
         run: |
           sudo apt-get update
@@ -56,7 +56,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: WiX v4
         run: |
           dotnet tool install -g wix --version 4.*
@@ -84,7 +84,7 @@ jobs:
       # A step's own env is not visible to its `if:`; the job's is.
       HAS_MACOS_CERT: ${{ secrets.MACOS_CERT_P12 != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: nasm (rav1d's and rav1e's x86_64 assembly)
         run: brew install nasm
       - name: Import the signing certificate

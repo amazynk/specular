@@ -24,7 +24,7 @@ jobs:
   fmt:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: cargo fmt --all --check
 
   # clippy + tests on all three platforms.
@@ -36,7 +36,7 @@ jobs:
         os: [ubuntu-24.04, windows-2022, macos-14]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |
@@ -52,7 +52,7 @@ jobs:
   pseudo-locale:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
@@ -88,7 +88,7 @@ jobs:
     env:
       SPECULAR_SHOTS_REQUIRE: "1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
@@ -116,7 +116,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
@@ -133,7 +133,7 @@ jobs:
   deny:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Licences, advisories (fresh RustSec snapshot), duplicates and sources; policy in deny.toml.
       - run: tools/ci/deny.sh --install --fetch
 
@@ -141,7 +141,7 @@ jobs:
   third-party:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: cargo install --locked --features cli --root target/tools cargo-about
       - run: tools/release/third-party.sh --check
 
@@ -149,7 +149,7 @@ jobs:
   packaging-lint:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends desktop-file-utils appstream shellcheck
@@ -195,7 +195,7 @@ jobs:
           - crates/specular-metadata
           - crates/specular-query
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: name
         run: echo "name=$(basename '${{ matrix.crate }}')" >>"$GITHUB_OUTPUT"
       - uses: Swatinem/rust-cache@v2
@@ -225,7 +225,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: Swatinem/rust-cache@v2
         with:
           key: jpeg-robust-corpus
@@ -266,7 +266,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends valgrind
@@ -294,7 +294,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev \
@@ -323,7 +323,7 @@ jobs:
     runs-on: ${{ vars.DEVELOP_RUNNER || 'ubuntu-24.04' }}
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Vulkan (software adapter on hosted runners)
         if: ${{ !vars.DEVELOP_RUNNER }}
         run: |
@@ -354,7 +354,7 @@ jobs:
   bench:
     runs-on: ${{ vars.BENCH_RUNNER || 'ubuntu-24.04' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Corpus tools
         if: runner.os == 'Linux'
         run: |
