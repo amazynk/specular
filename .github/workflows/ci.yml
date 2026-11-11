@@ -202,7 +202,7 @@ jobs:
         with:
           workspaces: ${{ matrix.crate }}/fuzz
           key: ${{ steps.name.outputs.name }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ${{ matrix.crate }}/fuzz/corpus
           key: fuzz-corpus-${{ steps.name.outputs.name }}-${{ github.run_id }}
@@ -230,7 +230,7 @@ jobs:
         with:
           key: jpeg-robust-corpus
       - id: corpus
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: tools/corpus/out/robust
           key: jpeg-robust-corpus-${{ hashFiles('tools/corpus/robust-corpus.sh', 'crates/formats/specular-jpeg/examples/robust.rs', 'tools/specular-corpus/src/**') }}
@@ -378,7 +378,7 @@ jobs:
           cp tools/corpus/out/bench/decode-latest.json bench-current.json
       - name: Restore the main-branch baseline
         id: baseline
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: bench-baseline.json
           key: bench-baseline-${{ runner.os }}-${{ github.sha }}
@@ -391,7 +391,7 @@ jobs:
       - name: Save as the new baseline (main only)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cp bench-current.json bench-baseline.json
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@v6
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           path: bench-baseline.json
