@@ -54,8 +54,9 @@ jobs:
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |
+          # libheif with its HEVC plugin: the decode host loads it at run time (its HEIC tests).
           tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
-            libxkbcommon-dev libwayland-dev libasound2-dev
+            libxkbcommon-dev libwayland-dev libasound2-dev libheif1 libheif-plugin-libde265
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: ${{ runner.os == 'Linux' && '. -> /mnt/target' || '. -> target' }}

@@ -228,7 +228,7 @@ mod tests {
         png(&pics.join("forest.png"), 20, 20);
         std::fs::write(pics.join("beach notes.txt"), "a day at the beach\n").unwrap();
         std::fs::write(pics.join("beach list.csv"), "a,b\n1,2\n").unwrap();
-        std::fs::write(pics.join("beach run.log"), "started\n").unwrap();
+        std::fs::write(pics.join("beach kumquat.log"), "started\n").unwrap();
 
         let catalogue = root.join("library.sqlite3");
         // Before the Library exists: nothing, and nothing is made.
@@ -308,7 +308,8 @@ mod tests {
         );
         assert_eq!(client::initial(a, &["forest", "ext:png"]).len(), 1);
         assert!(client::initial(a, &["notes"]).is_empty(), "no text files");
-        assert!(client::initial(a, &["run"]).is_empty());
+        // A word only a non-picture has (and no folder path: CI runs under /home/runner).
+        assert!(client::initial(a, &["kumquat"]).is_empty());
 
         let metas = client::metas(a, &[sunset_id.clone(), hut.clone()]);
         assert_eq!(metas[0].name, "beach sunset.png");
