@@ -111,7 +111,10 @@ jobs:
         run: cargo test --locked -p specular-widgets --test shots -- --nocapture
       - name: Gallery (grid with the filter bar; dark, light)
         if: success() || failure()
-        run: cargo test --locked -p specular --bin specular gallery::shots -- --nocapture
+        # The map shots read MBTiles through the sandboxed decode host (src/test_host.rs).
+        run: |
+          cargo build --locked -p specular-decode-host
+          cargo test --locked -p specular --bin specular gallery::shots -- --nocapture
       # Also when the job times out: the actual images are how goldens are reviewed and blessed.
       - uses: actions/upload-artifact@v4
         if: failure() || cancelled()
