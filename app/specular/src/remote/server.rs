@@ -852,10 +852,17 @@ mod tests {
         })
     }
 
+    /// A line connection as a client makes it: where the server asks for its key (Windows),
+    /// the first line is a `hello` with it.
     fn raw(path: &Path) -> (BufReader<Stream>, Stream) {
         let s = ipc::connect(path, Duration::from_secs(10)).unwrap();
-        let w = s.try_clone().unwrap();
-        (BufReader::new(s), w)
+        let mut w = s.try_clone().unwrap();
+        let mut r = BufReader::new(s);
+        if let (Some(key), _) = specular_client::protocol::introduction(path) {
+            let hello = specular_client::protocol::hello_line(3, 0, Some(&key), None);
+            assert_eq!(roundtrip(&mut r, &mut w, hello.as_bytes())["ok"], true);
+        }
+        (r, w)
     }
 
     fn roundtrip(r: &mut BufReader<Stream>, w: &mut Stream, line: &[u8]) -> Value {

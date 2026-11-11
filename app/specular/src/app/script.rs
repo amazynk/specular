@@ -858,7 +858,8 @@ mod tests {
             colormap: Some("viridis".into()),
             channel: None,
         };
-        let file = Path::new("/data/it's a scan.dcm");
+        let file = crate::remote::test_abs("/data/it's a scan.dcm");
+        let file = file.as_path();
         let sh = command_text(Lang::Shell, file, &view);
         assert!(sh.starts_with("printf '%s\\n' '{"), "{sh}");
         assert!(sh.ends_with("| specular --remote raw\n"), "{sh}");

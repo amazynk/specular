@@ -259,8 +259,9 @@ fn version_1_clients_keep_working() {
     );
     assert_eq!(c.call(&Request::State).unwrap()["cmd"], "state");
     // A v1 `open` with a `view` member: ignored, as unknown members are in version 1.
-    let line = br#"{"v":1,"id":1,"cmd":"open","files":["/a.png"],"view":{"zoom":"bogus"}}"#;
-    let v: Value = serde_json::from_slice(&c.exchange(line).unwrap()).unwrap();
+    let line = json!({"v": 1, "id": 1, "cmd": "open", "files": [crate::remote::test_abs("/a.png")], "view": {"zoom": "bogus"}});
+    let v: Value =
+        serde_json::from_slice(&c.exchange(line.to_string().as_bytes()).unwrap()).unwrap();
     assert_eq!((v["v"].clone(), v["ok"].clone()), (json!(1), json!(true)));
     let e = c.call(&Request::ViewGet).unwrap_err();
     assert_eq!(e.code, "version");

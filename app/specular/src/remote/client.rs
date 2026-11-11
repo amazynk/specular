@@ -840,7 +840,7 @@ mod tests {
         assert_eq!(
             ipc_cmd(&["select", "--add", "a.jpg", "/b.jpg"]),
             Cmd::Send(Request::Select {
-                files: vec![cwd.join("a.jpg"), PathBuf::from("/b.jpg")],
+                files: vec![cwd.join("a.jpg"), std::path::absolute("/b.jpg").unwrap()],
                 add: true
             })
         );

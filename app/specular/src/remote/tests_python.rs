@@ -77,6 +77,10 @@ fn fake_window(
 }
 
 #[test]
+#[cfg_attr(
+    windows,
+    ignore = "the Python client speaks over AF_UNIX sockets, which Python on Windows lacks"
+)]
 fn python_client() {
     let Some(py) = venv() else {
         eprintln!("python_client: no python3 with venv here, skipped");

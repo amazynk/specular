@@ -331,7 +331,10 @@ fn v2_round_trips() {
 /// refused in versions 1 and 2.
 #[test]
 fn v3_round_trips() {
-    let files = vec![PathBuf::from("/p/a.cr3"), PathBuf::from("/p/b c;d.jpg")];
+    let files = vec![
+        crate::remote::test_abs("/p/a.cr3"),
+        crate::remote::test_abs("/p/b c;d.jpg"),
+    ];
     let all = [
         Request::Subscribe {
             events: vec!["marked".into(), "exported".into()],

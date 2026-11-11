@@ -41,6 +41,18 @@ pub mod client;
 pub mod events;
 pub mod protocol;
 pub mod server;
+
+/// An absolute path in tests on every platform: `/p/a.jpg` itself on Unix, `C:\p\a.jpg` on
+/// Windows, where a path from the root alone is not absolute.
+#[cfg(test)]
+pub(crate) fn test_abs(p: &str) -> std::path::PathBuf {
+    if cfg!(windows) {
+        std::path::PathBuf::from(format!("C:{}", p.replace('/', "\\")))
+    } else {
+        std::path::PathBuf::from(p)
+    }
+}
+
 #[cfg(test)]
 mod tests_python;
 #[cfg(test)]

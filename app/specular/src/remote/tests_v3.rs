@@ -68,7 +68,21 @@ fn user() -> Map<String, Value> {
     m
 }
 
+/// A line connection as a client makes it: where the server asks for its key (Windows), the
+/// first line is a `hello` with it.
 fn raw(path: &Path) -> (BufReader<Stream>, Stream) {
+    let (mut r, mut w) = raw_without_key(path);
+    if let (Some(key), _) = specular_client::protocol::introduction(path) {
+        send(
+            &mut w,
+            &specular_client::protocol::hello_line(3, 0, Some(&key), None),
+        );
+        assert_eq!(read(&mut r)["ok"], true);
+    }
+    (r, w)
+}
+
+fn raw_without_key(path: &Path) -> (BufReader<Stream>, Stream) {
     let s = ipc::connect(path, Duration::from_secs(20)).unwrap();
     let w = s.try_clone().unwrap();
     (BufReader::new(s), w)
@@ -354,7 +368,7 @@ fn the_key_is_asked_for_where_the_server_wants_it() {
         assert_eq!(m & 0o777, 0o600);
     }
     // Without the key: nothing but a refusal, and the window hears nothing.
-    let (mut r, mut wr) = raw(server.path());
+    let (mut r, mut wr) = raw_without_key(server.path());
     send(&mut wr, r#"{"v":3,"id":1,"cmd":"state"}"#);
     assert_eq!(read(&mut r)["error"]["code"], "refused");
     send(&mut wr, r#"{"v":3,"id":2,"cmd":"hello","key":"wrong"}"#);
@@ -400,10 +414,8 @@ fn a_hooks_program_is_known_as_such() {
         r#"{"v":3,"id":1,"cmd":"hello","hook":"Upload picks"}"#,
     );
     assert_eq!(read(&mut r)["ok"], true);
-    send(
-        &mut wr,
-        r#"{"v":3,"id":2,"cmd":"mark","files":["/a.jpg"],"flag":"pick"}"#,
-    );
+    let mark = json!({"v": 3, "id": 2, "cmd": "mark", "files": [crate::remote::test_abs("/a.jpg")], "flag": "pick"});
+    send(&mut wr, &mark.to_string());
     assert_eq!(read(&mut r)["ok"], true);
     let (mut r2, mut w2) = raw(server.path());
     send(&mut w2, r#"{"v":3,"id":1,"cmd":"state"}"#);
