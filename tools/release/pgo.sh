@@ -351,7 +351,7 @@ else
 rm -rf "$PROF_DIR"; mkdir -p "$PROF_DIR"
 log "instrumented build"
 SECONDS=0
-RUSTC_WRAPPER= build "$OUT/gen" "\"-Cprofile-generate=$PROF_DIR\"" >"$LOGS/build-gen.log" 2>&1 \
+RUSTC_WRAPPER='' build "$OUT/gen" "\"-Cprofile-generate=$PROF_DIR\"" >"$LOGS/build-gen.log" 2>&1 \
     || { tail -30 "$LOGS/build-gen.log"; exit 1; }
 log "  ${SECONDS}s"
 
@@ -383,7 +383,7 @@ if [[ $BOLT == 1 ]]; then
 fi
 log "PGO build"
 SECONDS=0
-RUSTC_WRAPPER= build "$OUT/use" "$USE_FLAGS" >"$LOGS/build-use.log" 2>&1 || { tail -30 "$LOGS/build-use.log"; exit 1; }
+RUSTC_WRAPPER='' build "$OUT/use" "$USE_FLAGS" >"$LOGS/build-use.log" 2>&1 || { tail -30 "$LOGS/build-use.log"; exit 1; }
 log "  ${SECONDS}s"
 dist "$OUT/use" "$OUT/dist"
 log "PGO binaries in $OUT/dist"

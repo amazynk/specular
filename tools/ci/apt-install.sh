@@ -7,9 +7,11 @@
 set -euo pipefail
 
 tries=5
+opts=(-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30)
 for ((try = 1; try <= tries; try++)); do
-    if sudo apt-get update --error-on=any -o Acquire::Retries=3 &&
-        sudo apt-get install -y --no-install-recommends -o Acquire::Retries=3 "$@"; then
+    # A stalled mirror would hang the job until its timeout: each try is cut off.
+    if sudo timeout 300 apt-get update --error-on=any "${opts[@]}" &&
+        sudo timeout 600 apt-get install -y --no-install-recommends "${opts[@]}" "$@"; then
         exit 0
     fi
     ((try < tries)) || break

@@ -50,6 +50,11 @@ jobs:
   # tests, then screenshots of the real UI in both, uploaded for review.
   pseudo-locale:
     runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      # Screenshots only: thin LTO links the release app in a fraction of the time and memory.
+      CARGO_PROFILE_RELEASE_LTO: thin
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
     steps:
       - uses: actions/checkout@v4
       - run: |
@@ -82,7 +87,8 @@ jobs:
   # `SPECULAR_BLESS=1 cargo test -p specular --bin specular gallery::shots`, review, commit.
   screenshots:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # Building the app takes most of it until the job has passed once and saved its cache.
+    timeout-minutes: 60
     env:
       SPECULAR_SHOTS_REQUIRE: "1"
     steps:
@@ -98,8 +104,9 @@ jobs:
       - name: Gallery (grid with the filter bar; dark, light)
         if: success() || failure()
         run: cargo test --locked -p specular --bin specular gallery::shots -- --nocapture
+      # Also when the job times out: the actual images are how goldens are reviewed and blessed.
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: failure() || cancelled()
         with:
           name: screenshot-diffs
           path: target/shots/
@@ -292,6 +299,11 @@ jobs:
   app-gate:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
+    env:
+      # The gates count frames and bytes, which do not depend on LTO; thin LTO links the release
+      # app in a fraction of the time and memory of the shipped profile's fat LTO.
+      CARGO_PROFILE_RELEASE_LTO: thin
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
     steps:
       - uses: actions/checkout@v4
       - run: |

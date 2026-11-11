@@ -648,8 +648,14 @@ impl<R: BufRead + Seek> WebPDecoder<R> {
                 }
 
                 self.r.seek(io::SeekFrom::Start(range.start))?;
-                let mut data = vec![0; (range.end - range.start) as usize];
-                self.r.read_exact(&mut data)?;
+                // The chunk's size is the file's word: read what is there rather than
+                // allocating what the header claims (a 200-byte file can claim 4 GiB).
+                let len = range.end - range.start;
+                let mut data = Vec::new();
+                (&mut self.r).take(len).read_to_end(&mut data)?;
+                if data.len() as u64 != len {
+                    return Err(io::Error::from(io::ErrorKind::UnexpectedEof).into());
+                }
                 Ok(Some(data))
             }
             None => Ok(None),

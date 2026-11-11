@@ -519,8 +519,9 @@ fn header_coder_memory(d: &[u8]) -> Option<u64> {
             let id = d.get(p..p + usize::from(flag & 0x0f))?;
             p += usize::from(flag & 0x0f);
             if flag & 0x10 != 0 {
-                ins += sz_number(d, &mut p)?;
-                outs += sz_number(d, &mut p)?;
+                // Stream counts are the file's word: a forged one must not overflow.
+                ins = ins.checked_add(sz_number(d, &mut p)?)?;
+                outs = outs.checked_add(sz_number(d, &mut p)?)?;
             } else {
                 ins += 1;
                 outs += 1;

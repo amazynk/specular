@@ -1390,3 +1390,11 @@ fn rar_passwords() {
         }
     }
 }
+
+/// Found by fuzzing: a 7z header whose coder declares stream counts near `u64::MAX` overflowed
+/// the sum while sizing the header's decoder memory.
+#[test]
+fn forged_7z_stream_counts_do_not_overflow() {
+    let bytes = include_bytes!("data/coder-stream-count-overflow.7z").to_vec();
+    let _ = Archive::from_bytes(bytes, Options::default());
+}
