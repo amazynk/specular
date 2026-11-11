@@ -33,7 +33,7 @@ sha1 = { version = "0.11", default-features = false }
 zeroize = "1.8"
 # The LZMA2 decoder and BCJ/Delta filters sevenz-rust2 uses, driven unit by unit for solid
 # blocks (`lzma2mt`).
-lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "optimization"] }
 
 [dev-dependencies]
 zip = { version = "8.6", default-features = false, features = ["deflate-flate2-zlib-rs"] }

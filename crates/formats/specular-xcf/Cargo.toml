@@ -12,7 +12,7 @@ specular-blend = { path = "../specular-blend" }  # blend modes shared with the o
 rayon = "1.11"
 zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
 # Raw LZMA2 for .xcf.xz; the xz container is parsed here (no sha2).
-lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "optimization"] }
 
 [lints]
 workspace = true

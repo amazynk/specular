@@ -13,7 +13,7 @@ thiserror = "2"
 specular-png = { path = "../specular-png" }
 specular-hdf5 = { path = "../specular-hdf5" }
 # XZ: the xz container is parsed here, LZMA2 by lzma-rust2 (already in the tree for TIFF).
-lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "optimization"] }
 
 [lints]
 workspace = true

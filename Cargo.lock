@@ -3465,6 +3465,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fde178a3caf126c440fa15628147772d8ee590a39477d711353fbe2e58a73a5b"
 
 [[package]]
+name = "lzma-rust2"
+version = "0.25.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef1d73c59a56771343712b22ea5615092c612c16ba291c0979e3105dfeec4890"
+
+[[package]]
 name = "lzma-sys"
 version = "0.1.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5491,7 +5497,7 @@ dependencies = [
  "flate2",
  "getrandom 0.4.3",
  "js-sys",
- "lzma-rust2",
+ "lzma-rust2 0.21.0",
  "ppmd-rust",
  "sha2 0.11.1",
  "wasm-bindgen",
@@ -5864,7 +5870,7 @@ dependencies = [
  "crc32fast",
  "ctr",
  "hmac",
- "lzma-rust2",
+ "lzma-rust2 0.25.0",
  "parking_lot",
  "pbkdf2",
  "quick-xml",
@@ -7643,7 +7649,7 @@ version = "0.1.0"
 name = "specular-root"
 version = "0.1.0"
 dependencies = [
- "lzma-rust2",
+ "lzma-rust2 0.25.0",
  "specular-hdf5",
  "specular-png",
  "thiserror 2.0.21",
@@ -7824,7 +7830,7 @@ dependencies = [
 name = "specular-swf"
 version = "0.1.0"
 dependencies = [
- "lzma-rust2",
+ "lzma-rust2 0.25.0",
  "specular-drawpage",
  "specular-png",
 ]
@@ -7913,7 +7919,7 @@ version = "0.1.0"
 dependencies = [
  "jpeg-encoder",
  "lcms2",
- "lzma-rust2",
+ "lzma-rust2 0.25.0",
  "miniz_oxide 0.9.1",
  "rayon",
  "ruzstd",
@@ -8184,7 +8190,7 @@ dependencies = [
 name = "specular-xcf"
 version = "0.1.0"
 dependencies = [
- "lzma-rust2",
+ "lzma-rust2 0.25.0",
  "rayon",
  "specular-blend",
  "specular-core",

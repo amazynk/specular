@@ -18,7 +18,7 @@ specular-jbig = { path = "../specular-jbig" }
 ruzstd = { version = "0.9", default-features = false, features = ["std"] }
 # LZMA (34925): the xz container is parsed here, LZMA2 blocks by lzma-rust2 (pure Rust,
 # faster than lzma-rs and already in the tree for 7z / XCF).
-lzma-rust2 = { version = "0.21", default-features = false, features = ["std", "optimization"] }
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "optimization"] }
 zlib-rs = { version = "0.6", default-features = false, features = ["rust-allocator"] }
 
 [dev-dependencies]
