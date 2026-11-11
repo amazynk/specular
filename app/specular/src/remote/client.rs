@@ -867,7 +867,10 @@ mod tests {
         assert_eq!(
             ipc_cmd(&["export", "Web", "/a.cr3", "/b.cr3"]),
             Cmd::Send(Request::Export {
-                files: vec![PathBuf::from("/a.cr3"), PathBuf::from("/b.cr3")],
+                files: vec![
+                    std::path::absolute("/a.cr3").unwrap(),
+                    std::path::absolute("/b.cr3").unwrap(),
+                ],
                 recipe: "Web".into()
             })
         );
@@ -890,7 +893,7 @@ mod tests {
         assert_eq!(
             cmd(&["--remote", "mark", "--stars", "0", "/a.jpg"]),
             Cmd::Send(Request::Mark {
-                files: vec![PathBuf::from("/a.jpg")],
+                files: vec![std::path::absolute("/a.jpg").unwrap()],
                 mark: protocol::MarkSet {
                     stars: Some(0),
                     ..Default::default()
