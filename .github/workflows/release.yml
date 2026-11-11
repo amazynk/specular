@@ -40,6 +40,16 @@ jobs:
             chmod +x "$HOME/.local/bin/magick"
             echo "$HOME/.local/bin" >>"$GITHUB_PATH"
           fi
+      # The fat-LTO link of the app needs more than the runner's 16 GB of memory.
+      - name: Swap
+        run: |
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+          sudo fallocate -l 20G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
       - name: PGO training corpus
         run: cargo run --locked --release -p specular-corpus -- --small --no-network
       - name: Build (PGO) and package
@@ -56,6 +66,13 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v4
+      # The fat-LTO link of the app ran out of the runner's 16 GB of memory without it.
+      - name: Page file
+        uses: al-cheb/configure-pagefile-action@9b6da52fb72a3c6147c1aad2df22d8d905681adc # v1.5
+        with:
+          minimum-size: 16GB
+          maximum-size: 32GB
+          disk-root: "C:"
       - name: WiX v4
         run: |
           dotnet tool install -g wix --version 4.*
