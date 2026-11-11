@@ -920,7 +920,9 @@ mod tests {
 
     #[test]
     fn playing_advances_frames_on_their_deadlines() {
-        let mut a = fake(4, 20, PlayerConfig::default());
+        // 100 ms frames: a busy CI runner (3 cores, tests in parallel) misses 20 ms deadlines
+        // now and then, and a missed deadline drops the frame, as it should.
+        let mut a = fake(4, 100, PlayerConfig::default());
         assert_eq!(first_frame(&mut a), 0);
         let t0 = Instant::now();
         let mut seen = vec![0];
