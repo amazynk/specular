@@ -308,7 +308,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
-            libxkbcommon-dev libwayland-dev libasound2-dev sway mesa-vulkan-drivers libvulkan1
+            libxkbcommon-dev libwayland-dev libasound2-dev sway mesa-vulkan-drivers libvulkan1 \
+            util-linux-extra  # fincore: the app suite's page-cache check
       - uses: Swatinem/rust-cache@v2
         with:
           key: app-gate
