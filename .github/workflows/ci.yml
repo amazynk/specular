@@ -267,7 +267,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          tools/ci/apt-install.sh valgrind
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev libxkbcommon-dev libwayland-dev \
+            valgrind
       - uses: Swatinem/rust-cache@v2
         with:
           key: perf-gate
@@ -324,7 +325,8 @@ jobs:
       - name: Vulkan (software adapter on hosted runners)
         if: ${{ !vars.DEVELOP_RUNNER }}
         run: |
-          tools/ci/apt-install.sh mesa-vulkan-drivers libvulkan1
+          tools/ci/apt-install.sh pkg-config libfontconfig1-dev libxkbcommon-dev libwayland-dev \
+            mesa-vulkan-drivers libvulkan1
       - uses: Swatinem/rust-cache@v2
         with:
           key: develop-gate
