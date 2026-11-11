@@ -920,9 +920,11 @@ mod tests {
 
     #[test]
     fn playing_advances_frames_on_their_deadlines() {
-        // 100 ms frames: a busy CI runner (3 cores, tests in parallel) misses 20 ms deadlines
-        // now and then, and a missed deadline drops the frame, as it should.
-        let mut a = fake(4, 100, PlayerConfig::default());
+        // Long frames: on a busy CI runner (3 cores, the whole suite in parallel) a sleeping
+        // thread wakes up to ~100 ms late, which misses short deadlines, and a missed deadline
+        // drops the frame, as it should.
+        const FRAME_MS: u64 = 250;
+        let mut a = fake(4, FRAME_MS, PlayerConfig::default());
         assert_eq!(first_frame(&mut a), 0);
         let t0 = Instant::now();
         let mut seen = vec![0];
@@ -938,10 +940,10 @@ mod tests {
         }
         assert_eq!(seen, [0, 1, 2, 3]);
         assert!(a.is_playing());
-        // Ticked at the deadlines: lateness is scheduling noise, not frames.
+        // Ticked at the deadlines: lateness is scheduling noise, well under a frame.
         assert!(a.pacing.frames >= 3);
         assert!(
-            a.pacing.late_max < Duration::from_millis(50),
+            a.pacing.late_max < Duration::from_millis(FRAME_MS / 2),
             "{:?}",
             a.pacing
         );
