@@ -26,7 +26,9 @@ on first use. Everything is driven by `build.sh` (Git Bash or MSYS2 on Windows):
   downloaded tools go to `target/tools/`.
 
 Besides Rust, building needs a C/C++ compiler (for vendored C and C++ such as libwebp and libjxl)
-and cmake (for libjxl). Release builds also need `nasm`, for rav1e's hand-written assembly: `build.sh`, the
+and cmake (for libjxl). On Linux it also needs pkg-config and the development packages of fontconfig,
+xkbcommon, Wayland and ALSA (Debian and Ubuntu: `libfontconfig1-dev libxkbcommon-dev libwayland-dev
+libasound2-dev`; Fedora: `fontconfig-devel libxkbcommon-devel wayland-devel alsa-lib-devel`). Release builds also need `nasm`, for rav1e's hand-written assembly: `build.sh`, the
 packaging scripts and `tools/release/pgo.sh` turn on the `specular/asm` feature, which makes AVIF
 output in batch convert about 2.5× faster. Debug builds and a plain `cargo build` leave it off.
 

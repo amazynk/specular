@@ -366,6 +366,17 @@ fi
 need cargo "Rust via https://rustup.rs"
 need cmake "e.g. apt install cmake, dnf install cmake, brew install cmake, winget install Kitware.CMake"
 [[ $MODE == release ]] && need nasm "e.g. apt install nasm, dnf install nasm, brew install nasm, winget install NASM.NASM"
+# The Linux system libraries the crates link (fonts, keyboard, Wayland, sound), through pkg-config.
+if [[ $HOST == linux && ( $PLATFORM == linux || $PLATFORM == all ) ]]; then
+    need pkg-config "e.g. apt install pkg-config, dnf install pkgconf"
+    if have pkg-config; then
+        for lib in fontconfig:libfontconfig1-dev:fontconfig-devel xkbcommon:libxkbcommon-dev:libxkbcommon-devel \
+            wayland-client:libwayland-dev:wayland-devel alsa:libasound2-dev:alsa-lib-devel; do
+            IFS=: read -r pc deb rpm <<<"$lib"
+            pkg-config --exists "$pc" || MISSING+=("$pc|e.g. apt install $deb, dnf install $rpm")
+        done
+    fi
+fi
 if [[ $HOST == macos && ( $PLATFORM == macos || $PLATFORM == all ) ]]; then
     need rustup "https://rustup.rs (needed to add the aarch64/x86_64 Apple targets)"
 fi

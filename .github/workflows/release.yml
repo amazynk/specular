@@ -29,7 +29,7 @@ jobs:
       - name: Dependencies
         run: |
           tools/ci/apt-install.sh pkg-config libfontconfig1-dev \
-            libxkbcommon-dev libwayland-dev desktop-file-utils appstream flatpak flatpak-builder \
+            libxkbcommon-dev libwayland-dev libasound2-dev desktop-file-utils appstream flatpak flatpak-builder \
             libjpeg-turbo-progs imagemagick python3-pil libimage-exiftool-perl icc-profiles-free \
             sway libfuse2 nasm
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
