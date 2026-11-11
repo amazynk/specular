@@ -44,7 +44,7 @@ encoding_rs = "0.8"
 unic-langid = "0.9"
 # Movies' sound: the default output device (ALSA, PulseAudio/PipeWire through ALSA,
 # CoreAudio, WASAPI).
-cpal = "0.17.3"
+cpal = "0.18.2"
 specular-inspect = { path = "../../crates/specular-inspect" }
 specular-measure = { path = "../../crates/specular-measure" }
 specular-pathology = { path = "../../crates/specular-pathology" }
