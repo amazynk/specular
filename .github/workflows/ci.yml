@@ -51,6 +51,13 @@ jobs:
           sudo mkdir -p /mnt/target && sudo chown "$USER" /mnt/target
           echo "CARGO_TARGET_DIR=/mnt/target" >>"$GITHUB_ENV"
           df -h / /mnt
+      # GitHub's Windows runners have no GPU, only WARP (Direct3D 12 in software), which loses
+      # its device partway through the GPU tests. Those run on Linux (lavapipe) and macOS
+      # (Metal); asking for Vulkan alone leaves no adapter here, and they skip.
+      - name: No GPU on Windows
+        if: runner.os == 'Windows'
+        shell: bash
+        run: echo "WGPU_BACKEND=vulkan" >>"$GITHUB_ENV"
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |
