@@ -175,18 +175,21 @@ decode runs on the CPU alone, across all cores. macOS and Windows numbers will f
 
 ## Download
 
-> [!IMPORTANT]
-> No release has been published yet. Packages will appear on the
-> [Releases](https://github.com/amazynk/specular/releases) page and at
-> [amazynk.com/specular](https://amazynk.com/specular). Until then, build from source below.
+Get the latest version from [Releases](https://github.com/amazynk/specular/releases/latest)
+or [amazynk.com/specular](https://amazynk.com/specular).
 
 | Platform | Packages | Runs on |
 |---|---|---|
 | **macOS** | `.dmg`, universal | Apple Silicon and Intel |
 | **Windows** | `.msi` installer, portable `.zip` | Windows 10 and 11, x64 |
-| **Linux** | AppImage, Flatpak, `.tar.gz` | x86_64, glibc 2.35+, X11 or Wayland |
+| **Linux** | AppImage, Flatpak, `.deb`, `.rpm`, `.tar.gz` | x86_64, glibc 2.35+, X11 or Wayland |
 
 On x86_64, Specular needs AVX2 (x86-64-v3): Intel Core from Haswell (2013) on, AMD Zen or newer.
+
+> [!NOTE]
+> 0.1 is not signed yet, so macOS and Windows warn the first time you open it.
+> **macOS:** try to open it once, then System Settings → Privacy & Security → **Open Anyway**.
+> **Windows:** on the SmartScreen prompt, **More info** → **Run anyway**.
 
 ### Build from source
 
@@ -274,15 +277,15 @@ building on it and working on it:
 
 ## Status
 
-Specular is at version 0.1, before its first public release.
+Specular 0.1 is the first public release.
 
 | | Status |
 |---|---|
 | ✅ Linux, x86_64 | The main development platform |
 | ✅ macOS, Apple Silicon | Builds and passes the test suite; speed not yet measured |
-| ✅ Windows 10 and 11, x64 | Builds and runs the test suite in CI |
+| ✅ Windows 10 and 11, x64 | Builds and packages; some tests still fail on Windows |
 | 🚧 macOS, Intel | Builds; not yet tested on hardware |
-| 🚧 Packages | Scripts for every platform are ready; the first release is not out yet |
+| 🚧 Packages | Built for every platform; not signed yet |
 | 🚧 Translations | 19 languages; some were machine-drafted and await review by native speakers |
 
 Expect rough edges, especially in the specialist profiles. Files that don't open, or open wrong,
