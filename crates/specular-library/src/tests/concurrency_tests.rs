@@ -339,7 +339,9 @@ fn a_hold_cannot_starve_the_walk() {
     stop.store(true, SeqCst);
     holder.join().unwrap();
     eprintln!("held 2 s: walked {a} -> {b}, longest with the count still {longest:?}");
-    assert!(b > a + 50, "the walk moved while held: {a} -> {b}");
+    // Not starved: it keeps moving (how far depends on the machine: a busy 3-core CI runner
+    // walked 20 in the 2 s), and never stands still for long.
+    assert!(b >= a + 10, "the walk moved while held: {a} -> {b}");
     assert!(
         longest < Duration::from_millis(1000),
         "still for {longest:?}"
