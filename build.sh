@@ -383,8 +383,13 @@ if [[ $HOST == windows ]]; then
 fi
 
 need cargo "Rust via https://rustup.rs"
-need cmake "e.g. apt install cmake, dnf install cmake, brew install cmake, winget install Kitware.CMake"
-[[ $MODE == release ]] && need nasm "e.g. apt install nasm, dnf install nasm, brew install nasm, winget install NASM.NASM"
+# --from joins halves compiled elsewhere: nothing is compiled here.
+if [[ -z $FROM ]]; then
+    need cmake "e.g. apt install cmake, dnf install cmake, brew install cmake, winget install Kitware.CMake"
+    if [[ $MODE == release ]]; then
+        need nasm "e.g. apt install nasm, dnf install nasm, brew install nasm, winget install NASM.NASM"
+    fi
+fi
 # The Linux system libraries the crates link (fonts, keyboard, Wayland, sound), through pkg-config.
 if [[ $HOST == linux && ( $PLATFORM == linux || $PLATFORM == all ) ]]; then
     need pkg-config "e.g. apt install pkg-config, dnf install pkgconf"
@@ -396,7 +401,7 @@ if [[ $HOST == linux && ( $PLATFORM == linux || $PLATFORM == all ) ]]; then
         done
     fi
 fi
-if [[ $HOST == macos && ( $PLATFORM == macos || $PLATFORM == all ) ]]; then
+if [[ -z $FROM && $HOST == macos && ( $PLATFORM == macos || $PLATFORM == all ) ]]; then
     need rustup "https://rustup.rs (needed to add the aarch64/x86_64 Apple targets)"
 fi
 need_check
