@@ -1314,14 +1314,16 @@ fn json_str(s: &str) -> String {
     o
 }
 
-/// The modifier keys of winit's state, as the keymap and the chrome name them.
+/// The modifier keys of winit's state, as the keymap and the chrome name them (on macOS,
+/// Command is the keymap's Ctrl).
 fn mods_of(m: ModifiersState) -> Mods {
-    Mods {
-        ctrl: m.control_key(),
-        shift: m.shift_key(),
-        alt: m.alt_key(),
-        meta: m.super_key(),
-    }
+    Mods::held(
+        specular_input::Os::current(),
+        m.control_key(),
+        m.shift_key(),
+        m.alt_key(),
+        m.super_key(),
+    )
 }
 
 /// Converts a winit key event into a key combination of the keymap.

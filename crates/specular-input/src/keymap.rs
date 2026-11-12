@@ -1,4 +1,4 @@
-use crate::{Action, Mode, Preset, Profile};
+use crate::{Action, Mode, Os, Preset, Profile};
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::ops::Range;
@@ -36,13 +36,13 @@ pub enum Key {
     Char(char),
 }
 
-/// Modifier state.
+/// Modifier state. On macOS `ctrl` is Command and `meta` is Control (see [`Mods::held`]).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Default)]
 pub struct Mods {
     pub ctrl: bool,
     pub shift: bool,
     pub alt: bool,
-    /// Super / Command.
+    /// Super (Windows, Linux) or Control (macOS).
     pub meta: bool,
 }
 
@@ -73,6 +73,24 @@ impl Mods {
     };
     pub fn any(self) -> bool {
         self.ctrl || self.shift || self.alt || self.meta
+    }
+
+    /// The modifiers of the keys held on `os`: the Control, Shift, Alt (Option) and logo
+    /// (Super, Windows, Command) keys. On macOS Command is `ctrl` and Control is `meta`, as
+    /// the keymap writes and shows them (`Ctrl+f` is ⌘F), so one keymap gives each platform
+    /// its usual keys.
+    pub fn held(os: Os, control: bool, shift: bool, alt: bool, logo: bool) -> Mods {
+        let (ctrl, meta) = if os == Os::MacOs {
+            (logo, control)
+        } else {
+            (control, logo)
+        };
+        Mods {
+            ctrl,
+            shift,
+            alt,
+            meta,
+        }
     }
 }
 
@@ -2053,6 +2071,30 @@ const HEADER: &str = "\
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn command_is_ctrl_on_macos() {
+        // ⌘F on a Mac is the keymap's Ctrl+F; the Control key is its Super.
+        let cmd = Mods::held(Os::MacOs, false, false, false, true);
+        assert_eq!(cmd, Mods::CTRL);
+        let control = Mods::held(Os::MacOs, true, false, false, false);
+        assert!(control.meta && !control.ctrl);
+        // Elsewhere Ctrl is Ctrl and the logo key is Super.
+        for os in [Os::Windows, Os::Unix] {
+            assert_eq!(Mods::held(os, true, false, false, false), Mods::CTRL);
+            let logo = Mods::held(os, false, false, false, true);
+            assert!(logo.meta && !logo.ctrl);
+        }
+        assert_eq!(
+            Mods::held(Os::MacOs, false, true, true, true),
+            Mods {
+                ctrl: true,
+                shift: true,
+                alt: true,
+                meta: false
+            }
+        );
+    }
 
     fn seq(s: &str) -> KeySeq {
         KeySeq::parse(s).unwrap()

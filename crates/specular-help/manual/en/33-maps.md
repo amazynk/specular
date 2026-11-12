@@ -118,7 +118,7 @@ A recognised weather grid starts in its colours. The last choice goes back to th
 ## Online map services {#online}
 - [[key:map-services]]: layers from WMS, WMTS, WFS, OGC API and STAC servers
 
-They are off until you turn them on, in the panel or in Settings › Maps › Online map services.
+They are off until you turn them on, in the panel or in Settings › Maps › Online map services. They also need [No network](privacy#no-network) turned off in Settings › Privacy.
 
 Before the first request to a server, Specular says what that server sees and asks.
 

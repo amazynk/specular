@@ -8,7 +8,7 @@ keywords: privacy, yt-dlp, network, internet, offline, no network, air-gapped, t
 Specular works entirely offline. It collects nothing and sends nothing: there is no telemetry of any kind.
 
 ## When Specular uses the network {#network}
-Only when you ask it to:
+Never, until you turn off [No network](#no-network). After that, only when you ask it to:
 
 - **Update checks**, if you turn them on.
 - **Local AI downloads**, when you choose one in Settings › Local AI.
@@ -19,7 +19,7 @@ Only when you ask it to:
 Place names for GPS positions come from data built into the app. Positions never leave your computer.
 
 ## No network {#no-network}
-Settings › Privacy › **No network** stops Specular from connecting to anything.
+Settings › Privacy › **No network** stops Specular from connecting to anything. It is on until you turn it off.
 
 - Features that need a server say “Network is off in Settings › Privacy” instead.
 - Files on this computer and on mounted drives still open.
@@ -46,7 +46,7 @@ model_folder = "/srv/specular/models"
 Model files placed in `models` next to the policy file are used too, without a policy.
 
 ## Updates {#updates}
-Specular checks for updates only if you turn it on in Settings › Updates.
+Specular checks for updates only if you turn it on in Settings › Updates and No network is off.
 
 - It checks at most once a day.
 - The request carries no identifier, no cookie, and nothing about your computer except the Specular version.

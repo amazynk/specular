@@ -7,7 +7,8 @@
 //!   there (`@` on German AltGr+Q, `€` on AltGr+E, `ą` on Polish AltGr+A). A Ctrl+Alt press
 //!   that the layout does not map types nothing (no text, or a control character).
 //! - **macOS** reports Option as Alt, with the character Option makes (`å`, `ø`, `@` on
-//!   German Option+L). Command (Meta) and Control presses are commands.
+//!   German Option+L). Command and Control presses (`ctrl` and `meta`, [`Mods::held`]) are
+//!   commands.
 //! - **Linux and the BSDs** (X11 and Wayland, through xkb) treat AltGr as its own level
 //!   (ISO_Level3_Shift): no Ctrl or Alt is reported, only the character. Alt and Ctrl+Alt
 //!   presses are commands.

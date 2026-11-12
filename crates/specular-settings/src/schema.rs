@@ -1079,10 +1079,11 @@ crate::settings! {
         shx_folders: String = String::new();
     }
     // The no-network switch (specular-core `net::off`): on, nothing in Specular opens a
-    // connection. `--no-network`, SPECULAR_NO_NETWORK=1 and the system policy file turn it
-    // on too; the page then says so and the switch cannot turn the network back on.
+    // connection. On by default: the network features work once the user turns it off.
+    // `--no-network`, SPECULAR_NO_NETWORK=1 and the system policy file turn it on too; the
+    // page then says so and the switch cannot turn the network back on.
     privacy: Privacy {
-        no_network: bool = false;
+        no_network: bool = true;
         // yt-dlp (never bundled or downloaded by Specular): off by default; on, a web page's
         // address opened as a network stream is handed to it. Empty path: the one on PATH.
         ytdlp: bool = false;

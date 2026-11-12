@@ -4,6 +4,18 @@ All notable changes to Specular are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- **No network is on by default.** Specular connects to nothing until Settings › Privacy › No
+  network is turned off, also after updating from 0.1.0 unless the switch was changed there.
+
+### Fixed
+
+- **macOS:** Command is the shortcuts' Ctrl, as the app shows them: ⌘F searches, and ⌘A, ⌘C,
+  ⌘V and ⌘Z work in text fields. The Control key takes the place of Super.
+
 ## [0.1.0] - 2026-11-12
 
 The first public release, 0.1.0, under MIT OR Apache-2.0. Everything is new; the main parts are
