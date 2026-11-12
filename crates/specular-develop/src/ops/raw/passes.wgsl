@@ -401,7 +401,7 @@ fn run(x: i32, y: i32) {
                 if (!have_fb) { fb = fallback(x, y); have_fb = true; }
                 r = fb;
             }
-            g = with4(g, u32(l), r);
+            g[l] = r;
         }
     }
     dst[u32(y - ui(U_D_Y0)) * uu(U_W) + u32(x)] = g;
@@ -544,7 +544,7 @@ fn main(@builtin(local_invocation_id) lid: vec3<u32>, @builtin(workgroup_id) wid
         let b = op(ti(x + dx, y + dy, bx, by, w, h), u32(l));
         let c = op(ti(x - dx, y - dy, bx, by, w, h), u32(l));
         let e = 2.0 * a - b - c;
-        d = with4(d, u32(l), dot(e, e));
+        d[l] = dot(e, e);
     }
     dst[u32(y - ui(U_D_Y0)) * uu(U_W) + u32(x)] = d;
 }

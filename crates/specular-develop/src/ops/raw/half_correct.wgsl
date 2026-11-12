@@ -119,10 +119,10 @@ fn hhot_v(x: i32, y: i32) -> vec4<f32> {
     var cl = vec3<f32>(0.0);
     for (var k = 0u; k < 3u; k += 1u) {
         if (c0[k] < 0.0) {
-            v = with3(v, k, -1.0 - c0[k]);
-            cl = with3(cl, k, 1.0);
+            v[k] = -1.0 - c0[k];
+            cl[k] = 1.0;
         } else {
-            v = with3(v, k, c0[k]);
+            v[k] = c0[k];
         }
     }
     let t = df(H_HOT);
@@ -156,8 +156,8 @@ fn hhot_v(x: i32, y: i32) -> vec4<f32> {
                     }
                     vals[j] = e;
                 }
-                v = with3(v, k, 0.5 * (vals[3] + vals[4]));
-                cl = with3(cl, k, 0.0);
+                v[k] = 0.5 * (vals[3] + vals[4]);
+                cl[k] = 0.0;
             }
         }
     }
@@ -197,7 +197,7 @@ fn hhot_v(x: i32, y: i32) -> vec4<f32> {
         for (var k = 0u; k < 3u; k += 1u) {
             if (cl[k] > 0.0) {
                 let cap = 4.0 * minsat * df(H_WB + k) / max(wbmin, 1e-6);
-                v = with3(v, k, max(v[k], min(s * chi[k], cap)));
+                v[k] = max(v[k], min(s * chi[k], cap));
             }
         }
     }

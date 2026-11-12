@@ -223,8 +223,8 @@ fn run(i: i32, j: i32) {
             let k = ccolor(x, y);
             let v = prep(x, y, 0u);
             if (v >= t * prep_sat(x, y, 0u)) { fl |= 1u << k; }
-            s = with3(s, k, s[k] + v);
-            n = with3(n, k, n[k] + 1.0);
+            s[k] += v;
+            n[k] += 1.0;
         }
     }
     let m = s / max(n, vec3<f32>(1.0));
