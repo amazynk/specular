@@ -208,7 +208,8 @@ impl RenderContext {
         let tf = match &self.image_header.metadata.colour_encoding {
             ColourEncoding::Enum(e) => e.tf,
             ColourEncoding::IccProfile(_) => {
-                let icc = self.embedded_icc().unwrap();
+                // A header can say "ICC profile" for a file that has none (yet): no suggestion.
+                let icc = self.embedded_icc()?;
                 crate::color::icc::icc_tf(icc)?
             }
         };
