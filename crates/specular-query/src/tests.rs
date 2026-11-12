@@ -463,6 +463,8 @@ fn facet_toggles_edit_the_text() {
     assert_eq!(toggle("x has:gps", FacetField::Property, "gps"), "x");
     assert_eq!(toggle("", FacetField::Property, "hdr"), "is:hdr");
     assert_eq!(toggle("", FacetField::Year, "2024"), "date:2024");
+    // A ladder's spans between thresholds have no key: nothing to select (found by fuzzing).
+    assert_eq!(toggle("x size<83", FacetField::Size, ""), "x size<83");
     // A negated term is not a selection: the value is added alongside.
     assert_eq!(
         toggle("-ext:jpg", FacetField::Format, "jpg"),

@@ -1491,6 +1491,10 @@ pub fn is_active(q: &Query, field: FacetField, key: &str) -> bool {
 /// The query text with `key` of `field` selected or, when it is, cleared: the value joins (or
 /// leaves) the field's existing term, which keeps the values ORed.
 pub fn toggle(text: &str, field: FacetField, key: &str) -> String {
+    // No value to select (a ladder's span between two thresholds): `size>=""` would not parse.
+    if key.is_empty() {
+        return text.to_owned();
+    }
     let q = parse::parse(text);
     if matches!(field, FacetField::Property | FacetField::Flags) {
         let Some(flag) = FLAGS.iter().find(|p| p.word() == key) else {
