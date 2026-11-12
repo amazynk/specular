@@ -354,8 +354,11 @@ fn compressed_tars_reserve_no_more_than_they_hold() {
                 Err(Error::Limit(m)) => assert!(m.starts_with(codec), "{m}"),
                 r => panic!("{codec}: {:?}", r.map(|a| a.len())),
             }
+            // Room for the unpacked tar twice (growing, then held) and for what four decode
+            // threads hold while blocks are in flight (~4.5 MiB each at level 9) beside the
+            // output's next growth step: 8 MiB was too tight on a slower 4-core CI runner.
             let b = std::sync::Arc::new(specular_core::budget::MemoryBudget::fixed(
-                2 * tar.len() as u64 + (8 << 20),
+                2 * tar.len() as u64 + (32 << 20),
             ));
             let a = specular_core::budget::with_budget(b.clone(), || {
                 Archive::from_bytes(packed, options())
