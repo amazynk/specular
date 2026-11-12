@@ -71,6 +71,11 @@ Options
                             or APPLE_ID + APPLE_TEAM_ID (or TEAM_ID) + APPLE_APP_PASSWORD
                    linux    nothing to sign (checksums are always written)
   --out DIR      output root (default: target/dist/<version>); files go to DIR/<platform>/
+  --slice TARGET macos: build one half of the universal binary (aarch64-apple-darwin or
+                 x86_64-apple-darwin) into DIR/macos/TARGET/, no package. The release workflow
+                 builds the halves on two machines at once.
+  --from DIR     macos: build nothing, join the halves --slice put in DIR/<target>/ (and package
+                 them with --package)
   --no-color(s)  plain output, also with NO_COLOR or NO_COLORS set (FORCE_COLOR=1 keeps colour
                  when piped)
   -h, --help     this help
@@ -101,6 +106,8 @@ PACKAGE=0
 PGO=0
 SIGN=0
 OUT=
+SLICE=
+FROM=
 
 # --- output style -------------------------------------------------------------------------------
 # Colour on a terminal unless NO_COLOR (https://no-color.org) or NO_COLORS is set, or --no-color(s)
@@ -205,6 +212,14 @@ while [[ $# -gt 0 ]]; do
             [[ $# -ge 2 ]] || die "--out needs a directory"
             case "$2" in /*) OUT=$2 ;; *) OUT="$PWD/$2" ;; esac
             shift ;;
+        --slice)
+            [[ $# -ge 2 ]] || die "--slice needs a target"
+            SLICE=$2
+            shift ;;
+        --from)
+            [[ $# -ge 2 ]] || die "--from needs a directory"
+            case "$2" in /*) FROM=$2 ;; *) FROM="$PWD/$2" ;; esac
+            shift ;;
         --no-color|--no-colors) ;;
         -h|--help) usage; exit 0 ;;
         *) usage >&2; die "unknown argument '$1'" ;;
@@ -239,6 +254,10 @@ case "$(uname -s)" in
     *) die "unsupported host $(uname -s)" ;;
 esac
 [[ $PLATFORM == host ]] && PLATFORM=$HOST
+if [[ -n $SLICE$FROM ]]; then
+    [[ $PLATFORM == macos ]] || die "--slice and --from are for macos builds"
+    [[ -n $SLICE && $PACKAGE == 1 ]] && die "--slice builds half a binary, which is not packaged: drop --package/--sign"
+fi
 
 export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$ROOT/target}"
 case "$CARGO_TARGET_DIR" in /*|[A-Za-z]:*) ;; *) CARGO_TARGET_DIR="$ROOT/$CARGO_TARGET_DIR" ;; esac
@@ -757,6 +776,14 @@ build_macos() {
     local args=(--out "$dir")
     [[ $MODE == debug ]] && args+=(--debug)
     [[ $SIGN == 1 ]] && args+=(--sign)
+    [[ -n $FROM ]] && args+=(--from "$FROM")
+    if [[ -n $SLICE ]]; then
+        step "macos: $SLICE half of the universal binary ($MODE)"
+        packaging/macos/build-dmg.sh "${args[@]}" --slice "$SLICE"
+        result macos "$dir/$SLICE/specular" "built ($(size_of "$dir/$SLICE/specular"))"
+        ok "$(rel "$dir/$SLICE/specular") $C_DIM($(size_of "$dir/$SLICE/specular"))$C_RESET"
+        return 0
+    fi
     if [[ $PACKAGE == 0 ]]; then
         step "macos: universal binary ($MODE)"
         packaging/macos/build-dmg.sh "${args[@]}" --bin-only

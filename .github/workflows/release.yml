@@ -1,7 +1,11 @@
-# Release packages for all three platforms, built with ./build.sh. UNTESTED: never run on GitHub.
+# Release packages for all three platforms, built with ./build.sh. A v* tag drafts a GitHub
+# release with them; a manual run only builds them (artifacts on the run's page).
 #
 # Linux runs on Ubuntu 22.04 so the binary needs glibc <= 2.35 (an AppImage or tarball only runs
 # on systems with a glibc at least as new as the build machine's).
+#
+# macOS builds the arm64 and x86_64 halves of the universal binary on two machines at once
+# (about 3.5 h for the slower half, against 5.5 h for both on one), then joins and packages them.
 #
 # Secrets (all optional; without them the packages are unsigned):
 #   Windows: SPECULAR_SIGN_CERT_SHA1 (a code-signing certificate must already be in the runner's
@@ -112,15 +116,35 @@ jobs:
           name: windows
           path: target/dist/release/windows/
 
+  macos-half:
+    strategy:
+      matrix:
+        target: [aarch64-apple-darwin, x86_64-apple-darwin]
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: nasm (rav1d's and rav1e's x86_64 assembly)
+        run: brew install nasm
+      - name: Build
+        run: ./build.sh release macos --slice ${{ matrix.target }} --out target/dist/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.target }}
+          path: target/dist/release/macos/
+
   macos:
+    needs: macos-half
     runs-on: macos-15
     env:
       # A step's own env is not visible to its `if:`; the job's is.
       HAS_MACOS_CERT: ${{ secrets.MACOS_CERT_P12 != '' }}
     steps:
       - uses: actions/checkout@v4
-      - name: nasm (rav1d's and rav1e's x86_64 assembly)
-        run: brew install nasm
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: macos-*-apple-darwin
+          merge-multiple: true
+          path: target/halves
       - name: Import the signing certificate
         if: env.HAS_MACOS_CERT == 'true'
         env:
@@ -136,7 +160,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -s -k ci "$kc"
           # shellcheck disable=SC2046 # one keychain path per word
           security list-keychains -d user -s "$kc" $(security list-keychains -d user | tr -d '"')
-      - name: Build and package
+      - name: Join and package
         env:
           SPECULAR_SIGN_IDENTITY: ${{ secrets.SPECULAR_SIGN_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -145,7 +169,7 @@ jobs:
         run: |
           sign=
           [ -n "$SPECULAR_SIGN_IDENTITY" ] && sign=--sign
-          ./build.sh release macos --package $sign --out target/dist/release
+          ./build.sh release macos --from target/halves --package $sign --out target/dist/release
       - uses: actions/upload-artifact@v4
         with:
           name: macos
@@ -164,6 +188,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           find dist -type f \( -name '*.AppImage' -o -name '*.flatpak' -o -name '*.tar.gz' \
-            -o -name '*.zip' -o -name '*.msi' -o -name '*.dmg' -o -name '*.sha256' \) -print0 \
+            -o -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.msi' -o -name '*.dmg' \
+            -o -name '*.sha256' \) -print0 \
             | xargs -0 gh release create "${{ github.ref_name }}" --draft --repo "${{ github.repository }}" \
                 --title "Specular ${{ github.ref_name }}"
