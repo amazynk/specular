@@ -31,7 +31,8 @@ BIN=
 HOST_BIN=
 SUFFIX=
 SPLIT=1
-VALIDATE=1
+# SPECULAR_APPIMAGE_VALIDATE=0 does what --no-validate does (for builds through build.sh).
+VALIDATE=${SPECULAR_APPIMAGE_VALIDATE:-1}
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --bin) BIN=$(realpath "$2"); shift ;;

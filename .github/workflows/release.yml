@@ -29,9 +29,9 @@ jobs:
       - name: Dependencies
         run: |
           # flatpak-builder from the Flatpak team's PPA: 22.04's 1.2 runs appstream-compose,
-          # which the 25.08 SDK no longer has. (desktop-file-validate and appstreamcli are left
-          # out: 22.04's are older than the files they would check; the CI's packaging-lint job
-          # validates them with current ones.)
+          # which the 25.08 SDK no longer has. (desktop-file-validate is left out, and the
+          # AppImage's validation is off below: 22.04's validators are older than the files they
+          # would check; the CI's packaging-lint job validates them with current ones.)
           sudo add-apt-repository -y -n ppa:flatpak/stable
           # mesa-vulkan-drivers (lavapipe) and sway: the PGO training runs the app headless;
           # webp (cwebp): WebP files in the training corpus.
@@ -67,6 +67,10 @@ jobs:
       - name: PGO training corpus
         run: cargo run --locked --release -p specular-corpus -- --small --no-network
       - name: Build (PGO) and package
+        env:
+          # 22.04's appstreamcli predates <developer> and vcs-browser URLs; CI's packaging-lint
+          # validates the metainfo with a current one.
+          SPECULAR_APPIMAGE_VALIDATE: "0"
         run: ./build.sh release linux --package --pgo --out target/dist/release
       - uses: actions/upload-artifact@v4
         with:
