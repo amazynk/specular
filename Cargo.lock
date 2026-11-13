@@ -5695,7 +5695,7 @@ checksum = "238653bedf881fede50103cb7838b029e2b73d3d3d8e70d36f0a96be32a65c7b"
 
 [[package]]
 name = "specular"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "accesskit_winit",
  "arboard",
@@ -5798,25 +5798,25 @@ dependencies = [
 
 [[package]]
 name = "specular-aac"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "thiserror 2.0.21",
 ]
 
 [[package]]
 name = "specular-ac3"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-aec"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "thiserror 2.0.21",
 ]
 
 [[package]]
 name = "specular-ai"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "half",
@@ -5838,15 +5838,15 @@ dependencies = [
 
 [[package]]
 name = "specular-alac"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-amr"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-anim"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "specular-core",
@@ -5857,18 +5857,18 @@ dependencies = [
 
 [[package]]
 name = "specular-ape"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-apv"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
 ]
 
 [[package]]
 name = "specular-archive"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "aes",
  "bzip2",
@@ -5897,7 +5897,7 @@ dependencies = [
 
 [[package]]
 name = "specular-arrays"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "rayon",
@@ -5910,7 +5910,7 @@ dependencies = [
 
 [[package]]
 name = "specular-asdf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "md-5",
  "specular-core",
@@ -5922,7 +5922,7 @@ dependencies = [
 
 [[package]]
 name = "specular-astro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-fits",
@@ -5930,7 +5930,7 @@ dependencies = [
 
 [[package]]
 name = "specular-avif"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-rav1d",
@@ -5939,7 +5939,7 @@ dependencies = [
 
 [[package]]
 name = "specular-bench"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "gif",
@@ -5974,7 +5974,7 @@ dependencies = [
 
 [[package]]
 name = "specular-bim"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "getrandom 0.3.4",
  "rayon",
@@ -5988,7 +5988,7 @@ dependencies = [
 
 [[package]]
 name = "specular-bitmap"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "gif",
  "png",
@@ -5998,11 +5998,11 @@ dependencies = [
 
 [[package]]
 name = "specular-blend"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-bpg"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-hevc",
@@ -6010,7 +6010,7 @@ dependencies = [
 
 [[package]]
 name = "specular-brotli"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "brotli",
  "brotli-decompressor",
@@ -6019,7 +6019,7 @@ dependencies = [
 
 [[package]]
 name = "specular-cad"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "encoding_rs",
  "kurbo",
@@ -6028,7 +6028,7 @@ dependencies = [
 
 [[package]]
 name = "specular-casa"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-fits",
@@ -6037,7 +6037,7 @@ dependencies = [
 
 [[package]]
 name = "specular-cast"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "getrandom 0.3.4",
  "nix 0.30.1",
@@ -6052,7 +6052,7 @@ dependencies = [
 
 [[package]]
 name = "specular-cdr"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-ora",
@@ -6060,14 +6060,14 @@ dependencies = [
 
 [[package]]
 name = "specular-cfb"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "thiserror 2.0.21",
 ]
 
 [[package]]
 name = "specular-cgm"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "kurbo",
  "specular-vector",
@@ -6077,7 +6077,7 @@ dependencies = [
 
 [[package]]
 name = "specular-cineform"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -6085,14 +6085,14 @@ dependencies = [
 
 [[package]]
 name = "specular-client"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
 ]
 
 [[package]]
 name = "specular-clip"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rusqlite",
  "thiserror 2.0.21",
@@ -6100,14 +6100,14 @@ dependencies = [
 
 [[package]]
 name = "specular-codes"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "encoding_rs",
 ]
 
 [[package]]
 name = "specular-color"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "lcms2",
  "moxcms",
@@ -6115,7 +6115,7 @@ dependencies = [
 
 [[package]]
 name = "specular-convert"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "gamut-core",
  "gamut-jxl",
@@ -6140,7 +6140,7 @@ dependencies = [
 
 [[package]]
 name = "specular-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "memmap2",
  "nix 0.30.1",
@@ -6154,7 +6154,7 @@ dependencies = [
 
 [[package]]
 name = "specular-corpus"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "rayon",
@@ -6166,7 +6166,7 @@ dependencies = [
 
 [[package]]
 name = "specular-decode"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "jpeg-encoder",
@@ -6300,7 +6300,7 @@ dependencies = [
 
 [[package]]
 name = "specular-decode-host"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "embed-resource",
  "landlock",
@@ -6319,7 +6319,7 @@ dependencies = [
 
 [[package]]
 name = "specular-develop"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake3",
  "bytemuck",
@@ -6346,7 +6346,7 @@ dependencies = [
 
 [[package]]
 name = "specular-devices"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "notify",
  "specular-input",
@@ -6356,7 +6356,7 @@ dependencies = [
 
 [[package]]
 name = "specular-diag"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "crc32fast",
  "serde_json",
@@ -6367,7 +6367,7 @@ dependencies = [
 
 [[package]]
 name = "specular-diagram"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-drawpage",
@@ -6376,7 +6376,7 @@ dependencies = [
 
 [[package]]
 name = "specular-dicom"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
  "specular-core",
@@ -6397,7 +6397,7 @@ dependencies = [
 
 [[package]]
 name = "specular-dicomweb"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "memchr",
  "parking_lot",
@@ -6414,7 +6414,7 @@ dependencies = [
 
 [[package]]
 name = "specular-dimse"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "rustls",
@@ -6428,7 +6428,7 @@ dependencies = [
 
 [[package]]
 name = "specular-djvu"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "png",
  "specular-core",
@@ -6437,7 +6437,7 @@ dependencies = [
 
 [[package]]
 name = "specular-drawpage"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "kurbo",
  "roxmltree 0.21.2",
@@ -6450,11 +6450,11 @@ dependencies = [
 
 [[package]]
 name = "specular-dts"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-dv"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -6462,11 +6462,11 @@ dependencies = [
 
 [[package]]
 name = "specular-dvi"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-ebsd"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -6476,7 +6476,7 @@ dependencies = [
 
 [[package]]
 name = "specular-em"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "serde_json",
@@ -6486,7 +6486,7 @@ dependencies = [
 
 [[package]]
 name = "specular-epub"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "crc32fast",
  "fontique",
@@ -6506,11 +6506,11 @@ dependencies = [
 
 [[package]]
 name = "specular-evrc"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-exr"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "exr",
  "rayon",
@@ -6523,21 +6523,21 @@ dependencies = [
 
 [[package]]
 name = "specular-fcs"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "thiserror 2.0.21",
 ]
 
 [[package]]
 name = "specular-fft"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
 ]
 
 [[package]]
 name = "specular-ffv1"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -6545,7 +6545,7 @@ dependencies = [
 
 [[package]]
 name = "specular-figure"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miniz_oxide 0.8.9",
  "resvg",
@@ -6562,7 +6562,7 @@ dependencies = [
 
 [[package]]
 name = "specular-fileops"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-avif",
  "specular-heic",
@@ -6573,7 +6573,7 @@ dependencies = [
 
 [[package]]
 name = "specular-film"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "rayon",
@@ -6582,7 +6582,7 @@ dependencies = [
 
 [[package]]
 name = "specular-fits"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "quick-xml",
  "rayon",
@@ -6593,11 +6593,11 @@ dependencies = [
 
 [[package]]
 name = "specular-flac"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-flif"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-png",
@@ -6605,7 +6605,7 @@ dependencies = [
 
 [[package]]
 name = "specular-fmt-thermal"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-jpegls",
  "specular-ora",
@@ -6615,7 +6615,7 @@ dependencies = [
 
 [[package]]
 name = "specular-font"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-brotli",
  "specular-png",
@@ -6626,7 +6626,7 @@ dependencies = [
 
 [[package]]
 name = "specular-gds"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-vector",
  "thiserror 2.0.21",
@@ -6634,11 +6634,11 @@ dependencies = [
 
 [[package]]
 name = "specular-geodesy"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-gfx"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "fontique",
@@ -6656,7 +6656,7 @@ dependencies = [
 
 [[package]]
 name = "specular-gis"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "encoding_rs",
  "flate2",
@@ -6679,7 +6679,7 @@ dependencies = [
 
 [[package]]
 name = "specular-grib"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-aec",
  "specular-core",
@@ -6691,11 +6691,11 @@ dependencies = [
 
 [[package]]
 name = "specular-gsm"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-h264"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-thread",
@@ -6703,7 +6703,7 @@ dependencies = [
 
 [[package]]
 name = "specular-h264enc"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
 ]
@@ -6717,7 +6717,7 @@ dependencies = [
 
 [[package]]
 name = "specular-hap"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -6726,7 +6726,7 @@ dependencies = [
 
 [[package]]
 name = "specular-hdf4"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-aec",
  "specular-core",
@@ -6738,7 +6738,7 @@ dependencies = [
 
 [[package]]
 name = "specular-hdf5"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "ruzstd",
@@ -6751,7 +6751,7 @@ dependencies = [
 
 [[package]]
 name = "specular-heic"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miniz_oxide 0.8.9",
  "png",
@@ -6773,7 +6773,7 @@ version = "0.0.10"
 
 [[package]]
 name = "specular-help"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-i18n",
@@ -6791,7 +6791,7 @@ dependencies = [
 
 [[package]]
 name = "specular-hwdec"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "libloading",
  "parking_lot",
@@ -6808,7 +6808,7 @@ dependencies = [
 
 [[package]]
 name = "specular-i18n"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "fixed_decimal",
  "fluent-bundle",
@@ -6835,15 +6835,15 @@ dependencies = [
 
 [[package]]
 name = "specular-icns"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-iff"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-import"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake3",
  "chrono",
@@ -6856,7 +6856,7 @@ dependencies = [
 
 [[package]]
 name = "specular-imzml"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "quick-xml",
  "specular-thread",
@@ -6865,7 +6865,7 @@ dependencies = [
 
 [[package]]
 name = "specular-infer"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "half",
@@ -6881,7 +6881,7 @@ dependencies = [
 
 [[package]]
 name = "specular-input"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-i18n",
  "toml_edit",
@@ -6889,7 +6889,7 @@ dependencies = [
 
 [[package]]
 name = "specular-inspect"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-color",
  "specular-core",
@@ -6897,21 +6897,21 @@ dependencies = [
 
 [[package]]
 name = "specular-jbig"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
 ]
 
 [[package]]
 name = "specular-jbig2"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "hayro-jbig2",
 ]
 
 [[package]]
 name = "specular-jcamp"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-spectra",
@@ -6920,7 +6920,7 @@ dependencies = [
 
 [[package]]
 name = "specular-jp2"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "hayro-jpeg2000 0.3.5",
  "rayon",
@@ -6931,7 +6931,7 @@ dependencies = [
 
 [[package]]
 name = "specular-jpeg"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "jpeg-decoder",
  "jpeg-encoder",
@@ -6945,7 +6945,7 @@ dependencies = [
 
 [[package]]
 name = "specular-jpegls"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "thiserror 2.0.21",
@@ -6953,7 +6953,7 @@ dependencies = [
 
 [[package]]
 name = "specular-jpegxs"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "sha2 0.10.9",
@@ -6963,7 +6963,7 @@ dependencies = [
 
 [[package]]
 name = "specular-jxl"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "jxl-oxide",
  "rayon",
@@ -6974,7 +6974,7 @@ dependencies = [
 
 [[package]]
 name = "specular-jxr"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -6983,7 +6983,7 @@ dependencies = [
 
 [[package]]
 name = "specular-kicad"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-vector",
@@ -6992,7 +6992,7 @@ dependencies = [
 
 [[package]]
 name = "specular-labelmap"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-dicom",
  "specular-medvol",
@@ -7000,7 +7000,7 @@ dependencies = [
 
 [[package]]
 name = "specular-landxml"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
  "serde_json",
@@ -7012,7 +7012,7 @@ dependencies = [
 
 [[package]]
 name = "specular-legacy"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pcx",
  "rayon",
@@ -7020,7 +7020,7 @@ dependencies = [
 
 [[package]]
 name = "specular-legacy2"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-blend",
@@ -7031,7 +7031,7 @@ dependencies = [
 
 [[package]]
 name = "specular-lensfun"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
  "ruzstd",
@@ -7040,7 +7040,7 @@ dependencies = [
 
 [[package]]
 name = "specular-library"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "rusqlite",
@@ -7059,14 +7059,14 @@ dependencies = [
 
 [[package]]
 name = "specular-limits"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "memchr",
 ]
 
 [[package]]
 name = "specular-log"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "log",
  "parking_lot",
@@ -7079,7 +7079,7 @@ dependencies = [
 
 [[package]]
 name = "specular-lottie"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-drawpage",
@@ -7088,7 +7088,7 @@ dependencies = [
 
 [[package]]
 name = "specular-map"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "roxmltree 0.21.2",
@@ -7100,7 +7100,7 @@ dependencies = [
 
 [[package]]
 name = "specular-markup"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "miniz_oxide 0.8.9",
@@ -7115,7 +7115,7 @@ dependencies = [
 
 [[package]]
 name = "specular-measure"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake3",
  "rayon",
@@ -7125,7 +7125,7 @@ dependencies = [
 
 [[package]]
 name = "specular-medvol"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-bitmap",
@@ -7142,7 +7142,7 @@ dependencies = [
 
 [[package]]
 name = "specular-mesh"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "quick-xml",
  "rayon",
@@ -7156,7 +7156,7 @@ dependencies = [
 
 [[package]]
 name = "specular-metadata"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "fixed_decimal",
@@ -7180,7 +7180,7 @@ dependencies = [
 
 [[package]]
 name = "specular-micro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-core",
@@ -7193,7 +7193,7 @@ dependencies = [
 
 [[package]]
 name = "specular-mol"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -7205,29 +7205,29 @@ dependencies = [
 
 [[package]]
 name = "specular-mpa"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-mpc"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-mpeg2"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-thread",
 ]
 
 [[package]]
 name = "specular-mpeg4"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-mpeg2",
 ]
 
 [[package]]
 name = "specular-mzml"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "memchr",
  "quick-xml",
@@ -7238,7 +7238,7 @@ dependencies = [
 
 [[package]]
 name = "specular-netcdf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-core",
@@ -7248,7 +7248,7 @@ dependencies = [
 
 [[package]]
 name = "specular-neuro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-png",
  "thiserror 2.0.21",
@@ -7256,7 +7256,7 @@ dependencies = [
 
 [[package]]
 name = "specular-nmr"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-spectra",
@@ -7264,14 +7264,14 @@ dependencies = [
 
 [[package]]
 name = "specular-ocio"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
 ]
 
 [[package]]
 name = "specular-odf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-drawpage",
  "specular-jpeg",
@@ -7284,7 +7284,7 @@ dependencies = [
 
 [[package]]
 name = "specular-office"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "sha2 0.10.9",
@@ -7295,7 +7295,7 @@ dependencies = [
 
 [[package]]
 name = "specular-oldvideo"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-png",
@@ -7303,7 +7303,7 @@ dependencies = [
 
 [[package]]
 name = "specular-omero"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "serde_json",
@@ -7318,11 +7318,11 @@ dependencies = [
 
 [[package]]
 name = "specular-opus"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-ora"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "quick-xml",
@@ -7334,7 +7334,7 @@ dependencies = [
 
 [[package]]
 name = "specular-pathology"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-png",
@@ -7344,7 +7344,7 @@ dependencies = [
 
 [[package]]
 name = "specular-pcb"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
  "serde_json",
@@ -7355,7 +7355,7 @@ dependencies = [
 
 [[package]]
 name = "specular-pdf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "hayro",
  "specular-thread",
@@ -7364,7 +7364,7 @@ dependencies = [
 
 [[package]]
 name = "specular-pdn"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "rayon",
@@ -7376,7 +7376,7 @@ dependencies = [
 
 [[package]]
 name = "specular-pict"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-bitmap",
  "specular-drawpage",
@@ -7388,7 +7388,7 @@ dependencies = [
 
 [[package]]
 name = "specular-planetary"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "roxmltree 0.21.2",
@@ -7399,7 +7399,7 @@ dependencies = [
 
 [[package]]
 name = "specular-platform"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "block2 0.6.2",
  "directories",
@@ -7426,7 +7426,7 @@ dependencies = [
 
 [[package]]
 name = "specular-playlist"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "encoding_rs",
  "roxmltree 0.21.2",
@@ -7434,7 +7434,7 @@ dependencies = [
 
 [[package]]
 name = "specular-png"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "fdeflate",
  "miniz_oxide 0.8.9",
@@ -7450,7 +7450,7 @@ dependencies = [
 
 [[package]]
 name = "specular-points"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "quick-xml",
@@ -7462,7 +7462,7 @@ dependencies = [
 
 [[package]]
 name = "specular-print"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miniz_oxide 0.8.9",
  "specular-color",
@@ -7482,7 +7482,7 @@ dependencies = [
 
 [[package]]
 name = "specular-prores"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -7490,7 +7490,7 @@ dependencies = [
 
 [[package]]
 name = "specular-psd"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miniz_oxide 0.8.9",
  "psd",
@@ -7501,7 +7501,7 @@ dependencies = [
 
 [[package]]
 name = "specular-psp"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "kurbo",
@@ -7514,22 +7514,22 @@ dependencies = [
 
 [[package]]
 name = "specular-ptp"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "nusb",
 ]
 
 [[package]]
 name = "specular-qcelp"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-query"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-radiance"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "thiserror 2.0.21",
@@ -7557,7 +7557,7 @@ dependencies = [
 
 [[package]]
 name = "specular-raw"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-cineform",
@@ -7572,7 +7572,7 @@ dependencies = [
 
 [[package]]
 name = "specular-remote"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake3",
  "fastrand",
@@ -7587,7 +7587,7 @@ dependencies = [
 
 [[package]]
 name = "specular-render"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "jpeg-encoder",
@@ -7614,7 +7614,7 @@ dependencies = [
 
 [[package]]
 name = "specular-render-3d"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "naga",
@@ -7630,7 +7630,7 @@ dependencies = [
 
 [[package]]
 name = "specular-render-volume"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bytemuck",
  "naga",
@@ -7644,15 +7644,15 @@ dependencies = [
 
 [[package]]
 name = "specular-retro"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-retro2"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-root"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "lzma-rust2",
  "specular-hdf5",
@@ -7662,7 +7662,7 @@ dependencies = [
 
 [[package]]
 name = "specular-rti"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-core",
@@ -7672,7 +7672,7 @@ dependencies = [
 
 [[package]]
 name = "specular-samp"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "quick-xml",
  "specular-thread",
@@ -7680,7 +7680,7 @@ dependencies = [
 
 [[package]]
 name = "specular-sandbox"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "rustix 1.1.6",
@@ -7693,7 +7693,7 @@ dependencies = [
 
 [[package]]
 name = "specular-segy"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "thiserror 2.0.21",
@@ -7701,14 +7701,14 @@ dependencies = [
 
 [[package]]
 name = "specular-ser"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "thiserror 2.0.21",
 ]
 
 [[package]]
 name = "specular-settings"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "directories",
  "log",
@@ -7724,11 +7724,11 @@ dependencies = [
 
 [[package]]
 name = "specular-shorten"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-shots"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "png",
  "pollster",
@@ -7739,7 +7739,7 @@ dependencies = [
 
 [[package]]
 name = "specular-similar"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake3",
  "crossbeam-channel",
@@ -7753,7 +7753,7 @@ dependencies = [
 
 [[package]]
 name = "specular-sketch"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-drawpage",
@@ -7765,7 +7765,7 @@ dependencies = [
 
 [[package]]
 name = "specular-spectra"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-vector",
  "thiserror 2.0.21",
@@ -7773,11 +7773,11 @@ dependencies = [
 
 [[package]]
 name = "specular-speex"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-splat"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "ruzstd",
@@ -7789,7 +7789,7 @@ dependencies = [
 
 [[package]]
 name = "specular-spm"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-em",
  "thiserror 2.0.21",
@@ -7797,7 +7797,7 @@ dependencies = [
 
 [[package]]
 name = "specular-stream"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "aes",
  "parking_lot",
@@ -7812,7 +7812,7 @@ dependencies = [
 
 [[package]]
 name = "specular-subs"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "encoding_rs",
  "roxmltree 0.21.2",
@@ -7821,7 +7821,7 @@ dependencies = [
 
 [[package]]
 name = "specular-surf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "quick-xml",
  "specular-em",
@@ -7833,7 +7833,7 @@ dependencies = [
 
 [[package]]
 name = "specular-swf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "lzma-rust2",
  "specular-drawpage",
@@ -7842,11 +7842,11 @@ dependencies = [
 
 [[package]]
 name = "specular-synth"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-tdms"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-thread",
@@ -7855,7 +7855,7 @@ dependencies = [
 
 [[package]]
 name = "specular-textdoc"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "csv",
  "encoding_rs",
@@ -7865,7 +7865,7 @@ dependencies = [
 
 [[package]]
 name = "specular-texture"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bcdec_rs",
  "rayon",
@@ -7877,18 +7877,18 @@ dependencies = [
 
 [[package]]
 name = "specular-theme"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-theora"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
 ]
 
 [[package]]
 name = "specular-thread"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "log",
  "rayon",
@@ -7896,7 +7896,7 @@ dependencies = [
 
 [[package]]
 name = "specular-thumbs"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "notify",
@@ -7920,7 +7920,7 @@ dependencies = [
 
 [[package]]
 name = "specular-tiff"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "jpeg-encoder",
  "lcms2",
@@ -7942,7 +7942,7 @@ dependencies = [
 
 [[package]]
 name = "specular-tiles3d"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "specular-mesh",
@@ -7951,15 +7951,15 @@ dependencies = [
 
 [[package]]
 name = "specular-tracker"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-tta"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-ugrid"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-netcdf",
@@ -7968,14 +7968,14 @@ dependencies = [
 
 [[package]]
 name = "specular-vc1"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
 ]
 
 [[package]]
 name = "specular-vc2"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -7983,7 +7983,7 @@ dependencies = [
 
 [[package]]
 name = "specular-vector"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "encoding_rs",
  "fontique",
@@ -7996,7 +7996,7 @@ dependencies = [
 
 [[package]]
 name = "specular-video"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "parking_lot",
  "sha2 0.10.9",
@@ -8055,7 +8055,7 @@ dependencies = [
 
 [[package]]
 name = "specular-visio"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-cfb",
  "specular-drawpage",
@@ -8067,11 +8067,11 @@ dependencies = [
 
 [[package]]
 name = "specular-vorbis"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-vp8"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-thread",
@@ -8079,7 +8079,7 @@ dependencies = [
 
 [[package]]
 name = "specular-vp9"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -8088,7 +8088,7 @@ dependencies = [
 
 [[package]]
 name = "specular-vtk"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "quick-xml",
  "serde_json",
@@ -8099,7 +8099,7 @@ dependencies = [
 
 [[package]]
 name = "specular-vvc"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "md-5",
  "specular-core",
@@ -8108,11 +8108,11 @@ dependencies = [
 
 [[package]]
 name = "specular-wavpack"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "specular-webgallery"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
  "serde_json",
@@ -8126,7 +8126,7 @@ dependencies = [
 
 [[package]]
 name = "specular-webp"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "byteorder-lite",
  "image-webp",
@@ -8138,7 +8138,7 @@ dependencies = [
 
 [[package]]
 name = "specular-widgets"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "accesskit",
  "accesskit_consumer",
@@ -8157,7 +8157,7 @@ dependencies = [
 
 [[package]]
 name = "specular-wpg"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-drawpage",
@@ -8166,7 +8166,7 @@ dependencies = [
 
 [[package]]
 name = "specular-wsi"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "jpeg-encoder",
  "parking_lot",
@@ -8185,7 +8185,7 @@ dependencies = [
 
 [[package]]
 name = "specular-wsq"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "specular-core",
@@ -8193,7 +8193,7 @@ dependencies = [
 
 [[package]]
 name = "specular-xcf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "lzma-rust2",
  "rayon",
@@ -8204,7 +8204,7 @@ dependencies = [
 
 [[package]]
 name = "specular-xisf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rayon",
  "roxmltree 0.21.2",
@@ -8218,7 +8218,7 @@ dependencies = [
 
 [[package]]
 name = "specular-xps"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "roxmltree 0.21.2",
  "skrifa 0.44.0",
@@ -8233,7 +8233,7 @@ dependencies = [
 
 [[package]]
 name = "specular-xtal"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "specular-core",
  "specular-png",

@@ -6,6 +6,8 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-13
+
 ### Changed
 
 - **No network is on by default.** Specular connects to nothing until Settings › Privacy › No

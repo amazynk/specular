@@ -103,7 +103,7 @@ Also inside:
   albums, keywords, IPTC editing and local copies of offline originals.
 - **Compare:** split, overlay, flicker and difference views, with SSIM and ΔE2000.
 - **Export and share:** export recipes, printing, and static client galleries whose picks come back
-  as marks. Send picks to your other devices with [Zynk](https://zynk.it).
+  as marks. Send picks to anyone, or to your own devices, with [Zynk](https://zynk.it).
 - **Works with others:** reads the sidecars of darktable, Lightroom, Capture One and digiKam.
 - **Scriptable:** a command line, remote control of a running window, and an
   [IPC protocol](docs/ipc.md) with a [Python client](clients/python).

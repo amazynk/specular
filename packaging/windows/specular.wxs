@@ -10,8 +10,8 @@
 
     wix extension add -g WixToolset.UI.wixext/4.0.6
     wix build packaging\windows\specular.wxs -arch x64 -ext WixToolset.UI.wixext/4.0.6 ^
-        -d Version=0.1.0 -d BinDir=target\release -d PackagingDir=packaging ^
-        -o target\dist\Specular-0.1.0-x64.msi
+        -d Version=0.1.1 -d BinDir=target\release -d PackagingDir=packaging ^
+        -o target\dist\Specular-0.1.1-x64.msi
 
   Per-machine install into Program Files\Specular. Registers Specular through a ProgID: in "Open
   with" for every file type it reads, and in Settings > Default apps (the "Default Programs"
@@ -22,7 +22,7 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
      xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
 
-  <?ifndef Version?><?define Version = "0.1.0"?><?endif?>
+  <?ifndef Version?><?define Version = "0.1.1"?><?endif?>
   <?ifndef BinDir?><?define BinDir = "target\release"?><?endif?>
   <?ifndef PackagingDir?><?define PackagingDir = "packaging"?><?endif?>
 
