@@ -6,6 +6,8 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-16
+
 ### Added
 
 - **Streams from the command line.** `specular http://…` (or `--stream URL`) plays an address

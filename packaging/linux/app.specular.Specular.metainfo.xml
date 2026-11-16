@@ -219,6 +219,11 @@
   </supports>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.1.2" date="2026-11-16">
+      <description>
+        <p>Network streams open from the command line and over remote control, with a title of their own. A stream served on this computer (127.0.0.1, localhost) plays with No network on, so a downloader can play a file it is still fetching. HLS recordings in progress play with a seek bar that grows.</p>
+      </description>
+    </release>
     <release version="0.1.1" date="2026-11-13">
       <description>
         <p>No network is on by default: Specular connects to nothing until it is turned off in Settings, Privacy. On macOS, Command is the shortcuts' Ctrl.</p>
