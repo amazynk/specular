@@ -213,6 +213,9 @@ specular ~/Pictures/Trip-2026                  # open a folder
 specular --compare before.tif after.tif        # compare two images
 specular --remote open ~/Shoot/_DSC4182.ARW    # open a file in the running window
 
+# Play a network stream; an address on this computer plays with No network on
+specular http://127.0.0.1:8080/talk.m3u8 --title "Talk"
+
 # Export RAW files for the web without opening a window
 specular develop export ~/Shoot/*.ARW --preset web --folder ~/Export
 
