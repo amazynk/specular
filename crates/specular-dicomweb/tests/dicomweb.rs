@@ -499,6 +499,7 @@ fn progressive_follows_focus_and_cancels() {
         ServerOptions {
             latency: Duration::from_millis(5),
             bandwidth: Some(400_000),
+            ..ServerOptions::default()
         },
     )
     .unwrap();
@@ -568,6 +569,7 @@ fn measure_300_slice_ct() {
             ServerOptions {
                 latency: Duration::from_millis(50),
                 bandwidth: Some(bandwidth),
+                ..ServerOptions::default()
             },
         )
         .unwrap();

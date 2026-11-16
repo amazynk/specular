@@ -183,7 +183,8 @@ the roadmap:
 10. **Local and private.** Specular sends nothing about its users anywhere: no telemetry of any kind
    . The first run needs no network, and a documented no-network mode
     turns off everything that could reach out (map tiles, model downloads, remote sources, any update
-    check). Diagnostics are local: the hardware report (`--hw-report`, Settings → Advanced) and the open
+    check). A stream another program serves on this computer itself (`127.0.0.1`, `[::1]`,
+    `localhost`) still plays in that mode: nothing leaves the computer. Diagnostics are local: the hardware report (`--hw-report`, Settings → Advanced) and the open
     reports (§12.7) are shown to the user, who copies them into a bug report if they want to.
 11. **Measurements say where their scale came from.** Every calibrated number carries its calibration
     source (file metadata, detector or geometry, fiducial, or the user), in every domain (§6.8).

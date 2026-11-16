@@ -17,6 +17,7 @@
 //! a short description, never a URL path, a query string or credentials.
 
 use std::sync::atomic::{AtomicU64, Ordering};
+pub mod local;
 pub mod off;
 
 use std::sync::{Arc, OnceLock, Weak};

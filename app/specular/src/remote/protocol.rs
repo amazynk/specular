@@ -202,6 +202,18 @@ fn command(cmd: &str, o: &Map<String, Value>, version: u64) -> Result<Request, F
         "open" => open(o, version)?,
         "open-url" => Request::OpenUrl {
             url: string(o, "url")?,
+            // A stream's name in the window's title (ignored for `specular:` links).
+            title: match o.get("title") {
+                None | Some(Value::Null) => None,
+                Some(Value::String(t)) if t.len() <= MAX_TEXT && !t.contains('\0') => {
+                    Some(t.clone())
+                }
+                Some(_) => {
+                    return Err(bad(format!(
+                        "\"title\" is a string of at most {MAX_TEXT} bytes"
+                    )));
+                }
+            },
         },
         "navigate" => Request::Navigate(navigate(o)?),
         "state" => Request::State,

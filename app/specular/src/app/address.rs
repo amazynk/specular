@@ -407,7 +407,8 @@ impl App {
                 self.redraw = true;
                 return;
             }
-            if specular_core::net::off::is_off() {
+            // This computer itself is no network: its streams open with the network off.
+            if super::stream::network_off_for(&url) {
                 let msg = t!("address-network-off");
                 d.error = Some(msg.clone());
                 self.chrome.announce_status(msg);
@@ -429,7 +430,12 @@ impl App {
                 return;
             }
         };
-        if specular_core::net::off::is_off() {
+        let off = if kind == Kind::Stream {
+            super::stream::network_off_for(&url)
+        } else {
+            specular_core::net::off::is_off()
+        };
+        if off {
             let msg = t!("address-network-off");
             d.error = Some(msg.clone());
             self.chrome.announce_status(msg);

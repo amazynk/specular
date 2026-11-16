@@ -124,12 +124,22 @@ pub struct Media {
     pub ended: bool,
     /// `EXT-X-PLAYLIST-TYPE`: `VOD` or `EVENT`.
     pub playlist_type: Option<String>,
+    /// `EXT-X-START`'s `TIME-OFFSET`: where playing should start, in seconds from the
+    /// beginning, or from the end when negative.
+    pub start: Option<f64>,
 }
 
 impl Media {
     /// Whether segments are still being added (a live stream).
     pub fn live(&self) -> bool {
         !self.ended && self.playlist_type.as_deref() != Some("VOD")
+    }
+
+    /// Whether segments are still being added and none is ever taken away
+    /// (`EXT-X-PLAYLIST-TYPE:EVENT`): a recording while it is made. Everything so far can be
+    /// played and sought in, unlike a live stream's sliding window.
+    pub fn growing(&self) -> bool {
+        !self.ended && self.playlist_type.as_deref() == Some("EVENT")
     }
 
     /// The length of all segments, seconds.
@@ -356,6 +366,10 @@ fn parse_media(text: &str, base: &str) -> Result<Media, Error> {
             m.playlist_type = Some(v.trim().to_ascii_uppercase());
         } else if line.starts_with("#EXT-X-ENDLIST") {
             m.ended = true;
+        } else if let Some(v) = line.strip_prefix("#EXT-X-START:") {
+            m.start = attr(&attributes(v), "TIME-OFFSET")
+                .and_then(|t| t.parse::<f64>().ok())
+                .filter(|t| t.is_finite());
         } else if let Some(v) = line.strip_prefix("#EXTINF:") {
             let (d, t) = v.split_once(',').unwrap_or((v, ""));
             let t = t.trim();

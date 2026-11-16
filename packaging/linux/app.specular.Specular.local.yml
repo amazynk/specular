@@ -18,6 +18,11 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --share=ipc
+  # Network streams, remote files and the update check; without it the sandbox has a network
+  # of its own, where even a stream another program serves on this computer (127.0.0.1, a
+  # downloader's file) cannot be reached. Settings › Privacy › No network (on by default)
+  # still decides what connects.
+  - --share=network
   - --device=dri
   - --filesystem=host
   # The remote-control socket (specular ipc, docs/ipc.md): shared with the desktop, so programs

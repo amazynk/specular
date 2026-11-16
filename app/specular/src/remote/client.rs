@@ -25,7 +25,8 @@ use specular_platform::ipc::{self, Line, Stream};
 use super::protocol::{self, Nav, Request, Window};
 
 pub const USAGE: &str = "Remote control (a running viewer, through its socket):\n  \
-     --remote COMMAND       open [--new-window] FILE…|-, url URL, next, prev,\n                         \
+     --remote COMMAND       open [--new-window] FILE…|-, url [--title TEXT] URL (a\n                         \
+     specular: link, or an http(s) stream), next, prev,\n                         \
      first, last, goto N, state, marked, action ID, activate,\n                         \
      quit, hello, raw (JSON requests from standard input),\n                         \
      select [--add] FILE…, mark [--flag pick|reject|none]\n                         \
@@ -338,7 +339,7 @@ fn command(name: &str, rest: &[&OsString], how: &str) -> Result<Cmd, String> {
     };
     Ok(match name {
         "open" => open(rest)?,
-        "url" | "open-url" => Cmd::Send(Request::OpenUrl { url: one()? }),
+        "url" | "open-url" => open_url(rest, how)?,
         "next" => none(Request::Navigate(Nav::Next))?,
         "prev" | "previous" => none(Request::Navigate(Nav::Prev))?,
         "first" => none(Request::Navigate(Nav::First))?,
@@ -445,6 +446,33 @@ fn mark(rest: &[&OsString], how: &str) -> Result<Cmd, String> {
         return Err(format!("{how} mark needs files"));
     }
     Ok(Cmd::Send(Request::Mark { files, mark: m }))
+}
+
+/// `url [--title TEXT] URL`: a `specular:` link, or an `http://` or `https://` address
+/// played as a network stream (shown as the title).
+fn open_url(rest: &[&OsString], how: &str) -> Result<Cmd, String> {
+    let mut title = None;
+    let mut url = None;
+    let mut it = rest.iter();
+    while let Some(a) = it.next() {
+        let s = a.to_string_lossy();
+        if s == "--title" {
+            title = Some(
+                it.next()
+                    .ok_or("--title needs a value")?
+                    .to_string_lossy()
+                    .into_owned(),
+            );
+        } else if let Some(t) = s.strip_prefix("--title=") {
+            title = Some(t.to_owned());
+        } else if url.is_none() {
+            url = Some(s.into_owned());
+        } else {
+            return Err(format!("{how} url takes one address"));
+        }
+    }
+    let url = url.ok_or_else(|| format!("{how} url takes one address"))?;
+    Ok(Cmd::Send(Request::OpenUrl { url, title }))
 }
 
 fn open(rest: &[&OsString]) -> Result<Cmd, String> {
@@ -743,6 +771,36 @@ mod tests {
             })
         );
         assert_eq!(cmd(&["--remote", "raw"]), Cmd::Raw);
+        assert_eq!(
+            cmd(&["--remote", "url", "specular:///a.jpg"]),
+            Cmd::Send(Request::OpenUrl {
+                url: "specular:///a.jpg".into(),
+                title: None
+            })
+        );
+        for with_title in [
+            &[
+                "--remote",
+                "url",
+                "--title",
+                "Talk.mp4",
+                "http://127.0.0.1:41234/a.m3u8",
+            ][..],
+            &[
+                "--remote",
+                "open-url",
+                "http://127.0.0.1:41234/a.m3u8",
+                "--title=Talk.mp4",
+            ],
+        ] {
+            assert_eq!(
+                cmd(with_title),
+                Cmd::Send(Request::OpenUrl {
+                    url: "http://127.0.0.1:41234/a.m3u8".into(),
+                    title: Some("Talk.mp4".into())
+                })
+            );
+        }
         let inv = p(&["--socket", "/s/x.sock", "-0", "--remote", "marked"]).unwrap();
         assert_eq!(inv.socket, Some(PathBuf::from("/s/x.sock")));
         assert!(inv.null);
@@ -779,6 +837,9 @@ mod tests {
             &["--remote", "goto", "0"],
             &["--remote", "goto", "x"],
             &["--remote", "action"],
+            &["--remote", "url"],
+            &["--remote", "url", "http://h/a.mp4", "http://h/b.mp4"],
+            &["--remote", "url", "http://h/a.mp4", "--title"],
             &["--remote", "open"],
             &["--remote", "open", "-", "a.jpg"],
             &["--remote", "raw", "x"],

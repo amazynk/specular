@@ -23,6 +23,7 @@ Settings › Privacy › **No network** stops Specular from connecting to anythi
 
 - Features that need a server say “Network is off in Settings › Privacy” instead.
 - Files on this computer and on mounted drives still open.
+- A stream another program on this computer serves (an address at `127.0.0.1`, `[::1]` or `localhost`) still plays: nothing leaves the computer. If it sends Specular on to another server, Specular does not follow.
 - Map tiles already downloaded still show.
 - Local AI models can still be installed from files; see [Local AI](ai#offline).
 

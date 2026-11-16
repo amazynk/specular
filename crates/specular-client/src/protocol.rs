@@ -350,8 +350,11 @@ pub enum Request {
         /// instead of opened; servers before it open them.
         compare: Option<String>,
     },
+    /// A `specular:` link, or (viewers from 0.1.2: `capabilities.streams`) an `http://` or
+    /// `https://` address played as a network stream, shown as `title` when one is given.
     OpenUrl {
         url: String,
+        title: Option<String>,
     },
     Navigate(Nav),
     State,
@@ -601,7 +604,12 @@ pub fn request_line_v(v: u64, id: u64, req: &Request) -> String {
                 put("compare", json!(m));
             }
         }
-        Request::OpenUrl { url } => put("url", json!(url)),
+        Request::OpenUrl { url, title } => {
+            put("url", json!(url));
+            if let Some(t) = title {
+                put("title", json!(t));
+            }
+        }
         Request::Navigate(n) => match n {
             Nav::Next => put("to", json!("next")),
             Nav::Prev => put("to", json!("prev")),

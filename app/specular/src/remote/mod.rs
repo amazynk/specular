@@ -35,6 +35,10 @@
 //! 3. `specular specular://…`: links naming plain local files are file arguments (rule 2);
 //!    any other link goes to a running viewer over the socket when the single-instance setting
 //!    is on (the confirmation is asked there), else to a new window that asks itself.
+//! 4. `specular http://…` and `specular --stream URL` (with `--title`): a network stream goes
+//!    to a running viewer over the socket on every platform when the single-instance setting
+//!    is on ([`forward_stream`]), so each one played does not open a window of its own; else,
+//!    and with `--new-window`, this process plays it.
 
 pub mod arrays;
 pub mod client;
@@ -73,10 +77,38 @@ pub fn forward_url(url: &str) -> bool {
     };
     match c.call(&protocol::Request::OpenUrl {
         url: url.to_owned(),
+        title: None,
     }) {
         Ok(_) => true,
         // The viewer refused the link and said so in its window.
         Err(e) => e.code == "refused" || e.code == "bad-arguments",
+    }
+}
+
+/// Hands the network stream at `url` (shown as `title`) to a running viewer over the socket,
+/// and lets it come to the front. True when one took it: it plays it, or says in its window
+/// why it cannot (the network is off). False when none listens, or the one listening is too
+/// old to play addresses: this process then plays it in a window of its own.
+pub fn forward_stream(url: &str, title: Option<&str>) -> bool {
+    let Some(path) = client::socket_path(None) else {
+        return false;
+    };
+    let Ok(mut c) = client::Client::connect(&path) else {
+        return false;
+    };
+    // Windows lets only the process the user just started come to the front (as
+    // `forward_files`).
+    if let Ok(hello) = c.call(&protocol::Request::Hello)
+        && let Some(pid) = hello["pid"].as_u64().and_then(|p| u32::try_from(p).ok())
+    {
+        specular_platform::instance::allow_foreground(pid);
+    }
+    match c.call(&protocol::Request::OpenUrl {
+        url: url.to_owned(),
+        title: title.map(str::to_owned),
+    }) {
+        Ok(_) => true,
+        Err(e) => e.code == "refused",
     }
 }
 

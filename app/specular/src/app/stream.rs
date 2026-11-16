@@ -18,7 +18,14 @@
 //!   WebM one plays in pieces cut at its clusters, seekable as HLS is.
 //! - HLS and DASH (not live): the seek bar is the whole stream's; a seek outside the piece
 //!   playing opens the piece holding the time and seeks in it. The next piece is opened
-//!   in the background before the one playing ends, so the picture runs on.
+//!   in the background before the one playing ends, so the picture runs on. An HLS playlist
+//!   that only grows (a recording while it is made) is the same, its length growing with it.
+//! - A stream from this computer itself (a loopback address: another program here serves
+//!   it, a downloader its file while it downloads) plays with the network off, is not kept
+//!   in the recent list (its address is dead once that program stops), and is waited for
+//!   however long it takes: "Buffering…" stays up meanwhile.
+//! - A stream opened with a title (`--title`, the IPC's `title`) shows it in the window's
+//!   title and in what is said about it, instead of its address.
 //! - Subtitle tracks a piece carries (a Matroska or WebM file's) span the whole stream: each
 //!   piece's packets are kept once, on the stream's time line, and every piece shows them
 //!   all ([`PieceSubs`]), so a cue that began in an earlier piece goes on showing.
@@ -224,10 +231,81 @@ impl PieceSubs {
     }
 }
 
+/// How long a reader of a file from this computer itself waits for a missing part: as long
+/// as it takes (the program serving it sends each part once it has it).
+const LOCAL_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(24 * 3600);
+
+/// How often a waiting stream looks again, to keep what it says on screen.
+const NOTE_EVERY: std::time::Duration = std::time::Duration::from_secs(2);
+
+/// Whether `url` is on this computer itself (a loopback address).
+pub(super) fn is_local(url: &str) -> bool {
+    specular_core::net::local::is_loopback_url(url)
+}
+
+/// Whether the "No network" switch stops `url` from being opened as a stream: it does not
+/// stop one from this computer itself.
+pub(super) fn network_off_for(url: &str) -> bool {
+    specular_core::net::off::is_off() && !is_local(url)
+}
+
+/// A title as given from outside (the command line, the IPC, a link): one line of at most
+/// [`MAX_TITLE`] characters, without control or invisible characters; `None` when nothing
+/// is left.
+pub(crate) fn clean_title(title: &str) -> Option<String> {
+    // Zero-width and bidirectional controls would make the title read as something else.
+    let hidden = |c: char| {
+        matches!(c,
+            '\u{200B}'..='\u{200F}' | '\u{202A}'..='\u{202E}' | '\u{2060}'..='\u{2064}'
+            | '\u{2066}'..='\u{2069}' | '\u{061C}' | '\u{FEFF}' | '\u{00AD}')
+    };
+    let t: String = title
+        .chars()
+        .map(|c| if c.is_whitespace() { ' ' } else { c })
+        .filter(|c| !c.is_control() && !hidden(*c))
+        .collect();
+    let t: String = t
+        .split(' ')
+        .filter(|w| !w.is_empty())
+        .collect::<Vec<_>>()
+        .join(" ");
+    let t: String = t.chars().take(MAX_TITLE).collect();
+    (!t.is_empty()).then_some(t)
+}
+
+/// The longest title kept, in characters.
+pub(crate) const MAX_TITLE: usize = 200;
+
+/// What a stream is called: the title it was opened with, else its own (a radio's name, a
+/// page's title), else its address without the scheme, user, password and query.
+pub(super) fn display_title(given: Option<&str>, own: Option<&str>, url: &str) -> String {
+    if let Some(t) = given.or(own).filter(|t| !t.trim().is_empty()) {
+        return t.to_owned();
+    }
+    let kept = addr::kept(url);
+    kept.split_once("://")
+        .map_or(kept.as_str(), |x| x.1)
+        .to_owned()
+}
+
+/// What is said while a stream opens: its title when it has one, else where it comes from.
+fn opening_text(title: Option<&str>, url: &str) -> String {
+    match title {
+        Some(t) => t!("stream-opening-title", title = t.to_owned()),
+        None => t!("stream-opening", host = specular_core::net::host_of(url)),
+    }
+}
+
 /// The stream playing.
 struct Playing {
     stream: Stream,
     url: String,
+    /// The title it was opened with.
+    title: Option<String>,
+    /// From this computer itself: waited for patiently, not kept in the recent list.
+    local: bool,
+    /// The toast saying it is opening or buffering, kept up while it waits.
+    note: Option<u64>,
     /// The piece on screen (or the file), once one opened.
     shown: Option<PathBuf>,
     /// A piece ended before the next one came.
@@ -238,14 +316,11 @@ struct Playing {
     kept: Option<Option<String>>,
     /// Opened from the play queue: it goes on when the stream ends.
     from_queue: bool,
-    /// Said "Buffering" for this wait.
-    said_wait: bool,
     /// A seek to this time (seconds from the stream's start) waits for its piece.
     pending: Option<f64>,
     /// The worker was asked to fetch from the pending time (not a piece already there).
     seeking: bool,
-    /// The web file's reader waits ("Buffering…" said), and a part did not come (said).
-    said_reading: bool,
+    /// A part of the web file did not come (said).
     said_stalled: bool,
     /// The next piece was opened ahead.
     prepared: Option<PathBuf>,
@@ -261,6 +336,10 @@ struct Playing {
 #[derive(Default)]
 pub(super) struct StreamState {
     cur: Option<Playing>,
+    /// What the file left on screen by a stream that stopped is called: its path and the
+    /// stream's title (another stream that could not be opened leaves the one before it
+    /// on screen, which keeps its name).
+    left: Option<(PathBuf, String)>,
     /// The recent stream being forgotten (asked first).
     forgetting: Option<Recent>,
     opened: u64,
@@ -269,14 +348,29 @@ pub(super) struct StreamState {
 impl App {
     /// Opens `url` as a network stream.
     pub(super) fn stream_open(&mut self, url: String, from_queue: bool) {
+        self.stream_open_titled(url, None, from_queue);
+    }
+
+    /// Opens `url` as a network stream shown as `title` (`None`: by its own name or its
+    /// address).
+    pub(super) fn stream_open_titled(
+        &mut self,
+        url: String,
+        title: Option<String>,
+        from_queue: bool,
+    ) {
         let now = self.now();
-        if specular_core::net::off::is_off() {
+        let url = url.trim().to_owned();
+        let title = title.as_deref().and_then(clean_title);
+        let local = is_local(&url);
+        if network_off_for(&url) {
             self.chrome.warning(t!("stream-network-off"), now);
             self.redraw = true;
             return;
         }
+        // This computer itself is reached whatever the "No network" switch says.
         let client = match specular_remote::Client::new(specular_remote::ClientConfig::default()) {
-            Ok(c) => c.tracked(What::Stream),
+            Ok(c) => c.tracked(What::Stream).with_loopback(),
             Err(e) => {
                 self.chrome.warning(
                     t!("stream-unreachable", reason = crate::error_text::reason(&e)),
@@ -289,7 +383,7 @@ impl App {
             .cache_dir
             .join("streams");
         // Folders left by an earlier run (a crash) go; the one playing is dropped first.
-        self.stream.cur = None;
+        self.stream_close();
         if let Ok(rd) = std::fs::read_dir(&root) {
             for e in rd.flatten() {
                 let _ = std::fs::remove_dir_all(e.path());
@@ -303,22 +397,26 @@ impl App {
             self.settings.privacy.ytdlp_path.as_deref(),
         );
         opts.wake = Some(self.loader.waker());
+        if local {
+            opts.read_timeout = LOCAL_READ_TIMEOUT;
+        }
         let stream = Stream::open(opts, &url);
-        let host = specular_core::net::host_of(&url);
-        self.chrome
-            .toast(t!("stream-opening", host = host), None, now);
+        let note = self
+            .chrome
+            .toast(opening_text(title.as_deref(), &url), None, now);
         self.stream.cur = Some(Playing {
             stream,
             url,
+            title,
+            local,
+            note: Some(note),
             shown: None,
             waiting: false,
             said: None,
             kept: None,
             from_queue,
-            said_wait: false,
             pending: None,
             seeking: false,
-            said_reading: false,
             said_stalled: false,
             prepared: None,
             scanned: None,
@@ -326,6 +424,59 @@ impl App {
             subs: PieceSubs::default(),
         });
         self.redraw = true;
+    }
+
+    /// What to call `path` when it is a piece of the stream playing: the stream's title
+    /// (given, or its own), or its address when it plays in pieces (their file names say
+    /// nothing). `None` for other files, and for a whole file without a title (its own name
+    /// does).
+    pub(super) fn stream_title_for(&self, path: &Path) -> Option<String> {
+        let Some(p) = self.stream.cur.as_ref().filter(|p| p.stream.owns(path)) else {
+            let (left, title) = self.stream.left.as_ref()?;
+            return (left == path).then(|| title.clone());
+        };
+        let st = p.stream.status();
+        if p.title.is_none() && st.title.is_none() && st.kind == Some(StreamKind::File) {
+            return None;
+        }
+        Some(display_title(
+            p.title.as_deref(),
+            st.title.as_deref(),
+            &p.url,
+        ))
+    }
+
+    /// When a waiting stream looks again (what it says stays on screen meanwhile).
+    pub(super) fn stream_wake(&self) -> Option<std::time::Instant> {
+        self.stream
+            .cur
+            .as_ref()
+            .is_some_and(|p| p.note.is_some())
+            .then(|| std::time::Instant::now() + NOTE_EVERY)
+    }
+
+    /// What the stream says while it waits (`None`: it plays): kept on screen for as long
+    /// as the wait lasts, and taken away when it is over.
+    fn stream_note(&mut self, text: Option<String>) {
+        let now = self.now();
+        let Some(p) = self.stream.cur.as_mut() else {
+            return;
+        };
+        match (text, p.note) {
+            (Some(text), old) => {
+                let id = self.chrome.update_toast(old.unwrap_or(u64::MAX), text, now);
+                if old != Some(id) {
+                    self.redraw = true;
+                }
+                p.note = Some(id);
+            }
+            (None, Some(id)) => {
+                p.note = None;
+                self.chrome.dismiss_toast(id);
+                self.redraw = true;
+            }
+            (None, None) => {}
+        }
     }
 
     /// Whether `path` is a piece of the stream playing.
@@ -375,19 +526,44 @@ impl App {
             }
             None => {
                 p.waiting = true;
-                p.said_wait = false;
                 self.stream_tick();
             }
         }
         true
     }
 
+    /// Stops the stream playing (its files go) and takes away what it was saying.
+    fn stream_close(&mut self) {
+        self.stream_note(None);
+        let on_screen = self.current.and_then(|c| self.entries.get(c)).cloned();
+        self.stream.left = on_screen.and_then(|path| {
+            let title = self.stream_title_for(&path)?;
+            Some((path, title))
+        });
+        self.stream.cur = None;
+    }
+
     /// Each turn: the first piece opened when ready, a waited-for piece opened, titles said,
-    /// a failure said, and the stream stopped when something else is on screen.
+    /// a failure said, and the stream stopped when something else is on screen. While it
+    /// waits (for its first piece, the next one, a seek's, or a part of its file), that it
+    /// is opening or buffering stays on screen.
     pub(super) fn stream_tick(&mut self) {
         if self.stream.cur.is_none() {
             return;
         }
+        self.stream_step();
+        let text = self.stream.cur.as_ref().and_then(|p| {
+            if p.shown.is_none() {
+                return Some(opening_text(p.title.as_deref(), &p.url));
+            }
+            let seek_waits = p.pending.is_some_and(|t| p.stream.chunk_at(t).is_none());
+            let waits = p.waiting || seek_waits || p.stream.buffering();
+            (waits && !p.stream.stalled()).then(|| t!("stream-buffering"))
+        });
+        self.stream_note(text);
+    }
+
+    fn stream_step(&mut self) {
         let now = self.now();
         let on_screen = self.current.and_then(|c| self.entries.get(c)).cloned();
         let Some(p) = self.stream.cur.as_mut() else {
@@ -399,7 +575,7 @@ impl App {
             && let Some(c) = &on_screen
             && !p.stream.owns(c)
         {
-            self.stream.cur = None;
+            self.stream_close();
             return;
         }
         if let Some(c) = &on_screen
@@ -414,15 +590,18 @@ impl App {
         let Some(p) = self.stream.cur.as_mut() else {
             return;
         };
-        // The title, for the recent list and to say.
-        let title = st.title.clone();
+        // The title, for the recent list and to say. A stream from this computer itself
+        // is not kept: its address is dead once the program serving it stops.
+        let title = p.title.clone().or_else(|| st.title.clone());
         if p.shown.is_some() && p.kept.as_ref() != Some(&title) {
             p.kept = Some(title.clone());
-            let r = Recent {
-                url: addr::kept(&p.url),
-                title,
-            };
-            self.stream_keep_recent(r);
+            if !p.local {
+                let r = Recent {
+                    url: addr::kept(&p.url),
+                    title,
+                };
+                self.stream_keep_recent(r);
+            }
         }
         let Some(p) = self.stream.cur.as_mut() else {
             return;
@@ -449,7 +628,7 @@ impl App {
                     .failure
                     .as_ref()
                     .map_or_else(|| t!("stream-empty"), failure_text);
-                self.stream.cur = None;
+                self.stream_close();
                 self.chrome.warning(msg, now);
             } else if let (Some(total), true) = (st.total, st.received > 0) {
                 // A whole file: how far, while it comes.
@@ -471,13 +650,10 @@ impl App {
                 if let Some(f) = &st.failure {
                     self.chrome.warning(failure_text(f), now);
                 }
-                self.stream.cur = None;
+                self.stream_close();
                 if from_queue && self.queue.q.current().is_some() {
                     self.queue_after_stream();
                 }
-            } else if !p.said_wait {
-                p.said_wait = true;
-                self.chrome.toast(t!("stream-buffering"), None, now);
             }
             self.redraw = true;
         }
@@ -523,26 +699,16 @@ impl App {
         self.redraw = true;
     }
 
-    /// A web file played while fetched: "Buffering…" while a read waits, and a part that
-    /// never came said once.
+    /// A web file played while fetched: a part that never came is said once ("Buffering…"
+    /// while a read waits is [`App::stream_tick`]'s).
     fn stream_reading(&mut self, now: f64) {
         let Some(p) = self.stream.cur.as_mut() else {
             return;
         };
-        if p.stream.stalled() {
-            if !p.said_stalled {
-                p.said_stalled = true;
-                self.chrome.warning(t!("stream-stalled"), now);
-                self.redraw = true;
-            }
-        } else if p.stream.buffering() {
-            if !p.said_reading {
-                p.said_reading = true;
-                self.chrome.toast(t!("stream-buffering"), None, now);
-                self.redraw = true;
-            }
-        } else {
-            p.said_reading = false;
+        if p.stream.stalled() && !p.said_stalled {
+            p.said_stalled = true;
+            self.chrome.warning(t!("stream-stalled"), now);
+            self.redraw = true;
         }
     }
 
@@ -683,7 +849,6 @@ impl App {
         if !have {
             p.seeking = true;
             p.stream.seek(t);
-            p.said_wait = false;
         }
         self.stream_pending();
         self.redraw = true;
@@ -706,12 +871,8 @@ impl App {
         {
             return;
         }
+        // Not there yet: "Buffering…" is up meanwhile (`stream_tick`).
         let Some(c) = p.stream.chunk_at(t) else {
-            if !p.said_wait {
-                p.said_wait = true;
-                let now = self.now();
-                self.chrome.toast(t!("stream-buffering"), None, now);
-            }
             return;
         };
         let on_screen = self.current.and_then(|i| self.entries.get(i)).cloned();
@@ -890,8 +1051,19 @@ impl App {
     /// installed (looked for on `PATH` when no path is set). Going off-network stops the
     /// stream.
     pub(super) fn stream_settings_apply(&mut self) {
-        if specular_core::net::off::is_off() {
-            self.stream.cur = None;
+        // A stream from this computer itself plays on: it never was on the network. Any
+        // other stops, and says why (one given on the command line was opened before the
+        // setting was read: without this it would just not appear).
+        if self
+            .stream
+            .cur
+            .as_ref()
+            .is_some_and(|p| network_off_for(&p.url))
+        {
+            self.stream_close();
+            let now = self.now();
+            self.chrome.warning(t!("stream-network-off"), now);
+            self.redraw = true;
         }
         let p = ytdlp_panel(ytdlp_for(true, self.settings.privacy.ytdlp_path.as_deref()));
         if self.chrome.set_setting_panel(YTDLP_PANEL, Some(p)) {
@@ -1006,6 +1178,51 @@ mod tests {
         assert_eq!(g.items[0].value, "1:20");
         // The last piece ends at the stream's end.
         assert!(g.items[1].value.contains("1:20"), "{}", g.items[1].value);
+    }
+
+    /// A title from outside is one clean line; a stream is called by it, else by its own
+    /// name, else by its address without what is secret in it.
+    #[test]
+    fn a_stream_is_called_by_its_title_else_its_address() {
+        assert_eq!(clean_title("Talk.mp4").as_deref(), Some("Talk.mp4"));
+        assert_eq!(
+            clean_title("  A\ttalk\r\nin  two\u{0} lines \u{202E}gpj.exe ").as_deref(),
+            Some("A talk in two lines gpj.exe")
+        );
+        assert_eq!(clean_title(" \n\u{200B} "), None);
+        assert_eq!(
+            clean_title(&"é".repeat(MAX_TITLE + 50)).map(|t| t.chars().count()),
+            Some(MAX_TITLE)
+        );
+        let url = "http://user:pw@127.0.0.1:41234/a1b2.m3u8?token=abc";
+        assert_eq!(
+            display_title(Some("Talk.mp4"), Some("Radio"), url),
+            "Talk.mp4"
+        );
+        assert_eq!(display_title(None, Some("Radio"), url), "Radio");
+        assert_eq!(display_title(None, None, url), "127.0.0.1:41234/a1b2.m3u8");
+        assert_eq!(
+            display_title(Some("  "), None, url),
+            "127.0.0.1:41234/a1b2.m3u8"
+        );
+        // What is said while it opens: its title, else where it comes from.
+        let named = opening_text(Some("Talk.mp4"), url);
+        assert!(
+            named.contains("Talk.mp4") && !named.contains("127.0.0.1"),
+            "{named}"
+        );
+        let unnamed = opening_text(None, url);
+        assert!(
+            unnamed.contains("127.0.0.1:41234")
+                && !unnamed.contains("pw")
+                && !unnamed.contains("token"),
+            "{unnamed}"
+        );
+        // This computer itself is told from the network by its address alone.
+        assert!(is_local("http://127.0.0.1:41234/a1b2.m3u8"));
+        assert!(is_local("http://localhost:8080/x.mp4") && is_local("http://[::1]:9/x"));
+        assert!(!is_local("http://192.168.1.2:41234/a1b2.m3u8"));
+        assert!(!is_local("http://127.0.0.1@example.com/a.m3u8"));
     }
 
     #[test]

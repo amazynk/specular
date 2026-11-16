@@ -10,6 +10,9 @@
 //! * `specular specular:URL` opens a link: plain local files like file arguments, anything
 //!   else in a running viewer through its socket (single-instance setting on), else in a new
 //!   window (see `remote` for the order).
+//! * `specular http://…` and `specular --stream URL [--title TEXT]` play a network stream in
+//!   a running viewer through its socket (single-instance setting on, every platform), else
+//!   in a new window.
 //!
 //! None of these open a window or touch the GPU.
 
@@ -209,6 +212,8 @@ fn search_cmd() -> i32 {
 
 /// Options of `main::parse_args` whose value is the next argument (unless given as `=VALUE`).
 const VALUE_OPTIONS: &[&str] = &[
+    "--stream",
+    "--title",
     "--bench-open",
     "--set",
     "--lang",
@@ -235,11 +240,27 @@ fn forward_or_continue(args: &[std::ffi::OsString]) {
     let mut plain = true;
     let mut action = None;
     let mut query = None;
+    let mut stream = None;
+    let mut title = None;
     let mut it = args.iter();
     while let Some(a) = it.next() {
         let s = a.to_string_lossy();
         if !only_paths && s == "--" {
             only_paths = true;
+        } else if !only_paths && (s == "--stream" || s == "--title") {
+            // A network stream and its name: a running viewer plays it when there is one.
+            let v = it.next().map(|v| v.to_string_lossy().into_owned());
+            if s == "--stream" {
+                stream = v;
+            } else {
+                title = v;
+            }
+        } else if let Some(v) = s.strip_prefix("--stream=").filter(|_| !only_paths) {
+            stream = Some(v.to_owned());
+        } else if let Some(v) = s.strip_prefix("--title=").filter(|_| !only_paths) {
+            title = Some(v.to_owned());
+        } else if !only_paths && stream.is_none() && is_stream_address(&s) {
+            stream = Some(s.into_owned());
         } else if !only_paths && (s == "--library" || s == "--slideshow") {
             // Launcher-menu actions: the running viewer does them when there is one.
             action = Some(if s == "--library" {
@@ -277,6 +298,19 @@ fn forward_or_continue(args: &[std::ffi::OsString]) {
     if !plain || service_launch() {
         return;
     }
+    if let Some(url) = stream {
+        // With anything else to open, or an address that is none: this process sorts it out.
+        if files.is_empty()
+            && links.is_empty()
+            && action.is_none()
+            && crate::is_stream_arg(&url)
+            && single_instance()
+            && crate::remote::forward_stream(&url, title.as_deref())
+        {
+            std::process::exit(0);
+        }
+        return;
+    }
     if let Some(action) = action {
         // `--library` with files, or `--slideshow` with several: a separate instance.
         let folder = match (action, files.as_slice()) {
@@ -301,6 +335,18 @@ fn forward_or_continue(args: &[std::ffi::OsString]) {
         // Links that need a question (or a refusal) go where the user already looks.
         std::process::exit(0);
     }
+}
+
+/// Whether a command-line argument is a network stream's address rather than a file: an
+/// `http://` or `https://` address that is none of the other remote kinds (which the window
+/// opens its own way) nor the name of an existing file.
+fn is_stream_address(s: &str) -> bool {
+    crate::is_stream_arg(s)
+        && !crate::zarr_remote::is_remote_zarr(s)
+        && !crate::copc_remote::is_remote_copc(s)
+        && !crate::cog_remote::is_remote_cog(s)
+        && !crate::stac_remote::is_remote_stac(s)
+        && !std::path::Path::new(s).exists()
 }
 
 /// The single-instance setting (on unless the settings say otherwise).
@@ -434,6 +480,30 @@ fn forward_action_to_running(
 
 #[cfg(test)]
 mod tests {
+    /// A stream's address on the command line is told from a file and from the other
+    /// remote kinds, which the window opens its own way.
+    #[test]
+    fn stream_addresses_are_told_from_files_and_other_remote_kinds() {
+        for yes in [
+            "http://127.0.0.1:41234/a1b2.m3u8",
+            "https://h.example/v.mp4",
+            "http://localhost:8080/stream",
+        ] {
+            assert!(super::is_stream_address(yes), "{yes}");
+        }
+        for no in [
+            "a.jpg",
+            "/p/a.mp4",
+            "specular:///a.jpg",
+            "ftp://h/a.mp3",
+            "https://h.example/data.zarr",
+            "s3://bucket/x.zarr",
+            "https://h.example/cloud.copc.laz",
+        ] {
+            assert!(!super::is_stream_address(no), "{no}");
+        }
+    }
+
     /// One name per copy: the same folder in any case gives the same name, another copy another.
     #[cfg(windows)]
     #[test]

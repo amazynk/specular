@@ -15,6 +15,14 @@
 //! ahead of the piece playing, and the files before the one playing are deleted. A variant
 //! (quality) is picked by measured throughput, or as the user chose; a change applies from
 //! the next piece.
+//!
+//! An HLS playlist that only grows (`EXT-X-PLAYLIST-TYPE:EVENT`: a recording while it is
+//! made) is read again as it grows and plays like a finite stream whose length follows it
+//! ([`Status::growing`]): everything recorded so far can be sought in. It starts where
+//! `EXT-X-START` says, else near its end as a live stream does.
+//!
+//! A stream from this computer itself (a loopback address) plays with the "No network"
+//! switch on, when the client was made for it (`Client::with_loopback`).
 
 use std::collections::HashMap;
 use std::ops::ControlFlow;
@@ -152,7 +160,10 @@ pub struct Status {
     /// The user chose the variant (else by throughput).
     pub manual: bool,
     pub live: bool,
-    /// Seconds, when known (a finite HLS or DASH stream).
+    /// An HLS playlist that only grows (a recording while it is made): [`Status::duration`]
+    /// is its length so far and grows with it; false again once it has ended.
+    pub growing: bool,
+    /// Seconds, when known (a finite HLS or DASH stream, a growing one so far).
     pub duration: Option<f64>,
     /// Bytes of a whole file fetched, and its length when known.
     pub received: u64,
@@ -425,7 +436,8 @@ impl Job<'_> {
     }
 
     fn run(&mut self, mut url: String) -> Result<(), Failure> {
-        if specular_core::net::off::is_off() {
+        // With the network off only this computer itself is asked (a client made for it).
+        if self.opts.client.refuses(&url) {
             return Err(Failure::NetworkOff);
         }
         std::fs::create_dir_all(&self.opts.dir).map_err(|e| Failure::Disk(e.to_string()))?;
@@ -869,6 +881,13 @@ impl Job<'_> {
 
     /// Waits while enough is fetched ahead of the piece playing (finite streams).
     fn wait_room(&self) -> Result<(), Failure> {
+        self.wait_room_for(None).map(|_| ())
+    }
+
+    /// [`wait_room`](Self::wait_room) for `limit` at most: whether there is room (or a seek
+    /// was asked for); false when the time ran out first.
+    fn wait_room_for(&self, limit: Option<Duration>) -> Result<bool, Failure> {
+        let until = limit.map(|d| Instant::now() + d);
         let mut ctl = self.sh.ctl.lock();
         loop {
             if self.cancelled() {
@@ -885,10 +904,60 @@ impl Job<'_> {
                 .map(|c| c.seconds)
                 .sum();
             if ahead < self.opts.ahead_s || ctl.seek.is_some() {
-                return Ok(());
+                return Ok(true);
+            }
+            if until.is_some_and(|u| Instant::now() >= u) {
+                return Ok(false);
             }
             self.sh.wake.wait_for(&mut ctl, Duration::from_millis(250));
         }
+    }
+
+    /// Sleeps `d`, less when a seek is asked for meanwhile (whether one was). `Err` when
+    /// stopped.
+    fn sleep_or_seek(&self, d: Duration) -> Result<bool, Failure> {
+        let until = Instant::now() + d;
+        let mut ctl = self.sh.ctl.lock();
+        loop {
+            if self.cancelled() {
+                return Err(Failure::Unreachable("cancelled".into()));
+            }
+            if ctl.seek.is_some() {
+                return Ok(true);
+            }
+            let now = Instant::now();
+            if now >= until {
+                return Ok(false);
+            }
+            self.sh
+                .wake
+                .wait_for(&mut ctl, (until - now).min(Duration::from_millis(250)));
+        }
+    }
+
+    /// A growing playlist (and its sound rendition's) read again: its length so far is
+    /// told, and that it has ended once it has.
+    fn hls_grown(
+        &mut self,
+        url: &str,
+        audio: &mut Option<(String, hls::Media)>,
+    ) -> Result<hls::Media, Failure> {
+        let media = self.media_playlist(url)?;
+        if let Some((u, _)) = audio {
+            let u = u.clone();
+            *audio = Some((u.clone(), self.media_playlist(&u)?));
+        }
+        let (growing, length) = (media.growing(), media.duration());
+        let mut changed = false;
+        self.set(|s| {
+            changed = s.growing != growing || s.duration != Some(length);
+            s.growing = growing;
+            s.duration = Some(length);
+        });
+        if changed {
+            self.sh.changed();
+        }
+        Ok(media)
     }
 
     /// Writes a piece starting `start` seconds into the stream and offers it.
@@ -911,6 +980,7 @@ impl Job<'_> {
     /// and waits for a seek, which the caller then answers. `Err` when stopped.
     fn idle_until_seek(&mut self) -> Result<(), Failure> {
         self.set(|s| s.ended = true);
+        self.sh.changed();
         {
             let mut ctl = self.sh.ctl.lock();
             while ctl.seek.is_none() {
@@ -1066,28 +1136,42 @@ impl Job<'_> {
             Some(u) => Some((u.clone(), self.media_playlist(&u)?)),
             None => None,
         };
-        let live = media.live();
+        // A playlist that only grows plays like a finite one whose end moves; a live
+        // stream is a window that slides.
+        let mut growing = media.growing();
+        let live = media.live() && !growing;
         self.set(|s| {
             s.live = live;
+            s.growing = growing;
             s.duration = (!live).then(|| media.duration());
             s.variant = Some(cur);
         });
-        // Where to go on: a live stream is joined three segments from its end.
-        let mut next_seq = if live {
-            media
-                .segments
-                .len()
-                .checked_sub(3)
-                .map_or(media.media_sequence, |i| media.segments[i].sequence)
-        } else {
-            media.media_sequence
-        };
+        // Where to go on: where the playlist says (`EXT-X-START`), else a live or growing
+        // stream three segments from its end and a finite one at its start.
+        let mut next_seq = start_seq(&media, live || growing);
         // Seconds from the start, for finding the same place in another variant.
-        let mut at_time = 0.0f64;
+        let mut at_time = if live {
+            0.0
+        } else {
+            seq_start(&media, next_seq)
+        };
         let mut first = true;
         let mut last_reload = Instant::now();
+        // How often a growing playlist is read again.
+        let every =
+            |m: &hls::Media| Duration::from_secs_f64((m.target_duration / 2.0).clamp(0.2, 5.0));
         loop {
             if !live {
+                // Enough ahead: a growing playlist is still read again, for its length.
+                while growing {
+                    let wait = every(&media).saturating_sub(last_reload.elapsed());
+                    if self.wait_room_for(Some(wait))? {
+                        break;
+                    }
+                    last_reload = Instant::now();
+                    media = self.hls_grown(&media_url(cur), &mut audio)?;
+                    growing = media.growing();
+                }
                 self.wait_room()?;
                 if let Some(t) = self.take_seek() {
                     next_seq = seq_at(&media, t);
@@ -1105,13 +1189,17 @@ impl Job<'_> {
                 if !live {
                     next_seq = seq_at(&m, at_time);
                 }
+                growing = growing && m.growing();
                 media = m;
                 audio = match audio_url(want) {
                     Some(u) => Some((u.clone(), self.media_playlist(&u)?)),
                     None => None,
                 };
                 cur = want;
-                self.set(|s| s.variant = Some(cur));
+                self.set(|s| {
+                    s.variant = Some(cur);
+                    s.growing = growing;
+                });
             }
             // The segments of the next piece.
             let target = if first { 0.1 } else { self.opts.piece_s };
@@ -1127,7 +1215,21 @@ impl Job<'_> {
                         segs.push(s.clone());
                         next_seq += 1;
                     }
-                    None if !live => break,
+                    None if !live && !growing => break,
+                    None if growing => {
+                        // The end so far: what there is plays; then the playlist is read
+                        // again once it may have grown (a seek meanwhile is answered first).
+                        if !segs.is_empty() {
+                            break;
+                        }
+                        let wait = every(&media).saturating_sub(last_reload.elapsed());
+                        if self.sleep_or_seek(wait)? {
+                            break;
+                        }
+                        last_reload = Instant::now();
+                        media = self.hls_grown(&media_url(cur), &mut audio)?;
+                        growing = media.growing();
+                    }
                     None => {
                         if !segs.is_empty() {
                             break;
@@ -1160,7 +1262,17 @@ impl Job<'_> {
                 }
             }
             if segs.is_empty() {
-                return Ok(());
+                if live {
+                    return Ok(());
+                }
+                // A seek came while waiting for a growing playlist: answered at the top.
+                if self.sh.ctl.lock().seek.is_some() {
+                    continue;
+                }
+                // Every piece made: a later seek (back, into pieces deleted since) is
+                // still answered.
+                self.idle_until_seek()?;
+                continue;
             }
             let piece_start = at_time;
             at_time += secs;
@@ -1168,7 +1280,8 @@ impl Job<'_> {
             // The sound rendition's segments that start within the piece.
             let mut asegs = Vec::new();
             // The last piece of a finite stream takes the sound's rest (it may run longer).
-            let last_piece = !live && media.segments.last().is_none_or(|l| l.sequence < next_seq);
+            let last_piece =
+                !live && !growing && media.segments.last().is_none_or(|l| l.sequence < next_seq);
             if let Some((_, am)) = &audio {
                 let mut t = 0.0;
                 for s in &am.segments {
@@ -1281,7 +1394,14 @@ impl Job<'_> {
         let mut seek_after: Option<f64> = None;
         loop {
             let Some(period) = mpd.periods.get(period_i).cloned() else {
-                return Ok(());
+                if live || mpd.periods.is_empty() {
+                    return Ok(());
+                }
+                // Every piece made: a later seek is still answered (from the last period,
+                // which finds the period it lands in).
+                self.idle_until_seek()?;
+                period_i = mpd.periods.len() - 1;
+                continue;
             };
             let video = period.set(dash::Kind::Video).cloned();
             let sound = period.set(dash::Kind::Audio).cloned();
@@ -1525,6 +1645,23 @@ fn id3_end(b: &[u8]) -> usize {
         (10 + n).min(b.len())
     } else {
         0
+    }
+}
+
+/// The segment a playlist starts at: where its `EXT-X-START` says (seconds from the start,
+/// or from the end when negative), else three segments from the end of one still being
+/// added to (`from_end`) and the first of a finite one.
+fn start_seq(m: &hls::Media, from_end: bool) -> u64 {
+    let last = m.segments.last().map_or(m.media_sequence, |s| s.sequence);
+    match m.start {
+        Some(t) if t >= 0.0 => seq_at(m, t).min(last),
+        Some(t) => seq_at(m, (m.duration() + t).max(0.0)).min(last),
+        None if from_end => m
+            .segments
+            .len()
+            .checked_sub(3)
+            .map_or(m.media_sequence, |i| m.segments[i].sequence),
+        None => m.media_sequence,
     }
 }
 

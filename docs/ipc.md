@@ -30,7 +30,9 @@ the command line, `specular ipc …` (also `specular --remote …`).
   here do this by themselves.
 * **Flatpak.** The sandboxed viewer's runtime folder is shared with the desktop
   (`--filesystem=xdg-run/specular:create`), so programs outside it find the socket in
-  `$XDG_RUNTIME_DIR/specular/` as usual.
+  `$XDG_RUNTIME_DIR/specular/` as usual. It shares the computer's network (`--share=network`),
+  so a stream another program serves at `127.0.0.1` reaches it; a program that is itself
+  sandboxed needs the same to serve one.
 * **Off switch.** Settings › Integration › Remote control and events
   (`integration.ipc = false`): no socket at all after a restart.
 * **Which viewer.** The first viewer binds `specular.sock`; later ones bind
@@ -108,6 +110,7 @@ carry `"event"` and never an `"id"`, which tells them from responses:
 | `max_shapes`, `max_points`, `shapes` | Overlays: shapes per request, points per shape, kinds. |
 | `colormaps` | Colour map ids for `view-set`. |
 | `roi_formats`, `screenshot`, `view_command` | Formats offered. |
+| `streams` | `true` from Specular 0.1.2: `open-url` plays `http://` and `https://` addresses. |
 | `max_subscribers` | Version 3: subscribed connections at once (4). |
 | `event_queue` | Version 3: events queued per subscriber before they are lost (1024). |
 | `max_part_items` | Version 3: list entries per event line (10000); more go in parts. |
@@ -128,7 +131,7 @@ Clients must ignore capabilities they do not know.
 | `unknown-action` | `action` names no action. |
 | `disabled` | The action is unavailable right now (the message says why). |
 | `not-found` | No such file, image, position or blob. |
-| `refused` | Not allowed (a remote link; a shared file that is a link or not a regular file). |
+| `refused` | Not allowed (a remote link; a shared file that is a link or not a regular file; an address off this computer while No network is on). |
 | `mode` | Not possible here (e.g. window/level on a photo). |
 | `busy` | Too many connections, blobs or overlay shapes. |
 | `no-memory` | The memory budget cannot hold it (the message says how much is needed). |
@@ -153,7 +156,7 @@ grid: element `[y, x]` covers `x..x+1`, `y..y+1`.
 |---|---|---|
 | `hello` | | `app`, `version`, `protocol`, `pid`, `commands` (+ version 2 members) |
 | `open` | `files`: 1–10000 absolute paths or `file://` URLs; `window`: `"current"` (default) or `"new"`; v2: `view` (below) | `opened`, `missing` |
-| `open-url` | `url`: a `specular:` URL | `status`: `"opened"` or `"confirm"` |
+| `open-url` | `url`: a `specular:` URL, or (from Specular 0.1.2) an `http://` or `https://` address to play as a network stream; `title` (optional, with an address): its name in the window's title | `status`: `"opened"` or `"confirm"` |
 | `navigate` | exactly one of `to` (`next`, `prev`, `first`, `last`), `index` (0-based), `by` (signed) | `index` |
 | `state` | | `file`, `index`, `count`, `zoom`, `fit`, `fullscreen`, `mode`, `folder`, `mark`, `marked` |
 | `marked` | | `files` |
@@ -163,6 +166,30 @@ grid: element `[y, x]` covers `x..x+1`, `y..y+1`.
 
 `open` with `view` (version 2) applies the view to the first file once it is shown, and once
 its values are in for `window` (at most 15 s later; what cannot be applied by then is left).
+
+**`open-url` with an address** (from Specular 0.1.2) plays it as File › Open network stream
+does, in the window that is running, which comes to the front: a media file on a web server,
+an HLS or DASH stream, internet radio.
+
+```json
+{"v": 1, "cmd": "open-url", "url": "http://127.0.0.1:41234/a1b2.m3u8", "title": "Talk.mp4"}
+```
+
+* It answers `{"status": "opened"}` once the stream is being opened, not once it plays: what
+  goes wrong after that (the server gone, nothing playable) is said in the window.
+* `title` is at most 1024 bytes. The window shows it (one line, at most 200 characters)
+  instead of the address, in its title and in what it says about the stream.
+* An address on this computer itself (`127.0.0.1` and the rest of `127.0.0.0/8`, `[::1]`,
+  `localhost`) is not the network: it plays with No network on, is waited for however long
+  its server holds a request (the window says “Buffering…” meanwhile), follows a redirect
+  only to this computer while No network is on, and is not kept in the recent streams. This
+  is how a program on this computer hands over a stream it serves itself.
+* Any other address with No network on gets `refused`, and the window says why.
+* A viewer older than 0.1.2 answers an address with `bad-arguments`. Which one runs:
+  `hello`'s `version`, or in versions 2 and 3 `capabilities.streams` (`true`).
+* From the command line: `specular ipc url [--title TEXT] ADDRESS`. Plain `specular ADDRESS`
+  (or `specular --stream ADDRESS [--title TEXT]`) does the same through the socket when a
+  viewer runs and its single-instance setting is on, and opens a window of its own otherwise.
 
 ### 5.2 View and image (version 2)
 
@@ -293,6 +320,10 @@ or decodes are on their way and the gallery's visible tiles are in. `focus`, `di
 * No command reads a path a client names, beyond what `open` already allows (opening files the
   user can open, through the normal sandboxed decoders). `array-show` reads only bare file
   names inside the private shared folder, and refuses links and anything but regular files.
+* `open-url` with an address makes the viewer connect to that address, as the user's own
+  File › Open network stream does, and only while No network is off, or to this computer
+  itself. A `specular://stream?url=…` link, which can come from anywhere, plays only an
+  address on this computer itself.
 * No command runs a program. (`open` with `"window":"new"` starts Specular itself.) Hooks
   (section 10) run only programs the user's settings name, and each only after the user
   allowed it in the window.
@@ -310,6 +341,9 @@ or decodes are on their way and the gallery's visible tiles are in. `focus`, `di
   ignore members they do not know, and the viewer ignores request members it does not know.
 * New commands come with a new protocol version, listed in `hello`'s `commands`; a viewer keeps
   answering every older version it lists in `protocols`.
+* A command may come to accept more than it did (as `open-url` came to take addresses in
+  Specular 0.1.2) without a new version: what it accepted before means the same, and a
+  capability says the viewer does it.
 * A breaking change needs a new version number, and the old version keeps working for at least
   one major release after it.
 * Error messages are for people and may change; codes are stable.

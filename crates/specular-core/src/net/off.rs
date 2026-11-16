@@ -1,4 +1,5 @@
-//! The no-network switch: when on, nothing in the process opens a connection.
+//! The no-network switch: when on, nothing in the process opens a connection that leaves this
+//! computer.
 //!
 //! It is one process-wide flag, set from up to four places (any one turns it on):
 //!
@@ -11,6 +12,11 @@
 //! name or opens a socket, and refuses with its `NetworkOff` error; the requests it refuses
 //! are never reported to the download registry, so the "Downloads" indicator stays hidden.
 //! Features check [`is_off`] first and show "Network is off" instead of trying.
+//!
+//! One thing is let through: a client made for it (`Client::with_loopback`, the stream
+//! player's alone) still reaches this computer itself ([`super::local`]: `127.0.0.0/8`,
+//! `::1`, `localhost`, told without a lookup), where another program serves a stream. A
+//! redirect from there to anywhere else is refused like any other request.
 
 use std::sync::atomic::{AtomicU8, AtomicU64, Ordering};
 

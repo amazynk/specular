@@ -159,6 +159,7 @@ fn every_command_round_trips() {
         Request::Activate,
         Request::OpenUrl {
             url: "specular:///x.png".into(),
+            title: None,
         },
         Request::Open {
             files: vec![dir.join("a.png")],

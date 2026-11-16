@@ -169,6 +169,9 @@ pub struct ServerOptions {
     pub latency: Duration,
     /// Bytes per second shared by all connections (a link), or unlimited.
     pub bandwidth: Option<u64>,
+    /// Bytes written at a time (default 16 KiB): small with a bandwidth, a body that comes
+    /// a little at a time.
+    pub piece: Option<usize>,
 }
 
 /// Counters.
@@ -377,7 +380,7 @@ fn serve(conn: TcpStream, s: &Shared) -> io::Result<()> {
 /// Writes through the shared link, paced to the bandwidth.
 fn send(w: &mut TcpStream, s: &Shared, data: &[u8]) -> io::Result<()> {
     const PIECE: usize = 16 * 1024;
-    for c in data.chunks(PIECE) {
+    for c in data.chunks(s.options.piece.unwrap_or(PIECE).max(1)) {
         if let Some(bps) = s.options.bandwidth.filter(|b| *b > 0) {
             let slot = {
                 let mut next = s.link.lock();

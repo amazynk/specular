@@ -70,6 +70,7 @@ Press [[key:open-stream]] to play something from the network: a sound or video f
 - Radio, HLS and DASH play in parts of a few seconds, one after another. The next part is opened before the one playing ends, so picture and sound run on.
 - The sound runs on from one part into the next as one stream, without a gap.
 - The seek bar of an HLS or DASH stream (not live) covers the whole stream. Seek anywhere in it.
+- An HLS recording still being made (a playlist that only grows) plays like a finished one. Its seek bar covers what is recorded so far and grows with it.
 - To pick the quality, use More › Quality in the player, or Stream quality. Automatic follows the connection.
 - Radio shows what is playing as the station sends it.
 - Streams protected by DRM are refused. Specular never plays them.
@@ -77,6 +78,18 @@ Press [[key:open-stream]] to play something from the network: a sound or video f
 - In the play queue, web addresses play as streams.
 - Going to another file stops the stream. Its parts are deleted from the cache.
 - With the network off in Settings › Privacy, nothing is fetched.
+
+Another program on this computer can hand Specular a stream it serves itself, such as a download still in progress. Its address starts with `http://127.0.0.1`, `http://[::1]` or `http://localhost`.
+
+- It plays with the network off: nothing leaves the computer.
+- Specular waits for it, however long a part takes, and shows “Buffering…” meanwhile.
+- It is not kept in the recent streams.
+
+From the command line:
+
+- `specular ADDRESS` plays an `http://` or `https://` address. So does `specular --stream ADDRESS`.
+- `--title TEXT` names it in the window's title, instead of its address.
+- A window already open plays it, when Settings › General › Single instance is on. `--new-window` opens another.
 
 Video pages (not a stream address) need yt-dlp, which you install yourself:
 

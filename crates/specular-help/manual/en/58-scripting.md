@@ -17,6 +17,7 @@ The protocol is described in `docs/ipc.md`.
 
 ## From the command line {#command-line}
 - `specular ipc next` steps to the next image. `specular --remote next` does the same.
+- `specular ipc url --title TEXT ADDRESS` plays a network stream (`http://` or `https://`) in the window, named by the title.
 - `specular ipc mark --flag pick --stars 4 FILE…` marks photos. Ctrl+Z in the gallery undoes it.
 - `specular ipc select FILE…` selects photos in the gallery.
 - `specular ipc apply-style STYLE FILE…` applies a Develop style.

@@ -182,7 +182,13 @@ impl App {
                 }
                 r
             }
-            Request::OpenUrl { url } => self.open_url(&url),
+            // An address to play (viewers from 0.1.2), else a `specular:` link.
+            Request::OpenUrl { url, title }
+                if specular_stream::addr::is_stream_url(&url) && !url_scheme::is_url(&url) =>
+            {
+                self.remote_open_stream(url, title)
+            }
+            Request::OpenUrl { url, .. } => self.open_url(&url),
             Request::Navigate(n) => self.remote_navigate(n, el),
             Request::State => Ok(self.remote_state()),
             Request::Marked => {
@@ -382,8 +388,26 @@ impl App {
         Ok(json!({ "opened": opened, "missing": missing }))
     }
 
-    /// Opens a `specular:` link: local files at once, unusual ones after a confirmation,
-    /// remote sources refused (there is no remote source yet).
+    /// Plays the network stream at `url` (shown as `title`), as File › Open network stream
+    /// does: for a client of the socket, which is the user's own. Refused, and said in the
+    /// window, when the network is off and the address is not on this computer itself.
+    fn remote_open_stream(&mut self, url: String, title: Option<String>) -> Reply {
+        self.raise_window();
+        let off = super::stream::network_off_for(&url);
+        self.stream_open_titled(url, title, false);
+        if off {
+            return Err(Fail::new(
+                Code::Refused,
+                "the network is off in Settings › Privacy (an address on this computer, \
+                 like 127.0.0.1, plays all the same)",
+            ));
+        }
+        Ok(json!({ "status": "opened" }))
+    }
+
+    /// Opens a `specular:` link: local files at once, unusual ones after a confirmation, a
+    /// stream served on this computer itself at once, remote sources refused (there is no
+    /// remote source yet).
     pub(super) fn open_url(&mut self, url: &str) -> Reply {
         let target = match url_scheme::parse(url) {
             Ok(t) => t,
@@ -433,7 +457,13 @@ impl App {
                 self.redraw = true;
                 Ok(json!({ "status": "confirm" }))
             }
-            Target::Remote { source } => {
+            // A link may come from anywhere (a web page): it plays what another program on
+            // this computer serves, and connects nowhere else.
+            Target::Stream { url, title, .. } if super::stream::is_local(&url) => {
+                self.stream_open_titled(url, title, false);
+                Ok(json!({ "status": "opened" }))
+            }
+            Target::Stream { source, .. } | Target::Remote { source } => {
                 self.integration_toast(t!("url-remote-refused", source = source.clone()));
                 Err(Fail::new(
                     Code::Refused,

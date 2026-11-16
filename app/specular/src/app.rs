@@ -1081,11 +1081,17 @@ pub fn run(
         || app.args.library
         || app.args.slideshow.is_some()
         || app.args.remote_zarr.is_some()
-        || app.args.remote_fetch.is_some();
+        || app.args.remote_fetch.is_some()
+        || app.args.stream.is_some();
     app.remote = remote::Remote::new(std::mem::take(&mut app.args.urls));
     app.start_remote();
     if let Some(url) = app.args.remote_zarr.take() {
         app.zarr_open(url);
+    }
+    // A network stream's address given instead of a file (or `--stream`), with `--title`.
+    if let Some(url) = app.args.stream.take() {
+        let title = app.args.title.take();
+        app.stream_open_titled(url, title, false);
     }
     if let Some(url) = app.args.remote_fetch.take() {
         app.remote_fetch_open(url);
@@ -2377,6 +2383,14 @@ impl App {
             return self.gallery_title();
         }
         if let Some(t) = self.book_title() {
+            return t;
+        }
+        // A network stream by its title (or its address), not by its piece's file name.
+        if let Some(t) = self
+            .current
+            .and_then(|i| self.entries.get(i))
+            .and_then(|p| self.stream_title_for(p))
+        {
             return t;
         }
         self.current_id()
@@ -3966,7 +3980,10 @@ impl App {
         let Some((id, img)) = img else {
             return (None, None, false, None, false, None);
         };
-        let name = Some(img.name());
+        let name = Some(
+            self.stream_title_for(&img.path)
+                .unwrap_or_else(|| img.name()),
+        );
         let dims = img.info.as_ref().map(|i| {
             let o = img.orient.unwrap_or(i.orientation);
             o.display_size(i.width, i.height)
@@ -8794,6 +8811,7 @@ impl App {
             .chain(self.remote.script.screenshot_wake())
             .chain(self.remote_test_wake())
             .chain(self.events_wake())
+            .chain(self.stream_wake())
             .min()
         {
             match el.control_flow() {

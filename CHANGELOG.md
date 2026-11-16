@@ -6,6 +6,40 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **Streams from the command line.** `specular http://…` (or `--stream URL`) plays an address
+  as File › Open network stream does, and `--title TEXT` names it in the window's title. A
+  window already open plays it instead of a new one opening (the single-instance setting),
+  on every platform.
+- **Streams over remote control.** `open-url` takes an `http://` or `https://` address and a
+  `title` (`specular ipc url --title TEXT ADDRESS`), and a `specular://stream?url=…&title=…`
+  link plays a stream served on this computer.
+- **Streams from this computer.** An address at `127.0.0.1`, `[::1]` or `localhost` plays
+  with No network on, since nothing leaves the computer. Specular waits for it however long
+  a part takes, showing “Buffering…” meanwhile, and keeps it out of the recent streams. A
+  part far ahead that is held back (a seek, a cover's frame) is waited for on a connection
+  of its own, so playing along goes on meanwhile. This lets a downloader on the same
+  computer play a file it is still fetching.
+- **HLS recordings in progress.** A playlist that only grows (`EXT-X-PLAYLIST-TYPE:EVENT`)
+  plays with a seek bar over everything recorded so far, which grows with it. It starts
+  where `EXT-X-START` says, else near its end.
+- `specular --version` prints the version without opening a window.
+- The Python client has `open_url(url, title=None)`.
+
+### Changed
+
+- A network stream's window title is its title or its address, not the name of the part
+  playing. “Buffering…” stays on screen for as long as a stream waits.
+
+### Fixed
+
+- Seeking back in an HLS or DASH stream after its last part was fetched no longer waits for
+  ever.
+- A web file whose server sends it a little at a time (slower than it plays) is fetched in
+  one request as it comes. It used to be given up and asked for again at every read, many
+  times a second.
+
 ## [0.1.1] - 2026-11-13
 
 ### Changed

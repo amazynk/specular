@@ -214,15 +214,28 @@ pub struct Args {
     /// A COPC or Cloud-Optimized GeoTIFF address given instead of a file: fetched into the
     /// cache by the window (`app/zarr.rs`), so its progress shows in "Downloads".
     pub remote_fetch: Option<String>,
+    /// `--stream URL`, or an `http://` or `https://` address given instead of a file that
+    /// is none of the above: opened as File › Open network stream does (`app/stream.rs`).
+    pub stream: Option<String>,
+    /// `--title TEXT`: what the stream is called in the window's title, instead of its
+    /// address.
+    pub title: Option<String>,
 }
 
 fn usage() -> ! {
     println!(
         "Usage: specular [FILE…|FOLDER|specular:URL]\n       \
+         specular [--title TEXT] http://…|https://…\n       \
          specular [-0] [--print-marked] - | --files-from LIST\n       \
          specular --remote COMMAND\n\n\
          Options:\n  \
          --new-window           always open a new window (no single instance)\n  \
+         --stream URL           open URL (http or https) as a network stream, like\n                         \
+         File › Open network stream; an address given as the file\n                         \
+         is one too. A running window plays it (single instance).\n                         \
+         An address on this computer (127.0.0.1, localhost) plays\n                         \
+         with the network off\n  \
+         --title TEXT           with a stream: its name in the window's title\n  \
          --no-network           nothing connects to a server this run\n  \
          --library              start in the Library\n  \
          --search QUERY         start in the Library, searching for QUERY\n  \
@@ -240,7 +253,8 @@ fn usage() -> ! {
          --thumbnail IN OUT SIZE  write a SIZE px PNG thumbnail of IN to OUT and exit\n  \
          --thumbnail-cache DIR  fill the gallery's thumbnail cache for DIR and exit\n                         \
          (--depth N also includes N levels of subfolders)\n  \
-         -h, --help             this help\n\n\
+         -h, --help             this help\n  \
+         -V, --version          print the version and exit\n\n\
          Diagnostics:\n  \
          --hw-report            print hardware and GPU facts and exit\n  \
          --bench-open FILE      open FILE, print timings as JSON (with the open report:\n                         \
@@ -310,7 +324,43 @@ fn parse_args() -> Args {
         a.path = None;
         a.remote_fetch = Some(url);
     }
+    finish_stream(&mut a);
+    if a.title.is_some() && a.stream.is_none() {
+        eprintln!("specular: --title goes with a stream's address (http:// or https://)");
+        std::process::exit(2);
+    }
     a
+}
+
+/// Any other `http://` or `https://` address given as the file is a network stream, opened
+/// by the window; `--stream` names one outright (it then wins over a path).
+fn finish_stream(a: &mut Args) {
+    if a.stream.is_some() {
+        return;
+    }
+    if let Some(url) = a
+        .path
+        .as_ref()
+        .and_then(|p| p.to_str())
+        // A file of that very name (after `--`) is the file.
+        .filter(|s| is_stream_arg(s) && !std::path::Path::new(s).exists())
+        .map(str::to_owned)
+    {
+        a.path = None;
+        a.stream = Some(url);
+    }
+}
+
+/// Whether a command-line argument is a network stream's address rather than a file: an
+/// `http://` or `https://` address with a host (not one of the other remote kinds, which
+/// `parse_args` tells first).
+pub(crate) fn is_stream_arg(s: &str) -> bool {
+    specular_stream::addr::is_stream_url(s)
+}
+
+/// `specular --version`: the version on standard output, without opening a window.
+fn version_line() -> String {
+    format!("Specular {}", env!("CARGO_PKG_VERSION"))
 }
 
 /// `--slideshow`: the path argument (or the Pictures folder) is the show's, not a file to
@@ -445,6 +495,19 @@ fn parse_arg_list(args: impl Iterator<Item = std::ffi::OsString>) -> Args {
         match name.as_str() {
             "--" => only_paths = true,
             "-h" | "--help" => usage(),
+            "-V" | "--version" => {
+                println!("{}", version_line());
+                std::process::exit(0)
+            }
+            "--stream" => {
+                let v = value(&mut it);
+                if !is_stream_arg(&v) {
+                    eprintln!("specular: --stream takes an http:// or https:// address");
+                    std::process::exit(2)
+                }
+                a.stream = Some(v);
+            }
+            "--title" => a.title = Some(value(&mut it)),
             "--hw-report" => a.hw_report = true,
             "--no-network" => a.no_network = true,
             "--bench-open" => a.bench_open = Some(PathBuf::from(value(&mut it))),
@@ -611,6 +674,15 @@ fn main() {
     let console = specular_platform::attach_parent_console();
     // First: everything below (and every crate) is compiled for x86-64-v3.
     require_cpu_features();
+    // `--version`: before anything looks for a running viewer or a GPU.
+    if std::env::args_os()
+        .skip(1)
+        .take_while(|a| a != "--")
+        .any(|a| a == "--version" || a == "-V")
+    {
+        println!("{}", version_line());
+        return;
+    }
     // Windows: the taskbar id of the installer's shortcut, before any window or recent file.
     #[cfg(windows)]
     specular_platform::set_app_user_model_id(app::APP_ID);
@@ -908,6 +980,48 @@ mod tests {
         assert_eq!(a.urls, ["specular://study?url=https%3A%2F%2Fx"]);
         let a = args(&["specular:nonsense"]);
         assert_eq!(a.urls, ["specular:nonsense"]);
+    }
+
+    /// A stream's address given as the file, or with `--stream`, is the window's to open;
+    /// the other remote kinds and files stay what they were.
+    #[test]
+    fn stream_arguments() {
+        let mut a = args(&["http://127.0.0.1:41234/a1b2.m3u8", "--title", "Talk.mp4"]);
+        finish_stream(&mut a);
+        assert_eq!(
+            a.stream.as_deref(),
+            Some("http://127.0.0.1:41234/a1b2.m3u8")
+        );
+        assert_eq!(a.title.as_deref(), Some("Talk.mp4"));
+        assert!(a.path.is_none());
+        let mut a = args(&["--title=My talk", "--stream", "https://h.example/v.mp4"]);
+        finish_stream(&mut a);
+        assert_eq!(a.stream.as_deref(), Some("https://h.example/v.mp4"));
+        assert_eq!(a.title.as_deref(), Some("My talk"));
+        // An address without an extension is a stream too (the server says what it is).
+        let mut a = args(&["http://localhost:8080/stream"]);
+        finish_stream(&mut a);
+        assert_eq!(a.stream.as_deref(), Some("http://localhost:8080/stream"));
+        // Files, other schemes and addresses without a host are not.
+        for not in [
+            "a.jpg",
+            "/p/http:/x.mp4",
+            "ftp://h/a.mp3",
+            "https:///a.mp3",
+            "http://",
+        ] {
+            let mut a = args(&[not]);
+            finish_stream(&mut a);
+            assert!(a.stream.is_none() && a.path.is_some(), "{not}");
+        }
+        // After `--` it still is one, unless a file of that very name exists.
+        let mut a = args(&["--", "http://h/a.mp4"]);
+        finish_stream(&mut a);
+        assert!(a.stream.is_some());
+        assert_eq!(
+            version_line(),
+            concat!("Specular ", env!("CARGO_PKG_VERSION"))
+        );
     }
 
     #[test]

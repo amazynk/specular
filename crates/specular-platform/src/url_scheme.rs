@@ -8,6 +8,11 @@
 //!   folder (on Windows `specular:///C:/Photos/a.jpg`).
 //! * `specular://open?path=<pct-encoded absolute path>&path=…&uri=<pct-encoded file:// URL>`:
 //!   one or more local files (at most [`MAX_PATHS`]).
+//! * `specular://stream?url=<pct-encoded http:// or https:// address>&title=<pct-encoded
+//!   name>`: a network stream to play, shown as the title (optional). The viewer plays one
+//!   served on this computer itself (`127.0.0.1`, `[::1]`, `localhost`: another program here
+//!   hands its stream over, also when no viewer runs yet) and refuses any other, as it does
+//!   the remote sources below.
 //! * `specular://open?url=…`, `specular://study?…`, `specular://manifest?…`,
 //!   `specular://dicomweb?…` and any other host name: a **remote** source (DESIGN.md §7.5).
 //!   There is no remote [`Source`](../../specular_core/source/index.html) yet, so the viewer
@@ -45,6 +50,14 @@ pub enum Target {
     /// A non-local source (a server, a study, a manifest): never opened without a remote
     /// source, and only after confirmation once one exists. `source` is safe to show.
     Remote { source: String },
+    /// A network stream to play: an `http://` or `https://` address with a host and
+    /// nothing a URL cannot hold, and the name to show it by. The viewer decides whether it
+    /// may (one on this computer itself). `source` (scheme and host) is safe to show.
+    Stream {
+        url: String,
+        title: Option<String>,
+        source: String,
+    },
 }
 
 /// Why a local request needs confirmation.
@@ -77,6 +90,8 @@ pub enum Error {
     BadFileUri,
     NoPaths,
     TooManyPaths,
+    /// `stream?url=` is not an `http://` or `https://` address with a host.
+    BadStreamUrl,
 }
 
 impl fmt::Display for Error {
@@ -98,6 +113,7 @@ impl fmt::Display for Error {
             Error::BadFileUri => write!(f, "uri= must be a file:// URL"),
             Error::NoPaths => write!(f, "no path given"),
             Error::TooManyPaths => write!(f, "more than {MAX_PATHS} paths"),
+            Error::BadStreamUrl => write!(f, "url= must be an http:// or https:// address"),
         }
     }
 }
@@ -159,6 +175,14 @@ pub fn parse(url: &str) -> Result<Target, Error> {
             source: format!("{lower} request"),
         });
     }
+    if lower == "stream" {
+        if !path.is_empty() && path != "/" {
+            return Err(Error::UnknownAction(escape_for_display(&decode(
+                path, base,
+            )?)));
+        }
+        return stream(query.unwrap_or(""), base + path.len() + 1);
+    }
     if lower != "open" {
         // Any other host: a server somewhere.
         return Ok(Target::Remote {
@@ -203,6 +227,60 @@ pub fn parse(url: &str) -> Result<Target, Error> {
         return Err(Error::NoPaths);
     }
     classify(paths)
+}
+
+/// `stream?url=…&title=…`: the address to play (once) and its optional title (once). `at`
+/// is the query's byte offset in the URL.
+fn stream(query: &str, at: usize) -> Result<Target, Error> {
+    let (mut url, mut title) = (None, None);
+    let mut offset = at;
+    for pair in query.split('&') {
+        let here = offset;
+        offset += pair.len() + 1;
+        if pair.is_empty() {
+            continue;
+        }
+        let (k, v) = pair.split_once('=').unwrap_or((pair, ""));
+        let key = decode(k, here)?;
+        let value = decode(v, here + k.len() + 1)?;
+        let slot = match key.as_str() {
+            "url" => &mut url,
+            "title" => &mut title,
+            _ => return Err(Error::UnknownParameter(escape_for_display(&key))),
+        };
+        if value.is_empty() {
+            return Err(Error::EmptyValue(key));
+        }
+        if slot.replace(value).is_some() {
+            return Err(Error::UnknownParameter(escape_for_display(&key)));
+        }
+    }
+    let url = url.ok_or(Error::NoPaths)?;
+    if !is_http_address(&url) {
+        return Err(Error::BadStreamUrl);
+    }
+    Ok(Target::Stream {
+        source: remote_display(&url),
+        url,
+        title,
+    })
+}
+
+/// Whether `url` is an `http://` or `https://` address with a host, made only of characters
+/// a URL can hold (printable ASCII without a space or a backslash).
+fn is_http_address(url: &str) -> bool {
+    let Some((scheme, rest)) = url.split_once("://") else {
+        return false;
+    };
+    if !scheme.eq_ignore_ascii_case("http") && !scheme.eq_ignore_ascii_case("https") {
+        return false;
+    }
+    let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
+    let host = authority.rsplit('@').next().unwrap_or("");
+    !host.is_empty()
+        && url
+            .bytes()
+            .all(|b| (0x21..=0x7e).contains(&b) && b != b'\\')
 }
 
 /// A remote URL shortened to what is safe and useful to show: its scheme and host.
@@ -380,8 +458,10 @@ pub fn for_path(p: &std::path::Path) -> Option<String> {
 #[doc(hidden)]
 pub fn fuzz_one(data: &[u8]) {
     if let Ok(s) = std::str::from_utf8(data) {
-        if let Ok(Target::Local(paths)) = parse(s) {
-            assert!(paths.iter().all(|p| p.is_absolute()));
+        match parse(s) {
+            Ok(Target::Local(paths)) => assert!(paths.iter().all(|p| p.is_absolute())),
+            Ok(Target::Stream { url, .. }) => assert!(is_http_address(&url)),
+            _ => {}
         }
         let _ = escape_for_display(s);
     }
@@ -462,6 +542,64 @@ mod tests {
     }
 
     #[test]
+    fn stream_forms() {
+        assert_eq!(
+            parse("specular://stream?url=http%3A%2F%2F127.0.0.1%3A41234%2Fa1b2.m3u8&title=Talk%20one.mp4")
+                .unwrap(),
+            Target::Stream {
+                url: "http://127.0.0.1:41234/a1b2.m3u8".into(),
+                title: Some("Talk one.mp4".into()),
+                source: "http://127.0.0.1:41234".into(),
+            }
+        );
+        // The title is optional; the address may come unencoded where it holds nothing
+        // that needs it, and keeps its own query.
+        assert_eq!(
+            parse("specular://stream/?url=https://user:pw@h.example/v.mp4%3Ftoken%3Dx%26a%3Db")
+                .unwrap(),
+            Target::Stream {
+                url: "https://user:pw@h.example/v.mp4?token=x&a=b".into(),
+                title: None,
+                source: "https://h.example".into(),
+            }
+        );
+        for (bad, want) in [
+            ("specular://stream", Error::NoPaths),
+            ("specular://stream?title=x", Error::NoPaths),
+            ("specular://stream?url=", Error::EmptyValue("url".into())),
+            ("specular://stream?url=ftp://h/a.mp3", Error::BadStreamUrl),
+            (
+                "specular://stream?url=file:///etc/passwd",
+                Error::BadStreamUrl,
+            ),
+            ("specular://stream?url=http:///a.mp4", Error::BadStreamUrl),
+            ("specular://stream?url=/home/u/a.mp4", Error::BadStreamUrl),
+            (
+                "specular://stream?url=http://h/a%20b.mp4",
+                Error::BadStreamUrl,
+            ),
+            (
+                "specular://stream?url=http://h%5C@evil/a.mp4",
+                Error::BadStreamUrl,
+            ),
+            (
+                "specular://stream?url=http://h/a.mp4&url=http://h/b.mp4",
+                Error::UnknownParameter("url".into()),
+            ),
+            (
+                "specular://stream?url=http://h/a.mp4&path=/x",
+                Error::UnknownParameter("path".into()),
+            ),
+            (
+                "specular://stream/play?url=http://h/a.mp4",
+                Error::UnknownAction("/play".into()),
+            ),
+        ] {
+            assert_eq!(parse(bad), Err(want), "{bad}");
+        }
+    }
+
+    #[test]
     fn remote_forms() {
         assert_eq!(
             parse("specular://open?url=https%3A%2F%2Fuser%3Apw%40pacs.example%2Fwado%3Ftoken%3Dx")
@@ -528,6 +666,7 @@ mod tests {
             "specular://open?path=%2Fa&uri=file%3A%2F%2F%2Fb&url=https%3A%2F%2Fh",
             "specular://study?uid=1",
             "specular:///x/%E2%80%AE..%2F",
+            "specular://stream?url=http%3A%2F%2F127.0.0.1%3A41234%2Fa.m3u8&title=Talk%20one",
         ];
         let alphabet = b"%/?&=#:.0123456789abcdefABCDEF specular\x00\xff\\@+";
         let mut x: u64 = 0x9E37_79B9_7F4A_7C15;
@@ -568,6 +707,10 @@ mod tests {
                 assert!(paths.iter().all(|p| p.is_absolute()));
             }
             Ok(Target::Remote { source }) => {
+                assert!(!source.chars().any(hidden_char));
+            }
+            Ok(Target::Stream { url, source, .. }) => {
+                assert!(is_http_address(&url), "{s}: {url:?}");
                 assert!(!source.chars().any(hidden_char));
             }
             Err(e) => {

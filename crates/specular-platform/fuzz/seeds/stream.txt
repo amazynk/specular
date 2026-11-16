@@ -1,0 +1,1 @@
+specular://stream?url=http%3A%2F%2F127.0.0.1%3A41234%2Fa.m3u8&title=Talk%20one

@@ -39,6 +39,8 @@ struct State {
     readers: Vec<(ThreadId, u64)>,
     /// Readers blocked now.
     waiting: usize,
+    /// The reads blocked now, the latest last: (start, end, a side read).
+    blocked: Vec<(u64, u64, bool)>,
     /// No more bytes will come (stopped or failed): waits fail at once.
     closed: bool,
     /// A wait timed out or failed.
@@ -59,6 +61,13 @@ impl State {
 
     fn has(&self, start: u64, end: u64) -> bool {
         start >= end || self.filled_to(start) >= end
+    }
+
+    /// A blocked read is over.
+    fn unblock(&mut self, read: (u64, u64, bool)) {
+        if let Some(i) = self.blocked.iter().rposition(|b| *b == read) {
+            self.blocked.remove(i);
+        }
     }
 
     /// The first hole at or after `at`, before `len`.
@@ -156,6 +165,55 @@ impl Filling {
         self.st.lock().want
     }
 
+    /// The first byte still missing of what a blocked reader waits for, if one does. (The
+    /// wanted range starts where the read does; its first bytes may be there already.)
+    pub fn wanted_hole(&self) -> Option<u64> {
+        let st = self.st.lock();
+        let (a, _) = st.want?;
+        st.hole_after(a, self.len).map(|(s, _)| s)
+    }
+
+    /// The first missing byte of every read blocked now, the one to fetch first first: the
+    /// readers' before the side reads', the latest before the earlier. For a fetcher with
+    /// more than one request under way (a server on this computer that holds a request
+    /// until it has the bytes).
+    pub fn wanted_holes(&self) -> Vec<u64> {
+        let st = self.st.lock();
+        let mut out = Vec::new();
+        for side in [false, true] {
+            for &(a, b, q) in st.blocked.iter().rev() {
+                if q == side
+                    && let Some((s, _)) = st.hole_after(a, self.len)
+                    && s < b
+                    && !out.contains(&s)
+                {
+                    out.push(s);
+                }
+            }
+        }
+        out
+    }
+
+    /// The first hole at or after `at`: (start, end).
+    pub fn hole_from(&self, at: u64) -> Option<(u64, u64)> {
+        self.st.lock().hole_after(at, self.len)
+    }
+
+    /// The count of changes so far (for [`wait_past`](Self::wait_past)).
+    pub fn changes(&self) -> u64 {
+        self.st.lock().changes
+    }
+
+    /// Waits up to `d` for a change after the `seen`th (bytes written, a read blocked or
+    /// answered, the filling closed); the count then.
+    pub fn wait_past(&self, seen: u64, d: Duration) -> u64 {
+        let mut st = self.st.lock();
+        if st.changes == seen && !st.closed {
+            self.cv.wait_for(&mut st, d);
+        }
+        st.changes
+    }
+
     /// What to fetch next, at most `run` bytes: what a blocked reader waits for; else the
     /// hole after the reader with the least read ahead; else the first hole. `None` when
     /// the file is whole.
@@ -203,6 +261,9 @@ impl Filling {
             return true;
         }
         let deadline = Instant::now() + d;
+        st.blocked.push((start, end, true));
+        st.changes += 1;
+        self.cv.notify_all();
         let ok = loop {
             if st.has(start, end) {
                 break true;
@@ -223,6 +284,7 @@ impl Filling {
         if st.want == Some((start, end)) {
             st.want = None;
         }
+        st.unblock((start, end, true));
         ok
     }
 
@@ -249,6 +311,7 @@ impl Filling {
         }
         st.want = Some((start, end));
         st.waiting += 1;
+        st.blocked.push((start, end, false));
         st.changes += 1;
         self.cv.notify_all();
         let deadline = Instant::now() + self.timeout;
@@ -266,6 +329,7 @@ impl Filling {
             }
         };
         st.waiting -= 1;
+        st.unblock((start, end, false));
         if ok {
             if let Some(r) = st.readers.iter_mut().find(|r| r.0 == me) {
                 r.1 = end;
@@ -419,6 +483,58 @@ mod tests {
         });
         assert!(f2.wait(500, 600));
         filler.join().unwrap();
+        // A read across the end of what is there misses its first byte not there.
+        let f3 = Filling::new(1000, Duration::from_secs(5));
+        f3.add(0, 150);
+        assert_eq!(f3.wanted_hole(), None, "nobody waits");
+        let g3 = Arc::clone(&f3);
+        let filler = specular_thread::spawn("test-fill-across", move || {
+            while g3.wanted().is_none() {
+                g3.wait_change(Duration::from_millis(5));
+            }
+            assert_eq!(g3.wanted(), Some((100, 200)));
+            assert_eq!(g3.wanted_hole(), Some(150));
+            assert_eq!(g3.wanted_holes(), vec![150]);
+            assert_eq!(g3.hole_from(0), Some((150, 1000)));
+            g3.add(150, 200);
+        });
+        assert!(f3.wait(100, 200));
+        filler.join().unwrap();
+        assert_eq!(f3.wanted_hole(), None);
+        assert!(f3.wanted_holes().is_empty(), "nobody waits any longer");
+        // Every blocked read is told, the readers' before a side read's, the latest first.
+        let f4 = Filling::new(1000, Duration::from_secs(5));
+        f4.add(0, 100);
+        let seen = f4.changes();
+        let waits: Vec<_> = [(600u64, false), (100, false), (800, true)]
+            .into_iter()
+            .enumerate()
+            .map(|(i, (at, side))| {
+                let g = Arc::clone(&f4);
+                let h = specular_thread::spawn(format!("test-fill-w{i}"), move || {
+                    if side {
+                        g.wait_quietly(at, at + 50, Duration::from_secs(5))
+                    } else {
+                        g.wait(at, at + 50)
+                    }
+                });
+                // One after the other: the order they block in is the order told.
+                let t0 = Instant::now();
+                while f4.wanted_holes().len() <= i && t0.elapsed() < Duration::from_secs(5) {
+                    std::thread::sleep(Duration::from_millis(2));
+                }
+                h
+            })
+            .collect();
+        assert_eq!(f4.wanted_holes(), vec![100, 600, 800]);
+        assert!(f4.wait_past(seen, Duration::ZERO) > seen);
+        f4.add(100, 150);
+        assert_eq!(f4.wanted_holes(), vec![600, 800]);
+        f4.add(600, 1000);
+        for w in waits {
+            assert!(w.join().unwrap());
+        }
+        assert!(f4.wanted_holes().is_empty());
         // The reader read to 600: the next fetch is the hole after where it reads.
         assert_eq!(f2.next_fetch(50), Some((700, 750)));
         f2.close();

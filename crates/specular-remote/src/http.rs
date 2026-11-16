@@ -10,6 +10,14 @@
 //! caller. [`Client::download_to`] goes further: with a validator (ETag or Last-Modified) a
 //! partial download resumes with `Range` + `If-Range`, also across calls.
 //!
+//! This computer itself: a client made with [`Client::with_loopback`] sends requests to a
+//! loopback address (`127.0.0.0/8`, `::1`, `localhost`; [`specular_core::net::local`]) through
+//! an agent of their own that can connect nowhere else, uses no proxy and looks no name up.
+//! They pass the no-network switch (nothing leaves the computer), follow a redirect only to
+//! this computer while the switch is on, and wait patiently: a program here that holds a
+//! request until it has the bytes (a downloader serving a file it is still fetching) is
+//! asked again every [`LOCAL_RESPONSE_TIMEOUT`] until it answers or the request is cancelled.
+//!
 //! Every request reports into the download-activity registry ([`specular_core::net`]): the
 //! window's "Downloads" indicator. A client says what it fetches with [`Client::tracked`]
 //! (or a request with [`Request::activity`]); the rest show as "Data from <host>". The
@@ -30,6 +38,15 @@ use crate::auth::Auth;
 
 /// Read size between cancellation checks.
 const CHUNK: usize = 64 * 1024;
+
+/// How long one attempt of a request to this computer itself waits for the response's head
+/// before it is sent again ([`Client::with_loopback`],
+/// [`ClientConfig::local_response_timeout`]'s default): the wait as a whole has no limit,
+/// and a cancelled request's thread is free again within this.
+pub const LOCAL_RESPONSE_TIMEOUT: Duration = Duration::from_secs(30);
+
+/// Redirects followed for a request to this computer itself.
+const LOCAL_REDIRECTS: u32 = 5;
 
 /// Client settings.
 #[derive(Clone, Debug)]
@@ -59,6 +76,9 @@ pub struct ClientConfig {
     /// Report requests of an untagged client to the download-activity registry (a client
     /// made with [`Client::tracked`] always reports).
     pub track: bool,
+    /// How long one attempt of a request to this computer itself waits for the response's
+    /// head before it is sent again ([`Client::with_loopback`]).
+    pub local_response_timeout: Duration,
 }
 
 impl Default for ClientConfig {
@@ -76,6 +96,7 @@ impl Default for ClientConfig {
             proxy: None,
             system_roots: true,
             track: true,
+            local_response_timeout: LOCAL_RESPONSE_TIMEOUT,
         }
     }
 }
@@ -93,6 +114,7 @@ impl ClientConfig {
             env_proxy: false,
             system_roots: false,
             track: false,
+            local_response_timeout: Duration::from_secs(1),
             ..ClientConfig::default()
         }
     }
@@ -301,6 +323,8 @@ pub struct Request {
     /// Hand back a 4xx/5xx response with its body instead of an [`Error::Status`] (STOW-RS
     /// says per instance what failed in a 409's body).
     any_status: bool,
+    /// [`Request::local_wait`].
+    local_wait: Option<Duration>,
 }
 
 impl fmt::Debug for Request {
@@ -334,6 +358,7 @@ impl Request {
             redirects: true,
             what: None,
             any_status: false,
+            local_wait: None,
         }
     }
     /// A `POST` of `body` (sent as `content_type`). Not idempotent, so never retried: a
@@ -409,6 +434,15 @@ impl Request {
         self.any_status = true;
         self
     }
+    /// For a request to this computer itself ([`Client::with_loopback`]): waits `d` for the
+    /// response's head and then comes back with [`Error::Timeout`], instead of being asked
+    /// again until it is answered. For a caller that asks again itself, and may want
+    /// something else by then (the part of a file a seek went to). Nothing changes for a
+    /// request that goes anywhere else.
+    pub fn local_wait(mut self, d: Duration) -> Self {
+        self.local_wait = Some(d);
+        self
+    }
     fn has_header(&self, name: &str) -> bool {
         self.headers
             .iter()
@@ -425,6 +459,47 @@ pub struct Client {
     what: Option<What>,
     /// Where they report (tests); the global registry otherwise.
     registry: Option<net::Registry>,
+    /// The agent for requests to this computer itself ([`Client::with_loopback`]).
+    local: Option<ureq::Agent>,
+}
+
+fn tls_config(config: &ClientConfig) -> ureq::tls::TlsConfig {
+    let roots = if config.system_roots {
+        ureq::tls::RootCerts::PlatformVerifier
+    } else {
+        ureq::tls::RootCerts::WebPki
+    };
+    ureq::tls::TlsConfig::builder().root_certs(roots).build()
+}
+
+/// The resolver of the agent for this computer itself: a loopback address or `localhost`
+/// gives loopback addresses, anything else no address at all. Nothing is looked up, so
+/// whatever that agent is asked, it connects to this computer or not at all.
+#[derive(Debug)]
+struct LoopbackResolver;
+
+impl ureq::unversioned::resolver::Resolver for LoopbackResolver {
+    fn resolve(
+        &self,
+        uri: &ureq::http::Uri,
+        _config: &ureq::config::Config,
+        _timeout: ureq::unversioned::transport::NextTimeout,
+    ) -> Result<ureq::unversioned::resolver::ResolvedSocketAddrs, ureq::Error> {
+        let port = uri.port_u16().or(match uri.scheme_str() {
+            Some("http") => Some(80),
+            Some("https") => Some(443),
+            _ => None,
+        });
+        let addrs = uri.host().and_then(net::local::loopback_addrs);
+        let (Some(port), Some(addrs)) = (port, addrs) else {
+            return Err(ureq::Error::HostNotFound);
+        };
+        let mut out = self.empty();
+        for ip in addrs {
+            out.push(std::net::SocketAddr::new(ip, port));
+        }
+        Ok(out)
+    }
 }
 
 impl fmt::Debug for Client {
@@ -438,12 +513,7 @@ impl fmt::Debug for Client {
 
 impl Client {
     pub fn new(config: ClientConfig) -> Result<Client, Error> {
-        let roots = if config.system_roots {
-            ureq::tls::RootCerts::PlatformVerifier
-        } else {
-            ureq::tls::RootCerts::WebPki
-        };
-        let tls = ureq::tls::TlsConfig::builder().root_certs(roots).build();
+        let tls = tls_config(&config);
         let proxy = match &config.proxy {
             Some(p) => Some(ureq::Proxy::new(p).map_err(map_ureq)?),
             None if config.env_proxy => ureq::Proxy::try_from_env(),
@@ -466,7 +536,60 @@ impl Client {
             config,
             what: None,
             registry: None,
+            local: None,
         })
+    }
+
+    /// The same client, which also reaches this computer itself whatever the no-network
+    /// switch says: a request to a loopback address or `localhost`
+    /// ([`specular_core::net::local`]) never leaves the computer. Such requests go directly
+    /// (no proxy, no name lookup), are redirected only to this computer while the switch is
+    /// on, and wait for a slow answer without giving up: one attempt waits
+    /// [`ClientConfig::local_response_timeout`] for the response's head and is then sent
+    /// again, until it is answered or cancelled; a body has no deadline.
+    ///
+    /// For what the user opens from this computer on purpose (a stream another program here
+    /// serves). Everything else keeps the plain client, so the switch stops it up front.
+    pub fn with_loopback(&self) -> Client {
+        let c = &self.config;
+        let config = ureq::Agent::config_builder()
+            .http_status_as_error(false)
+            .timeout_connect(Some(c.connect_timeout))
+            .timeout_recv_response(Some(c.local_response_timeout))
+            .timeout_recv_body(None)
+            .max_idle_connections_per_host(c.max_idle_per_host)
+            .max_idle_connections(c.max_idle_per_host * 8)
+            .user_agent(c.user_agent.as_str())
+            .tls_config(tls_config(c))
+            // Redirects are followed in `send`, which looks at where each one goes.
+            .max_redirects(0)
+            .proxy(None)
+            .build();
+        let agent = ureq::Agent::with_parts(
+            config,
+            ureq::unversioned::transport::DefaultConnector::new(),
+            LoopbackResolver,
+        );
+        Client {
+            local: Some(agent),
+            ..self.clone()
+        }
+    }
+
+    /// Whether `url` goes to this computer itself through this client's own agent for it.
+    fn is_local(&self, url: &str) -> bool {
+        self.local.is_some() && net::local::is_loopback_url(url)
+    }
+
+    /// Whether a request to `url` goes to this computer itself and is waited for: asked
+    /// again until it is answered ([`Client::with_loopback`]).
+    pub fn waits_for(&self, url: &str) -> bool {
+        self.is_local(url)
+    }
+
+    /// Whether the no-network switch stops a request to `url` from this client.
+    pub fn refuses(&self, url: &str) -> bool {
+        net::off::is_off() && !self.is_local(url)
     }
 
     pub fn config(&self) -> &ClientConfig {
@@ -493,7 +616,7 @@ impl Client {
     /// Starts reporting `req` to the registry (nothing for an untracked client).
     pub(crate) fn track(&self, req: &Request) -> Track {
         // Refused requests are not downloads: the indicator never appears for them.
-        if net::off::is_off() {
+        if self.refuses(&req.url) {
             return Track(None);
         }
         let what = req.what.clone().or_else(|| self.what.clone());
@@ -507,8 +630,44 @@ impl Client {
 
     /// Sends one attempt; returns the head and the body reader on a 2xx.
     pub(crate) fn send(&self, req: &Request) -> Result<(Head, ureq::BodyReader<'static>), Error> {
+        if !self.is_local(&req.url) {
+            return self.send_once(req, false).map(|(h, b, _)| (h, b));
+        }
+        // This computer itself: its redirects are followed here, one at a time, so each
+        // address is checked like the first (one that leaves the computer meets the switch).
+        let mut req = req.clone();
+        for _ in 0..=LOCAL_REDIRECTS {
+            let local = self.is_local(&req.url);
+            match self.send_once(&req, local) {
+                Ok((head, body, None)) => return Ok((head, body)),
+                Ok((head, _, Some(to))) => {
+                    if !req.redirects {
+                        return Err(Error::Status(head.status));
+                    }
+                    // 303, and 301 or 302 after a POST, are fetched with GET.
+                    if req.method == Method::Post && head.status != 307 && head.status != 308 {
+                        req.method = Method::Get;
+                        req.body = None;
+                    }
+                    req.auth = Auth::None;
+                    req.url = to;
+                }
+                Err(e) => return Err(e),
+            }
+        }
+        Err(Error::Protocol("too many redirects".into()))
+    }
+
+    /// One request, sent as it is. `local`: through the agent for this computer itself,
+    /// which follows no redirect: a 3xx with a `Location` comes back with the address it
+    /// names (the third value) for [`send`](Self::send) to follow.
+    fn send_once(
+        &self,
+        req: &Request,
+        local: bool,
+    ) -> Result<(Head, ureq::BodyReader<'static>, Option<String>), Error> {
         // The no-network switch's choke point: before any name lookup or socket.
-        if net::off::is_off() {
+        if net::off::is_off() && !local {
             net::off::note_refused();
             return Err(Error::NetworkOff);
         }
@@ -542,10 +701,16 @@ impl Client {
         }
         let bad = |e: ureq::http::Error| Error::Protocol(format!("bad request: {e}"));
         let res = match &req.body {
-            Some(body) => self.run(b.body(body.as_slice()).map_err(bad)?, req),
-            None => self.run(b.body(()).map_err(bad)?, req),
+            Some(body) => self.run(b.body(body.as_slice()).map_err(bad)?, req, local),
+            None => self.run(b.body(()).map_err(bad)?, req, local),
         }
-        .map_err(map_ureq)?;
+        .map_err(|e| {
+            // Connected and asked, and no answer yet: `with_retries_for` asks again.
+            if local && matches!(e, ureq::Error::Timeout(ureq::Timeout::RecvResponse)) {
+                NO_ANSWER_YET.with(|c| c.set(true));
+            }
+            map_ureq(e)
+        })?;
         let status = res.status().as_u16();
         let headers = Headers(
             res.headers()
@@ -559,6 +724,14 @@ impl Client {
                 .collect(),
         );
         let head = Head { status, headers };
+        if local
+            && matches!(status, 301 | 302 | 303 | 307 | 308)
+            && let Some(to) = head.headers.get("location")
+        {
+            let to = resolve_location(&req.url, to);
+            let body = res.into_body().into_with_config().reader();
+            return Ok((head, body, Some(to)));
+        }
         if !(200..300).contains(&status) && !(req.any_status && status >= 400) {
             specular_log::debug!(
                 target: specular_log::IO,
@@ -575,14 +748,28 @@ impl Client {
             return Err(Error::Status(status));
         }
         let body = res.into_body().into_with_config().reader();
-        Ok((head, body))
+        Ok((head, body, None))
     }
 
     fn run(
         &self,
         r: ureq::http::Request<impl ureq::AsSendBody>,
         req: &Request,
+        local: bool,
     ) -> Result<ureq::http::Response<ureq::Body>, ureq::Error> {
+        // This computer itself: no deadline for a body, whatever the request asks (the
+        // program serving it sends the bytes as it gets them).
+        if let (true, Some(agent)) = (local, &self.local) {
+            return match req.local_wait {
+                Some(d) => agent.run(
+                    agent
+                        .configure_request(r)
+                        .timeout_recv_response(Some(d))
+                        .build(),
+                ),
+                None => agent.run(r),
+            };
+        }
         if req.body_timeout.is_none() && req.redirects {
             return self.agent.run(r);
         }
@@ -602,8 +789,24 @@ impl Client {
         &self,
         cancel: &CancelToken,
         track: &Track,
+        attempt: impl FnMut() -> (Result<T, Error>, bool),
+    ) -> Result<T, Error> {
+        self.with_retries_for(None, cancel, track, attempt)
+    }
+
+    /// [`with_retries`](Self::with_retries) for a request to `url`: one to this computer
+    /// itself that timed out waiting for its answer is sent again without counting, until
+    /// it is answered or cancelled (the program serving it holds the request until it has
+    /// the bytes).
+    pub(crate) fn with_retries_for<T>(
+        &self,
+        req: Option<&Request>,
+        cancel: &CancelToken,
+        track: &Track,
         mut attempt: impl FnMut() -> (Result<T, Error>, bool),
     ) -> Result<T, Error> {
+        // Asked again here until answered, unless the caller does that itself.
+        let patient = req.is_some_and(|r| self.is_local(&r.url) && r.local_wait.is_none());
         let mut tries = 0u32;
         let stop = || cancel.is_cancelled() || track.cancelled();
         loop {
@@ -611,12 +814,21 @@ impl Client {
                 return Err(Error::Cancelled);
             }
             RETRY_AFTER.with(|c| c.set(None));
+            NO_ANSWER_YET.with(|c| c.set(false));
             let (r, delivered) = attempt();
             match r {
                 Ok(v) => return Ok(v),
                 Err(e) => {
                     if stop() {
                         return Err(Error::Cancelled);
+                    }
+                    if !delivered && NO_ANSWER_YET.with(|c| c.get()) {
+                        if patient {
+                            specular_log::debug!(target: specular_log::IO, "http: no answer from this computer yet; asking again");
+                            continue;
+                        }
+                        // The caller asks again ([`Request::local_wait`]).
+                        return Err(e);
                     }
                     if delivered || !e.retryable() || tries >= self.config.retries {
                         return Err(e);
@@ -640,7 +852,7 @@ impl Client {
         let mut req = req.clone();
         req.method = Method::Head;
         let track = self.track(&req);
-        let r = self.with_retries(cancel, &track, || {
+        let r = self.with_retries_for(Some(&req), cancel, &track, || {
             (
                 self.send(&req).map(|(h, _)| {
                     track.head(Some(0), 0);
@@ -659,7 +871,7 @@ impl Client {
         // A POST is sent once: the server may have acted on it whatever came back.
         let once = req.method == Method::Post;
         let track = self.track(req);
-        let r = self.with_retries(cancel, &track, || {
+        let r = self.with_retries_for(Some(req), cancel, &track, || {
             let r = (|| {
                 let (head, mut body) = self.send(req)?;
                 track.head(head.headers.content_length(), 0);
@@ -708,7 +920,7 @@ impl Client {
         mut on_chunk: impl FnMut(&[u8], &Progress) -> ControlFlow<()>,
     ) -> Result<Head, Error> {
         let track = self.track(req);
-        let r = self.with_retries(cancel, &track, || {
+        let r = self.with_retries_for(Some(req), cancel, &track, || {
             let mut delivered = false;
             let r = (|| {
                 let (head, mut body) = self.send(req)?;
@@ -749,7 +961,7 @@ impl Client {
             std::fs::create_dir_all(dir)?;
         }
         let track = self.track(req);
-        let r = self.with_retries(cancel, &track, || {
+        let r = self.with_retries_for(Some(req), cancel, &track, || {
             let mut delivered = false;
             let r = (|| {
                 // Resume only with a validator recorded from the same URL.
@@ -869,8 +1081,13 @@ impl Track {
             r => r,
         };
         if let Some(t) = self.0 {
-            t.into_inner()
-                .finish(r.as_ref().map(|_| ()).map_err(failure));
+            // A request this computer itself holds, given up to be asked again
+            // ([`Request::local_wait`]), brought nothing and is no failure.
+            let held = matches!(r, Err(Error::Timeout)) && NO_ANSWER_YET.with(|c| c.get());
+            t.into_inner().finish(match &r {
+                Err(e) if !held => Err(failure(e)),
+                _ => Ok(()),
+            });
         }
         r
     }
@@ -897,6 +1114,9 @@ pub(crate) fn failure(e: &Error) -> Failure {
 
 thread_local! {
     static RETRY_AFTER: std::cell::Cell<Option<Duration>> = const { std::cell::Cell::new(None) };
+    /// The last attempt on this thread reached this computer itself and timed out waiting
+    /// for the response's head.
+    static NO_ANSWER_YET: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
 }
 
 /// `name.ext` → `name.ext.part`.
@@ -971,6 +1191,33 @@ pub(crate) fn sleep_until(d: Duration, stop: &dyn Fn() -> bool) -> Result<(), Er
         }
         std::thread::sleep((end - now).min(Duration::from_millis(20)));
     }
+}
+
+/// A redirect's `Location` as an absolute address, read against the address that answered
+/// with it (absolute, scheme-relative, root-relative or relative).
+fn resolve_location(base: &str, location: &str) -> String {
+    let l = location.trim();
+    if l.split_once("://").is_some_and(|(s, _)| {
+        !s.is_empty()
+            && s.bytes()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'-' | b'.'))
+    }) {
+        return l.to_owned();
+    }
+    let Some((scheme, rest)) = base.split_once("://") else {
+        return l.to_owned();
+    };
+    if let Some(r) = l.strip_prefix("//") {
+        return format!("{scheme}://{r}");
+    }
+    let end = rest.find(['/', '?', '#']).unwrap_or(rest.len());
+    let (authority, tail) = rest.split_at(end);
+    if l.starts_with('/') {
+        return format!("{scheme}://{authority}{l}");
+    }
+    let path = tail.split(['?', '#']).next().unwrap_or("");
+    let dir = path.rfind('/').map_or("/", |i| &path[..=i]);
+    format!("{scheme}://{authority}{dir}{l}")
 }
 
 /// The URL without query string or user info, for logs.

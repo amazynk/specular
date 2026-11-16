@@ -228,6 +228,143 @@ fn a_web_file_plays_while_fetched_and_seeks_by_ranges() {
     assert_eq!(std::fs::read(&st.chunks[0].path).unwrap(), *data);
 }
 
+/// A reader that keeps up with the server (a download in progress, slower than it plays)
+/// reads at the end of what has come in: its reads are answered by the request under way,
+/// which is not given up and asked again for each of them.
+#[test]
+fn a_reader_at_the_end_of_what_came_in_is_answered_by_the_request_under_way() {
+    let Some(movie) = big_movie() else {
+        eprintln!("ffmpeg not installed: skipped");
+        return;
+    };
+    let data = Arc::new(std::fs::read(movie).unwrap());
+    let total = data.len() as u64;
+    let want = all_samples(&data);
+    // About 3 s for the whole file, sent a little at a time (as a download passed on while
+    // it comes in is); the reader starts as soon as it is offered.
+    let served = Arc::clone(&data);
+    let server = TestServer::start(
+        ServerOptions {
+            bandwidth: Some(total / 3),
+            piece: Some(700),
+            ..ServerOptions::default()
+        },
+        move |r: &TestRequest| {
+            TestResponse::ranged(r, &served, "\"b\"").header("Content-Type", "video/mp4")
+        },
+    )
+    .unwrap();
+    let s = Stream::open(options(tmp("frontier")), &server.url("/v/big.mp4"));
+    let st = wait(&s, 30, |st| !st.chunks.is_empty());
+    assert!(st.ranged, "{:?}", st.failure);
+    assert!(st.received < total / 2, "offered after {}", st.received);
+    let src = specular_core::Source::open(&st.chunks[0].path).unwrap();
+    let (gv, ga) = all_samples(src.bytes());
+    assert_eq!((mismatches(&gv, &want.0), mismatches(&ga, &want.1)), (0, 0));
+    let st = wait(&s, 30, |st| st.ended);
+    assert!(st.failure.is_none(), "{:?}", st.failure);
+    let asked = server.requests();
+    eprintln!("web file read at the end of what came in: {asked} requests");
+    assert!(asked < 30, "{asked} requests for one file");
+}
+
+/// A file from this computer itself whose server holds a request until it has the bytes (a
+/// downloader's file while it downloads): a read far ahead waits for its part, however long,
+/// and the reader playing along the download is not kept waiting meanwhile.
+#[test]
+fn a_held_read_far_ahead_does_not_starve_the_reader() {
+    let Some(movie) = big_movie() else {
+        eprintln!("ffmpeg not installed: skipped");
+        return;
+    };
+    let data = Arc::new(std::fs::read(movie).unwrap());
+    let total = data.len() as u64;
+    let want = all_samples(&data);
+    let moov_at = data.windows(4).rposition(|w| w == b"moov").unwrap() as u64 - 4;
+    // The download: about 4 s for the whole file, from the first request on. The index (at
+    // the end) is there from the start; any other part asked for before the download got
+    // to it is held until it did.
+    let rate = total / 4;
+    let (served, t0) = (Arc::clone(&data), std::sync::OnceLock::new());
+    let server = TestServer::start(
+        ServerOptions {
+            bandwidth: Some(rate),
+            piece: Some(4096),
+            ..ServerOptions::default()
+        },
+        move |r: &TestRequest| {
+            let t0 = *t0.get_or_init(Instant::now);
+            let start = r
+                .header("range")
+                .and_then(|v| v.trim().strip_prefix("bytes="))
+                .and_then(|v| v.split_once('-'))
+                .and_then(|(a, _)| a.parse::<u64>().ok())
+                .unwrap_or(0);
+            let res = TestResponse::ranged(r, &served, "\"b\"").header("Content-Type", "video/mp4");
+            if start >= moov_at {
+                return res;
+            }
+            let there_at = Duration::from_secs_f64(start as f64 / rate as f64);
+            res.delay(there_at.saturating_sub(t0.elapsed()))
+        },
+    )
+    .unwrap();
+    let client = Client::new(ClientConfig::for_tests())
+        .unwrap()
+        .with_loopback();
+    let mut o = Options::new(tmp("held"), client);
+    o.ahead_s = 1e9;
+    o.read_timeout = Duration::from_secs(60);
+    let s = Stream::open(o, &server.url("/v/big.mp4"));
+    let st = wait(&s, 30, |st| !st.chunks.is_empty());
+    assert!(st.ranged, "{:?}", st.failure);
+    let src = Arc::new(specular_core::Source::open(&st.chunks[0].path).unwrap());
+    let m = Arc::new(specular_video::parse_movie(src.bytes(), true).unwrap());
+    let n = m.video.as_ref().unwrap().samples.len();
+    // A read at 80 % of the movie (a seek, a cover's frame): held for about 3 s.
+    let far = n * 8 / 10;
+    let t1 = Instant::now();
+    let (src2, m2) = (Arc::clone(&src), Arc::clone(&m));
+    #[allow(clippy::disallowed_methods)]
+    let far_read = std::thread::spawn(move || {
+        let v = m2.video.as_ref().unwrap();
+        let got = v
+            .sample_data(src2.bytes(), &v.samples[far])
+            .map(|b| b.into_owned());
+        (got, t1.elapsed())
+    });
+    // Meanwhile the first 40 % is read in order, as it comes in: about 1.6 s.
+    std::thread::sleep(Duration::from_millis(100));
+    let v = m.video.as_ref().unwrap();
+    let mut bad = 0;
+    for (i, smp) in v.samples[..n * 4 / 10].iter().enumerate() {
+        let got = v.sample_data(src.bytes(), smp).map(|b| b.into_owned());
+        bad += usize::from(got != want.0[i]);
+    }
+    let along = t1.elapsed();
+    let (got, far_wait) = far_read.join().unwrap();
+    eprintln!(
+        "held far read: the first 40 % read in {:.1} s; the read at 80 % waited {:.1} s; {} requests",
+        along.as_secs_f64(),
+        far_wait.as_secs_f64(),
+        server.requests()
+    );
+    assert_eq!(bad, 0, "samples read along the download");
+    assert!(
+        along < Duration::from_millis(3500),
+        "the reader was kept waiting: {along:?}"
+    );
+    assert_eq!(got, want.0[far], "the sample far ahead");
+    assert!(
+        far_wait > along,
+        "it was not there before the download got to it"
+    );
+    let st = wait(&s, 30, |st| st.ended);
+    assert!(st.failure.is_none(), "{:?}", st.failure);
+    assert_eq!(std::fs::read(&st.chunks[0].path).unwrap(), *data);
+    assert!(server.requests() < 40, "{} requests", server.requests());
+}
+
 /// A part that never comes: the reader gives up after the timeout (no zeros read), and the
 /// stream says it stalled.
 #[test]

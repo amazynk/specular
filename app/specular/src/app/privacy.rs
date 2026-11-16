@@ -82,15 +82,24 @@ pub(crate) fn panel(held: Option<By>, policy_file: Option<&Path>) -> Option<Sett
     })
 }
 
+/// Whether a download goes on when the network goes off: a stream from this computer itself
+/// (a loopback host), which is the only thing still reached then.
+fn stays_on(label: &specular_core::net::Label) -> bool {
+    label.what == specular_core::net::What::Stream
+        && specular_core::net::local::is_loopback_url(&format!("http://{}/", label.host))
+}
+
 impl App {
-    /// Applies the setting (from `apply_settings`); going off stops whatever was downloading.
+    /// Applies the setting (from `apply_settings`); going off stops whatever was downloading,
+    /// but for a stream from this computer itself (it never was on the network: one given
+    /// on the command line starts before the setting is read).
     pub(crate) fn privacy_apply(&mut self) {
         let was = off::is_off();
         off::set(By::Setting, self.settings.privacy.no_network);
         if off::is_off() && !was {
             let reg = specular_core::net::global();
             for a in reg.snapshot() {
-                if a.state == specular_core::net::State::Running {
+                if a.state == specular_core::net::State::Running && !stays_on(&a.label) {
                     reg.cancel(a.id);
                 }
             }
@@ -111,6 +120,23 @@ impl App {
 
 #[cfg(test)]
 mod tests {
+    /// Going off the network stops every download but a stream from this computer itself.
+    #[test]
+    fn a_stream_from_this_computer_goes_on_when_the_network_goes_off() {
+        use specular_core::net::{Label, What};
+        let stream = |url: &str| Label::new(What::Stream, url);
+        assert!(super::stays_on(&stream("http://127.0.0.1:41234/a1b2.m3u8")));
+        assert!(super::stays_on(&stream("http://localhost:8080/x.mp4")));
+        assert!(super::stays_on(&stream("http://[::1]:8080/x.mp4")));
+        assert!(!super::stays_on(&stream("https://radio.example/live")));
+        assert!(!super::stays_on(&stream("http://192.168.1.2:41234/a.m3u8")));
+        // Anything else to this computer is stopped like the rest (it is refused from now on).
+        assert!(!super::stays_on(&Label::new(
+            What::Data,
+            "http://127.0.0.1:8042/dicom-web"
+        )));
+    }
+
     use super::*;
 
     #[test]

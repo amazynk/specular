@@ -789,6 +789,8 @@ fn hello(v: u64, sh: &Shared) -> Value {
             "roi_formats": ["json", "geojson"],
             "screenshot": ["png"],
             "view_command": ["shell", "python"],
+            // `open-url` plays `http://` and `https://` addresses as network streams.
+            "streams": true,
         },
     });
     if v >= 3 {

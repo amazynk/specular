@@ -85,8 +85,30 @@ fn requests() {
     assert_eq!(
         req(r#"{"v":1,"cmd":"open-url","url":"specular:///x"}"#),
         Request::OpenUrl {
-            url: "specular:///x".into()
+            url: "specular:///x".into(),
+            title: None
         }
+    );
+    // A stream's address with its title; the title is optional and bounded.
+    assert_eq!(
+        req(
+            r#"{"v":1,"cmd":"open-url","url":"http://127.0.0.1:41234/a1b2.m3u8","title":"Talk.mp4"}"#
+        ),
+        Request::OpenUrl {
+            url: "http://127.0.0.1:41234/a1b2.m3u8".into(),
+            title: Some("Talk.mp4".into())
+        }
+    );
+    assert_eq!(
+        req(r#"{"v":3,"cmd":"open-url","url":"https://h/v.mp4","title":null}"#),
+        Request::OpenUrl {
+            url: "https://h/v.mp4".into(),
+            title: None
+        }
+    );
+    assert_eq!(
+        code(br#"{"v":1,"cmd":"open-url","url":"http://h/v.mp4","title":7}"#),
+        Code::BadArguments
     );
 }
 
@@ -188,6 +210,11 @@ fn responses_and_round_trip() {
         Request::Quit,
         Request::OpenUrl {
             url: "specular:///a".into(),
+            title: None,
+        },
+        Request::OpenUrl {
+            url: "http://127.0.0.1:41234/a1b2.m3u8".into(),
+            title: Some("Talk.mp4".into()),
         },
         Request::Action {
             name: "rotate-left".into(),

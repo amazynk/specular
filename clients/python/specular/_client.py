@@ -297,6 +297,11 @@ class Viewer:
             view=_view_args(**view) if view else None,
         )
 
+    def open_url(self, url, title=None):
+        """Opens a `specular:` link, or (Specular 0.1.2 and later) plays an http:// or
+        https:// address as a network stream, shown as `title` in the window's title."""
+        return self.call("open-url", url=url, title=title)
+
     def next(self):
         return self.call("navigate", to="next")["index"]
 

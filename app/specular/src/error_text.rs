@@ -261,7 +261,8 @@ pub(crate) fn url_reason(e: &specular_platform::url_scheme::Error) -> String {
         | E::Nul
         | E::Fragment
         | E::EmptyValue(_)
-        | E::BadFileUri => t!("error-reason-url-damaged"),
+        | E::BadFileUri
+        | E::BadStreamUrl => t!("error-reason-url-damaged"),
         E::UnknownAction(_) | E::UnknownParameter(_) => t!("error-reason-url-unknown"),
         E::NotAbsolute => t!("error-reason-url-not-absolute"),
         E::NoPaths => t!("error-reason-url-no-paths"),
