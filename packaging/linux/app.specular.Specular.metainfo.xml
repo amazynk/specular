@@ -219,6 +219,11 @@
   </supports>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.1.3" date="2026-11-20">
+      <description>
+        <p>Check for updates from About or the command palette. Find the community Discord on the start screen and viewer toolbar. Audio and video controls appear when the pointer nears the bottom of the player or you reach them with the keyboard.</p>
+      </description>
+    </release>
     <release version="0.1.2" date="2026-11-16">
       <description>
         <p>Network streams open from the command line and over remote control, with a title of their own. A stream served on this computer (127.0.0.1, localhost) plays with No network on, so a downloader can play a file it is still fetching. HLS recordings in progress play with a seek bar that grows.</p>

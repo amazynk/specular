@@ -6,12 +6,16 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-20
+
 ### Added
 
 - A purple Discord button opens the Specular community from the start screen and the
   default viewer toolbar.
 - **Check for updates** in About and the command palette checks once and shows the result
   in Settings › Updates.
+- Each installer and archive now has a permanent download link that follows the latest
+  stable release. Versioned downloads are still available.
 
 ### Fixed
 
