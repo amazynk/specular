@@ -132,7 +132,7 @@ impl Chrome {
         };
         let mut transport = drawn(&|t| matches!(t, Target::Transport(_) | Target::Motion));
         let mut volume = self.hits.iter().any(|(_, t)| *t == Target::Volume);
-        if transport.is_empty() && self.video_fullscreen() {
+        if transport.is_empty() && !self.play_stops.is_empty() {
             // Faded out: the focus brings the play controls back, the volume slider too.
             transport = self
                 .play_stops

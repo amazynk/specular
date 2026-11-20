@@ -17,6 +17,11 @@ All notable changes to Specular are listed here. The format follows
 
 - Update checks now read published GitHub releases. The previous feed returned a 404.
 
+### Changed
+
+- Audio and video controls appear when the pointer moves near the bottom of the player.
+  Tab reveals them from the keyboard.
+
 ## [0.1.2] - 2026-11-16
 
 ### Added

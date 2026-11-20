@@ -3,6 +3,19 @@
 use super::video_fullscreen::with_sound;
 use super::*;
 
+fn player_at_bottom(width: f32, rtl: bool, st: &ViewerState) -> Chrome {
+    let mut c = chrome(width, rtl);
+    c.input(
+        &Input::PointerMove {
+            x: width * 0.5,
+            y: c.size.1 - 1.0,
+        },
+        st,
+        1.0,
+    );
+    c
+}
+
 fn volumes(r: &Response) -> Vec<(f32, bool)> {
     r.commands
         .iter()
@@ -48,7 +61,7 @@ fn sits_beside_the_mute_button_while_there_is_room() {
     let mut text = Text::new();
     for fullscreen in [false, true] {
         with_sound(fullscreen, false, Some((0.8, false)), 2.0, |st| {
-            let mut c = chrome(1000.0, false);
+            let mut c = player_at_bottom(1000.0, false, st);
             if fullscreen {
                 c.set_video_fullscreen(true, 1.0);
             }
@@ -62,18 +75,18 @@ fn sits_beside_the_mute_button_while_there_is_room() {
         });
     }
     with_sound(false, false, None, 2.0, |st| {
-        let mut c = chrome(1000.0, false);
+        let mut c = player_at_bottom(1000.0, false, st);
         draw(&mut c, &mut text, st);
         assert!(!c.hits.iter().any(|(_, t)| *t == Target::Volume));
     });
     // Narrow: no slider, the mute button stays and the bar fits.
     with_sound(false, false, Some((0.8, false)), 2.0, |st| {
-        let mut wide = chrome(1000.0, false);
+        let mut wide = player_at_bottom(1000.0, false, st);
         draw(&mut wide, &mut text, st);
         let (a, b) = transport_span(&wide);
         let need = b - a;
         let w = need + 2.0 * 16.0 + 20.0 - crate::volume::WIDTH;
-        let mut c = chrome(w, false);
+        let mut c = player_at_bottom(w, false, st);
         draw(&mut c, &mut text, st);
         assert!(!c.hits.iter().any(|(_, t)| *t == Target::Volume), "{w}");
         hit(&c, &Target::Transport(Action::ToggleMute));
@@ -88,7 +101,7 @@ fn sits_beside_the_mute_button_while_there_is_room() {
 fn press_and_drag_set_the_volume() {
     let mut text = Text::new();
     with_sound(false, false, Some((0.8, false)), 2.0, |st| {
-        let mut c = chrome(1000.0, false);
+        let mut c = player_at_bottom(1000.0, false, st);
         draw(&mut c, &mut text, st);
         let r = hit(&c, &Target::Volume);
         let t = crate::volume::track(r);
@@ -107,7 +120,7 @@ fn press_and_drag_set_the_volume() {
     });
     // A cast device's volume: the track is its 0..=100 %.
     with_sound(false, false, Some((0.3, false)), 1.0, |st| {
-        let mut c = chrome(1000.0, false);
+        let mut c = player_at_bottom(1000.0, false, st);
         draw(&mut c, &mut text, st);
         let r = hit(&c, &Target::Volume);
         let t = crate::volume::track(r);
@@ -121,7 +134,7 @@ fn press_and_drag_set_the_volume() {
 fn the_wheel_steps_it() {
     let mut text = Text::new();
     with_sound(false, false, Some((0.8, false)), 2.0, |st| {
-        let mut c = chrome(1000.0, false);
+        let mut c = player_at_bottom(1000.0, false, st);
         draw(&mut c, &mut text, st);
         let (x, y) = hit(&c, &Target::Volume).center();
         let wheel = |c: &mut Chrome, dy: f32| c.input(&Input::Wheel { x, y, dx: 0.0, dy }, st, 2.0);
@@ -144,7 +157,7 @@ fn keys_step_it_when_focused() {
     let mut text = Text::new();
     for rtl in [false, true] {
         with_sound(false, false, Some((0.8, false)), 2.0, |st| {
-            let mut c = chrome(1000.0, rtl);
+            let mut c = player_at_bottom(1000.0, rtl, st);
             draw(&mut c, &mut text, st);
             let stops = c.stops();
             let i = stops
@@ -187,7 +200,7 @@ fn screen_readers_read_and_set_it() {
     let mut text = Text::new();
     for (muted, value) in [(false, "80%"), (true, "80% · Sound muted")] {
         with_sound(false, false, Some((0.8, muted)), 2.0, |st| {
-            let mut c = chrome(1000.0, false);
+            let mut c = player_at_bottom(1000.0, false, st);
             c.set_accessibility(true);
             draw(&mut c, &mut text, st);
             c.set_kbd(Some(Target::Volume));
@@ -229,7 +242,7 @@ fn screen_readers_read_and_set_it() {
 fn tab_reaches_it_when_full_screen_controls_have_faded() {
     let mut text = Text::new();
     with_sound(true, true, Some((0.8, false)), 2.0, |st| {
-        let mut c = chrome(1000.0, false);
+        let mut c = player_at_bottom(1000.0, false, st);
         c.reduce_motion = true;
         c.set_video_fullscreen(true, 1.0);
         let draw_at = |c: &mut Chrome, text: &mut Text, now: f64| {
@@ -238,6 +251,7 @@ fn tab_reaches_it_when_full_screen_controls_have_faded() {
         };
         draw_at(&mut c, &mut text, 1.1);
         assert!(c.hits.iter().any(|(_, t)| *t == Target::Volume));
+        c.input(&Input::PointerLeave, st, 2.0);
         draw_at(&mut c, &mut text, 30.0);
         assert!(!c.hits.iter().any(|(_, t)| *t == Target::Volume), "faded");
         let mut seen = Vec::new();

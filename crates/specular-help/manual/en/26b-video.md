@@ -86,7 +86,7 @@ Video commands are unavailable for images.
 
 The movie fills the screen on black. Bars and panels hide.
 
-Move the mouse or press a key to show the controls. They hide after 2 seconds while playing.
+Move the pointer near the bottom or press Tab to reach the playback controls. They stay visible while you use them, including while dragging the seek bar or volume slider.
 
 Going back restores the window, the zoom and the panels.
 
@@ -361,6 +361,8 @@ Files from 3.80 to 3.92 made at the fast or high level stay silent, as do files 
 A sound file opens on its own page: the cover, the waveform and the spectrogram.
 
 The playhead follows the sound. The video keys play, seek and change the volume.
+
+Move the pointer near the bottom to show the playback bar and toolbar. Move back over the waveform or spectrogram to let the bars fade.
 
 Click the waveform or spectrogram to play from that point.
 

@@ -5,7 +5,7 @@ section: start
 contexts: palette, cheatsheet, toolbar, downloads
 keywords: toolbar, palette, command, cheat sheet, info panel, theme, language, fullscreen, window, download, downloads, progress, discord, community
 ---
-The controls fade while you look. Move the pointer or press a key to bring them back.
+The controls fade while you look. For photos, move the pointer or press a key to bring them back. For sound and video, move the pointer near the bottom or press Tab to reach the controls.
 
 ## The toolbar {#toolbar}
 The toolbar at the bottom holds the most used commands. Hover over a button to see what it does and its key.

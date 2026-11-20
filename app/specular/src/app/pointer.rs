@@ -22,7 +22,7 @@ impl App {
             chrome_hidden: self.chrome.chrome_hidden(),
             slideshow_idle: self.slideshow.hides_pointer(now),
             idle: now - self.pointer_moved,
-            // A movie's play mode hides it with its controls.
+            // In full-screen play, an idle pointer hides once the controls are out of view.
             delay: if self.video_full.active() {
                 specular_widgets::PLAY_CONTROLS_IDLE
             } else {

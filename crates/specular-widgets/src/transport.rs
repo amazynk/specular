@@ -123,6 +123,12 @@ pub(crate) fn height(video: bool) -> f32 {
     metrics::BUTTON + 12.0 + if video { SEEK_ROW } else { 0.0 }
 }
 
+/// Top edge at full opacity. The transport can sit above the toolbar or dock at the bottom.
+pub(crate) fn top(window_h: f32, video: bool, dock: f32) -> f32 {
+    let lift = (metrics::TOOLBAR_HEIGHT + 8.0) * (1.0 - dock.clamp(0.0, 1.0));
+    (window_h - metrics::TOOLBAR_MARGIN - lift).round() - height(video)
+}
+
 /// Space between the seek bar's hit rectangle and its track, at either end.
 const SEEK_INSET: f32 = 6.0;
 
@@ -197,11 +203,14 @@ pub(crate) fn draw(
         && total + volume_w <= cx.w - 2.0 * metrics::TOOLBAR_MARGIN;
     let total = if slider { total + volume_w } else { total };
     let seek_h = if pb.video.is_some() { SEEK_ROW } else { 0.0 };
-    let h = b + 12.0 + seek_h;
+    let h = height(pb.video.is_some());
     let slide = (1.0 - alpha) * 10.0;
-    let lift = (metrics::TOOLBAR_HEIGHT + 8.0) * (1.0 - dock.clamp(0.0, 1.0));
-    let bottom = (cx.h - metrics::TOOLBAR_MARGIN - lift).round();
-    let bar = Rect::new(((cx.w - total) * 0.5).round(), bottom - h + slide, total, h);
+    let bar = Rect::new(
+        ((cx.w - total) * 0.5).round(),
+        top(cx.h, pb.video.is_some(), dock) + slide,
+        total,
+        h,
+    );
     let radius = (b + 12.0) * 0.5;
     cx.dl.push_opacity(alpha);
     cx.dl.shadow(

@@ -1751,6 +1751,17 @@ fn chrome_matches_goldens() {
             c.set_size(size.0, size.1);
             let now = 1.0;
             c.poke(now);
+            if movie {
+                // These shots exercise the controls with the pointer in the bottom margin.
+                c.input(
+                    &Input::PointerMove {
+                        x: size.0 / 2.0,
+                        y: size.1 - 1.0,
+                    },
+                    &st,
+                    now,
+                );
+            }
             if case.state.gallery() {
                 c.gallery = true;
                 c.gallery_bar = GALLERY_BAR;

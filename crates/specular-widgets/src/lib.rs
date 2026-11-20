@@ -1150,7 +1150,7 @@ impl Chrome {
 
     /// Whether a movie's toolbar hides and its transport slides down into its place: while
     /// the movie plays in the viewer, unless the toolbar is in use (pointer over either bar,
-    /// keyboard in the toolbar, one of its menus open) or set to stay up.
+    /// keyboard on either bar, one of the toolbar's menus open) or set to stay up.
     fn dock_wanted(&self, st: &ViewerState, tool: bool) -> bool {
         let playing = st
             .playback
@@ -1161,11 +1161,7 @@ impl Chrome {
         }
         // A picture clear of both bars (a small movie, or zoomed out) is not covered by them:
         // nothing needs to move.
-        let bars_top = self.size.1
-            - metrics::TOOLBAR_MARGIN
-            - metrics::TOOLBAR_HEIGHT
-            - 8.0
-            - transport::height(true);
+        let bars_top = transport::top(self.size.1, true, 0.0);
         if self.picture.is_some_and(|r| r.y + r.h <= bars_top) {
             return false;
         }
@@ -1181,7 +1177,7 @@ impl Chrome {
                 .kbd
                 .as_ref()
                 .and_then(focus::region_of)
-                .is_some_and(|r| r == focus::Region::Toolbar)
+                .is_some_and(|r| matches!(r, focus::Region::Toolbar | focus::Region::Transport))
             || !tool
                 && self.pointer.is_some_and(|(x, y)| {
                     self.toolbar_rect
@@ -1228,9 +1224,7 @@ impl Chrome {
 
     /// A movie's full-screen play mode started or ended. While on, the bars, panels, edge
     /// arrows and inspection tools are hidden (what was open comes back with the windowed
-    /// layout); the transport sits at the bottom over the picture, shown on a pointer move
-    /// or a key and hidden again [`PLAY_CONTROLS_IDLE`] later while playing (never while
-    /// paused or under the pointer).
+    /// layout). Moving to the bottom or focusing the transport reveals it over the picture.
     pub fn set_video_fullscreen(&mut self, on: bool, now: f64) {
         if on == self.video_full {
             return;
@@ -2415,10 +2409,6 @@ impl Chrome {
 
     fn input_event(&mut self, ev: &Input, st: &ViewerState, now: f64) -> Response {
         self.menu_chosen_at = None;
-        // A key brings back the play controls of full-screen play mode.
-        if self.video_full && matches!(ev, Input::Key { .. }) {
-            self.last_activity = now;
-        }
         match ev {
             Input::PointerMove { x, y } => {
                 let from = self.pointer;
@@ -3791,7 +3781,13 @@ impl Chrome {
         // While a held tool (loupe, zoom rectangle) follows the pointer, moving it does not
         // reveal the toolbar or the edge arrows.
         let tool = st.overlays.loupe.is_some() || st.overlays.zoom_rect.is_some();
-        let near_bottom = !tool && self.pointer.is_some_and(|p| p.1 > h - 110.0);
+        let media_player = st.playback.is_some_and(|p| p.video.is_some());
+        let reveal_top = if media_player {
+            transport::top(h, true, f32::from(self.video_full))
+        } else {
+            h - 110.0
+        };
+        let near_bottom = !tool && self.pointer.is_some_and(|p| p.1 >= reveal_top);
         let delay = s.viewing.toolbar_autohide_delay;
         let idle = now - self.last_activity;
         // On the toolbar page of Settings, a bar the dialog leaves uncovered shows the list's
@@ -3800,29 +3796,25 @@ impl Chrome {
             && self.settings.tools.on_page
             && self.settings.tools.live
             && !self.gallery;
-        let show_toolbar = !s.viewing.toolbar_autohide
-            || self.accessibility
+        let focused = self.kbd.as_ref().and_then(focus::region_of);
+        let controls_in_use = self.seeking.is_some()
+            || self.volume_drag.is_some()
+            || self.player_menu.is_some()
+            || self.goto.is_some()
+            || focused == Some(focus::Region::Transport);
+        let show_controls =
+            !s.viewing.toolbar_autohide || self.accessibility || near_bottom || controls_in_use;
+        let show_toolbar = show_controls
             || pinned
             || self.bar_busy()
-            || !st.has_image
-            || near_bottom
             || self.zoom_menu
             || self.overflow_menu.is_some()
-            || self.goto.is_some()
             || self.toolbar_menu.is_some()
-            || self
-                .kbd
-                .as_ref()
-                .and_then(focus::region_of)
-                .is_some_and(|r| {
-                    matches!(
-                        r,
-                        focus::Region::Toolbar
-                            | focus::Region::Transport
-                            | focus::Region::Indicator
-                    )
-                })
-            || !tool && idle < delay
+            || matches!(
+                focused,
+                Some(focus::Region::Toolbar | focus::Region::Indicator)
+            )
+            || !media_player && (!st.has_image || !tool && idle < delay)
             || !tool
                 && self.hover.as_ref().is_some_and(|t| {
                     matches!(
@@ -3839,6 +3831,7 @@ impl Chrome {
                     )
                 });
         if show_toolbar
+            && !media_player
             && s.viewing.toolbar_autohide
             && st.has_image
             && !near_bottom
@@ -3873,39 +3866,16 @@ impl Chrome {
         self.announce_page(st);
         let rm = self.reduce_motion;
         let show_toolbar = show_toolbar && !self.presenting && !self.video_full;
+        // Entering the player from a visible image toolbar must not flash controls
+        // over the media before the pointer reaches them.
+        if media_player && self.play_stops.is_empty() && !show_toolbar {
+            self.toolbar_alpha = 0.0;
+        }
         let mut animating = fade(&mut self.toolbar_alpha, show_toolbar, dt, rm);
         let dock = self.dock_wanted(st, tool);
         animating |= fade(&mut self.video_dock, dock, dt, rm);
         // Full-screen play mode: the transport over the picture.
-        let playing = st.playback.as_ref().is_some_and(|p| p.playing);
-        let play_on = self.video_full
-            && st.playback.is_some()
-            && (!playing
-                || idle < PLAY_CONTROLS_IDLE
-                || self.seeking.is_some()
-                || self.player_menu.is_some()
-                || self.goto.is_some() && self.goto_time
-                || self.modal.is_some()
-                || self
-                    .kbd
-                    .as_ref()
-                    .and_then(focus::region_of)
-                    .is_some_and(|r| r == focus::Region::Transport)
-                || self.hover.as_ref().is_some_and(|t| {
-                    matches!(
-                        t,
-                        Target::Transport(_)
-                            | Target::SeekBar
-                            | Target::Volume
-                            | Target::ToolbarBg
-                            | Target::PlayerButton(_)
-                            | Target::PlayerItem(..)
-                            | Target::PlayerDelay(..)
-                    )
-                }));
-        if self.video_full && playing && idle < PLAY_CONTROLS_IDLE {
-            want(PLAY_CONTROLS_IDLE - idle + 0.01);
-        }
+        let play_on = self.video_full && media_player && show_controls;
         animating |= fade(&mut self.play_alpha, play_on, dt, rm);
         let edge_zone = 140.0;
         // Edge arrows follow the navigation rule (no arrows to a dead end).
@@ -4408,15 +4378,19 @@ impl Chrome {
         let next_text = cx.text.needs_redraw;
         let fields;
         (self.hits, fields) = cx.finish();
-        if self.video_full {
-            let mut t: Vec<Target> = Vec::new();
-            for (_, h) in &self.hits {
-                if matches!(h, Target::Transport(_) | Target::Volume) && !t.contains(h) {
-                    t.push(h.clone());
-                }
-            }
-            if !t.is_empty() {
-                self.play_stops = t;
+        if media_player && !self.gallery && !self.presenting {
+            let mut targets = self
+                .hits
+                .iter()
+                .map(|(_, t)| t)
+                .filter(|t| matches!(t, Target::Transport(_) | Target::Volume))
+                .peekable();
+            if targets.peek().is_some() {
+                self.play_stops.clear();
+                self.play_stops.extend(targets.cloned());
+            } else if self.play_stops.is_empty() {
+                // Tab can reveal the player even before its first visible layout.
+                self.play_stops.push(Target::Transport(Action::PlayPause));
             }
         } else {
             self.play_stops.clear();
@@ -5027,8 +5001,7 @@ pub fn empty_hint(km: &Keymap) -> Option<String> {
 
 /// How long a file opens with nothing on screen before the spinner shows (seconds).
 pub const SPINNER_DELAY: f64 = 0.3;
-/// Seconds the play controls of a movie's full-screen play mode (and the pointer) stay up
-/// after the last move or key while it plays.
+/// Seconds before a resting pointer hides in full-screen play mode.
 pub const PLAY_CONTROLS_IDLE: f64 = 2.0;
 
 /// How long, at most, the seek bar keeps showing where it was let go while the movie gets
