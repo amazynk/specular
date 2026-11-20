@@ -296,7 +296,7 @@ about-title = حول { -app-name }
 about-version = الإصدار { $version }
 about-tagline = عارض صور سريع ودقيق.
 about-copyright = © { $year } مؤلفو { -app-name }
-about-license = مرخّص بموجب MIT License / Apache License 2.0.
+about-license = مرخّص بموجب MIT License.
 about-geonames = أسماء الأماكن من GeoNames (geonames.org)، مرخّصة بموجب Creative Commons Attribution 4.0.
 about-unicode = بيانات اللغات والمناطق من Unicode CLDR عبر ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

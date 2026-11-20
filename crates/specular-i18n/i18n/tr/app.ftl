@@ -295,7 +295,7 @@ about-title = { -app-name } hakkında
 about-version = Sürüm { $version }
 about-tagline = Hızlı ve aslına sadık bir görüntü görüntüleyici.
 about-copyright = © { $year } { -app-name } yazarları
-about-license = MIT License / Apache License 2.0 ile lisanslanmıştır.
+about-license = MIT License ile lisanslanmıştır.
 about-geonames = Yer adları GeoNames'ten (geonames.org), Creative Commons Attribution 4.0 ile lisanslanmıştır.
 about-unicode = Yerel ayar verileri ICU4X aracılığıyla Unicode CLDR'den. © Unicode, Inc.
 # machine-drafted, needs native review

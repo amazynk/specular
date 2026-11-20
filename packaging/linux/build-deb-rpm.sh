@@ -128,7 +128,7 @@ for s in 16 32 48 64 128 256 512; do
     install -Dm644 "$ROOT/packaging/icons/specular-$s.png" "$STAGE/usr/share/icons/hicolor/${s}x${s}/apps/$APP_ID.png"
 done
 install -Dm644 "$ROOT/packaging/THIRD-PARTY.md" "$STAGE/usr/share/doc/specular/THIRD-PARTY.md"
-for f in LICENSE-MIT LICENSE-APACHE; do install -Dm644 "$ROOT/$f" "$STAGE/usr/share/doc/specular/$f"; done
+for f in LICENSE; do install -Dm644 "$ROOT/$f" "$STAGE/usr/share/doc/specular/$f"; done
 FILES=$(cd "$STAGE" && find . -type f | sed 's#^\.##' | sort)
 
 # --- .deb ---------------------------------------------------------------------------------------

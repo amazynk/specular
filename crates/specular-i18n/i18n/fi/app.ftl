@@ -301,7 +301,7 @@ about-title = Tietoja { -app-name }ista
 about-version = Versio { $version }
 about-tagline = Nopea ja uskollinen kuvien katseluohjelma.
 about-copyright = © { $year } { -app-name }in tekijät
-about-license = Lisensoitu MIT License / Apache License 2.0 -lisenssillä.
+about-license = Lisensoitu MIT License -lisenssillä.
 about-geonames = Paikannimet: GeoNames (geonames.org), lisenssi Creative Commons Nimeä 4.0.
 about-unicode = Aluekohtaiset tiedot: Unicode CLDR, ICU4X:n kautta. © Unicode, Inc.
 # machine-drafted, needs native review

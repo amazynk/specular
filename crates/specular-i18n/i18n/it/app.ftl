@@ -302,7 +302,7 @@ about-title = Informazioni su { -app-name }
 about-version = Versione { $version }
 about-tagline = Un visualizzatore di immagini veloce e fedele.
 about-copyright = © { $year } Gli autori di { -app-name }
-about-license = Distribuito con la licenza MIT License / Apache License 2.0.
+about-license = Distribuito con la licenza MIT License.
 about-geonames = Nomi dei luoghi da GeoNames (geonames.org), con licenza Creative Commons Attribution 4.0.
 about-unicode = Dati locali dal Unicode CLDR tramite ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

@@ -3,7 +3,7 @@
 <component type="desktop-application">
   <id>app.specular.Specular</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT OR Apache-2.0</project_license>
+  <project_license>MIT</project_license>
   <name>Specular</name>
   <summary>Open and flip through large photos instantly</summary>
   <summary xml:lang="ar">افتح الصور الكبيرة وتصفّحها فورًا</summary>

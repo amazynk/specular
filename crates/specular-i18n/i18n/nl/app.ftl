@@ -301,7 +301,7 @@ about-title = Over { -app-name }
 about-version = Versie { $version }
 about-tagline = Een snelle, getrouwe afbeeldingsviewer.
 about-copyright = © { $year } De auteurs van { -app-name }
-about-license = Gelicentieerd onder de MIT License / Apache License 2.0.
+about-license = Gelicentieerd onder de MIT License.
 about-geonames = Plaatsnamen van GeoNames (geonames.org), gelicentieerd onder Creative Commons Naamsvermelding 4.0.
 about-unicode = Taal- en regiogegevens uit de Unicode CLDR via ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

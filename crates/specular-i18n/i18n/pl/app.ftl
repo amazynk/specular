@@ -301,7 +301,7 @@ about-title = { -app-name } — informacje
 about-version = Wersja { $version }
 about-tagline = Szybka i wierna przeglądarka obrazów.
 about-copyright = © { $year } Autorzy programu { -app-name }
-about-license = Udostępniono na licencji MIT License / Apache License 2.0.
+about-license = Udostępniono na licencji MIT License.
 about-geonames = Nazwy miejsc z GeoNames (geonames.org), na licencji Creative Commons Uznanie autorstwa 4.0.
 about-unicode = Dane regionalne z Unicode CLDR przez ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

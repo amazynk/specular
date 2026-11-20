@@ -61,9 +61,8 @@ The full set is in [docs/DESIGN.md](docs/DESIGN.md). The ones reviewers check mo
 
 ## Licence
 
-Specular is dual-licensed under the [MIT License](LICENSE-MIT) and the
-[Apache License 2.0](LICENSE-APACHE). Unless you say otherwise, any contribution you submit for
-inclusion in Specular, as defined in the Apache-2.0 license, is dual-licensed the same way, without
-any additional terms or conditions.
+Specular is licensed under the [MIT License](LICENSE). Unless you say otherwise, any contribution
+you submit for inclusion in Specular is licensed the same way, without any additional terms or
+conditions.
 
 Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).

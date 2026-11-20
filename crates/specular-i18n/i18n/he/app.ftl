@@ -281,7 +281,7 @@ about-title = אודות { -app-name }
 about-version = גרסה { $version }
 about-tagline = מציג תמונות מהיר ונאמן למקור.
 about-copyright = © { $year } המחברים של { -app-name }
-about-license = מופץ ברישיון MIT License / Apache License 2.0.
+about-license = מופץ ברישיון MIT License.
 about-geonames = שמות מקומות מ־GeoNames (geonames.org), ברישיון Creative Commons Attribution 4.0.
 about-unicode = נתוני אזור מ־Unicode CLDR באמצעות ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

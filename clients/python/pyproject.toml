@@ -8,7 +8,7 @@ version = "3.0.0"
 description = "Control a running Specular viewer: open, view, arrays, overlays, measurements, screenshots"
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "MIT OR Apache-2.0" }
+license = { text = "MIT" }
 dependencies = []
 
 [project.optional-dependencies]

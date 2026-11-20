@@ -266,7 +266,7 @@ about-title = { -app-name } について
 about-version = バージョン { $version }
 about-tagline = 高速で忠実な画像ビューア。
 about-copyright = © { $year } { -app-name } の作者
-about-license = MIT License / Apache License 2.0 の下でライセンスされています。
+about-license = MIT License の下でライセンスされています。
 about-geonames = 地名データは GeoNames（geonames.org）によるもので、Creative Commons Attribution 4.0 の下でライセンスされています。
 about-unicode = ロケールデータは ICU4X 経由で Unicode CLDR から取得しています。© Unicode, Inc.
 # machine-drafted, needs native review

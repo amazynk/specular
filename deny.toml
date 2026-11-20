@@ -4,7 +4,7 @@
 #   tools/ci/deny.sh --fetch           # refresh the advisory snapshot first (network)
 #   tools/ci/deny.sh licenses          # one section
 #
-# Specular is distributed under MIT OR Apache-2.0 as a single statically linked binary.
+# Specular is distributed under MIT as a single statically linked binary.
 # Every dependency licence must therefore allow redistribution in binary form inside a
 # permissively licensed product, commercial use included, with notices shipped
 # (packaging/THIRD-PARTY.md).
@@ -100,7 +100,7 @@ allow = [
 confidence-threshold = 0.9
 unused-allowed-license = "warn"
 
-# Specular's own crates (MIT OR Apache-2.0) are all `publish = false`, so
+# Specular's own crates (MIT) are all `publish = false`, so
 # `private.ignore` below covers them and they need no exceptions. A crate that is ever published
 # needs an `[[licenses.exceptions]]` entry for that licence.
 

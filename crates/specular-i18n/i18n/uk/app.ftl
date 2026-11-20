@@ -301,7 +301,7 @@ about-title = Про { -app-name }
 about-version = Версія { $version }
 about-tagline = Швидкий і точний переглядач зображень.
 about-copyright = © { $year } Автори { -app-name }
-about-license = Ліцензовано за MIT License / Apache License 2.0.
+about-license = Ліцензовано за MIT License.
 about-geonames = Назви місць із GeoNames (geonames.org), ліцензія Creative Commons Attribution 4.0.
 about-unicode = Дані локалей із Unicode CLDR через ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

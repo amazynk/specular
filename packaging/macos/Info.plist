@@ -33,7 +33,7 @@
     <key>NSSupportsAutomaticGraphicsSwitching</key>
     <true/>
     <key>NSHumanReadableCopyright</key>
-    <string>© 2026 The Specular authors. MIT or Apache-2.0.</string>
+    <string>© 2026 The Specular authors. MIT.</string>
     <!-- Languages with a catalogue (crates/specular-i18n/i18n), so macOS shows the app in them. -->
     <key>CFBundleLocalizations</key>
     <array>

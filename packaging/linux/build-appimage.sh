@@ -137,7 +137,7 @@ for s in 16 32 48 64 128 256 512; do
     install -Dm644 "$ROOT/packaging/icons/specular-$s.png" "$APPDIR/usr/share/icons/hicolor/${s}x${s}/apps/$APP_ID.png"
 done
 install -Dm644 "$ROOT/packaging/THIRD-PARTY.md" "$APPDIR/usr/share/doc/specular/THIRD-PARTY.md"
-for f in LICENSE-MIT LICENSE-APACHE; do install -Dm644 "$ROOT/$f" "$APPDIR/usr/share/doc/specular/$f"; done
+for f in LICENSE; do install -Dm644 "$ROOT/$f" "$APPDIR/usr/share/doc/specular/$f"; done
 
 # AppImage top level: desktop file, icon, .DirIcon, AppRun.
 cp "$HERE/$APP_ID.desktop" "$APPDIR/"

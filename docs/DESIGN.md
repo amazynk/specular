@@ -5,7 +5,7 @@
 Specular is a fast, GPU-accelerated, **read-only** viewer for Windows, macOS and Linux, written in Rust.
 It opens photos and general images, medical images (DICOM, CT, MRI, research volumes), engineering and
 architecture drawings and models, and a long tail of other formats. It looks and feels like IrfanView,
-adds a library, and is free and open source (MIT OR Apache-2.0).
+adds a library, and is free and open source (MIT).
 
 ---
 
@@ -2927,7 +2927,7 @@ Large scientific, pathology, GIS and medical data increasingly lives in object s
 
 ## 14. Licensing
 
-- **Specular licence: MIT OR Apache-2.0**, at the user's option, the usual pair for Rust projects.
+- **Specular licence: MIT.** Releases up to 0.1.2 were MIT OR Apache-2.0.
   Anyone may use, change and redistribute Specular, commercial use included.
 - **Contributions** are accepted under the same terms (inbound = outbound): no CLA.
 - **Medical disclaimer** in the About box, the manual and the medical views: Specular is not a

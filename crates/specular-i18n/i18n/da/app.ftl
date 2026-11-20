@@ -301,7 +301,7 @@ about-title = Om { -app-name }
 about-version = Version { $version }
 about-tagline = En hurtig og tro billedfremviser.
 about-copyright = © { $year } { -app-name }-forfatterne
-about-license = Udgivet under MIT License / Apache License 2.0.
+about-license = Udgivet under MIT License.
 about-geonames = Stednavne fra GeoNames (geonames.org), udgivet under Creative Commons Attribution 4.0.
 about-unicode = Landestandarddata fra Unicode CLDR via ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review

@@ -24,7 +24,7 @@
 
 <p>
   <a href="https://github.com/amazynk/specular/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/amazynk/specular/ci.yml?branch=main&style=flat-square&label=CI" alt="CI status"></a>
-  <a href="#license"><img src="https://img.shields.io/badge/license-MIT%20%2F%20Apache--2.0-7ea6ff?style=flat-square" alt="License: MIT or Apache-2.0"></a>
+  <a href="#license"><img src="https://img.shields.io/badge/license-MIT-7ea6ff?style=flat-square" alt="License: MIT"></a>
   <a href="#formats"><img src="https://img.shields.io/badge/formats-400%2B-5cc98a?style=flat-square" alt="400+ formats"></a>
   <a href="https://amazynk.com/discord/"><img src="https://img.shields.io/badge/chat-Discord-5865f2?style=flat-square" alt="Chat on Discord"></a>
 </p>
@@ -305,10 +305,9 @@ read [HACKING.md](HACKING.md). Please report security problems privately, as des
 
 ## License
 
-Specular is licensed under either of the [Apache License, Version 2.0](LICENSE-APACHE) or the
-[MIT License](LICENSE-MIT), at your option. Unless you explicitly state otherwise, any
-contribution you intentionally submit for inclusion in Specular, as defined in the Apache-2.0
-license, is dual-licensed as above, without any additional terms or conditions.
+Specular is licensed under the [MIT License](LICENSE). Unless you explicitly state otherwise,
+any contribution you submit for inclusion in Specular is licensed the same way, without any
+additional terms or conditions.
 
 The third-party software, fonts and data Specular includes keep their own licences, listed in
 [packaging/THIRD-PARTY.md](packaging/THIRD-PARTY.md). The photos in the screenshots and the files

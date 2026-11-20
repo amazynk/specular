@@ -547,7 +547,7 @@ build_linux() {
             done
         fi
         install -m644 packaging/THIRD-PARTY.md "$s/share/doc/specular/"
-        install -m644 LICENSE-MIT LICENSE-APACHE "$s/share/doc/specular/"
+        install -m644 LICENSE "$s/share/doc/specular/"
         install -Dm644 packaging/linux/app.specular.Specular.desktop "$s/share/applications/app.specular.Specular.desktop"
         install -Dm644 packaging/linux/app.specular.Specular.metainfo.xml "$s/share/metainfo/app.specular.Specular.metainfo.xml"
         install -Dm644 packaging/linux/app.specular.Specular.mime.xml "$s/share/mime/packages/app.specular.Specular.xml"
@@ -683,7 +683,7 @@ build_windows() {
         printf 'Specular portable mode: settings are kept in this folder.\n' >"$stage/portable"
         cp packaging/windows/README-portable.txt "$stage/README.txt"
         cp packaging/THIRD-PARTY.md "$stage/"
-        cp LICENSE-MIT LICENSE-APACHE "$stage/"
+        cp LICENSE "$stage/"
         rm -f "$zipf"
         if have zip; then
             (cd "$(dirname "$stage")" && zip -qr9 "$zipf" "$name")

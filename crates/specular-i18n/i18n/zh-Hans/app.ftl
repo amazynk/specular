@@ -266,7 +266,7 @@ about-title = 关于 { -app-name }
 about-version = 版本 { $version }
 about-tagline = 快速、忠实的图像查看器。
 about-copyright = © { $year } { -app-name } 作者
-about-license = 依据 MIT License / Apache License 2.0 授权。
+about-license = 依据 MIT License 授权。
 about-geonames = 地名数据来自 GeoNames（geonames.org），依据 Creative Commons Attribution 4.0 授权。
 about-unicode = 区域设置数据来自 Unicode CLDR，经由 ICU4X 提供。© Unicode, Inc.
 # machine-drafted, needs native review

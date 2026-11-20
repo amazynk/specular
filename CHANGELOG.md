@@ -21,6 +21,8 @@ All notable changes to Specular are listed here. The format follows
 
 - Audio and video controls appear when the pointer moves near the bottom of the player.
   Tab reveals them from the keyboard.
+- **Licence.** Specular is now under the MIT License alone. Releases up to 0.1.2 were under
+  MIT OR Apache-2.0 and stay so.
 
 ## [0.1.2] - 2026-11-16
 

@@ -309,7 +309,7 @@ about-title = O aplikaci { -app-name }
 about-version = Verze { $version }
 about-tagline = Rychlý a věrný prohlížeč obrázků.
 about-copyright = © { $year } Autoři aplikace { -app-name }
-about-license = Licencováno pod licencí MIT License / Apache License 2.0.
+about-license = Licencováno pod licencí MIT License.
 about-geonames = Názvy míst z GeoNames (geonames.org), licencováno pod Creative Commons Attribution 4.0.
 about-unicode = Údaje o národním prostředí z Unicode CLDR prostřednictvím ICU4X. © Unicode, Inc.
 # machine-drafted, needs native review
