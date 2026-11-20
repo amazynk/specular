@@ -88,8 +88,10 @@ diag-readme =
 ## Opdateringer (Indstillinger)
 
 settings-section-updates = Opdateringer
-settings-updates-check = Søg efter opdateringer
-settings-updates-check-help = Én gang om dagen spørges, om der findes en ny version. Forespørgslen indeholder kun versionsnummeret: ingen id, ingen cookie. Fra: { -app-name } forbinder aldrig for opdateringer.
+palette-check-for-updates = Søg efter opdateringer
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Søg automatisk efter opdateringer
+settings-updates-check-help = Én gang om dagen spørges, om der findes en ny version. Forespørgslen indeholder kun versionsnummeret: ingen id, ingen cookie.
 settings-updates-channel = Kanal
 settings-updates-channel-help = Stabil: kun udgivelser. Beta: også testversioner.
 settings-updates-channel-stable = Stabil

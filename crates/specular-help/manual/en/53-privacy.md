@@ -10,7 +10,7 @@ Specular works entirely offline. It collects nothing and sends nothing: there is
 ## When Specular uses the network {#network}
 Never, until you turn off [No network](#no-network). After that, only when you ask it to:
 
-- **Update checks**, if you turn them on.
+- **Update checks**, when you ask for one or enable automatic checks.
 - **Local AI downloads**, when you choose one in Settings › Local AI.
 - **Servers you add**, such as DICOM or OMERO servers, when you open images from them, and the server or bucket of a Zarr address you open.
 - **Base maps and map services**, if you turn them on.
@@ -47,9 +47,9 @@ model_folder = "/srv/specular/models"
 Model files placed in `models` next to the policy file are used too, without a policy.
 
 ## Updates {#updates}
-Specular checks for updates only if you turn it on in Settings › Updates and No network is off.
+Choose **Check for updates** in About or the command palette for a one-time check. The result opens in Settings › Updates. Turn off **No network** in Settings › Privacy to allow the check to reach Specular’s releases on GitHub.
 
-- It checks at most once a day.
+- Turn on **Check for updates automatically** in Settings › Updates for checks at most once a day.
 - The request carries no identifier, no cookie, and nothing about your computer except the Specular version.
 - **Stable** offers released versions only. **Beta** also offers test versions.
 - When a newer version exists, Specular links to its release notes and download page in your browser.

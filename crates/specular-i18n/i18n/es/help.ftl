@@ -89,8 +89,10 @@ diag-readme =
 ## Actualizaciones (Configuración)
 
 settings-section-updates = Actualizaciones
-settings-updates-check = Buscar actualizaciones
-settings-updates-check-help = Una vez al día, preguntar si hay una versión nueva. La solicitud solo lleva el número de versión: sin identificador, sin cookie. Desactivado: { -app-name } nunca se conecta para actualizaciones.
+palette-check-for-updates = Buscar actualizaciones
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Buscar actualizaciones automáticamente
+settings-updates-check-help = Una vez al día, preguntar si hay una versión nueva. La solicitud solo lleva el número de versión: sin identificador, sin cookie.
 settings-updates-channel = Canal
 settings-updates-channel-help = Estable: solo versiones publicadas. Beta: también versiones de prueba.
 settings-updates-channel-stable = Estable

@@ -42,6 +42,7 @@ fn enabled_table() {
         (A::About, "EEEEE"),
         (A::ShowWelcome, "EEEEE"),
         (A::Help, "EEEEE"),
+        (A::CheckForUpdates, "EEEEE"),
         (A::JoinDiscord, "EEEEE"),
         (A::SaveDiagnostics, "EEEEE"),
         (A::Language, "EEEEE"),

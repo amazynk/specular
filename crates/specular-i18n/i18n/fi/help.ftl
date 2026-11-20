@@ -88,8 +88,10 @@ diag-readme =
 ## Päivitykset (Asetukset)
 
 settings-section-updates = Päivitykset
-settings-updates-check = Tarkista päivitykset
-settings-updates-check-help = Kysy kerran päivässä, onko uusi versio saatavilla. Pyyntö sisältää vain versionumeron: ei tunnistetta, ei evästettä. Pois: { -app-name } ei koskaan muodosta yhteyttä päivityksiä varten.
+palette-check-for-updates = Tarkista päivitykset
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Tarkista päivitykset automaattisesti
+settings-updates-check-help = Kysy kerran päivässä, onko uusi versio saatavilla. Pyyntö sisältää vain versionumeron: ei tunnistetta, ei evästettä.
 settings-updates-channel = Kanava
 settings-updates-channel-help = Vakaa: vain julkaisut. Beta: myös testiversiot.
 settings-updates-channel-stable = Vakaa

@@ -87,8 +87,10 @@ diag-readme =
 ## アップデート（設定）
 
 settings-section-updates = アップデート
-settings-updates-check = アップデートを確認
-settings-updates-check-help = 1 日に 1 回、新しいバージョンがあるか問い合わせます。送信するのはバージョン番号だけで、識別子も Cookie もありません。オフ: { -app-name } はアップデートのために接続しません。
+palette-check-for-updates = アップデートを確認
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = アップデートを自動的に確認
+settings-updates-check-help = 1 日に 1 回、新しいバージョンがあるか問い合わせます。送信するのはバージョン番号だけで、識別子も Cookie もありません。
 settings-updates-channel = チャンネル
 settings-updates-channel-help = 安定版: リリースのみ。ベータ版: テスト版も含む。
 settings-updates-channel-stable = 安定版

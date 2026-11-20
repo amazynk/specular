@@ -68,7 +68,7 @@ fn dialogs_go_round_their_buttons_with_tab() {
         press(&mut c, st, NamedKey::Space, Mods::NONE);
         assert_eq!(c.modal, None);
 
-        // About: Help, Renderer info…, Save diagnostics bundle…, Discord, Close.
+        // About: Help, Renderer info…, Save diagnostics bundle…, updates, Discord, Close.
         let m = crate::Modal::About;
         c.open_modal(m);
         draw(&mut c, &mut text, st);
@@ -78,6 +78,13 @@ fn dialogs_go_round_their_buttons_with_tab() {
         assert_eq!(c.modal_focus, Some(Target::AboutRenderer));
         tab(&mut c, st);
         assert_eq!(c.modal_focus, Some(Target::AboutDiagnostics));
+        tab(&mut c, st);
+        assert_eq!(c.modal_focus, Some(Target::AboutUpdates));
+        let r = press(&mut c, st, NamedKey::Enter, Mods::NONE);
+        assert_eq!(
+            r.commands,
+            [Command::Action(specular_input::Action::CheckForUpdates)]
+        );
         tab(&mut c, st);
         assert_eq!(c.modal_focus, Some(Target::AboutDiscord));
         let r = press(&mut c, st, NamedKey::Enter, Mods::NONE);

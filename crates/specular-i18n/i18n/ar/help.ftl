@@ -92,8 +92,10 @@ diag-readme =
 ## التحديثات (الإعدادات)
 
 settings-section-updates = التحديثات
-settings-updates-check = التحقق من التحديثات
-settings-updates-check-help = مرة في اليوم، السؤال عن وجود إصدار جديد. لا يحمل الطلب إلا رقم الإصدار: بلا معرّف وبلا ملف تعريف ارتباط. عند الإيقاف: لا يتصل { -app-name } أبدًا من أجل التحديثات.
+palette-check-for-updates = التحقق من التحديثات
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = التحقق تلقائيًا من التحديثات
+settings-updates-check-help = مرة في اليوم، السؤال عن وجود إصدار جديد. لا يحمل الطلب إلا رقم الإصدار: بلا معرّف وبلا ملف تعريف ارتباط.
 settings-updates-channel = القناة
 settings-updates-channel-help = مستقر: الإصدارات فقط. تجريبي: والإصدارات التجريبية أيضًا.
 settings-updates-channel-stable = مستقر

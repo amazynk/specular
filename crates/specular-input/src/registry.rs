@@ -153,6 +153,7 @@ actions! {
     A::About => "about", "about-title", Help, Viewer, "interface", "";
     A::ShowWelcome => "show-welcome", "palette-show-welcome", Help, Viewer, "interface", "";
     A::Help => "help", "palette-help-manual", Help, Viewer, "interface", "";
+    A::CheckForUpdates => "check-for-updates", "palette-check-for-updates", Help, Viewer, "privacy", "updates";
     A::JoinDiscord => "join-discord", "toolbar-discord", Help, Viewer, "interface", "toolbar";
     A::SaveDiagnostics => "save-diagnostics", "palette-save-diagnostics", Help, Viewer, "interface", "";
     A::Hud => "hud", "palette-hud", Help, Viewer, "interface", "";

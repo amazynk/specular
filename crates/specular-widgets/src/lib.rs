@@ -3557,6 +3557,7 @@ impl Chrome {
             }
             // The browser opens; About stays.
             Target::AboutDiscord => Response::cmd(Command::Action(Action::JoinDiscord)),
+            Target::AboutUpdates => Response::cmd(Command::Action(Action::CheckForUpdates)),
             Target::HelpRow(i) => self.help_row_click(i),
             Target::HelpBack => {
                 self.help.go_back();

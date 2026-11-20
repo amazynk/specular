@@ -90,8 +90,10 @@ diag-readme =
 ## Оновлення (Налаштування)
 
 settings-section-updates = Оновлення
-settings-updates-check = Перевіряти оновлення
-settings-updates-check-help = Раз на день запитувати, чи є нова версія. Запит містить лише номер версії: без ідентифікатора, без cookie. Вимкнено: { -app-name } ніколи не з’єднується заради оновлень.
+palette-check-for-updates = Перевіряти оновлення
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Автоматично перевіряти оновлення
+settings-updates-check-help = Раз на день запитувати, чи є нова версія. Запит містить лише номер версії: без ідентифікатора, без cookie.
 settings-updates-channel = Канал
 settings-updates-channel-help = Стабільний: лише випуски. Бета: також тестові версії.
 settings-updates-channel-stable = Стабільний

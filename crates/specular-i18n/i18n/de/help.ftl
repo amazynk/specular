@@ -88,8 +88,10 @@ diag-readme =
 ## Updates (Einstellungen)
 
 settings-section-updates = Updates
-settings-updates-check = Nach Updates suchen
-settings-updates-check-help = Einmal am Tag fragen, ob es eine neue Version gibt. Die Anfrage enthält nur die Versionsnummer: keine Kennung, kein Cookie. Aus: { -app-name } verbindet sich nie für Updates.
+palette-check-for-updates = Nach Updates suchen
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Automatisch nach Updates suchen
+settings-updates-check-help = Einmal am Tag fragen, ob es eine neue Version gibt. Die Anfrage enthält nur die Versionsnummer: keine Kennung, kein Cookie.
 settings-updates-channel = Kanal
 settings-updates-channel-help = Stabil: nur Releases. Beta: auch Testversionen.
 settings-updates-channel-stable = Stabil

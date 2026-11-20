@@ -88,8 +88,10 @@ diag-readme =
 ## Updates (Instellingen)
 
 settings-section-updates = Updates
-settings-updates-check = Naar updates zoeken
-settings-updates-check-help = Eén keer per dag vragen of er een nieuwe versie is. Het verzoek bevat alleen het versienummer: geen ID, geen cookie. Uit: { -app-name } maakt nooit verbinding voor updates.
+palette-check-for-updates = Naar updates zoeken
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Automatisch naar updates zoeken
+settings-updates-check-help = Eén keer per dag vragen of er een nieuwe versie is. Het verzoek bevat alleen het versienummer: geen ID, geen cookie.
 settings-updates-channel = Kanaal
 settings-updates-channel-help = Stabiel: alleen releases. Bèta: ook testversies.
 settings-updates-channel-stable = Stabiel

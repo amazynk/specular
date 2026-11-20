@@ -90,8 +90,10 @@ diag-readme =
 ## Aktualizace (Nastavení)
 
 settings-section-updates = Aktualizace
-settings-updates-check = Kontrolovat aktualizace
-settings-updates-check-help = Jednou denně zjistit, zda existuje nová verze. Požadavek nese jen číslo verze: žádný identifikátor, žádnou cookie. Vypnuto: { -app-name } se kvůli aktualizacím nikdy nepřipojí.
+palette-check-for-updates = Kontrolovat aktualizace
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Automaticky kontrolovat aktualizace
+settings-updates-check-help = Jednou denně zjistit, zda existuje nová verze. Požadavek nese jen číslo verze: žádný identifikátor, žádnou cookie.
 settings-updates-channel = Kanál
 settings-updates-channel-help = Stabilní: jen vydané verze. Beta: i testovací verze.
 settings-updates-channel-stable = Stabilní

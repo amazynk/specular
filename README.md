@@ -108,7 +108,7 @@ Also inside:
 - **Scriptable:** a command line, remote control of a running window, and an
   [IPC protocol](docs/ipc.md) with a [Python client](clients/python).
 - **For everyone:** light and dark themes, 19 languages, right-to-left layouts and screen-reader
-  support. The update check stays off until you turn it on.
+  support. Check for updates in About or enable automatic checks in Settings › Updates.
 
 ### Beyond photos
 

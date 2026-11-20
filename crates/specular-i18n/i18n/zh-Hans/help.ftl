@@ -87,8 +87,10 @@ diag-readme =
 ## 更新（设置）
 
 settings-section-updates = 更新
-settings-updates-check = 检查更新
-settings-updates-check-help = 每天一次，询问是否有新版本。请求只包含版本号：没有标识符，没有 Cookie。关闭：{ -app-name } 绝不会为更新而联网。
+palette-check-for-updates = 检查更新
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = 自动检查更新
+settings-updates-check-help = 每天一次，询问是否有新版本。请求只包含版本号：没有标识符，没有 Cookie。
 settings-updates-channel = 通道
 settings-updates-channel-help = 稳定版：仅正式发布版。测试版：也包括测试版本。
 settings-updates-channel-stable = 稳定版

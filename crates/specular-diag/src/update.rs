@@ -1,15 +1,10 @@
-//! The update check: off unless the user turns it on (Settings › Updates).
+//! Manual and opt-in automatic update checks.
 //!
-//! At most once a day, one plain GET of the release feed: no identifiers, no cookies, no
-//! query string, user agent `Specular/<version>`. Nothing is installed; the app shows
-//! "Version X is available" with links to the release notes and the download page.
+//! Each check makes one GET with the user agent `Specular/<version>`. Automatic checks
+//! run at most once a day. The release page provides the notes and downloads.
 //!
-//! The feed is JSON:
-//!
-//! ```json
-//! {"releases": [{"version": "1.2.0", "channel": "stable", "date": "2026-10-01",
-//!   "notes_url": "https://…", "download_url": "https://…"}]}
-//! ```
+//! Stable checks GitHub's latest published release. Beta also considers the recent
+//! prereleases in the repository's public releases list.
 
 use std::cmp::Ordering;
 use std::path::Path;
@@ -21,8 +16,8 @@ use specular_remote::{Client, ClientConfig, Request};
 /// Seconds between automatic checks.
 pub const INTERVAL: u64 = 86_400;
 
-/// The largest feed read (a list of releases, a few KB).
-const MAX_FEED: u64 = 1 << 20;
+/// GitHub includes metadata for every installer with each release.
+const MAX_FEED: u64 = 8 << 20;
 
 /// Which releases the user wants to hear about.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -35,18 +30,10 @@ pub enum Channel {
 }
 
 impl Channel {
-    pub fn id(self) -> &'static str {
+    pub fn feed_url(self) -> &'static str {
         match self {
-            Channel::Stable => "stable",
-            Channel::Beta => "beta",
-        }
-    }
-
-    pub fn from_id(s: &str) -> Option<Channel> {
-        match s {
-            "stable" => Some(Channel::Stable),
-            "beta" => Some(Channel::Beta),
-            _ => None,
+            Channel::Stable => "https://api.github.com/repos/amazynk/specular/releases/latest",
+            Channel::Beta => "https://api.github.com/repos/amazynk/specular/releases",
         }
     }
 }
@@ -141,46 +128,59 @@ pub struct Release {
     pub version_text: String,
     pub channel: Channel,
     pub date: String,
-    pub notes_url: String,
-    pub download_url: String,
+    /// The published release page contains both the notes and the installers.
+    pub url: String,
 }
 
-/// Only web links are opened.
-fn web_url(s: &str) -> bool {
-    s.starts_with("https://") || s.starts_with("http://")
-}
-
-/// The releases in a feed. Entries that are malformed (bad version, unknown channel,
-/// non-web links) are skipped; a feed that is not the expected JSON is an error.
-pub fn parse(feed: &[u8]) -> Result<Vec<Release>, String> {
-    let v: serde_json::Value = serde_json::from_slice(feed).map_err(|e| e.to_string())?;
-    let list = v
-        .get("releases")
-        .and_then(|r| r.as_array())
-        .ok_or("no \"releases\" list")?;
-    let text =
-        |r: &serde_json::Value, k: &str| r.get(k).and_then(|x| x.as_str()).map(str::to_owned);
-    Ok(list
-        .iter()
-        .filter_map(|r| {
-            let version_text = text(r, "version")?;
-            let version = Version::parse(&version_text)?;
-            let channel = Channel::from_id(&text(r, "channel").unwrap_or_else(|| "stable".into()))?;
-            let notes_url = text(r, "notes_url")?;
-            let download_url = text(r, "download_url")?;
-            if !web_url(&notes_url) || !web_url(&download_url) {
-                return None;
-            }
-            Some(Release {
-                version,
-                version_text,
-                channel,
-                date: text(r, "date").unwrap_or_default(),
-                notes_url,
-                download_url,
-            })
-        })
-        .collect())
+/// Read the latest-release object or the releases list from GitHub. A malformed response
+/// must not make a failed check look like a confirmation that the app is up to date.
+fn parse(feed: &[u8], channel: Channel) -> Result<Vec<Release>, String> {
+    let json: serde_json::Value = serde_json::from_slice(feed).map_err(|e| e.to_string())?;
+    let entries = match channel {
+        Channel::Stable => std::slice::from_ref(&json),
+        Channel::Beta => json
+            .as_array()
+            .ok_or("expected a GitHub releases list")?
+            .as_slice(),
+    };
+    let mut releases = Vec::new();
+    for entry in entries {
+        if entry["draft"]
+            .as_bool()
+            .ok_or("missing release draft flag")?
+        {
+            continue;
+        }
+        let tag = entry["tag_name"].as_str().ok_or("missing release tag")?;
+        let Some(version) = Version::parse(tag) else {
+            continue;
+        };
+        let prerelease = entry["prerelease"]
+            .as_bool()
+            .ok_or("missing prerelease flag")?;
+        let url = entry["html_url"]
+            .as_str()
+            .filter(|u| u.starts_with("https://github.com/amazynk/specular/releases/tag/"))
+            .ok_or("invalid Specular release page")?;
+        let published = entry["published_at"]
+            .as_str()
+            .ok_or("missing release date")?;
+        releases.push(Release {
+            version,
+            version_text: tag.strip_prefix('v').unwrap_or(tag).to_owned(),
+            channel: if prerelease {
+                Channel::Beta
+            } else {
+                Channel::Stable
+            },
+            date: published.split('T').next().unwrap_or(published).to_owned(),
+            url: url.to_owned(),
+        });
+    }
+    if releases.is_empty() && !entries.is_empty() {
+        return Err("no published Specular versions in the release feed".into());
+    }
+    Ok(releases)
 }
 
 /// The newest release above `current` that `channel` offers (Stable: releases only).
@@ -250,9 +250,11 @@ pub fn check(
     channel: Channel,
     cancel: &CancelToken,
 ) -> Result<Outcome, String> {
-    let req = Request::get(url).accept("application/json").limit(MAX_FEED);
+    let req = Request::get(url)
+        .accept("application/vnd.github+json")
+        .limit(MAX_FEED);
     let resp = client.get(&req, cancel).map_err(|e| e.to_string())?;
-    let releases = parse(&resp.body)?;
+    let releases = parse(&resp.body, channel)?;
     Ok(match newer(&releases, current, channel) {
         Some(r) => Outcome::Available(r.clone()),
         None => Outcome::Current,
@@ -264,19 +266,13 @@ mod tests {
     use super::*;
     use specular_remote::testing::{ServerOptions, TestResponse, TestServer};
 
-    const FEED: &str = r#"{"releases": [
-        {"version": "1.2.0", "channel": "stable", "date": "2026-09-01",
-         "notes_url": "https://example.com/n/1.2.0", "download_url": "https://example.com/d"},
-        {"version": "1.3.0-beta.2", "channel": "beta", "date": "2026-10-01",
-         "notes_url": "https://example.com/n/1.3.0-beta.2", "download_url": "https://example.com/d"},
-        {"version": "1.3.0-beta.10", "channel": "beta",
-         "notes_url": "https://example.com/n/b10", "download_url": "https://example.com/d"},
-        {"version": "1.1.0", "notes_url": "https://example.com/n/1.1.0", "download_url": "https://example.com/d"},
-        {"version": "not a version", "notes_url": "https://x", "download_url": "https://x"},
-        {"version": "9.0.0", "channel": "nightly", "notes_url": "https://x", "download_url": "https://x"},
-        {"version": "9.0.0", "notes_url": "file:///etc/passwd", "download_url": "https://x"},
-        {"version": "9.0.0"}
-    ]}"#;
+    fn entry(tag: &str, beta: bool) -> serde_json::Value {
+        serde_json::json!({
+            "tag_name": tag, "draft": false, "prerelease": beta,
+            "published_at": "2026-09-01T12:00:00Z",
+            "html_url": format!("https://github.com/amazynk/specular/releases/tag/{tag}")
+        })
+    }
 
     fn v(s: &str) -> Version {
         Version::parse(s).unwrap()
@@ -315,20 +311,34 @@ mod tests {
     }
 
     #[test]
-    fn the_feed_parses_and_bad_entries_are_skipped() {
-        let r = parse(FEED.as_bytes()).unwrap();
-        let names: Vec<&str> = r.iter().map(|r| r.version_text.as_str()).collect();
-        assert_eq!(names, ["1.2.0", "1.3.0-beta.2", "1.3.0-beta.10", "1.1.0"]);
-        assert_eq!(r[3].channel, Channel::Stable);
-        assert_eq!(r[0].date, "2026-09-01");
-        assert!(parse(b"[]").is_err());
-        assert!(parse(b"<html>").is_err());
-        assert!(parse(br#"{"releases": []}"#).unwrap().is_empty());
+    fn invalid_responses_do_not_report_up_to_date() {
+        for bad in [
+            b"[]".as_slice(),
+            b"<html>",
+            br#"{"message":"rate limited"}"#,
+        ] {
+            assert!(parse(bad, Channel::Stable).is_err());
+        }
+        let mut release = entry("v1.2.0", false);
+        release["html_url"] = "file:///tmp/not-a-release".into();
+        assert!(parse(release.to_string().as_bytes(), Channel::Stable).is_err());
     }
 
     #[test]
     fn the_channel_picks_the_release() {
-        let r = parse(FEED.as_bytes()).unwrap();
+        let mut draft = entry("v9.0.0", false);
+        draft["draft"] = true.into();
+        let feed = serde_json::json!([
+            entry("v1.2.0", false),
+            entry("v1.3.0-beta.2", true),
+            entry("v1.3.0-beta.10", true),
+            entry("v1.1.0", false),
+            draft,
+            entry("v1.2.1", true)
+        ]);
+        let r = parse(feed.to_string().as_bytes(), Channel::Beta).unwrap();
+        assert_eq!(r.len(), 5);
+        assert_eq!(r[0].date, "2026-09-01");
         let pick = |cur: &str, ch| newer(&r, &v(cur), ch).map(|r| r.version_text.as_str());
         assert_eq!(pick("1.0.0", Channel::Stable), Some("1.2.0"));
         assert_eq!(pick("1.0.0", Channel::Beta), Some("1.3.0-beta.10"));
@@ -364,12 +374,33 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
     }
 
+    /// Exercise the production HTTP client, TLS, both endpoints and the response parser.
+    #[test]
+    #[ignore = "contacts the public Specular releases on GitHub"]
+    fn published_releases_are_reachable() {
+        let client = client().unwrap();
+        let cancel = CancelToken::new();
+        for channel in [Channel::Stable, Channel::Beta] {
+            let url = channel.feed_url();
+            let Outcome::Available(release) =
+                check(&client, url, &v("0.0.0"), channel, &cancel).unwrap()
+            else {
+                panic!("expected a published release on {channel:?}");
+            };
+            eprintln!("{channel:?}: {} ({})", release.version_text, release.url);
+            assert_eq!(
+                check(&client, url, &release.version, channel, &cancel).unwrap(),
+                Outcome::Current
+            );
+        }
+    }
+
     /// Against a local server only: one plain GET, no cookies, no query, our user agent.
     #[test]
     fn the_check_is_a_plain_get() {
         let srv = TestServer::start(ServerOptions::default(), |req| {
-            if req.path() == "/releases.json" {
-                TestResponse::ok(FEED).header("Set-Cookie", "id=1")
+            if req.path() == "/releases/latest" {
+                TestResponse::ok(entry("v1.2.0", false).to_string()).header("Set-Cookie", "id=1")
             } else {
                 TestResponse::status(404)
             }
@@ -377,7 +408,7 @@ mod tests {
         .unwrap();
         let client = Client::new(ClientConfig::for_tests()).unwrap();
         let cancel = CancelToken::new();
-        let url = srv.url("/releases.json");
+        let url = srv.url("/releases/latest");
         let got = check(&client, &url, &v("1.0.0"), Channel::Stable, &cancel).unwrap();
         assert!(matches!(got, Outcome::Available(ref r) if r.version_text == "1.2.0"));
         // A second request: the cookie is not sent back.

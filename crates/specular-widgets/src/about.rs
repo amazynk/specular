@@ -171,13 +171,31 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         .sum::<f32>()
         + 20.0
         + extra_h;
-    // Help and Save diagnostics bundle… under the scrolling text.
+    // Lay out the footer from its trailing edge. Long translations wrap to another row.
     let label_s = cx.style(metrics::FONT_LABEL);
-    let help_b = cx.layout(&t!("about-help"), label_s, None);
-    let diag_b = cx.layout(&t!("about-diagnostics"), label_s, None);
-    let rend_b = cx.layout(&t!("about-renderer"), label_s, None);
+    let mut buttons = Vec::new();
+    let mut end = inner_w;
+    let mut row = 0;
     let bh = cx.u(32.0);
-    let h = (content + 48.0 + bh + 16.0).min(cx.h - 32.0);
+    for (label, target) in [
+        (t!("palette-check-for-updates"), Target::AboutUpdates),
+        (t!("about-diagnostics"), Target::AboutDiagnostics),
+        (t!("about-renderer"), Target::AboutRenderer),
+        (t!("about-help"), Target::AboutHelp),
+    ] {
+        let label = cx.ellipsize(&label, label_s, (inner_w - 20.0).max(1.0), false);
+        let block = cx.layout(&label, label_s, None);
+        let width = (block.width + 20.0).min(inner_w);
+        if end < width && !buttons.is_empty() {
+            end = inner_w;
+            row += 1;
+        }
+        end -= width;
+        buttons.push((block, target, end, row, width));
+        end -= 8.0;
+    }
+    let footer_h = bh + row as f32 * (bh + 6.0);
+    let h = (content + 48.0 + footer_h + 16.0).min(cx.h - 32.0);
     let r = Rect::new(((cx.w - w) * 0.5).round(), ((cx.h - h) * 0.5).round(), w, h);
     cx.sheet(r);
     let close = cx.m_in(Rect::new(r.right() - 46.0, r.y + 14.0, 32.0, 32.0), r);
@@ -195,22 +213,11 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         false,
         false,
     );
-    let by = r.bottom() - 20.0 - bh;
-    let dw = diag_b.width + 24.0;
-    let hw = help_b.width + 24.0;
-    let rw = rend_b.width + 24.0;
-    let dr = cx.m_in(Rect::new(r.right() - 24.0 - dw, by, dw, bh), r);
-    let rr = cx.m_in(Rect::new(r.right() - 24.0 - dw - 8.0 - rw, by, rw, bh), r);
-    let hr = cx.m_in(
-        Rect::new(r.right() - 24.0 - dw - 8.0 - rw - 8.0 - hw, by, hw, bh),
-        r,
-    );
-    for (b, br, t) in [
-        (&help_b, hr, Target::AboutHelp),
-        (&rend_b, rr, Target::AboutRenderer),
-        (&diag_b, dr, Target::AboutDiagnostics),
-    ] {
-        crate::insights::button(cx, br, b, t.clone(), false);
+    let by = r.bottom() - 20.0 - footer_h;
+    for (b, t, x, row, width) in buttons.into_iter().rev() {
+        let y = r.bottom() - 20.0 - bh - row as f32 * (bh + 6.0);
+        let br = cx.m_in(Rect::new(r.x + 24.0 + x, y, width, bh), r);
+        crate::insights::button(cx, br, &b, t.clone(), false);
         if cx.is_focused(&t) {
             cx.button_ring(br, metrics::RADIUS_SM + 2.0);
         }

@@ -5,9 +5,8 @@
 //!   ([`App::crash_prompt`]).
 //! - Save diagnostics bundle… previews exactly what the zip will hold, then writes it where
 //!   the user chooses ([`App::diag_open`]). Nothing is uploaded.
-//! - The update check is off unless Settings › Updates turns it on: at most once a day, one
-//!   plain GET of [`specular_diag::RELEASES_URL`]; the answer shows under the setting, with
-//!   the release notes and the download page opening in the browser. Nothing is installed.
+//! - About and Settings offer a one-time update check. Settings can also enable a check
+//!   at most once a day. A newer version links to its GitHub release page.
 
 use std::path::{Path, PathBuf};
 use std::sync::{Mutex, OnceLock};
@@ -15,7 +14,7 @@ use std::sync::{Mutex, OnceLock};
 use crossbeam_channel::Receiver;
 use specular_diag::bundle::{self, Inputs, What};
 use specular_diag::update::{self, Channel, Outcome, Release, Version};
-use specular_diag::{ISSUES_URL, RELEASES_URL, Redactor, SUPPORT_EMAIL};
+use specular_diag::{ISSUES_URL, Redactor, SUPPORT_EMAIL};
 use specular_i18n::{I18n, t};
 use specular_settings::UpdateChannel;
 use specular_widgets::{CrashSheet, DiagEntry, DiagSheet, PanelEvent, PanelRow, SettingPanel};
@@ -220,7 +219,17 @@ impl App {
         // No network: automatic checks wait; Check now says why it can't.
         if specular_core::net::off::is_off() {
             if manual {
-                self.update_panel(Some(Err(super::privacy::off_text())));
+                self.diag.release = None;
+                self.show_update(SettingPanel {
+                    title: super::privacy::off_text(),
+                    rows: vec![PanelRow {
+                        id: "privacy".into(),
+                        label: t!("settings-privacy-no-network"),
+                        button: Some(t!("settings-section-privacy")),
+                        ..Default::default()
+                    }],
+                    ..Default::default()
+                });
             }
             return;
         }
@@ -242,7 +251,7 @@ impl App {
             let r = update::client().and_then(|c| {
                 update::check(
                     &c,
-                    RELEASES_URL,
+                    channel.feed_url(),
                     &current,
                     channel,
                     &specular_core::CancelToken::new(),
@@ -252,60 +261,31 @@ impl App {
             let _ = tx.send(r);
             l.waker()();
         });
+        self.diag.release = None;
         self.diag.check = Some(rx);
-        self.update_panel(Some(Err(t!("update-checking"))));
+        self.show_update(SettingPanel {
+            title: t!("update-checking"),
+            ..Default::default()
+        });
     }
 
-    /// The panel under Check now: the release found (its notes and download), up to date,
-    /// checking or failed.
-    fn update_panel(&mut self, state: Option<Result<&Outcome, String>>) {
-        let panel = state.map(|s| match s {
-            Ok(Outcome::Available(r)) => SettingPanel {
-                title: t!("update-available", version = r.version_text.clone()),
-                intro: r.date.clone(),
-                rows: vec![
-                    PanelRow {
-                        id: "notes".into(),
-                        label: t!("update-notes"),
-                        lines: vec![r.notes_url.clone()],
-                        button: Some(t!("update-notes")),
-                        ..PanelRow::default()
-                    },
-                    PanelRow {
-                        id: "download".into(),
-                        label: t!("update-download"),
-                        lines: vec![r.download_url.clone()],
-                        button: Some(t!("update-download")),
-                        ..PanelRow::default()
-                    },
-                ],
-                ..SettingPanel::default()
-            },
-            Ok(Outcome::Current) => SettingPanel {
-                title: t!("update-none"),
-                ..SettingPanel::default()
-            },
-            Err(e) => SettingPanel {
-                title: e,
-                ..SettingPanel::default()
-            },
-        });
-        if self.chrome.set_setting_panel(UPDATE_PANEL, panel) {
+    fn show_update(&mut self, panel: SettingPanel) {
+        if self.chrome.set_setting_panel(UPDATE_PANEL, Some(panel)) {
             self.redraw = true;
         }
     }
 
-    /// A button of the update panel: open the link in the browser.
     pub(crate) fn update_panel_event(&mut self, e: &PanelEvent) {
-        let Some(r) = &self.diag.release else {
-            return;
-        };
-        let url = match e {
-            PanelEvent::Row(id) if id == "notes" => r.notes_url.clone(),
-            PanelEvent::Row(id) if id == "download" => r.download_url.clone(),
-            _ => return,
-        };
-        super::ai::open_url(url);
+        let PanelEvent::Row(id) = e else { return };
+        match id.as_str() {
+            "privacy" => self.chrome.open_settings_at(super::privacy::PANEL),
+            "release" => {
+                if let Some(r) = &self.diag.release {
+                    super::ai::open_url(r.url.clone());
+                }
+            }
+            _ => {}
+        }
     }
 
     /// Answers of the background work: the bundle saved, the update check done.
@@ -326,28 +306,44 @@ impl App {
             }
             self.redraw = true;
         }
-        if let Some(rx) = &self.diag.check
-            && let Ok(r) = rx.try_recv()
-        {
-            self.diag.check = None;
-            match r {
-                Ok(o) => {
-                    self.update_panel(Some(Ok(&o)));
-                    if let Outcome::Available(rel) = &o {
-                        let now = self.now();
-                        self.chrome.toast(
-                            t!("update-available", version = rel.version_text.clone()),
-                            None,
-                            now,
-                        );
-                    }
-                    self.diag.release = match o {
-                        Outcome::Available(r) => Some(r),
-                        Outcome::Current => None,
-                    };
+        if let Some(rx) = &self.diag.check {
+            let r = match rx.try_recv() {
+                Ok(result) => result,
+                Err(crossbeam_channel::TryRecvError::Empty) => return,
+                Err(crossbeam_channel::TryRecvError::Disconnected) => {
+                    Err(t!("error-reason-internal"))
                 }
-                Err(e) => self.update_panel(Some(Err(t!("update-failed", reason = e)))),
-            }
+            };
+            self.diag.check = None;
+            let panel = match r {
+                Ok(Outcome::Available(release)) => {
+                    let title = t!("update-available", version = release.version_text.clone());
+                    self.chrome.toast(title.clone(), None, self.now());
+                    let panel = SettingPanel {
+                        title,
+                        intro: release.date.clone(),
+                        rows: vec![PanelRow {
+                            id: "release".into(),
+                            label: t!("update-notes"),
+                            button: Some(t!("update-download")),
+                            lines: vec![release.url.clone()],
+                            ..Default::default()
+                        }],
+                        ..Default::default()
+                    };
+                    self.diag.release = Some(release);
+                    panel
+                }
+                Ok(Outcome::Current) => SettingPanel {
+                    title: t!("update-none"),
+                    ..Default::default()
+                },
+                Err(e) => SettingPanel {
+                    title: t!("update-failed", reason = e),
+                    ..Default::default()
+                },
+            };
+            self.show_update(panel);
         }
     }
 }

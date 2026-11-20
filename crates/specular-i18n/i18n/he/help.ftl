@@ -89,8 +89,10 @@ diag-readme =
 ## עדכונים (הגדרות)
 
 settings-section-updates = עדכונים
-settings-updates-check = בדיקת עדכונים
-settings-updates-check-help = פעם ביום, לשאול אם יש גרסה חדשה. הבקשה כוללת רק את מספר הגרסה: בלי מזהה, בלי עוגייה. כבוי: { -app-name } אף פעם לא מתחבר לצורך עדכונים.
+palette-check-for-updates = בדיקת עדכונים
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = בדיקת עדכונים אוטומטית
+settings-updates-check-help = פעם ביום, לשאול אם יש גרסה חדשה. הבקשה כוללת רק את מספר הגרסה: בלי מזהה, בלי עוגייה.
 settings-updates-channel = ערוץ
 settings-updates-channel-help = יציב: גרסאות רשמיות בלבד. בטא: גם גרסאות ניסיון.
 settings-updates-channel-stable = יציב

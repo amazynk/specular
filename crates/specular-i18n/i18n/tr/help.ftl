@@ -88,8 +88,10 @@ diag-readme =
 ## Güncellemeler (Ayarlar)
 
 settings-section-updates = Güncellemeler
-settings-updates-check = Güncellemeleri denetle
-settings-updates-check-help = Günde bir kez yeni sürüm olup olmadığını sor. İstek yalnızca sürüm numarasını taşır: tanımlayıcı yok, çerez yok. Kapalı: { -app-name } güncellemeler için asla bağlanmaz.
+palette-check-for-updates = Güncellemeleri denetle
+palette-check-for-updates-help = { settings-updates-check-now-help }
+settings-updates-check = Güncellemeleri otomatik olarak denetle
+settings-updates-check-help = Günde bir kez yeni sürüm olup olmadığını sor. İstek yalnızca sürüm numarasını taşır: tanımlayıcı yok, çerez yok.
 settings-updates-channel = Kanal
 settings-updates-channel-help = Kararlı: yalnızca sürümler. Beta: test sürümleri de.
 settings-updates-channel-stable = Kararlı

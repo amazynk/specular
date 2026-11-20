@@ -6,6 +6,15 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **Check for updates** in About and the command palette checks once and shows the result
+  in Settings › Updates.
+
+### Fixed
+
+- Update checks now read published GitHub releases. The previous feed returned a 404.
+
 ## [0.1.2] - 2026-11-16
 
 ### Added

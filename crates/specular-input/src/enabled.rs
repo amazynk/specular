@@ -419,6 +419,7 @@ impl Action {
             | Action::About
             | Action::ShowWelcome
             | Action::Help
+            | Action::CheckForUpdates
             | Action::JoinDiscord
             | Action::SaveDiagnostics
             | Action::Language

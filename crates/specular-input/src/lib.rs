@@ -332,6 +332,8 @@ pub enum Action {
     /// Opens the invite to the Specular Discord server in the browser
     /// (`specular_core::links::DISCORD_INVITE`).
     JoinDiscord,
+    /// Run a one-time check and show the result in Settings › Updates.
+    CheckForUpdates,
     /// Save a diagnostics bundle for a bug report (shows what goes in it first).
     SaveDiagnostics,
     Hud,
@@ -1265,6 +1267,7 @@ impl Action {
         Action::ShowWelcome,
         Action::Help,
         Action::JoinDiscord,
+        Action::CheckForUpdates,
         Action::SaveDiagnostics,
         Action::Hud,
         Action::Language,
@@ -1856,6 +1859,7 @@ impl Action {
         Action::ShowWelcome,
         Action::Help,
         Action::JoinDiscord,
+        Action::CheckForUpdates,
         Action::SaveDiagnostics,
         Action::Hud,
         Action::CullPick,

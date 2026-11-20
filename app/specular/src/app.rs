@@ -3455,6 +3455,11 @@ impl App {
             self.diag_open();
             return;
         }
+        if a == Action::CheckForUpdates {
+            self.chrome.open_settings_at(diagnostics::UPDATE_PANEL);
+            self.setting_action(diagnostics::UPDATE_PANEL);
+            return;
+        }
         if self.open_browser_link(a) {
             return;
         }

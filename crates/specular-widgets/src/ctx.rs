@@ -214,6 +214,7 @@ pub(crate) enum Target {
     AboutHelp,
     AboutDiagnostics,
     AboutRenderer,
+    AboutUpdates,
     /// About's Discord button (opens the Specular Discord invite).
     AboutDiscord,
 }
@@ -231,6 +232,7 @@ impl Target {
         match self {
             Target::Toolbar(item) => crate::toolbar::item_action(*item, st),
             Target::ZoomPreset(a) | Target::Transport(a) => Some(*a),
+            Target::AboutUpdates => Some(Action::CheckForUpdates),
             Target::Position => Some(Action::GoToImage),
             Target::EdgePrev => Some(Action::PrevImage),
             Target::EdgeNext => Some(Action::NextImage),

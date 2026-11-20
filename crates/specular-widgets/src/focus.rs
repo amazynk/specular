@@ -694,6 +694,7 @@ impl Chrome {
                 Target::AboutHelp,
                 Target::AboutRenderer,
                 Target::AboutDiagnostics,
+                Target::AboutUpdates,
                 Target::AboutDiscord,
                 Target::ModalClose,
             ],
