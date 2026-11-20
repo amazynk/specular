@@ -215,6 +215,8 @@ pub(crate) enum Target {
     AboutDiagnostics,
     AboutRenderer,
     AboutUpdates,
+    /// The Discord button on the start screen.
+    CommunityDiscord,
     /// About's Discord button (opens the Specular Discord invite).
     AboutDiscord,
 }
@@ -232,6 +234,7 @@ impl Target {
         match self {
             Target::Toolbar(item) => crate::toolbar::item_action(*item, st),
             Target::ZoomPreset(a) | Target::Transport(a) => Some(*a),
+            Target::CommunityDiscord | Target::AboutDiscord => Some(Action::JoinDiscord),
             Target::AboutUpdates => Some(Action::CheckForUpdates),
             Target::Position => Some(Action::GoToImage),
             Target::EdgePrev => Some(Action::PrevImage),
@@ -256,7 +259,9 @@ impl Target {
             Target::InfoCopy(..) | Target::InfoSummary(..) => (t!("app-info-copy-value"), None),
             Target::Toolbar(item) => crate::toolbar::item_label(*item, st),
             Target::ToolbarMore => (t!("toolbar-more"), None),
-            Target::AboutDiscord => (t!("toolbar-discord"), Some(Action::JoinDiscord)),
+            Target::CommunityDiscord | Target::AboutDiscord => {
+                (t!("toolbar-discord"), Some(Action::JoinDiscord))
+            }
             Target::ProfileChip(c) => (crate::palette::turn_on(*c, false), None),
             Target::Position => (t!("toolbar-go-to"), Some(Action::GoToImage)),
             Target::Transport(a) => (crate::transport::label(*a, st), Some(*a)),
@@ -689,6 +694,29 @@ impl<'a> Ctx<'a> {
     ) -> String {
         let text = &mut *self.text;
         specular_i18n::ellipsize_to_fit(s, middle, |t| text.measure(t, style) <= max_w)
+    }
+
+    /// The community link has a small Discord-coloured badge inside its full button target.
+    pub(crate) fn discord_button(&mut self, r: Rect, target: Target) {
+        let brand = Color::hex(0x5865f2);
+        let fill = if self.is_pressed(&target) {
+            brand.lerp(Color::BLACK, 0.18)
+        } else if self.is_hover(&target) {
+            brand.lerp(Color::WHITE, 0.14)
+        } else {
+            brand
+        };
+        self.dl.rect(r.centered(28.0, 22.0), 6.0, fill);
+        draw_icon(
+            self.dl,
+            Icon::Discord,
+            r.centered(17.0, 17.0),
+            Color::WHITE,
+            0.0,
+            false,
+        );
+        self.ring_if(&target, r, metrics::RADIUS_SM + 2.0);
+        self.hit(r, target);
     }
 
     /// A square icon button with hover and pressed states.

@@ -12,7 +12,7 @@ The toolbar at the bottom holds the most used commands. Hover over a button to s
 
 To choose the buttons, press [[key:customise-toolbar]] or right-click the toolbar.
 
-The Discord button at the end opens the Specular Discord server in your browser. About has it too.
+The Discord icon opens the Specular community in your browser. Look beside the heading on the start screen or at the end of the default viewer toolbar.
 
 ## The command palette {#palette}
 Press [[key:palette]] and type a few letters of any command or setting. Matches are listed with their keys.

@@ -8,6 +8,8 @@ All notable changes to Specular are listed here. The format follows
 
 ### Added
 
+- A purple Discord button opens the Specular community from the start screen and the
+  default viewer toolbar.
 - **Check for updates** in About and the command palette checks once and shows the result
   in Settings › Updates.
 

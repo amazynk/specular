@@ -2,8 +2,8 @@
 
 - What: Discord's symbol (the "Clyde" logo), black version. Only its SVG path data is used, as
   data, unchanged: `DISCORD_PATH` is the `d` attribute of the file, character for character
-  (viewBox `0 0 126.644 96`, non-zero fill). The app tints it like its other icons (the theme's
-  icon colour: light on dark, dark on light).
+  (viewBox `0 0 126.644 96`, non-zero fill). The community button shows the mark in white on
+  Discord's brand colour.
 - Source: Discord's brand guidelines, <https://discord.com/branding>, "Symbol", black mark SVG
   download, fetched 2026-11-08:
   - <https://cdn.discordapp.com/assets/content/aecd9009fd6a24c06c8ce71f6bb84463eaf7252bc5259022fb887b381a428250.zip>

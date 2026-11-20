@@ -3556,7 +3556,9 @@ impl Chrome {
                 Response::cmd(Command::SettingAction(renderer_info::RENDERER_INFO))
             }
             // The browser opens; About stays.
-            Target::AboutDiscord => Response::cmd(Command::Action(Action::JoinDiscord)),
+            Target::CommunityDiscord | Target::AboutDiscord => {
+                Response::cmd(Command::Action(Action::JoinDiscord))
+            }
             Target::AboutUpdates => Response::cmd(Command::Action(Action::CheckForUpdates)),
             Target::HelpRow(i) => self.help_row_click(i),
             Target::HelpBack => {

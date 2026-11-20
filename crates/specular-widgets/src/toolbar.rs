@@ -519,6 +519,7 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState, alpha: f32) 
         match it {
             // Spacers and separators can be picked up too.
             T::Spacer => cx.hit(r, Target::BarSlot(i)),
+            T::Discord => cx.discord_button(r, t),
             T::Separator => {
                 separator(cx, r, bar.y, h, 1.0);
                 cx.hit(r, Target::BarSlot(i));

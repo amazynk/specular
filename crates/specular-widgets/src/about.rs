@@ -205,14 +205,7 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         Rect::new(r.right() - 46.0 - 36.0, r.y + 14.0, 32.0, 32.0),
         r,
     );
-    cx.icon_button(
-        discord,
-        specular_gfx::Icon::Discord,
-        Target::AboutDiscord,
-        cx.pal.text_muted,
-        false,
-        false,
-    );
+    cx.discord_button(discord, Target::AboutDiscord);
     let by = r.bottom() - 20.0 - footer_h;
     for (b, t, x, row, width) in buttons.into_iter().rev() {
         let y = r.bottom() - 20.0 - bh - row as f32 * (bh + 6.0);

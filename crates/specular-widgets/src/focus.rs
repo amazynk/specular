@@ -64,6 +64,7 @@ pub(crate) fn region_of(t: &Target) -> Option<Region> {
         | Target::InfoCopy(..)
         | Target::InfoSummary(..) => Region::Info,
         Target::Work
+        | Target::CommunityDiscord
         | Target::Downloads
         | Target::Insight
         | Target::InsightHide
@@ -207,7 +208,11 @@ impl Chrome {
         for (r, t) in &self.hits {
             if matches!(
                 t,
-                Target::Work | Target::Downloads | Target::Insight | Target::InsightHide
+                Target::CommunityDiscord
+                    | Target::Work
+                    | Target::Downloads
+                    | Target::Insight
+                    | Target::InsightHide
             ) && !ind.iter().any(|(_, u)| u == t)
             {
                 ind.push((*r, t.clone()));
@@ -567,10 +572,9 @@ impl Chrome {
         }
     }
 
-    /// The indicators' buttons up now, in Tab order: the background-work indicator, then the
-    /// insights indicator and its hide button.
+    /// The chrome controls the gallery can hand focus to with F6, in Tab order.
     pub(crate) fn indicator_targets(&self) -> Vec<Target> {
-        let mut v = Vec::with_capacity(3);
+        let mut v = Vec::with_capacity(4);
         if self.work_chip.is_some() {
             v.push(Target::Work);
         }
@@ -583,8 +587,7 @@ impl Chrome {
         v
     }
 
-    /// Whether an indicator is up (background work, or insights): the gallery's F6 reaches
-    /// them.
+    /// Whether F6 can hand focus from the gallery to the chrome.
     pub fn indicator_shown(&self) -> bool {
         self.work_chip.is_some() || self.downloads_on || self.insight_indicator.is_some()
     }

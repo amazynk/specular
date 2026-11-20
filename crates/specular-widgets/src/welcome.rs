@@ -364,18 +364,20 @@ pub(crate) fn draw(ch: &Chrome, cx: &mut Ctx, st: &ViewerState) {
     let top = 24.0f32;
     let bottom = cx.h - top;
 
-    // The heading and the line under it.
+    // The community button sits at the trailing end of the heading.
+    let title_w = (col_w - metrics::BUTTON - gap).max(1.0);
     let title = cx.layout(
         &t!("welcome-title"),
         cx.style(metrics::FONT_LARGE * 1.4).weight(650.0),
-        Some(col_w),
+        Some(title_w),
     );
     let tagline = cx.layout(
         &t!("welcome-tagline"),
         cx.style(metrics::FONT_BODY),
         Some(col_w),
     );
-    let head_h = title.height + 6.0 + tagline.height;
+    let title_h = title.height.max(metrics::BUTTON);
+    let head_h = title_h + 6.0 + tagline.height;
 
     // The entry points: three side by side, else stacked.
     let side = col_w >= cx.u(170.0) * 3.0 + gap * 2.0;
@@ -520,9 +522,16 @@ pub(crate) fn draw(ch: &Chrome, cx: &mut Ctx, st: &ViewerState) {
     let col = Rect::new(col_x, y, col_w, h);
 
     // Heading.
-    let r = cx.m_in(Rect::new(col_x, y, col_w, title.height), col);
-    cx.block_top(&title, r, HAlign::Start, cx.pal.text);
-    y += title.height + 6.0;
+    let r = cx.m_in(Rect::new(col_x, y, title_w, title_h), col);
+    cx.block_in(&title, r, HAlign::Start, cx.pal.text);
+    let button = Rect::new(
+        col.right() - metrics::BUTTON,
+        y + (title_h - metrics::BUTTON) * 0.5,
+        metrics::BUTTON,
+        metrics::BUTTON,
+    );
+    cx.discord_button(cx.m_in(button, col), Target::CommunityDiscord);
+    y += title_h + 6.0;
     let r = cx.m_in(Rect::new(col_x, y, col_w, tagline.height), col);
     cx.block_top(&tagline, r, HAlign::Start, cx.pal.text_muted);
     y += tagline.height + section;

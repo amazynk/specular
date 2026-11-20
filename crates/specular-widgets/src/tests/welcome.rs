@@ -219,6 +219,51 @@ fn keyboard_and_commands() {
     });
 }
 
+/// The start screen has a keyboard-accessible community link. Opening the gallery
+/// removes it from hit testing and keyboard navigation.
+#[test]
+fn community_link_on_start_screen() {
+    let mut text = Text::new();
+    let p = general();
+    with(keymap(p), empty(p), Settings::default(), |st| {
+        let mut c = Chrome::new();
+        c.set_size(360.0, 400.0);
+        c.set_accessibility(true);
+        draw(&mut c, &mut text, st);
+        let target = Target::CommunityDiscord;
+        let rect = c.hits.iter().find(|(_, t)| *t == target).unwrap().0;
+        assert_eq!(c.hit_at(rect.center()), Some(target.clone()));
+        assert_eq!(
+            target.tooltip(st).as_deref(),
+            Some("Join the Specular Discord")
+        );
+        for _ in 0..=c.stops().len() {
+            press(&mut c, st, NamedKey::Tab);
+            if c.kbd.as_ref() == Some(&target) {
+                break;
+            }
+        }
+        assert_eq!(c.kbd.as_ref(), Some(&target));
+        draw(&mut c, &mut text, st);
+        let tree = c.accessibility_tree(st, "Specular", 1.0);
+        let node = &tree
+            .nodes
+            .iter()
+            .find(|(id, _)| *id == tree.focus)
+            .unwrap()
+            .1;
+        assert_eq!(node.label(), Some("Join the Specular Discord"));
+        assert_eq!(node.role(), accesskit::Role::Button);
+        let r = press(&mut c, st, NamedKey::Enter);
+        assert_eq!(r.commands, [Command::Action(Action::JoinDiscord)]);
+
+        c.gallery = true;
+        draw(&mut c, &mut text, st);
+        assert!(!c.hits.iter().any(|(_, t)| *t == target));
+        assert!(!c.focusable(&target));
+    });
+}
+
 /// The first-run sheet's start choice: ↓ chooses the next, Continue stores it; Skip
 /// stores nothing.
 #[test]
