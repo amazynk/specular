@@ -183,12 +183,33 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: dist
+      - name: Prepare fixed download names
+        working-directory: dist
+        shell: bash
+        run: |
+          version=${GITHUB_REF_NAME#v}
+          # RPM packaging replaces hyphens in prerelease versions with underscores.
+          rpm_version=${version//-/_}
+          mkdir latest
+          ln "macos/Specular-$version-universal.dmg"        latest/Specular-universal.dmg
+          ln "windows/Specular-$version-x64.msi"            latest/Specular-x64.msi
+          ln "windows/Specular-$version-windows-x64.zip"    latest/Specular-windows-x64.zip
+          ln "linux/Specular-$version-x86_64.AppImage"      latest/Specular-x86_64.AppImage
+          ln "linux/Specular-$version-x86_64.flatpak"       latest/Specular-x86_64.flatpak
+          ln "linux/specular_${version}_amd64.deb"          latest/specular_amd64.deb
+          ln "linux/specular-$rpm_version-1.x86_64.rpm"     latest/specular-x86_64.rpm
+          ln "linux/specular-$version-linux-x86_64.tar.gz"  latest/specular-linux-x86_64.tar.gz
       - name: Draft GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
+          flags=(--draft --verify-tag)
+          if [[ ${GITHUB_REF_NAME%%+*} == *-* ]]; then
+            flags+=(--prerelease)
+          fi
           find dist -type f \( -name '*.AppImage' -o -name '*.flatpak' -o -name '*.tar.gz' \
             -o -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.msi' -o -name '*.dmg' \
             -o -name '*.sha256' \) -print0 \
-            | xargs -0 gh release create "${{ github.ref_name }}" --draft --repo "${{ github.repository }}" \
-                --title "Specular ${{ github.ref_name }}"
+            | xargs -0 gh release create "$GITHUB_REF_NAME" "${flags[@]}" --repo "$GITHUB_REPOSITORY" \
+                --title "Specular $GITHUB_REF_NAME"

@@ -118,3 +118,8 @@ a `PROVENANCE.md` next to it and an entry in `tools/release/third-party.sh`.
 Pushing a `v*` tag runs `.github/workflows/release.yml`. It builds and packages for each platform,
 signs when the signing secrets are set, and drafts a GitHub release. Update
 [CHANGELOG.md](CHANGELOG.md) first.
+
+Each draft includes the eight packages under their versioned names and the fixed names used by
+the website. The files in each pair share the same SHA-256 digest. Publishing a stable release
+updates the website’s `releases/latest/download/` links. Prerelease tags such as `v1.0.0-rc.1`
+produce a draft marked as a prerelease.
