@@ -6,6 +6,8 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-23
+
 ### Fixed
 
 - Specular no longer keeps a whole processor core busy while its window is hidden, minimised
