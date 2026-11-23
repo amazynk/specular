@@ -6,6 +6,16 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Specular no longer keeps a whole processor core busy while its window is hidden, minimised
+  or covered by other windows. A window that started out of sight drew nothing and ran the
+  core flat out until it was brought forward.
+- The log now says when the window has shown nothing a few seconds after it opened, and why,
+  and keeps the reason when Specular cannot start at all (no usable GPU, no window). Until
+  now a start that showed nothing left an empty log.
+- Quitting no longer writes a "peer check failed" warning to the log on macOS.
+
 ## [0.1.3] - 2026-11-20
 
 ### Added

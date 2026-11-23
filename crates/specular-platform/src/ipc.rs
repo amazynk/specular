@@ -402,6 +402,11 @@ impl Listener {
 
     /// Waits for the next connection from this user. Connections from anyone else (only
     /// possible for root, or through a misconfigured folder) are closed and skipped.
+    ///
+    /// A connection whose other end is already gone comes back as
+    /// [`io::ErrorKind::ConnectionAborted`], unchecked and closed: nobody is left to refuse.
+    /// That is another viewer finding out whether this socket is alive ([`bind_at`]), or the
+    /// owner waking its own `accept` to stop, which is why it returns instead of waiting on.
     pub fn accept(&self) -> io::Result<Stream> {
         loop {
             let (s, _) = self.listener.accept()?;
@@ -409,6 +414,12 @@ impl Listener {
                 Ok(true) => return Ok(s),
                 Ok(false) => {
                     specular_log::warn!(target: specular_log::SETTINGS, "ipc: refused a connection from another user");
+                }
+                Err(e) if e.kind() == io::ErrorKind::NotConnected => {
+                    return Err(io::Error::new(
+                        io::ErrorKind::ConnectionAborted,
+                        "the client left before it could be checked",
+                    ));
                 }
                 Err(e) => {
                     specular_log::warn!(target: specular_log::SETTINGS, "ipc: peer check failed ({e}); connection refused");
@@ -701,6 +712,24 @@ mod tests {
         assert_eq!(r.position(), 1025);
     }
 
+    /// A client that hung up before `accept` saw it (a second viewer's liveness probe, the
+    /// owner waking its own `accept` to stop) is handed back as aborted: no warning about a
+    /// refused connection, and the owner gets to look at its stop flag. The next client is
+    /// served as usual.
+    #[cfg(target_vendor = "apple")]
+    #[test]
+    fn a_client_that_left_is_not_a_refusal() {
+        let d = test_dir("left");
+        prepare_dir(&d).unwrap();
+        let (l, _guard) = bind(&d).unwrap();
+        drop(connect(&d.join(SOCKET_NAME), Duration::from_secs(5)).unwrap());
+        let e = l.accept().unwrap_err();
+        assert_eq!(e.kind(), io::ErrorKind::ConnectionAborted);
+        let _c = connect(&d.join(SOCKET_NAME), Duration::from_secs(5)).unwrap();
+        assert!(l.accept().is_ok());
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
     #[cfg(unix)]
     #[test]
     fn private_folder_and_stale_sockets() {
@@ -729,7 +758,13 @@ mod tests {
         // probe is queued first: a connection that closes without a line.)
         let t = std::thread::spawn(move || {
             loop {
-                let mut s = l.accept().unwrap();
+                let mut s = match l.accept() {
+                    Ok(s) => s,
+                    // Where a closed peer cannot be checked (macOS), the probe is handed
+                    // back as aborted.
+                    Err(e) if e.kind() == io::ErrorKind::ConnectionAborted => continue,
+                    Err(e) => panic!("accept: {e}"),
+                };
                 let mut r = io::BufReader::new(s.try_clone().unwrap());
                 if let Line::Text(t) = read_line(&mut r, 64).unwrap() {
                     write_line(&mut s, &t).unwrap();

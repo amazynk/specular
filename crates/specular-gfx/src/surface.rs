@@ -65,8 +65,31 @@ impl std::fmt::Debug for WindowSurface {
 /// Outcome of [`WindowSurface::acquire`].
 pub enum Frame {
     Ready(wgpu::SurfaceTexture),
-    /// Nothing to draw into right now (minimised, timeout); try again on the next event.
-    Skip,
+    /// Nothing to draw into right now. Try again later, not at once: while the window is out
+    /// of sight every try fails the same way, and a loop of them takes a whole core.
+    Skip(Skipped),
+}
+
+/// Why [`WindowSurface::acquire`] had no frame to give.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Skipped {
+    /// The window is out of sight: hidden, minimised, on another desktop or wholly covered.
+    Occluded,
+    /// The display gave no frame in time.
+    Timeout,
+    /// The surface stayed outdated or lost after being configured again, or refused the
+    /// request (the device's error handler has the message).
+    Unusable,
+}
+
+impl std::fmt::Display for Skipped {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Skipped::Occluded => "the window is hidden, minimised or covered",
+            Skipped::Timeout => "the display gave no frame in time",
+            Skipped::Unusable => "the window's surface cannot be drawn to",
+        })
+    }
 }
 
 impl WindowSurface {
@@ -205,9 +228,11 @@ impl WindowSurface {
                 wgpu::CurrentSurfaceTexture::Outdated | wgpu::CurrentSurfaceTexture::Lost => {
                     self.surface.configure(&gpu.device, &self.config);
                 }
-                _ => return Frame::Skip,
+                wgpu::CurrentSurfaceTexture::Occluded => return Frame::Skip(Skipped::Occluded),
+                wgpu::CurrentSurfaceTexture::Timeout => return Frame::Skip(Skipped::Timeout),
+                wgpu::CurrentSurfaceTexture::Validation => return Frame::Skip(Skipped::Unusable),
             }
         }
-        Frame::Skip
+        Frame::Skip(Skipped::Unusable)
     }
 }

@@ -39,6 +39,9 @@ use specular_log::{GPU, INPUT, SETTINGS, debug, info};
 
 /// How often the displays are listed (for unplugged ones and the Settings list).
 const MONITOR_POLL: Duration = Duration::from_secs(1);
+/// How long a frame the presentation window could not draw (it is out of sight) waits before
+/// it is tried again.
+const SKIPPED_FRAME_RETRY: Duration = Duration::from_millis(250);
 /// How often the presentation window's HDR state is checked.
 const HDR_POLL: Duration = Duration::from_millis(500);
 
@@ -1211,8 +1214,12 @@ impl App {
         let stand_in = keeps_picture(kept, shown_pixels, p.target, img.map(|(_, i)| i));
         let frame = match p.surface.acquire(&g.gpu) {
             Frame::Ready(f) => f,
-            Frame::Skip => {
-                p.redraw = true;
+            Frame::Skip(_) => {
+                // Out of sight (covered, on a display that is off): the frame is owed, but
+                // asking for it again at once is a loop that takes a core until the window
+                // is seen again. The clock tries again shortly (`present_tick`).
+                let retry = Instant::now() + SKIPPED_FRAME_RETRY;
+                p.wake_at = Some(p.wake_at.map_or(retry, |w| w.min(retry)));
                 return;
             }
         };

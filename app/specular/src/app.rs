@@ -78,6 +78,7 @@ pub(crate) mod file_kind;
 mod fileops;
 mod font_view;
 mod frame_gate;
+mod frame_wait;
 mod geo;
 mod gesture;
 mod gpu_reset;
@@ -674,6 +675,10 @@ pub struct App {
     /// screenshots draw on their own when the compositor sends no frame callbacks (the window is
     /// hidden or the output is off), which would otherwise hold them up forever on Wayland.
     redraw_asked: Option<Instant>,
+    /// Frames the window gave nothing to draw into (hidden, minimised, covered), from the
+    /// first one skipped until one is presented: the owed frame waits for a retry instead of
+    /// being asked for again at once (frame_wait.rs).
+    frame_wait: Option<frame_wait::FrameWait>,
     ui_scale: f32,
     /// The diagnostics bundle being saved, the update check (diagnostics.rs).
     diag: diagnostics::Diag,
@@ -993,6 +998,7 @@ pub fn run(
         prefetch_held: true,
         wake_at: None,
         redraw_asked: None,
+        frame_wait: None,
         ui_scale: 1.0,
         diag: diagnostics::Diag::default(),
         keys: keys::Keys::default(),
@@ -2520,7 +2526,10 @@ impl App {
                 }
             }
         }
+        // (Not while a frame the window could not take waits for its retry: this runs before
+        // every frame, and asking again each time would be the loop frame_wait.rs avoids.)
         if self.redraw
+            && self.frame_held_until().is_none()
             && let Some(g) = &self.gfx
         {
             g.window.request_redraw();
@@ -7061,8 +7070,9 @@ impl App {
         let t_acquire = Instant::now();
         let frame = match gfx.surface.acquire(&gfx.gpu) {
             Frame::Ready(f) => f,
-            Frame::Skip => {
-                self.redraw = true;
+            Frame::Skip(why) => {
+                // Still owed, but not asked for again at once (frame_wait.rs).
+                self.frame_skipped(why);
                 return;
             }
         };
@@ -7527,6 +7537,7 @@ impl App {
             }
         }
         self.frames += 1;
+        self.frame_drawn();
         debug!(
             target: RENDER,
             "frame {} presented in {:.1} ms (acquire {acquire_ms:.1} ms; caused by {}); next frame: {}",
@@ -8737,9 +8748,12 @@ impl App {
             self.redraw = true;
             self.present_now = true;
         }
+        // The window had no frame to draw into (hidden, minimised, covered): the frame owed
+        // waits for its retry instead of being asked for again at once (frame_wait.rs).
+        let held = self.frame_held_until();
         // Event-driven frames (not animation) go out at once; Mailbox presentation means the
         // compositor simply takes the newest buffer at its next refresh.
-        if self.present_now && self.redraw && self.gfx.is_some() {
+        if self.present_now && self.redraw && self.gfx.is_some() && held.is_none() {
             // At most one such frame per 4 ms (tile results arrive in bursts); the gallery's
             // scroll bench paces frames at its display refresh.
             let due = self.last_frame
@@ -8767,7 +8781,12 @@ impl App {
         // A frame just presented forgets `wake_at`: ask for the next animation frame again.
         self.because(C::Animation, |a| a.tick_animation());
         let more_uploads = self.gfx.is_some() && self.upload_one_deferred();
-        if self.redraw {
+        if let Some(retry) = held.filter(|_| self.redraw) {
+            // `redraw` stays set: the frame is owed, and the app is not idle meanwhile.
+            el.set_control_flow(ControlFlow::WaitUntil(
+                self.wake_at.map_or(retry, |w| w.min(retry)),
+            ));
+        } else if self.redraw {
             self.redraw = false;
             // Start region decodes for a settled view now rather than in the next frame,
             // which can be a whole frame-callback interval (up to one refresh) away.
@@ -9042,6 +9061,8 @@ impl App {
                 self.redraw = true;
             }
             WindowEvent::RedrawRequested => {}
+            // Unhidden, restored or uncovered: a frame that waited for this is drawn now.
+            WindowEvent::Occluded(false) => self.frame_wait_seen(),
             WindowEvent::ModifiersChanged(m) => {
                 self.mods = m.state();
                 // Shift+click in a text field extends its selection.

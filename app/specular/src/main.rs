@@ -821,6 +821,9 @@ fn main() {
         specular_platform::detach_console();
     }
     if let Err(e) = app::run(args, hw, loader, events, target, first, gpu, text) {
+        // Started from the Finder, the Dock or a launcher, nobody reads the terminal line:
+        // the log file is where the reason the window never came (no GPU, no window) is kept.
+        specular_log::error!(target: specular_log::STARTUP, "Specular could not start: {e}");
         eprintln!("specular: {e}");
         std::process::exit(1);
     }

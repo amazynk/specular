@@ -322,6 +322,10 @@ fn accept_loop(listener: &ipc::Listener, sh: &Shared) {
                 if sh.stop.load(Ordering::Acquire) {
                     return;
                 }
+                // Someone connected and left (another viewer looking for a live socket).
+                if e.kind() == io::ErrorKind::ConnectionAborted {
+                    continue;
+                }
                 warn!(target: SETTINGS, "remote control: accept: {e}");
                 std::thread::sleep(Duration::from_millis(100));
                 continue;

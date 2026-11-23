@@ -22,7 +22,7 @@ pub use draw::{Backdrop, DrawList, Prim, Rect, TexId};
 pub use gpu::{BufferInit, Gpu, PollError, poll_device, shader, video_memory};
 pub use icons::{Icon, draw_icon};
 pub use mark::Mark;
-pub use surface::{Frame, HdrDisplay, WindowSurface};
+pub use surface::{Frame, HdrDisplay, Skipped, WindowSurface};
 pub use text::{Align, ColourGlyph, FontFace, PathEl, Text, TextBlock, TextStyle};
 pub use ui::UiRenderer;
 pub use {wgpu, winit};
