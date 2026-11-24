@@ -6,6 +6,8 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-24
+
 ### Added
 
 - **More from Amazynk.** Settings has a section of that name, always in sight at the foot of

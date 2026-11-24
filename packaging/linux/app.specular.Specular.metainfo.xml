@@ -219,6 +219,11 @@
   </supports>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.1.5" date="2026-11-24">
+      <description>
+        <p>Settings sections are in groups, with a "More from Amazynk" section for Zynk, Pagebara and Dozed. On macOS the menu bar has File, Edit, View, Go, Window and Help menus.</p>
+      </description>
+    </release>
     <release version="0.1.4" date="2026-11-23">
       <description>
         <p>Specular no longer keeps a processor core busy while its window is hidden, minimised or covered by other windows. The log now says when a window has shown nothing after opening, and why.</p>
