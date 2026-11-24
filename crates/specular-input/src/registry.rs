@@ -155,6 +155,8 @@ actions! {
     A::Help => "help", "palette-help-manual", Help, Viewer, "interface", "";
     A::CheckForUpdates => "check-for-updates", "palette-check-for-updates", Help, Viewer, "privacy", "updates";
     A::JoinDiscord => "join-discord", "toolbar-discord", Help, Viewer, "interface", "toolbar";
+    A::GetPagebara => "get-pagebara", "palette-get-pagebara", Help, Viewer, "interface", "more-apps";
+    A::GetDozed => "get-dozed", "palette-get-dozed", Help, Viewer, "interface", "more-apps";
     A::SaveDiagnostics => "save-diagnostics", "palette-save-diagnostics", Help, Viewer, "interface", "";
     A::Hud => "hud", "palette-hud", Help, Viewer, "interface", "";
     A::Language => "language", "palette-language", Window, Viewer, "interface", "";

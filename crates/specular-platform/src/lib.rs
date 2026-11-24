@@ -44,6 +44,7 @@ pub mod launch;
 #[cfg(target_os = "macos")]
 mod macos;
 pub mod media;
+pub mod menu_bar;
 pub mod open_with;
 pub mod path;
 pub mod pen;

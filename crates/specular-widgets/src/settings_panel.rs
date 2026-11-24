@@ -1006,7 +1006,15 @@ mod tests {
             };
             let tall = rows(&draw_hits(&mut ch, st, 900.0, 2000.0));
             let n = ch.sections().len();
-            assert_eq!(tall.len(), n, "all sections in a tall window");
+            // A tall window shows nearly every section (the sheet is not made taller for
+            // the groups' headings, so a few rows are a short scroll away), and always the
+            // one at the sidebar's foot.
+            assert!(
+                tall.len() + 7 >= n,
+                "{} of {n} in a tall window",
+                tall.len()
+            );
+            assert!(tall.iter().any(|(i, _)| *i == n - 1), "the foot row");
             let pitch = tall[1].1.y - tall[0].1.y;
             let short = rows(&draw_hits(&mut ch, st, 900.0, 360.0));
             assert!(short.len() < n, "{} of {n} shown", short.len());
@@ -1034,16 +1042,19 @@ mod tests {
             );
             assert!(ch.settings.nav_scroll > 0.0);
             assert_eq!(ch.settings.scroll, page);
-            // The last section, chosen from the keyboard, is drawn inside the list.
+            // The last section of the list, chosen from the keyboard, is drawn inside the
+            // list, above the row at the sidebar's foot.
             ch.settings.nav_scroll = 0.0;
-            ch.settings.section = n - 1;
+            ch.settings.section = n - 2;
             let last = rows(&draw_hits(&mut ch, st, 900.0, 360.0));
-            let r = last
-                .iter()
-                .find(|(i, _)| *i == n - 1)
-                .expect("last section drawn")
-                .1;
-            assert!(r.bottom() <= side.bottom(), "{r:?} inside {side:?}");
+            let at = |i: usize| last.iter().find(|(j, _)| *j == i).map(|(_, r)| *r);
+            let r = at(n - 2).expect("last listed section drawn");
+            let foot = at(n - 1).expect("the foot row is always drawn");
+            assert!(
+                r.h >= pitch - 2.5 && r.bottom() <= foot.y,
+                "{r:?} above {foot:?}"
+            );
+            assert!(foot.bottom() <= side.bottom(), "{foot:?} inside {side:?}");
         });
     }
 

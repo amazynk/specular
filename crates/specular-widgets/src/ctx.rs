@@ -219,6 +219,8 @@ pub(crate) enum Target {
     CommunityDiscord,
     /// About's Discord button (opens the Specular Discord invite).
     AboutDiscord,
+    /// About's "Get Pagebara" and "Get Dozed" (each opens that app's page in the browser).
+    AboutGet(Action),
 }
 
 impl Target {
@@ -236,6 +238,7 @@ impl Target {
             Target::ZoomPreset(a) | Target::Transport(a) => Some(*a),
             Target::CommunityDiscord | Target::AboutDiscord => Some(Action::JoinDiscord),
             Target::AboutUpdates => Some(Action::CheckForUpdates),
+            Target::AboutGet(a) => Some(*a),
             Target::Position => Some(Action::GoToImage),
             Target::EdgePrev => Some(Action::PrevImage),
             Target::EdgeNext => Some(Action::NextImage),

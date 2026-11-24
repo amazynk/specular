@@ -693,14 +693,21 @@ impl Chrome {
             Some(Modal::HwReport) => vec![Target::ReportCopy, Target::ModalClose],
             Some(Modal::Crash) => self.crash_stops(),
             Some(Modal::Diagnostics) => self.diag_stops(),
-            Some(Modal::About) => vec![
+            // The row of the other apps is above the row of About's own buttons.
+            Some(Modal::About) => [
+                Target::AboutGet(Action::GetPagebara),
+                Target::AboutGet(Action::GetDozed),
                 Target::AboutHelp,
                 Target::AboutRenderer,
                 Target::AboutDiagnostics,
                 Target::AboutUpdates,
                 Target::AboutDiscord,
                 Target::ModalClose,
-            ],
+            ]
+            .into_iter()
+            // An app is offered where it runs.
+            .filter(|t| !matches!(t, Target::AboutGet(a) if !a.offered_here()))
+            .collect(),
             Some(Modal::Plot) => vec![Target::ModalClose],
             // The tabs, then Close.
             Some(Modal::CheatSheet) => self

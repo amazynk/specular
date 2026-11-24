@@ -421,6 +421,8 @@ impl Action {
             | Action::Help
             | Action::CheckForUpdates
             | Action::JoinDiscord
+            | Action::GetPagebara
+            | Action::GetDozed
             | Action::SaveDiagnostics
             | Action::Language
             | Action::ToggleTheme

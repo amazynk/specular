@@ -470,6 +470,9 @@ pub struct VideoPlayback {
     pub picture: bool,
 }
 
+/// The side of the picture before a setting's row (logical px at the default text size).
+pub const SETTING_ICON: f32 = 36.0;
+
 /// Modal overlays (one at a time).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Modal {
@@ -742,6 +745,8 @@ pub struct Chrome {
     pub(crate) ai_status: std::collections::HashMap<&'static str, SettingStatus>,
     /// Read-only panels under settings (Settings → Performance), by setting key.
     pub(crate) setting_panels: std::collections::HashMap<&'static str, SettingPanel>,
+    /// The picture before a setting's row, by setting ([`Chrome::set_setting_icon`]).
+    pub(crate) setting_icons: std::collections::HashMap<&'static str, specular_gfx::TexId>,
     pub(crate) bars: scrollbar::Scrollbars,
     pub(crate) confirm_file: String,
     /// A confirmation other than the trash one ([`Chrome::confirm`]): title, accept button,
@@ -978,6 +983,7 @@ impl Chrome {
             ],
             ai_status: Default::default(),
             setting_panels: Default::default(),
+            setting_icons: Default::default(),
             bars: Default::default(),
             confirm_file: String::new(),
             confirm_custom: None,
@@ -1957,6 +1963,20 @@ impl Chrome {
 
     /// Leaves setting `key` out of the window (or shows it again): its row, its panel and
     /// search results. Returns whether anything changed (redraw then).
+    /// The picture that stands before a setting's row in Settings, [`SETTING_ICON`] logical
+    /// px square at the default text size: an app's icon before the row that gets the app.
+    /// The texture's colour is premultiplied by its alpha. `None` takes the picture away.
+    pub fn set_setting_icon(&mut self, key: &'static str, icon: Option<specular_gfx::TexId>) {
+        match icon {
+            Some(tex) => {
+                self.setting_icons.insert(key, tex);
+            }
+            None => {
+                self.setting_icons.remove(key);
+            }
+        }
+    }
+
     pub fn set_setting_hidden(&mut self, key: &'static str, hidden: bool) -> bool {
         if self.setting_hidden(key) == hidden {
             return false;
@@ -3550,6 +3570,8 @@ impl Chrome {
                 Response::cmd(Command::Action(Action::JoinDiscord))
             }
             Target::AboutUpdates => Response::cmd(Command::Action(Action::CheckForUpdates)),
+            // The browser opens; About stays.
+            Target::AboutGet(a) => Response::cmd(Command::Action(a)),
             Target::HelpRow(i) => self.help_row_click(i),
             Target::HelpBack => {
                 self.help.go_back();

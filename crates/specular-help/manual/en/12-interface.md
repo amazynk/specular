@@ -3,7 +3,7 @@ id: interface
 title: The window
 section: start
 contexts: palette, cheatsheet, toolbar, downloads
-keywords: toolbar, palette, command, cheat sheet, info panel, theme, language, fullscreen, window, download, downloads, progress, discord, community
+keywords: toolbar, palette, command, cheat sheet, info panel, theme, language, fullscreen, window, download, downloads, progress, discord, community, pagebara, dozed, amazynk, more apps
 ---
 The controls fade while you look. For photos, move the pointer or press a key to bring them back. For sound and video, move the pointer near the bottom or press Tab to reach the controls.
 
@@ -47,6 +47,15 @@ Without room, a small download arrow stands in. Click it, or reach it with Tab, 
 The panel lists each download with its figures. **Stop** cancels one.
 
 Only the server's name is shown, never a full address or a password. Nothing shows when nothing is downloading.
+
+## More apps from Amazynk {#more-apps}
+The other apps by the people who make Specular are at the foot of the Settings sidebar, under **More from Amazynk**. **Get Pagebara** and **Get Dozed** open that app's page in your browser, where its downloads are. Specular downloads nothing itself.
+
+Both are in About and the command palette too, and on a Mac in the Help menu. Dozed runs on Linux, so **Get Dozed** is offered there only.
+
+**Get Zynk**, in the same section, opens Zynk in your system's store, or its download page on Linux.
+
+Pagebara is a PDF viewer and editor for Linux, Windows and macOS. Dozed freezes the Linux desktop apps you are not looking at, so they stop waking the CPU.
 
 ## Help {#help}
 Press [[key:help]] to open this manual at the page for what you are doing.

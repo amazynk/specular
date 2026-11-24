@@ -68,10 +68,26 @@ fn dialogs_go_round_their_buttons_with_tab() {
         press(&mut c, st, NamedKey::Space, Mods::NONE);
         assert_eq!(c.modal, None);
 
-        // About: Help, Renderer info…, Save diagnostics bundle…, updates, Discord, Close.
+        // About: the other apps (Get Pagebara, and Get Dozed on Linux, where Dozed runs),
+        // then Help, Renderer info…, Save diagnostics bundle…, updates, Discord, Close.
         let m = crate::Modal::About;
         c.open_modal(m);
         draw(&mut c, &mut text, st);
+        let gets = [
+            specular_input::Action::GetPagebara,
+            specular_input::Action::GetDozed,
+        ];
+        assert_eq!(
+            specular_input::Action::GetDozed.offered_here(),
+            cfg!(target_os = "linux")
+        );
+        for get in gets.into_iter().filter(|a| a.offered_here()) {
+            tab(&mut c, st);
+            assert_eq!(c.modal_focus, Some(Target::AboutGet(get)));
+            let r = press(&mut c, st, NamedKey::Enter, Mods::NONE);
+            assert_eq!(r.commands, [Command::Action(get)]);
+            assert_eq!(c.modal, Some(m), "About stays open");
+        }
         tab(&mut c, st);
         assert_eq!(c.modal_focus, Some(Target::AboutHelp));
         tab(&mut c, st);

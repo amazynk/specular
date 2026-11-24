@@ -2483,7 +2483,7 @@ fn write_rgba(gpu: &Gpu, tex: &wgpu::Texture, w: u32, h: u32, rgba: &[u8]) {
 }
 
 /// Uploads an RGBA8 picture into a new sRGB texture the UI can draw.
-fn upload_rgba(
+pub(super) fn upload_rgba(
     gpu: &Gpu,
     ui: &mut UiRenderer,
     w: u32,

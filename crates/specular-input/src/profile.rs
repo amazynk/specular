@@ -168,6 +168,9 @@ impl Profile {
 
     /// Whether `a` shows: its capability and tier, or (MPR open) one of MPR's tier-1 tools.
     pub fn shows_action(&self, a: Action) -> bool {
+        if !a.offered_here() {
+            return false;
+        }
         if a.is_develop() && self.develop_hidden() {
             return false;
         }
@@ -375,6 +378,12 @@ impl Action {
         )
     }
 
+    /// Whether this system is one the action is offered on. Dozed runs on Linux only, so
+    /// "Get Dozed" is in the palette, the menus and About there and nowhere else.
+    pub fn offered_here(self) -> bool {
+        self != Action::GetDozed || cfg!(target_os = "linux")
+    }
+
     /// The capability that hides the action under `st`'s profile, or `None` when it shows.
     pub fn hidden(self, st: &ActionState) -> Option<Capability> {
         // Develop hidden by the Medical or Science profile: no tools to turn on, so the
@@ -452,12 +461,18 @@ mod tests {
         for a in Action::BINDABLE {
             if a.capability() == Capability::General {
                 assert_eq!(a.tier(), Tier::Viewing, "{a:?}");
-                assert_ne!(
-                    visibility(*a, GENERAL, GENERAL, GENERAL, &photo()),
-                    Visibility::Hidden(Capability::General)
+                // Except an action for another system (Get Dozed, off Linux).
+                assert_eq!(
+                    visibility(*a, GENERAL, GENERAL, GENERAL, &photo())
+                        == Visibility::Hidden(Capability::General),
+                    !a.offered_here(),
+                    "{a:?}"
                 );
             }
         }
+        // Dozed runs on Linux, and is offered there only.
+        assert_eq!(Action::GetDozed.offered_here(), cfg!(target_os = "linux"));
+        assert!(Action::GetPagebara.offered_here());
         assert_eq!(
             visibility(Action::ZoomIn, GENERAL, GENERAL, GENERAL, &photo()),
             Visibility::Visible
@@ -616,10 +631,11 @@ mod tests {
             Action::DicomTags.visibility(&ph),
             Visibility::Hidden(Capability::Medical)
         );
-        // The default profile hides nothing.
+        // The default profile hides nothing that this system is offered.
         assert!(
             Action::BINDABLE
                 .iter()
+                .filter(|a| a.offered_here())
                 .all(|a| a.hidden(&ActionState::default()).is_none())
         );
     }

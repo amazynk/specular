@@ -1,5 +1,6 @@
-//! Actions that open a web page in the system browser (the Specular Discord invite). The
-//! browser fetches the page; the app sends nothing and adds no tracking parameters.
+//! Actions that open a web page in the system browser (the Specular Discord invite, and
+//! the pages of the other apps by the same people). The browser fetches the page; the app
+//! sends nothing and adds no tracking parameters.
 
 use specular_input::Action;
 
@@ -7,6 +8,8 @@ use specular_input::Action;
 pub(super) fn browser_link(a: Action) -> Option<&'static str> {
     match a {
         Action::JoinDiscord => Some(specular_core::links::DISCORD_INVITE),
+        Action::GetPagebara => Some(specular_core::links::PAGEBARA),
+        Action::GetDozed => Some(specular_core::links::DOZED),
         _ => None,
     }
 }
@@ -39,6 +42,32 @@ mod tests {
         // No other action opens it.
         for &a in Action::LISTED {
             if a != Action::JoinDiscord {
+                assert_ne!(
+                    browser_link(a),
+                    Some(specular_core::links::DISCORD_INVITE),
+                    "{a:?}"
+                );
+            }
+        }
+    }
+
+    /// "Get Pagebara" and "Get Dozed" (About's buttons, the palette, the macOS Help menu)
+    /// open those apps' pages, unchanged, and no other action opens a web page at all.
+    #[test]
+    fn the_other_apps_open_exactly_their_pages() {
+        assert_eq!(
+            browser_link(Action::GetPagebara),
+            Some(specular_core::links::PAGEBARA)
+        );
+        assert_eq!(
+            browser_link(Action::GetDozed),
+            Some(specular_core::links::DOZED)
+        );
+        for &a in Action::LISTED {
+            if !matches!(
+                a,
+                Action::JoinDiscord | Action::GetPagebara | Action::GetDozed
+            ) {
                 assert_eq!(browser_link(a), None, "{a:?}");
             }
         }

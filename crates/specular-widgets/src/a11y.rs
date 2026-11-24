@@ -851,6 +851,7 @@ fn describe(ch: &Chrome, t: &Target, st: &ViewerState) -> Option<Node> {
         Target::AboutRenderer => n.set_label(t!("about-renderer")),
         Target::CommunityDiscord | Target::AboutDiscord => n.set_label(t!("toolbar-discord")),
         Target::AboutUpdates => n.set_label(t!("palette-check-for-updates")),
+        Target::AboutGet(a) => n.set_label(a.name()),
         Target::HelpBack => n.set_label(t!("help-back")),
         Target::HelpContents => n.set_label(t!("help-contents")),
         Target::CrashView => n.set_label(if ch.crash.show_report {
@@ -1791,6 +1792,7 @@ impl Chrome {
                     | Target::AboutRenderer
                     | Target::AboutUpdates
                     | Target::AboutDiscord
+                    | Target::AboutGet(_)
                     | Target::HelpContents
                     | Target::CrashView
                     | Target::CrashCopy

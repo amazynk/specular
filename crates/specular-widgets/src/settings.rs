@@ -378,11 +378,100 @@ pub(crate) fn locked_item(key: &str, option: &str) -> bool {
     key == "profile.capabilities" && option == "general"
 }
 
-/// Sections that have something to show.
-pub(crate) fn sections() -> Vec<Section> {
-    Section::ALL
+/// The sidebar's groups: the message id of a group's heading and its sections, in the
+/// sidebar's order. Every section but [`PINNED`] is in one group
+/// (`every_section_is_in_one_group`). The order is the sidebar's alone: `settings.toml`
+/// keeps the schema's.
+pub(crate) const GROUPS: &[(&str, &[Section])] = {
+    use Section as S;
+    &[
+        (
+            "settings-group-application",
+            &[S::General, S::Profiles, S::Accessibility, S::Keys],
+        ),
+        (
+            "settings-group-viewer",
+            &[
+                S::Viewing,
+                S::Browsing,
+                S::Gallery,
+                S::Library,
+                S::Slideshow,
+                S::Cull,
+            ],
+        ),
+        (
+            "settings-group-images",
+            &[S::Colour, S::Inspection, S::Metadata, S::Convert, S::Import],
+        ),
+        (
+            "settings-group-specialised",
+            &[S::Medical, S::Maps, S::Drawings],
+        ),
+        (
+            "settings-group-system",
+            &[
+                S::Performance,
+                S::Ai,
+                S::Decoders,
+                S::Devices,
+                S::Integration,
+                S::Privacy,
+                S::Updates,
+                S::Advanced,
+            ],
+        ),
+    ]
+};
+
+/// The section that stands at the foot of the sidebar, under the list and outside its
+/// scrolling: the other apps by the same people, in sight whatever the list is scrolled to.
+pub(crate) const PINNED: Section = Section::Amazynk;
+
+/// The message id of the heading of the group `s` is in.
+fn group_heading(s: Section) -> Option<&'static str> {
+    GROUPS
         .iter()
-        .copied()
+        .find(|(_, secs)| secs.contains(&s))
+        .map(|(id, _)| *id)
+}
+
+/// Where the sidebar's rows go. For each listed section: its top, measured from the top of
+/// the list before any scrolling, and the heading that stands over it when it is the first
+/// of its group listed. Then the height of the whole list.
+pub(crate) fn nav_layout(
+    secs: &[Section],
+    pitch: f32,
+    head: f32,
+) -> (Vec<(f32, Option<&'static str>)>, f32) {
+    let mut y = 0.0;
+    let mut last = None;
+    let mut rows = Vec::with_capacity(secs.len());
+    for s in secs {
+        let group = group_heading(*s);
+        let heading = group.filter(|g| last != Some(*g));
+        if heading.is_some() {
+            y += head;
+        }
+        last = group;
+        rows.push((y, heading));
+        y += pitch;
+    }
+    (rows, y)
+}
+
+/// The height of a group's heading in the sidebar, for rows `pitch` apart.
+fn nav_head(pitch: f32) -> f32 {
+    (pitch * 0.85).floor()
+}
+
+/// Sections that have something to show, in the sidebar's order: the groups, then the
+/// section at the sidebar's foot.
+pub(crate) fn sections() -> Vec<Section> {
+    GROUPS
+        .iter()
+        .flat_map(|(_, secs)| secs.iter().copied())
+        .chain([PINNED])
         .filter(|s| specular_settings::in_section(*s).any(|m| m.applies_here()))
         .collect()
 }
@@ -863,9 +952,45 @@ pub(crate) fn sheet_rect(cx: &Ctx) -> Rect {
     let w = (cx.w - 40.0).min(cx.u(900.0));
     // Tall enough for every section in the sidebar where the window allows; a shorter
     // window scrolls the sidebar.
-    let nav = 46.0 + cx.u(28.0 + 32.0) + sections().len() as f32 * cx.u(32.0);
+    // (The groups' headings and the row at the sidebar's foot are not counted: a sheet
+    // taller than this would cover the toolbar in a window of an ordinary height.)
+    let rows = sections().iter().filter(|s| **s != PINNED).count();
+    let nav = 46.0 + cx.u(28.0 + 32.0) + rows as f32 * cx.u(32.0);
     let h = (cx.h - 40.0).min(cx.u(660.0).max(nav));
     Rect::new(((cx.w - w) * 0.5).round(), ((cx.h - h) * 0.5).round(), w, h)
+}
+
+/// One section's row in the sidebar, at `rr`: chosen, under the pointer or neither. It
+/// takes the pointer where it shows, inside `within`.
+fn nav_row(
+    ch: &Chrome,
+    cx: &mut Ctx,
+    i: usize,
+    label: &str,
+    rr: Rect,
+    within: Rect,
+    searching: bool,
+) {
+    let tgt = Target::Settings(SettingsTarget::Section(i));
+    let sel = !searching && i == ch.settings.section;
+    if sel {
+        cx.dl.rect(rr, metrics::RADIUS_SM + 1.0, cx.pal.accent_soft);
+    } else if cx.is_hover(&tgt) {
+        cx.dl
+            .rect(rr, metrics::RADIUS_SM + 1.0, cx.pal.surface_hover);
+    }
+    let ss = cx.style(metrics::FONT_BODY);
+    let style = if sel { ss.weight(600.0) } else { ss };
+    // Long names (large text, narrow sheets) end in "…" rather than run into the content.
+    cx.label_fit(
+        label,
+        style,
+        rr.inset_xy(10.0, 0.0),
+        HAlign::Start,
+        cx.pal.text,
+        false,
+    );
+    cx.hit(rr.intersect(&within), tgt);
 }
 
 pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
@@ -935,15 +1060,36 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
     // Rows as tall as the text allows; when they don't all fit (large text in a small
     // window) the list scrolls.
     let list_top = search_r.bottom() + 12.0;
-    let list = Rect::new(side.x, list_top, side.w, side.bottom() - 8.0 - list_top);
     ch.settings.side = side;
     let line = cx.layout("Ag", ss, None).height;
     let pitch = cx.u(32.0).max(line + 2.0).floor();
-    let nav_max = (secs.len() as f32 * pitch - list.h).max(0.0);
-    // A section chosen from the keyboard (or opened at) scrolls into view.
+    // The last section stands at the sidebar's foot, under a hairline; the list scrolls
+    // above it.
+    let listed = secs.len() - usize::from(secs.last() == Some(&PINNED));
+    let foot = if listed < secs.len() {
+        pitch + 9.0
+    } else {
+        0.0
+    };
+    let list = Rect::new(
+        side.x,
+        list_top,
+        side.w,
+        (side.bottom() - 8.0 - foot - list_top).max(0.0),
+    );
+    // The sections stand in groups, each under a small heading.
+    let head = nav_head(pitch);
+    let (nav_rows, nav_h) = nav_layout(&secs[..listed], pitch, head);
+    let nav_max = (nav_h - list.h).max(0.0);
+    // A section chosen from the keyboard (or opened at) scrolls into view, with the
+    // heading over it when it starts a group.
     let shown = (!searching).then_some(ch.settings.section);
-    if shown.is_some() && shown != ch.settings.nav_shown {
-        let top = ch.settings.section as f32 * pitch;
+    if shown.is_some()
+        && shown != ch.settings.nav_shown
+        && let Some(&(row_top, heading)) = nav_rows.get(ch.settings.section)
+    {
+        let top = row_top - if heading.is_some() { head } else { 0.0 };
+        let pitch = row_top + pitch - top;
         let s = &mut ch.settings.nav_scroll;
         if s.is_nan() {
             *s = 0.0;
@@ -958,37 +1104,55 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
     ch.settings.nav_scroll = ch.settings.nav_scroll.clamp(0.0, nav_max);
     let nav_scroll = ch.settings.nav_scroll;
     cx.dl.push_clip(list);
-    for (i, sec) in secs.iter().enumerate() {
+    let hs = cx.style(metrics::FONT_SMALL).weight(600.0);
+    for (i, sec) in secs[..listed].iter().enumerate() {
+        let (row_top, heading) = nav_rows[i];
         let rr = Rect::new(
             side.x + 8.0,
-            list_top + i as f32 * pitch - nav_scroll,
+            list_top + row_top - nav_scroll,
             side.w - 16.0,
             pitch - 2.0,
         );
-        if rr.bottom() < list.y || rr.y > list.bottom() {
+        if rr.bottom() < list.y || rr.y - head > list.bottom() {
             continue;
         }
-        let tgt = Target::Settings(SettingsTarget::Section(i));
-        let sel = !searching && i == ch.settings.section;
-        if sel {
-            cx.dl.rect(rr, metrics::RADIUS_SM + 1.0, cx.pal.accent_soft);
-        } else if cx.is_hover(&tgt) {
-            cx.dl
-                .rect(rr, metrics::RADIUS_SM + 1.0, cx.pal.surface_hover);
+        if let Some(id) = heading {
+            // Low in its band, so it reads with the rows under it and not the group above.
+            let band = Rect::new(rr.x + 10.0, rr.y - head, rr.w - 20.0, head);
+            cx.label_fit(
+                &i18n.tr(id),
+                hs,
+                Rect::new(band.x, band.y + (head * 0.25).floor(), band.w, head * 0.75),
+                HAlign::Start,
+                cx.pal.text_faint,
+                false,
+            );
         }
-        let style = if sel { ss.weight(600.0) } else { ss };
-        // Long names (large text, narrow sheets) end in "…" rather than run into the content.
-        cx.label_fit(
-            &sec.label(i18n),
-            style,
-            rr.inset_xy(10.0, 0.0),
-            HAlign::Start,
-            cx.pal.text,
-            false,
-        );
-        cx.hit(rr.intersect(&list), tgt);
+        nav_row(ch, cx, i, &sec.label(i18n), rr, list, searching);
     }
     cx.dl.pop_clip();
+    if listed < secs.len() {
+        let rr = Rect::new(
+            side.x + 8.0,
+            side.bottom() - 8.0 - pitch + 2.0,
+            side.w - 16.0,
+            pitch - 2.0,
+        );
+        cx.dl.rect(
+            Rect::new(rr.x + 10.0, rr.y - 5.0, rr.w - 20.0, 1.0),
+            0.0,
+            cx.pal.separator,
+        );
+        nav_row(
+            ch,
+            cx,
+            listed,
+            &secs[listed].label(i18n),
+            rr,
+            side,
+            searching,
+        );
+    }
     crate::scrollbar::draw(
         ch,
         cx,
@@ -1151,6 +1315,14 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
         let label = m.label(i18n);
         let help = m.help(i18n);
         let status = ch.status_of(m.key).cloned();
+        // A row's picture (an app's icon) stands before its text, which starts after it.
+        let icon = ch.setting_icons.get(m.key).copied();
+        let icon_side = cx.u(crate::SETTING_ICON);
+        let lead = if icon.is_some() {
+            icon_side + 12.0
+        } else {
+            0.0
+        };
         let is_list = matches!(m.kind, Kind::List { .. });
         // The toolbar has its own editor: a preview and an ordered list.
         let toolbar = m.key == crate::toolbar_edit::KEY;
@@ -1164,7 +1336,7 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
         let button_label = match &status {
             _ if keys => None,
             Some(s) => s.button.clone(),
-            None => matches!(m.kind, Kind::Action).then(|| label.clone()),
+            None => matches!(m.kind, Kind::Action).then(|| action_label(m, i18n)),
         };
         let button_w = button_label.as_ref().map(|l| {
             cx.layout(l, cx.style(metrics::FONT_LABEL).weight(550.0), None)
@@ -1174,11 +1346,20 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
         // A text or path field takes the row's width under its text: values are long.
         let field = crate::setting_field::is_field(m)
             && !status.as_ref().is_some_and(|s| owns_control(m, s));
+        // The text of a row with a picture starts after it, and runs up to the row's button
+        // instead of stopping at the control column: what the picture took comes back. (Whether
+        // the row stacks its control under its text goes by the column's width, as for every
+        // row: the picture does not push the button down.)
+        let row_stack_w = stack_w - lead;
+        let row_text_w = match button_w {
+            Some(bw) if icon.is_some() => text_w - lead + (ctrl_w - bw).max(0.0),
+            _ => text_w - lead,
+        };
         let mut stacked = keys
             || field
             || !is_list && (text_w < cx.u(160.0) || button_w.is_some_and(|w| w > ctrl_w + 0.5));
         let (lb, hb, rb, sb, tw) = loop {
-            let tw = if stacked { stack_w } else { text_w };
+            let tw = if stacked { row_stack_w } else { row_text_w };
             let lb = cx.layout(&label, label_s, Some(tw));
             let hb =
                 (!help.is_empty() && help != m.help_id).then(|| cx.layout(&help, help_s, Some(tw)));
@@ -1250,25 +1431,33 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
         } else if stacked {
             th + 8.0 + ctrl_h + err_h + grid_h + 22.0
         } else {
-            th.max(ctrl_h + 2.0) + 22.0
+            th.max(ctrl_h + 2.0).max(lead.min(icon_side)) + 22.0
         };
         let row = Rect::new(body.x + pad, y, body.w - pad * 2.0, rh);
         if row.bottom() > body.y && row.y < body.bottom() {
-            let tx = cx.m_in(Rect::new(row.x, row.y + 11.0, text_w, lb.height), row);
+            if let Some(tex) = icon {
+                // Level with the top of the text, as a list's pictures are.
+                let ir = cx.m_in(Rect::new(row.x, row.y + 11.0, icon_side, icon_side), row);
+                cx.dl.image(ir, [0.0, 0.0, 1.0, 1.0], tex, 0.0);
+            }
+            let tx = cx.m_in(
+                Rect::new(row.x + lead, row.y + 11.0, text_w, lb.height),
+                row,
+            );
             cx.block_top(&lb, tx, HAlign::Start, cx.pal.text);
             let mut ty = row.y + 11.0 + lb.height + 3.0;
             if let Some(hb) = &hb {
-                let hr = cx.m_in(Rect::new(row.x, ty, text_w, hb.height), row);
+                let hr = cx.m_in(Rect::new(row.x + lead, ty, text_w, hb.height), row);
                 cx.block_top(hb, hr, HAlign::Start, cx.pal.text_muted);
                 ty += hb.height + 3.0;
             }
             if let Some(rb) = &rb {
-                let rr = cx.m_in(Rect::new(row.x, ty, text_w, rb.height), row);
+                let rr = cx.m_in(Rect::new(row.x + lead, ty, text_w, rb.height), row);
                 cx.block_top(rb, rr, HAlign::Start, cx.pal.accent);
                 ty += rb.height + 3.0;
             }
             if let Some((sb, attention)) = &sb {
-                let sr = cx.m_in(Rect::new(row.x, ty, text_w, sb.height), row);
+                let sr = cx.m_in(Rect::new(row.x + lead, ty, text_w, sb.height), row);
                 let c = if *attention {
                     cx.pal.accent
                 } else {
@@ -1339,7 +1528,7 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
             }
             let ctrl = if stacked {
                 Rect::new(
-                    row.x,
+                    row.x + lead,
                     row.bottom() - 11.0 - err_h - grid_h - ctrl_h,
                     cw,
                     ctrl_h,
@@ -1476,6 +1665,18 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
         dropdown(ch, cx, anchor, m, st);
     }
     crate::toolbar_edit::draw_row_menu(ch, cx, st);
+}
+
+/// The text on an action setting's button: the setting's name, or its `…-button` message
+/// where the row is named for something else than what the button does (a row named for an
+/// app, whose button gets it).
+fn action_label(m: &SettingMeta, i18n: &I18n) -> String {
+    let id = format!("{}-button", m.label_id);
+    if i18n.localizer().has_message(&id) {
+        i18n.tr(&id)
+    } else {
+        m.label(i18n)
+    }
 }
 
 /// The button of an action setting, right-aligned in `r`; `disabled`: greyed out, pressing
@@ -1641,7 +1842,7 @@ fn control(
             );
             r
         }
-        Kind::Action => action_button(cx, m, r, &m.label(i18n), disabled),
+        Kind::Action => action_button(cx, m, r, &action_label(m, i18n), disabled),
         // Drawn under the help text by the caller.
         Kind::List { .. } => r,
         // Drawn as fields by the caller (setting_field.rs).
@@ -1987,4 +2188,58 @@ pub(crate) fn draw_language(ch: &mut Chrome, cx: &mut Ctx, st: &ViewerState) {
     }
     cx.dl.pop_clip();
     crate::scrollbar::draw(ch, cx, crate::scrollbar::Area::Language, list, r, max);
+}
+
+#[cfg(test)]
+mod group_tests {
+    use super::*;
+
+    /// A section left out of the groups would not be in the sidebar at all, and one in two
+    /// groups would be there twice.
+    #[test]
+    fn every_section_is_in_one_group() {
+        for s in Section::ALL {
+            let n = GROUPS.iter().filter(|(_, secs)| secs.contains(s)).count();
+            // The section at the sidebar's foot is in none.
+            let want = usize::from(*s != PINNED);
+            assert_eq!(n, want, "{s:?} is in {n} groups");
+        }
+        let listed: usize = GROUPS.iter().map(|(_, secs)| secs.len()).sum();
+        assert_eq!(listed + 1, Section::ALL.len());
+        assert_eq!(sections().last(), Some(&PINNED));
+    }
+
+    /// A heading stands over the first listed section of each group and takes its own
+    /// height; a group with nothing listed (its profile is off) has no heading.
+    #[test]
+    fn headings_stand_over_the_first_section_of_a_group() {
+        use Section as S;
+        let secs = [S::General, S::Keys, S::Viewing, S::Performance, S::Advanced];
+        let (rows, height) = nav_layout(&secs, 30.0, 20.0);
+        let headings: Vec<Option<&str>> = rows.iter().map(|r| r.1).collect();
+        assert_eq!(
+            headings,
+            [
+                Some("settings-group-application"),
+                None,
+                Some("settings-group-viewer"),
+                Some("settings-group-system"),
+                None,
+            ]
+        );
+        let tops: Vec<f32> = rows.iter().map(|r| r.0).collect();
+        assert_eq!(tops, [20.0, 50.0, 100.0, 150.0, 180.0]);
+        assert_eq!(height, 210.0);
+    }
+
+    /// Every heading has its text.
+    #[test]
+    fn every_group_has_a_heading_in_english() {
+        I18n::with_thread_language(specular_i18n::langid!("en"), || {
+            for (id, _) in GROUPS {
+                let text = I18n::global().tr(id);
+                assert!(!text.is_empty() && text != *id, "{id}: {text:?}");
+            }
+        });
+    }
 }

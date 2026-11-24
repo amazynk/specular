@@ -16,6 +16,7 @@ every hook is a no-op, so shared code calls them without its own `cfg`:
 | `crates/specular-core/src/hw.rs` | CPU brand and physical cores from sysctl. |
 | `crates/specular-gfx/src/macos.rs` | Present mode and drawable count overrides, BC/ASTC features, EDR hooks. |
 | `crates/specular-gfx/src/unified.rs` | `MappedUpload`: decoder-writes-into-GPU-memory upload for unified memory (all platforms; not wired in yet). |
+| `crates/specular-platform/src/menu_bar.rs`, `app/specular/src/app/menu_bar.rs` | The system menu bar: what is in it and why only the application menu's items have keys ([The menu bar](#the-menu-bar)). |
 | `app/specular/src/main.rs`, `app.rs` | Main-thread QoS, rayon pool QoS, App Nap guard for benchmarks, `--hw-report` lines, prefetch/VRAM budgets under pressure. |
 | `.cargo/apple-m2.toml` | Opt-in `-C target-cpu=apple-m2` config (not default). |
 
@@ -28,6 +29,38 @@ Cross-checking from Linux: `cargo check --target aarch64-apple-darwin -p specula
 headers, so leave it on only on a Mac or with an SDK (osxcross).
 
 ## What is implemented
+
+### The menu bar
+
+Specular puts its own menus in the system's bar in place of winit's (About, Hide, Quit):
+
+- **Specular**: About Specular (the app's own About box), Check for updates, Settings… (⌘,),
+  Services, Hide Specular (⌘H), Hide Others (⌥⌘H), Show All, Quit Specular (⌘Q).
+- **File, Edit, View, Go, Help**: the app's actions, under the names the palette gives them,
+  in the interface's language. Help also has the Discord invite and Get Pagebara (Get
+  Dozed is offered on Linux only). View ends with the system's full-screen item. The system adds its
+  own items to an Edit menu titled in English (dictation, emoji), and its search field to
+  Help.
+- **Window**: Minimise (⌘M), Zoom, Bring All to Front, and what the system adds.
+
+Choosing an item runs its action the way the palette does. The menus are laid out again when
+the language, the keymap or the profile changes.
+
+While a dialog is up (the chrome's or one of the app's own) or a field is typed in, the app's
+items are greyed and ⌘, goes to the window like any other key: the keys of the same actions
+do nothing there, and the dialogs count on nothing changing under them. The system's items
+(Hide, Quit, Minimise) are not affected.
+
+Only the application menu's items show a key. AppKit acts on a key a menu shows before the
+window sees the press (measured: with ⌘K beside Help › Command palette, ⌘K ran the menu item
+and never reached the keymap), which would skip what the key handling knows: the dialog that
+is open, the field being typed in, the keys of the mode. So every other action keeps its
+keymap key and the menus do not show it; the cheat sheet and the palette do. Showing keys in
+the menus needs the key handling to take a press that arrives through a menu.
+
+Not done yet: enabling and disabling each item with the state (outside a dialog, a disabled
+action chosen from a menu does nothing, as from the palette), ticks on toggles, Open Recent,
+the Dock menu.
 
 ### 1. Threads on P/E cores (QoS)
 

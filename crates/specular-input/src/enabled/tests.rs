@@ -44,6 +44,8 @@ fn enabled_table() {
         (A::Help, "EEEEE"),
         (A::CheckForUpdates, "EEEEE"),
         (A::JoinDiscord, "EEEEE"),
+        (A::GetPagebara, "EEEEE"),
+        (A::GetDozed, "EEEEE"),
         (A::SaveDiagnostics, "EEEEE"),
         (A::Language, "EEEEE"),
         (A::ToggleTheme, "EEEEE"),

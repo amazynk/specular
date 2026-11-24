@@ -358,6 +358,8 @@ enum State {
     /// Settings → Viewing at the subtitles' custom colour: its hex field, the colour beside
     /// it and the swatches under it, white in use (1× and 1.5× only).
     SettingsColour,
+    /// Settings › More from Amazynk, the section at the sidebar's foot.
+    SettingsAmazynk,
     /// Settings → Import: a folder (Choose… and Clear), and a rename pattern refused with
     /// the reason under it (1× and 1.5× only).
     SettingsImport,
@@ -490,6 +492,7 @@ impl State {
                 | State::GalleryDownloads
                 | State::SettingsFields
                 | State::SettingsColour
+                | State::SettingsAmazynk
                 | State::SettingsImport
                 | State::SettingsOcio
         )
@@ -1196,6 +1199,18 @@ fn cases() -> Vec<Case> {
             langid!("he"),
         ),
         c(
+            "settings-amazynk-dark",
+            State::SettingsAmazynk,
+            true,
+            langid!("en-US"),
+        ),
+        c(
+            "he-settings-amazynk-light",
+            State::SettingsAmazynk,
+            false,
+            langid!("he"),
+        ),
+        c(
             "settings-ocio-light",
             State::SettingsOcio,
             false,
@@ -1817,6 +1832,17 @@ fn chrome_matches_goldens() {
                 }
                 State::SettingsFields => c.open_settings_at("library"),
                 State::SettingsColour => c.open_settings_at("viewing.subtitle_custom_color"),
+                State::SettingsAmazynk => {
+                    // Stand-ins for the apps' icons, which are the application's to load.
+                    for key in [
+                        "amazynk.get_zynk",
+                        "amazynk.get_pagebara",
+                        "amazynk.get_dozed",
+                    ] {
+                        c.set_setting_icon(key, Some(thumbs[0].1.0));
+                    }
+                    c.open_settings_at("amazynk");
+                }
                 State::QueuePanel => {
                     c.set_play_order(Some(play_order()));
                     c.set_queue(queue_view());

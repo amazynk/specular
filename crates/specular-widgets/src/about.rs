@@ -1,9 +1,12 @@
 //! The About box: version, licence and the attributions the bundled data requires
 //! (GeoNames place names are CC BY 4.0 and must be credited where users can see it; the map's
-//! Natural Earth data is public domain and credited all the same).
+//! Natural Earth data is public domain and credited all the same). Under the licence it
+//! names the other apps by the same people, with a button for each that opens the app's page
+//! in the browser.
 
 use specular_gfx::Rect;
 use specular_i18n::t;
+use specular_input::Action;
 use specular_theme::metrics;
 
 use crate::Chrome;
@@ -96,6 +99,9 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
     let tagline = cx.layout(&t!("about-tagline"), body_s, Some(inner_w));
     let copyright = cx.layout(&copyright_line(), small_s, Some(inner_w));
     let license = cx.layout(&t!("about-license"), small_s, Some(inner_w));
+    let more = cx.layout(&t!("about-more-apps"), head_s, Some(inner_w));
+    let pagebara = cx.layout(&t!("about-more-apps-pagebara"), small_s, Some(inner_w));
+    let dozed = cx.layout(&t!("about-more-apps-dozed"), small_s, Some(inner_w));
     let head = cx.layout(&t!("about-third-party"), head_s, Some(inner_w));
     let geonames = cx.layout(&ch.about_geonames, small_s, Some(inner_w));
     let natural_earth = cx.layout(&t!("about-natural-earth"), small_s, Some(inner_w));
@@ -104,6 +110,8 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
     let file = cx.layout(&t!("about-third-party-file"), small_s, Some(inner_w));
 
     let has_storage = !ch.about_storage.is_empty();
+    // Dozed is named where it runs (Linux); elsewhere Pagebara closes the other apps.
+    let dozed_here = Action::GetDozed.offered_here();
     let blocks = [
         (&title, 4.0),
         (&version, if has_storage { 2.0 } else { 14.0 }),
@@ -111,6 +119,9 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         (&tagline, 14.0),
         (&copyright, 2.0),
         (&license, 20.0),
+        (&more, 6.0),
+        (&pagebara, if dozed_here { 4.0 } else { 20.0 }),
+        (&dozed, 20.0),
         (&head, 8.0),
         (&geonames, 8.0),
         (&natural_earth, 8.0),
@@ -118,9 +129,9 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         (&lensfun, 8.0),
         (&file, 0.0),
     ];
-    // Without a storage line its block takes no room.
+    // Without a storage line its block takes no room; nor does Dozed's where it is not named.
     let blocks = blocks.map(|(b, gap)| {
-        if std::ptr::eq(b, &storage) && !has_storage {
+        if std::ptr::eq(b, &storage) && !has_storage || std::ptr::eq(b, &dozed) && !dozed_here {
             (b, 0.0, false)
         } else {
             (b, gap, true)
@@ -172,21 +183,29 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         + 20.0
         + extra_h;
     // Lay out the footer from its trailing edge. Long translations wrap to another row.
+    // The other apps' buttons start a row of their own, above About's own.
     let label_s = cx.style(metrics::FONT_LABEL);
     let mut buttons = Vec::new();
     let mut end = inner_w;
     let mut row = 0;
     let bh = cx.u(32.0);
-    for (label, target) in [
+    let own = [
         (t!("palette-check-for-updates"), Target::AboutUpdates),
         (t!("about-diagnostics"), Target::AboutDiagnostics),
         (t!("about-renderer"), Target::AboutRenderer),
         (t!("about-help"), Target::AboutHelp),
-    ] {
+    ];
+    let own_n = own.len();
+    let gets = [Action::GetDozed, Action::GetPagebara]
+        .into_iter()
+        .filter(|a| a.offered_here())
+        .map(|a| (a.name(), Target::AboutGet(a)));
+    for (i, (label, target)) in own.into_iter().chain(gets).enumerate() {
+        let new_row = i == own_n;
         let label = cx.ellipsize(&label, label_s, (inner_w - 20.0).max(1.0), false);
         let block = cx.layout(&label, label_s, None);
         let width = (block.width + 20.0).min(inner_w);
-        if end < width && !buttons.is_empty() {
+        if (end < width || new_row) && !buttons.is_empty() {
             end = inner_w;
             row += 1;
         }
@@ -225,10 +244,10 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         if !shown {
             continue;
         }
+        // The title, the tagline and "More from Amazynk"; "Third-party licences".
         let color = match i {
-            0 => cx.pal.text,
-            3 => cx.pal.text,
-            6 => cx.pal.text_faint,
+            0 | 3 | 6 => cx.pal.text,
+            9 => cx.pal.text_faint,
             _ => cx.pal.text_muted,
         };
         let br = Rect::new(
@@ -239,7 +258,8 @@ pub(crate) fn draw(ch: &mut Chrome, cx: &mut Ctx) {
         );
         let br = cx.m_in(br, body);
         cx.block_top(b, br, HAlign::Start, color);
-        if i == 5 {
+        // Under the licence, and under the other apps.
+        if i == 5 || i == if dozed_here { 8 } else { 7 } {
             cx.dl.rect(
                 Rect::new(body.x, y + b.height + gap * 0.5, inner_w, 1.0),
                 0.0,

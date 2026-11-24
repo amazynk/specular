@@ -54,8 +54,8 @@ objc2-foundation = { version = "0.3", default-features = false, features = ["std
 # Share, email and wallpaper (share/macos.rs): NSSharingService(Picker), NSView, NSWorkspace.
 # Handing files to another app's Service (share/macos.rs): NSPasteboard, NSPerformService
 # (NSApplication), NSRunningApplication. The title bar in the content's colour (title_bar.rs):
-# NSWindow, NSColor.
-objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSScreen", "NSColorSpace", "NSWorkspace", "NSEvent", "block2", "objc2-core-foundation", "NSSharingService", "NSView", "NSResponder", "NSApplication", "NSPasteboard", "NSRunningApplication", "NSWindow", "NSColor"] }
+# NSWindow, NSColor. The menu bar (menu_bar.rs): NSMenu, NSMenuItem.
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSScreen", "NSColorSpace", "NSWorkspace", "NSEvent", "block2", "objc2-core-foundation", "NSSharingService", "NSView", "NSResponder", "NSApplication", "NSPasteboard", "NSRunningApplication", "NSWindow", "NSColor", "NSMenu", "NSMenuItem"] }
 dispatch2 = { version = "0.3", default-features = false, features = ["std", "objc2"] }
 
 # "Open with…" (open_with/windows.rs): the same windows-rs version `trash` already uses.

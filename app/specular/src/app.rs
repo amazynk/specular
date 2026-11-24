@@ -39,6 +39,7 @@ use frame_gate::{Cause, FrameCauses};
 mod a11y_audit;
 mod ai;
 mod annotations;
+mod app_icons;
 mod colour;
 mod cull;
 mod decoders;
@@ -98,6 +99,7 @@ mod map;
 mod markup;
 mod measure_tool;
 mod medical;
+mod menu_bar;
 mod mesh;
 mod meta_edit;
 mod mpr;
@@ -679,6 +681,10 @@ pub struct App {
     /// first one skipped until one is presented: the owed frame waits for a retry instead of
     /// being asked for again at once (frame_wait.rs).
     frame_wait: Option<frame_wait::FrameWait>,
+    /// The system menu bar (macOS) and the items chosen from it.
+    menu_bar: menu_bar::MenuBarState,
+    /// The other apps' icons, for Settings › More from Amazynk.
+    app_icons: app_icons::AppIcons,
     ui_scale: f32,
     /// The diagnostics bundle being saved, the update check (diagnostics.rs).
     diag: diagnostics::Diag,
@@ -836,7 +842,14 @@ pub fn run(
 ) -> Result<(), String> {
     // This thread runs the event loop: the catalogue refuses it (debug builds).
     specular_platform::mark_ui_thread();
-    let event_loop = EventLoop::<()>::with_user_event()
+    let mut event_loop = EventLoop::<()>::with_user_event();
+    #[cfg(target_os = "macos")]
+    {
+        // The menus in the bar are the app's own (`app/menu_bar.rs`), not winit's.
+        use winit::platform::macos::EventLoopBuilderExtMacOS;
+        event_loop.with_default_menu(false);
+    }
+    let event_loop = event_loop
         .build()
         .map_err(|e| format!("cannot start the event loop: {e}"))?;
     let app_t0 = specular_core::ms_since_start();
@@ -999,6 +1012,8 @@ pub fn run(
         wake_at: None,
         redraw_asked: None,
         frame_wait: None,
+        menu_bar: menu_bar::MenuBarState::default(),
+        app_icons: app_icons::AppIcons::default(),
         ui_scale: 1.0,
         diag: diagnostics::Diag::default(),
         keys: keys::Keys::default(),
@@ -3212,6 +3227,8 @@ impl App {
         self.refresh_insights();
         // Update checks just turned on: the first one now (then once a day).
         self.update_check(false);
+        // Another language or profile gives the menu bar other titles and items.
+        self.menu_bar_sync();
         self.redraw = true;
     }
 
@@ -3959,6 +3976,14 @@ impl App {
         match key {
             insights::RESTORE => self.insight_command("unhide"),
             "gallery.clear_cache" => self.gallery_clear_cache(),
+            // Where this system gets Zynk: its store, or the download for Linux.
+            "amazynk.get_zynk" => self.zynk_get(),
+            "amazynk.get_pagebara" => {
+                self.open_browser_link(Action::GetPagebara);
+            }
+            "amazynk.get_dozed" => {
+                self.open_browser_link(Action::GetDozed);
+            }
             diagnostics::UPDATE_PANEL => self.update_check(true),
             decoders::UNDER => self.decoders_look_again(None),
             file_kind::UNDER => self.file_kind_forget_all(),
@@ -6026,6 +6051,12 @@ impl App {
             if self.text_view.wants_upload() {
                 self.redraw = true;
             }
+        }
+        // The other apps' icons, made when Settings is first open and again at another scale.
+        if self.chrome.modal() == Some(Modal::Settings) {
+            let side = specular_widgets::SETTING_ICON * self.chrome.text_scale * scale;
+            self.app_icons
+                .prepare(&gfx.gpu, &mut gfx.ui, &mut self.chrome, side.round() as u32);
         }
         // A sound file's page covers its picture, under the panels.
         let page_px = (vp.w.max(1.0) as u32, vp.h.max(1.0) as u32);
@@ -8563,6 +8594,7 @@ impl App {
             el.exit();
             return;
         }
+        self.menu_bar_sync();
         self.drain_events();
         self.causes.add(Cause::Start);
         if let Some(g) = &self.gfx {
@@ -8578,6 +8610,7 @@ impl App {
         }
         self.because(Cause::Loader, |a| a.drain_events());
         self.because(Cause::Accessibility, |a| a.accessibility_requests(el));
+        self.menu_bar_requests(el);
     }
 
     fn handle_window_event(&mut self, el: &ActiveEventLoop, id: WindowId, event: WindowEvent) {
@@ -8613,6 +8646,7 @@ impl App {
 
     fn handle_about_to_wait(&mut self, el: &ActiveEventLoop) {
         use Cause as C;
+        self.menu_bar_gate();
         self.because(C::Loader, |a| a.drain_events());
         self.because(C::Decoders, |a| a.decoders_tick());
         self.because(C::Decoders, |a| a.file_kind_tick());

@@ -1732,7 +1732,11 @@ mod tests {
                 _ => None,
             })
             .collect();
-        assert_eq!(rows.len(), Mode::Viewer.actions().count());
+        // Every action of the mode that this system is offered (Get Dozed: Linux only).
+        assert_eq!(
+            rows.len(),
+            Mode::Viewer.actions().filter(|a| a.offered_here()).count()
+        );
         assert!(rows.iter().all(|(m, _)| *m == Mode::Viewer));
         // Cull mode lists its own actions.
         let (l, _) = lines(&km, Mode::Cull, "");

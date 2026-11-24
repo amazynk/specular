@@ -6,6 +6,24 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **More from Amazynk.** Settings has a section of that name, always in sight at the foot of
+  its sidebar, with a row and an icon each for Zynk (sends files straight between your
+  devices), Pagebara (a PDF viewer and editor) and, on Linux, Dozed (freezes background apps
+  there). **Get Zynk** opens Zynk in your system's store, or its download on Linux. **Get
+  Pagebara** and **Get Dozed**, there, in About and in the command palette, open that app's
+  page in your browser, where its downloads are. Specular downloads nothing itself.
+- **Settings in groups.** The sidebar's sections stand under five headings (Application,
+  Viewer, Images and files, Specialised, System) instead of one long list, with Accessibility
+  and Keys up beside General. `settings.toml` is unchanged.
+- **A menu bar on macOS.** The Specular menu has About Specular, Check for updates,
+  Settings… (⌘,), Services, Hide and Quit. File, Edit, View, Go and Help list the commands
+  under the names the palette gives them, in your language, and Window has Minimise (⌘M),
+  Zoom and Bring All to Front. Until now the bar had only About, Hide and Quit. The
+  commands are greyed while a dialog is open. Keys other than the Specular and Window menus'
+  are not shown in the menus yet; they work as before.
+
 ## [0.1.4] - 2026-11-23
 
 ### Fixed

@@ -332,6 +332,12 @@ pub enum Action {
     /// Opens the invite to the Specular Discord server in the browser
     /// (`specular_core::links::DISCORD_INVITE`).
     JoinDiscord,
+    /// Opens the page of Pagebara, the PDF viewer and editor by the same people, in the
+    /// browser (`specular_core::links::PAGEBARA`); its downloads are there.
+    GetPagebara,
+    /// Opens the page of Dozed, which freezes backgrounded Linux desktop apps, in the
+    /// browser (`specular_core::links::DOZED`); its downloads are there.
+    GetDozed,
     /// Run a one-time check and show the result in Settings › Updates.
     CheckForUpdates,
     /// Save a diagnostics bundle for a bug report (shows what goes in it first).
@@ -1267,6 +1273,8 @@ impl Action {
         Action::ShowWelcome,
         Action::Help,
         Action::JoinDiscord,
+        Action::GetPagebara,
+        Action::GetDozed,
         Action::CheckForUpdates,
         Action::SaveDiagnostics,
         Action::Hud,
@@ -1859,6 +1867,8 @@ impl Action {
         Action::ShowWelcome,
         Action::Help,
         Action::JoinDiscord,
+        Action::GetPagebara,
+        Action::GetDozed,
         Action::CheckForUpdates,
         Action::SaveDiagnostics,
         Action::Hud,

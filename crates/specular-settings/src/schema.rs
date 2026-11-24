@@ -1111,4 +1111,12 @@ crate::settings! {
         export: Action = Action;
         reset_all: Action = Action;
     }
+    // The other apps by the same people: each button opens that app's page in the browser,
+    // where its downloads are. Nothing is stored, and nothing is fetched from here.
+    amazynk: Amazynk {
+        get_zynk: Action = Action;
+        get_pagebara: Action = Action;
+        // Dozed is for Linux: its row is offered there only.
+        get_dozed: Action = Action, os = &["linux"];
+    }
 }

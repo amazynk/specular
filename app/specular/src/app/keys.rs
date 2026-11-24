@@ -114,6 +114,7 @@ impl App {
         }
         self.keymap = km;
         self.keys_sync_modes();
+        self.menu_bar_sync();
         self.keys.last_text = std::fs::read_to_string(&path).ok();
         self.chrome
             .set_keymap_file(Some(&path), self.keys.last_text.as_deref());
@@ -190,6 +191,7 @@ impl App {
         let same = km.same_bindings(&self.keymap) && km.problems() == self.keymap.problems();
         self.keymap = km;
         self.keys_sync_modes();
+        self.menu_bar_sync();
         self.keys.last_text = text;
         self.keys.pending = None;
         self.redraw |= !same;
