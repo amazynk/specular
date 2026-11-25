@@ -120,15 +120,25 @@ jobs:
           sign=
           [ -n "$SPECULAR_SIGN_CERT_SHA1" ] && sign=--sign
           ./build.sh release windows --package $sign --out target/dist/release
+      # The latest release's package, to test updating from it. (On a tag this is the release
+      # before: the tag's own release is drafted by `publish`, after this job.)
+      - name: The latest released package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo "$GITHUB_REPOSITORY" --pattern 'Specular-x64.msi' --dir target/previous ||
+            echo "::notice::No released package: updating from one is not tested"
       # The package is installed on the runner, the installed viewer is run and the package is
-      # removed again. A package that does not install, or a viewer that does not run, stops
-      # the release here. (packaging/windows/sandbox is the thorough check, run by hand.)
-      - name: Install, run and uninstall
+      # removed again; then it is installed over the latest release's. A package that does not
+      # install or update, or a viewer that does not run, stops the release here.
+      # (packaging/windows/sandbox is the thorough check, run by hand.)
+      - name: Install, run, uninstall and update
         timeout-minutes: 20
         shell: pwsh
         run: |
           $msi = (Get-ChildItem target/dist/release/windows/*.msi | Select-Object -First 1).FullName
-          packaging/windows/smoke-test.ps1 $msi "$env:RUNNER_TEMP/smoke"
+          $previous = (Get-ChildItem target/previous/*.msi -ErrorAction SilentlyContinue | Select-Object -First 1).FullName
+          packaging/windows/smoke-test.ps1 -Msi $msi -Out "$env:RUNNER_TEMP/smoke" -Previous "$previous"
       # Logs, text and pictures only: `publish` attaches packages by their file type.
       - name: Upload the smoke test's output
         if: always()

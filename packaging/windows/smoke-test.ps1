@@ -5,21 +5,25 @@
 # scripts) and needs Windows Sandbox; this one needs only administrator rights and changes the
 # machine it runs on, so use a CI runner or a virtual machine.
 #
-#   pwsh packaging/windows/smoke-test.ps1 MSI [OUT_DIR]
+#   pwsh packaging/windows/smoke-test.ps1 MSI [OUT_DIR] [PREVIOUS_MSI]
 #
 # OUT_DIR (default: a temporary folder) gets the installer's logs and the viewer's output.
+# With PREVIOUS_MSI, an earlier release's package, it then installs that one and MSI over it,
+# and checks that the update left one installed viewer.
 # Each line printed is one check: "ok" or "FAIL", or "info" for what is reported without
 # judging (a runner has no graphics card, so what the window does there says little).
 # This file stays ASCII (Windows PowerShell reads it as ANSI).
 param(
     [Parameter(Mandatory)][string]$Msi,
-    [string]$Out = (Join-Path ([IO.Path]::GetTempPath()) "specular-smoke-$PID")
+    [string]$Out = (Join-Path ([IO.Path]::GetTempPath()) "specular-smoke-$PID"),
+    [string]$Previous = ''
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $Msi = (Resolve-Path $Msi).Path
+if ($Previous) { $Previous = (Resolve-Path $Previous).Path }
 New-Item -ItemType Directory -Force $Out | Out-Null
 $Out = (Resolve-Path $Out).Path
 
@@ -44,6 +48,12 @@ function Info([string]$what) { Write-Host "info  $what" }
 function RegValue([string]$key, [string]$value) {
     if (-not (Test-Path -LiteralPath $key)) { return $null }
     (Get-Item -LiteralPath $key).GetValue($value, $null)
+}
+
+# The viewer's entries in Settings > Apps (the installed packages that carry its name).
+function Installed {
+    Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
+        Where-Object { $_.PSObject.Properties['DisplayName'] -and $_.DisplayName -eq 'Specular' }
 }
 
 function Msiexec([string[]]$arguments, [string]$log) {
@@ -132,6 +142,21 @@ Check 'the file type registration is gone' (-not (Test-Path "$classes\$progId"))
 Check 'the Default apps entry is gone' ($null -eq (RegValue 'HKLM:\Software\RegisteredApplications' 'Specular'))
 Check 'the Start menu shortcut is gone' (-not (Test-Path -LiteralPath $shortcut))
 Check 'the handler of .jpg for all users is still as it was' ((RegValue "$classes\.jpg" '') -eq $jpgBefore)
+
+if ($Previous) {
+    Write-Host "== Update over $Previous"
+    Msiexec @('/i', "`"$Previous`"") (Join-Path $Out 'previous-install.log')
+    Info "installed first: $((Installed | ForEach-Object { $_.DisplayVersion }) -join ', ')"
+    Msiexec @('/i', "`"$Msi`"") (Join-Path $Out 'update.log')
+    $now = @(Installed)
+    Info "installed now: $(($now | ForEach-Object { $_.DisplayVersion }) -join ', ')"
+    Check 'the update replaced the earlier package: one entry in Settings > Apps' ($now.Count -eq 1)
+    $code = RunApp @('--version') 'update-version' 60
+    Check 'the updated viewer runs' ($code -eq 0)
+    Msiexec @('/x', "`"$Msi`"") (Join-Path $Out 'update-uninstall.log')
+    Check 'no entry is left in Settings > Apps' (@(Installed).Count -eq 0)
+    Check 'the program folder is gone' (-not (Test-Path -LiteralPath $dir))
+}
 
 Write-Host "== Output in $Out"
 if ($failed -gt 0) {
