@@ -30,6 +30,22 @@ pub struct Gpu {
     pub lost: Arc<AtomicBool>,
 }
 
+/// Whether two adapter descriptions are the same adapter through the same backend.
+fn same_adapter(a: &wgpu::AdapterInfo, b: &wgpu::AdapterInfo) -> bool {
+    a.backend == b.backend && a.vendor == b.vendor && a.device == b.device && a.name == b.name
+}
+
+/// The order adapters are tried in after the picked one failed: graphics cards before
+/// integrated graphics, the software adapter last.
+fn fallback_rank(kind: wgpu::DeviceType) -> u8 {
+    match kind {
+        wgpu::DeviceType::DiscreteGpu => 0,
+        wgpu::DeviceType::IntegratedGpu => 1,
+        wgpu::DeviceType::VirtualGpu | wgpu::DeviceType::Other => 2,
+        wgpu::DeviceType::Cpu => 3,
+    }
+}
+
 impl std::fmt::Debug for Gpu {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Gpu")
@@ -40,31 +56,93 @@ impl std::fmt::Debug for Gpu {
 }
 
 impl Gpu {
-    /// Starts GPU initialisation on a background thread.
+    /// Starts GPU initialisation on a background thread, for the start of the app: when the
+    /// picked adapter gives no device, the system's other adapters are tried
+    /// ([`Gpu::new_or_fallback`]).
     pub fn spawn() -> JoinHandle<Result<Gpu, String>> {
         specular_thread::builder("gpu-init")
-            .spawn(Gpu::new)
+            .spawn(Gpu::new_or_fallback)
             .expect("spawn gpu-init thread")
     }
 
     /// Creates an instance, picks the high-performance adapter and opens a device with the
     /// adapter's full limits (large textures and many array layers for the tile cache).
     pub fn new() -> Result<Gpu, String> {
+        Gpu::create(false)
+    }
+
+    /// [`Gpu::new`] for the start of the app: when the picked adapter gives no device (a
+    /// broken or half-installed driver, a Vulkan driver left behind by an old graphics card),
+    /// the system's other adapters are tried, hardware first and the software one (WARP,
+    /// llvmpipe) last: a slow window is better than none. Not for opening a new device after
+    /// a loss: a driver that is restarting fails for a moment, and settling for the software
+    /// adapter then would keep the window on it; that case tries the same adapter again.
+    pub fn new_or_fallback() -> Result<Gpu, String> {
+        Gpu::create(true)
+    }
+
+    fn create(fallback: bool) -> Result<Gpu, String> {
         let t0 = Instant::now();
         let mut stages = vec![("gpu_init_start", specular_log::ms_since_start())];
         let mut desc = wgpu::InstanceDescriptor::new_without_display_handle();
         desc.flags = wgpu::InstanceFlags::empty().with_env();
-        desc.backends = wgpu::Backends::PRIMARY.with_env();
+        let backends = wgpu::Backends::PRIMARY.with_env();
+        desc.backends = backends;
         let instance = wgpu::Instance::new(desc);
         let t_instance = t0.elapsed().as_secs_f64() * 1000.0;
         stages.push(("gpu_instance", specular_log::ms_since_start()));
-        let adapter = pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptions {
+        let picked = pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptions {
             power_preference: wgpu::PowerPreference::HighPerformance,
             force_fallback_adapter: false,
             compatible_surface: None,
             apply_limit_buckets: false,
         }))
-        .map_err(|e| format!("no GPU adapter: {e}"))?;
+        .map_err(|e| format!("no GPU adapter: {e}"));
+        let (first_error, tried) = match picked {
+            Ok(adapter) => {
+                let info = adapter.get_info();
+                match Gpu::open(&instance, adapter, t0, t_instance, stages.clone()) {
+                    Ok(gpu) => return Ok(gpu),
+                    Err(e) => (e, Some(info)),
+                }
+            }
+            Err(e) => (e, None),
+        };
+        if !fallback {
+            return Err(first_error);
+        }
+        let mut others = pollster::block_on(instance.enumerate_adapters(backends));
+        others.retain(|a| {
+            let i = a.get_info();
+            tried.as_ref().is_none_or(|t| !same_adapter(t, &i))
+        });
+        others.sort_by_key(|a| fallback_rank(a.get_info().device_type));
+        for adapter in others {
+            let info = adapter.get_info();
+            match Gpu::open(&instance, adapter, t0, t_instance, stages.clone()) {
+                Ok(gpu) => {
+                    specular_log::warn!(target: specular_log::GPU,
+                        "the first GPU adapter failed ({first_error}); using {} ({:?}) instead",
+                        info.name, info.backend
+                    );
+                    return Ok(gpu);
+                }
+                Err(e) => specular_log::warn!(target: specular_log::GPU,
+                    "GPU adapter {} ({:?}) failed too: {e}", info.name, info.backend
+                ),
+            }
+        }
+        Err(first_error)
+    }
+
+    /// Opens a device on `adapter`, with the adapter's full limits.
+    fn open(
+        instance: &wgpu::Instance,
+        adapter: wgpu::Adapter,
+        t0: Instant,
+        t_instance: f64,
+        mut stages: Vec<(&'static str, f64)>,
+    ) -> Result<Gpu, String> {
         let info = adapter.get_info();
         let t_adapter = t0.elapsed().as_secs_f64() * 1000.0;
         stages.push(("gpu_adapter", specular_log::ms_since_start()));
@@ -133,7 +211,7 @@ impl Gpu {
         });
 
         Ok(Gpu {
-            instance,
+            instance: instance.clone(),
             adapter,
             device,
             queue,
@@ -424,6 +502,27 @@ mod tests {
             Err(e) if std::env::var_os("SPECULAR_REQUIRE_GPU").is_some() => panic!("{e}"),
             Err(_) => None,
         }
+    }
+
+    /// After the picked adapter failed: graphics cards first, the software adapter last, and
+    /// the adapter that failed is told apart by backend as well as by name.
+    #[test]
+    fn fallback_adapters_are_tried_in_order() {
+        use wgpu::DeviceType::{Cpu, DiscreteGpu, IntegratedGpu, Other, VirtualGpu};
+        let mut kinds = [Cpu, Other, IntegratedGpu, VirtualGpu, DiscreteGpu];
+        kinds.sort_by_key(|k| fallback_rank(*k));
+        assert_eq!(kinds[0], DiscreteGpu);
+        assert_eq!(kinds[1], IntegratedGpu);
+        assert_eq!(kinds[4], Cpu);
+        let Some(g) = gpu() else { return };
+        assert!(same_adapter(&g.info, &g.info));
+        let mut other = g.info.clone();
+        other.backend = if g.info.backend == wgpu::Backend::Vulkan {
+            wgpu::Backend::Dx12
+        } else {
+            wgpu::Backend::Vulkan
+        };
+        assert!(!same_adapter(&g.info, &other));
     }
 
     /// The cargo runner skips the same drivers for absent hardware as the app.

@@ -6,6 +6,28 @@ All notable changes to Specular are listed here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- **The Windows installer replaces a package of the same version.** Installing a rebuilt
+  package over the same version used to leave two entries in Settings › Apps. The entry
+  there now also links to where to get help and where new versions are.
+
+### Fixed
+
+- **A start that fails on Windows says why.** When Specular could not start from the Start
+  menu or Explorer (no usable graphics driver, for one), its window never came and nothing
+  said so. A message now gives the reason and where the log is.
+- **Another graphics adapter when the first one fails.** When the adapter Specular picks
+  at the start gives no device (a broken or half-removed driver), it now tries the
+  computer's other adapters, the system's software one last, instead of not starting.
+  This is for every system.
+- **Show in folder on Windows** now gives Explorer the path the way Explorer asks for it,
+  for files whose path has a space in it.
+- On Windows the display cache kept no record of which pictures were shown lately, so when
+  it was full it dropped the ones written first, not the ones unused longest.
+- The licence page of the Windows installer still named the Apache License; Specular has
+  been under the MIT License alone since 0.1.3.
+
 ## [0.1.5] - 2026-11-24
 
 ### Added

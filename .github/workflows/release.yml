@@ -1,5 +1,6 @@
 # Release packages for all three platforms, built with ./build.sh. A v* tag drafts a GitHub
-# release with them; a manual run only builds them (artifacts on the run's page).
+# release with them; a manual run only builds them (artifacts on the run's page), for all
+# platforms or for the one chosen.
 #
 # Linux runs on Ubuntu 22.04 so the binary needs glibc <= 2.35 (an AppImage or tarball only runs
 # on systems with a glibc at least as new as the build machine's).
@@ -18,6 +19,12 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      platform:
+        description: The platform to build
+        type: choice
+        options: [all, linux, windows, macos]
+        default: all
 
 permissions:
   contents: write
@@ -27,6 +34,7 @@ env:
 
 jobs:
   linux:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'linux' }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -82,6 +90,7 @@ jobs:
           path: target/dist/release/linux/
 
   windows:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'windows' }}
     runs-on: windows-2022
     defaults:
       run:
@@ -111,12 +120,34 @@ jobs:
           sign=
           [ -n "$SPECULAR_SIGN_CERT_SHA1" ] && sign=--sign
           ./build.sh release windows --package $sign --out target/dist/release
+      # The package is installed on the runner, the installed viewer is run and the package is
+      # removed again. A package that does not install, or a viewer that does not run, stops
+      # the release here. (packaging/windows/sandbox is the thorough check, run by hand.)
+      - name: Install, run and uninstall
+        timeout-minutes: 20
+        shell: pwsh
+        run: |
+          $msi = (Get-ChildItem target/dist/release/windows/*.msi | Select-Object -First 1).FullName
+          packaging/windows/smoke-test.ps1 $msi "$env:RUNNER_TEMP/smoke"
+      # Logs, text and pictures only: `publish` attaches packages by their file type.
+      - name: Upload the smoke test's output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-smoke
+          path: |
+            ${{ runner.temp }}/smoke/*.log
+            ${{ runner.temp }}/smoke/*.txt
+            ${{ runner.temp }}/smoke/*.png
+          if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         with:
           name: windows
           path: target/dist/release/windows/
 
   macos-half:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'macos' }}
     strategy:
       matrix:
         target: [aarch64-apple-darwin, x86_64-apple-darwin]

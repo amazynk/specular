@@ -4847,10 +4847,16 @@ fn move_or_copy_one(from: &Path, to: &Path, copy: bool) -> std::io::Result<()> {
 pub(super) fn reveal(p: &Path) {
     #[cfg(target_os = "macos")]
     let r = std::process::Command::new("open").arg("-R").arg(p).status();
+    // Explorer reads its command line itself and wants the quotes around the path only. As one
+    // ordinary argument, a path with a space is quoted whole (`"/select,C:\a b\c.jpg"`), which
+    // is not the form Explorer documents.
     #[cfg(target_os = "windows")]
-    let r = std::process::Command::new("explorer")
-        .arg(format!("/select,{}", p.display()))
-        .status();
+    let r = {
+        use std::os::windows::process::CommandExt;
+        std::process::Command::new("explorer")
+            .raw_arg(format!("/select,\"{}\"", p.display()))
+            .status()
+    };
     #[cfg(not(any(target_os = "macos", target_os = "windows")))]
     let r = {
         // The freedesktop FileManager1 interface selects the file; else open the folder.

@@ -282,8 +282,14 @@ pub fn render_wix(groups: &[(&str, Vec<&str>)]) -> String {
     s
 }
 
+/// The most file extensions a winget installer manifest may list (`maxItems` of
+/// `FileExtensions` in the manifest schema, 1.9.0): with more, `winget validate` rejects it.
+pub const WINGET_MAX_EXTENSIONS: usize = 512;
+
 /// The winget installer template `template` with its `FileExtensions` block (and the comment
-/// line above it) replaced by every extension of `groups`.
+/// line above it) replaced by the extensions of `groups`: the types the default viewer claims
+/// first, then the others in registry order, up to [`WINGET_MAX_EXTENSIONS`]. The list is
+/// what winget shows and searches; the installer registers every type either way.
 pub fn render_winget(template: &str, groups: &[(&str, Vec<&str>)]) -> String {
     const NOTE: &str = "# FileExtensions: generated from the decoder registry by the app crate's \
                         `mime_table_in_sync` test (SPECULAR_UPDATE_MIME=1).";
@@ -300,7 +306,10 @@ pub fn render_winget(template: &str, groups: &[(&str, Vec<&str>)]) -> String {
             out.push_str(NOTE);
             out.push('\n');
             out.push_str("FileExtensions:\n");
-            for (e, _) in extensions(groups) {
+            let mut exts = extensions(groups);
+            // Stable: each half keeps the registry's order.
+            exts.sort_by_key(|(_, claimed)| !*claimed);
+            for (e, _) in exts.into_iter().take(WINGET_MAX_EXTENSIONS) {
                 out.push_str(&format!("  - {e}\n"));
             }
             continue;
@@ -381,6 +390,32 @@ mod tests {
         assert!(once.contains("FileExtensions:\n  - jpg\n  - jpeg\n  - tif\n"));
         assert!(!once.contains("  - png\n") && once.ends_with("Commands:\n  - specular\n"));
         assert_eq!(render_winget(&once, &groups()), once);
+    }
+
+    /// winget takes 512 extensions at most: the claimed types are kept, the others fill up.
+    #[test]
+    fn winget_block_is_capped() {
+        let names: Vec<String> = (0..600).map(|i| format!("x{i}")).collect();
+        let many: Vec<(&str, Vec<&str>)> = vec![
+            (
+                "application/x-many",
+                names.iter().map(String::as_str).collect(),
+            ),
+            ("image/png", vec!["png"]),
+        ];
+        let listed = |groups: &[(&str, Vec<&str>)]| -> Vec<String> {
+            render_winget("FileExtensions:\n", groups)
+                .lines()
+                .filter_map(|l| l.strip_prefix("  - ").map(str::to_owned))
+                .collect()
+        };
+        let got = listed(&many);
+        assert_eq!(got.len(), WINGET_MAX_EXTENSIONS);
+        assert_eq!(&got[..2], ["png", "x0"]);
+        // The real table never goes over the limit either.
+        let real: Vec<(&str, Vec<&str>)> =
+            IMAGE_TYPES.iter().map(|(m, e)| (*m, e.to_vec())).collect();
+        assert!(listed(&real).len() <= WINGET_MAX_EXTENSIONS);
     }
 
     #[test]

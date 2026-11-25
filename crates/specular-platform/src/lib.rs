@@ -205,6 +205,19 @@ pub fn error_box_without_terminal(title: &[u16], text: &[u16]) {
     let _ = (title, text);
 }
 
+/// Windows: shows `text` in an error message box titled `title` when there is no terminal to
+/// print it to: started from Explorer or the Start menu, or after [`detach_console`]. For an
+/// error that ends the app before or instead of its window. Nothing elsewhere.
+pub fn error_box_text_without_terminal(title: &str, text: &str) {
+    let wide = |s: &str| -> Vec<u16> {
+        s.encode_utf16()
+            .filter(|&u| u != 0)
+            .chain(std::iter::once(0))
+            .collect()
+    };
+    error_box_without_terminal(&wide(title), &wide(text));
+}
+
 /// Physical cores, if the platform layer knows them.
 pub fn physical_cores() -> Option<usize> {
     #[cfg(target_os = "macos")]

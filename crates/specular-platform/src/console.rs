@@ -2,6 +2,8 @@
 //! window; its command-line modes (`--help`, `--hw-report`, `--remote`, errors) still print to
 //! the terminal they were started from by attaching to that terminal's console.
 
+use std::sync::atomic::{AtomicBool, Ordering};
+
 use windows::Win32::System::Console::{
     ATTACH_PARENT_PROCESS, AttachConsole, FreeConsole, GetStdHandle, STD_ERROR_HANDLE, STD_HANDLE,
     STD_OUTPUT_HANDLE,
@@ -24,12 +26,32 @@ pub fn attach_parent_console() -> bool {
     if has_handle(STD_OUTPUT_HANDLE) {
         return false;
     }
+    let errors = has_handle(STD_ERROR_HANDLE);
     #[allow(unsafe_code)]
     // SAFETY: AttachConsole takes a process id (here the documented "parent process" value) and
     // touches no memory of ours; it fails when the parent has no console. The standard handles
     // it sets are read by std on every write, so later output goes to that console.
-    let attached = unsafe { AttachConsole(ATTACH_PARENT_PROCESS) };
-    attached.is_ok()
+    let attached = unsafe { AttachConsole(ATTACH_PARENT_PROCESS) }.is_ok();
+    ATTACHED.store(attached, Ordering::Relaxed);
+    ERRORS_REDIRECTED.store(errors, Ordering::Relaxed);
+    attached
+}
+
+/// Whether [`attach_parent_console`] attached, and whether error output was redirected (to a
+/// file or pipe) before it did.
+static ATTACHED: AtomicBool = AtomicBool::new(false);
+static ERRORS_REDIRECTED: AtomicBool = AtomicBool::new(false);
+/// Whether [`detach_console`] let go of that console again.
+static DETACHED: AtomicBool = AtomicBool::new(false);
+
+/// Whether error output leads somewhere: a terminal, a file or a pipe. False when started from
+/// Explorer or the Start menu, and after [`detach_console`] let go of the terminal (its
+/// handles are then still set, but lead nowhere).
+fn has_terminal() -> bool {
+    if DETACHED.load(Ordering::Relaxed) {
+        return ERRORS_REDIRECTED.load(Ordering::Relaxed);
+    }
+    has_handle(STD_ERROR_HANDLE)
 }
 
 /// Detaches from the console [`attach_parent_console`] attached to: the window then no longer
@@ -40,6 +62,9 @@ pub fn detach_console() {
     // SAFETY: FreeConsole takes no arguments and only detaches this process from its console;
     // the standard handles left behind are invalid, which std's writes treat as a sink.
     let _ = unsafe { FreeConsole() };
+    if ATTACHED.load(Ordering::Relaxed) {
+        DETACHED.store(true, Ordering::Relaxed);
+    }
 }
 
 /// Shows `text` in an error message box titled `title` when there is no terminal (nor file or
@@ -47,7 +72,7 @@ pub fn detach_console() {
 /// are NUL-terminated UTF-16, prepared at compile time by the caller: the processor check calls
 /// this before code built for x86-64-v3 may run, so nothing here converts or formats.
 pub fn error_box_without_terminal(title: &[u16], text: &[u16]) {
-    if has_handle(STD_ERROR_HANDLE) || title.last() != Some(&0) || text.last() != Some(&0) {
+    if has_terminal() || title.last() != Some(&0) || text.last() != Some(&0) {
         return;
     }
     #[allow(unsafe_code)]

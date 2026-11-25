@@ -187,7 +187,13 @@ impl DisplayCache {
             Ok(r) => {
                 // Mark it used (the LRU order survives restarts through the file time).
                 let now = SystemTime::now();
+                #[cfg(not(windows))]
                 let _ = f.set_modified(now);
+                // Windows sets a file's times only through a handle opened for writing.
+                #[cfg(windows)]
+                if let Ok(w) = fs::File::options().append(true).open(&path) {
+                    let _ = w.set_modified(now);
+                }
                 if let Some(ix) = self.index.lock().as_mut()
                     && let Some(e) = ix.files.get_mut(&name)
                 {

@@ -825,6 +825,16 @@ fn main() {
         // the log file is where the reason the window never came (no GPU, no window) is kept.
         specular_log::error!(target: specular_log::STARTUP, "Specular could not start: {e}");
         eprintln!("specular: {e}");
+        // Windows, started from Explorer or the Start menu: nobody sees that line either, and
+        // a window that never comes with no word of why reads as a broken install. English,
+        // like the processor check: the reason comes from the graphics layer as it is.
+        specular_platform::error_box_text_without_terminal(
+            "Specular",
+            &format!(
+                "Specular could not start.\n\n{e}\n\nThe log has the details:\n{}",
+                log_file.display()
+            ),
+        );
         std::process::exit(1);
     }
 }

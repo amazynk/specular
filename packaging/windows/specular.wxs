@@ -36,12 +36,18 @@
            Language="1033">
 
     <SummaryInformation Description="Specular image viewer" />
-    <MajorUpgrade DowngradeErrorMessage="A newer version of Specular is already installed." />
+    <!-- A rebuilt package of the same version replaces the installed one too, instead of
+         being installed beside it as a second product. -->
+    <MajorUpgrade AllowSameVersionUpgrades="yes"
+                  DowngradeErrorMessage="A newer version of Specular is already installed." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
     <Icon Id="SpecularIcon" SourceFile="$(var.PackagingDir)\windows\specular.ico" />
     <Property Id="ARPPRODUCTICON" Value="SpecularIcon" />
     <Property Id="ARPURLINFOABOUT" Value="https://amazynk.com/specular" />
+    <!-- Settings > Apps: where to get help and where new versions are. -->
+    <Property Id="ARPHELPLINK" Value="https://github.com/amazynk/specular/issues" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://github.com/amazynk/specular/releases" />
     <!-- ARPNOMODIFY=1 comes with WixUI_Minimal below; defining it here too is a duplicate. -->
 
     <!-- The binary targets x86-64-v3 (AVX2/FMA/BMI2). An MSI condition can't test CPU features,
